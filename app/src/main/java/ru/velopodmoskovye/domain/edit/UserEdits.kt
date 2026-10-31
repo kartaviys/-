@@ -3,9 +3,12 @@ package ru.velopodmoskovye.domain.edit
 import kotlinx.serialization.Serializable
 import ru.velopodmoskovye.domain.geo.Geo
 import ru.velopodmoskovye.domain.model.Destination
+import ru.velopodmoskovye.domain.model.Dish
 import ru.velopodmoskovye.domain.model.GeoPoint
+import ru.velopodmoskovye.domain.model.RouteInfo
 import ru.velopodmoskovye.domain.model.RoutePoint
 import ru.velopodmoskovye.domain.model.Stop
+import ru.velopodmoskovye.domain.model.Title
 
 /**
  * Правки, которые пользователь сделал сам: поправленные координаты точек и свои новые точки.
@@ -17,9 +20,29 @@ data class UserEdits(
     val version: Int = 1,
     val moves: List<StopMove> = emptyList(),
     val added: List<UserStop> = emptyList(),
+    /** Свой порядок точек внутри места. */
+    val orders: List<StopOrder> = emptyList(),
+    /** Свои новые места спирали. */
+    val places: List<UserPlace> = emptyList(),
 ) {
-    val isEmpty: Boolean get() = moves.isEmpty() && added.isEmpty()
-    val count: Int get() = moves.size + added.size
+    val isEmpty: Boolean get() = moves.isEmpty() && added.isEmpty() && orders.isEmpty() && places.isEmpty()
+    val count: Int get() = moves.size + added.size + orders.size + places.size
+
+    fun orderFor(destinationId: String): StopOrder? = orders.firstOrNull { it.destinationId == destinationId }
+
+    fun withOrder(o: StopOrder): UserEdits = copy(orders = orders.filterNot { it.destinationId == o.destinationId } + o)
+
+    fun withoutOrder(destinationId: String): UserEdits = copy(orders = orders.filterNot { it.destinationId == destinationId })
+
+    fun withPlace(p: UserPlace): UserEdits = copy(places = places.filterNot { it.id == p.id } + p)
+
+    /** Удаляем место вместе со всеми его правками. */
+    fun withoutPlace(id: String): UserEdits = copy(
+        places = places.filterNot { it.id == id },
+        added = added.filterNot { it.destinationId == id },
+        moves = moves.filterNot { it.destinationId == id },
+        orders = orders.filterNot { it.destinationId == id },
+    )
 
     fun moveFor(destinationId: String, stopId: String): StopMove? =
         moves.firstOrNull { it.destinationId == destinationId && it.stopId == stopId }
@@ -52,6 +75,20 @@ data class StopMove(
     val name: String = "",
 )
 
+/** Порядок точек места: id точек от первой к последней. */
+@Serializable
+data class StopOrder(val destinationId: String, val stopIds: List<String>, val editedAt: Long = 0)
+
+/** Своё место спирали: центр и название; точки в него добавляются как обычные свои точки. */
+@Serializable
+data class UserPlace(
+    val id: String,
+    val name: String,
+    val coords: GeoPoint,
+    val note: String = "",
+    val createdAt: Long,
+)
+
 @Serializable
 data class UserStop(
     val destinationId: String,
@@ -67,12 +104,19 @@ object EditApplier {
     const val END = "end"
     const val USER_PREFIX = "user-"
 
+    const val PLACE_PREFIX = "user-place-"
+    const val USER_REGION = "user"
+
     fun isUserStop(stopId: String) = stopId.startsWith(USER_PREFIX)
+    fun isUserPlace(id: String) = id.startsWith(PLACE_PREFIX)
 
     fun apply(dest: Destination, edits: UserEdits): Destination {
         val moves = edits.moves.filter { it.destinationId == dest.id }.associateBy { it.stopId }
         val added = edits.added.filter { it.destinationId == dest.id }
-        if (moves.isEmpty() && added.isEmpty()) return dest
+        val order = edits.orderFor(dest.id)
+        if (moves.isEmpty() && added.isEmpty() && order == null && !isUserPlace(dest.id)) return dest
+        // В своём месте свои точки обязательны: иначе звание выдавалось бы без единой отметки.
+        val required = isUserPlace(dest.id)
 
         fun RoutePoint.moved(key: String) = moves[key]?.let { copy(coords = it.coords) } ?: this
         val start = dest.startPoint.moved(START)
@@ -80,25 +124,78 @@ object EditApplier {
         var stops = dest.stops.sortedBy { it.order }.map { s ->
             moves[s.id]?.let { s.copy(coords = it.coords, coordsVerified = true) } ?: s
         }
-        for (u in added.sortedBy { it.createdAt }) {
-            stops = insertCheapest(start.coords, end.coords, stops, toStop(u))
+        val addedStops = added.sortedBy { it.createdAt }.map { toStop(it, required) }
+        if (order != null) {
+            // Сначала порядок пользователя; точки, которых в нём нет (добавлены позже), — туда, где меньше удлиняют маршрут.
+            val all = (stops + addedStops).associateBy { it.id }
+            val ordered = order.stopIds.mapNotNull { all[it] }
+            stops = ordered
+            for (s in (all.values - ordered.toSet())) stops = insertCheapest(start.coords, end.coords, stops, s)
+        } else {
+            for (s in addedStops) stops = insertCheapest(start.coords, end.coords, stops, s)
         }
-        return dest.copy(
+        val out = dest.copy(
             startPoint = start,
             endPoint = end,
             stops = stops.mapIndexed { i, s -> s.copy(order = i + 1) },
         )
+        return if (isUserPlace(dest.id)) withRouteLength(out) else out
     }
 
-    fun toStop(u: UserStop) = Stop(
+    /** Длина своего маршрута: по прямой между точками с запасом на извилистость дорог. */
+    fun withRouteLength(d: Destination): Destination {
+        val pts = listOf(d.startPoint.coords) + d.stops.map { it.coords } + d.endPoint.coords
+        val km = Math.round(pts.zipWithNext { a, b -> Geo.distanceKm(a, b) }.sum() * 1.35 * 10) / 10.0
+        val hours = Math.round((km / 12 + d.stops.sumOf { it.visitMinutes } / 60.0) * 10) / 10.0
+        return d.copy(route = d.route.copy(distanceKm = km, durationH = hours))
+    }
+
+    /** Заготовка маршрута для своего места: старт и финиш в центре, точки добавляет пользователь. */
+    fun destinationFor(p: UserPlace): Destination {
+        val center = RoutePoint("${p.name}, центр", p.coords, "своим ходом")
+        return Destination(
+            id = p.id,
+            name = p.name,
+            settlementType = "своё место",
+            mustHave = 1,
+            regionId = USER_REGION,
+            distanceFromKremlinKm = Math.round(Geo.distanceKm(Geo.KREMLIN, p.coords) * 10) / 10.0,
+            coords = p.coords,
+            intro = listOf(p.note.ifBlank { "Это место вы добавили сами. Добавьте в него точки — из них сложится маршрут." }),
+            startPoint = center,
+            endPoint = center,
+            route = RouteInfo(
+                distanceKm = 0.0,
+                durationH = 0.0,
+                difficulty = "лёгкий",
+                shape = "петля",
+                surfaceNotes = "",
+                seasonNotes = "",
+                safetyNotes = "Маршрут составлен вами — дорогу прокладывает навигатор.",
+            ),
+            stops = emptyList(),
+            dish = Dish("Перекус в дорогу", "тематическая замена", "Своё место: блюдо не подобрано.", listOf("Возьмите с собой воду и перекус."), emptyList()),
+            title = Title(
+                id = p.id,
+                name = "Первопроходец: ${p.name}",
+                legend = "Проложил свой маршрут и прошёл все его точки.",
+                ritual = "Сфотографироваться у первой точки.",
+                pairVariant = "Первопроходцы: ${p.name}",
+            ),
+            sources = emptyList(),
+            routeVersion = 3,
+        )
+    }
+
+    fun toStop(u: UserStop, required: Boolean = false) = Stop(
         id = u.id,
         order = 0,
         name = u.name,
         coords = u.coords,
         coordsVerified = true,
         kind = "смотреть снаружи",
-        // Своя точка не мешает получить звание места.
-        optional = true,
+        // В чужом месте своя точка не мешает получить звание; в своём — обязательна.
+        optional = !required,
         visitMinutes = 15,
         guideStory = listOf(u.note.ifBlank { "Эту точку вы добавили сами." }),
         facts = emptyList(),

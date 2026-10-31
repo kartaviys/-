@@ -26,6 +26,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ru.velopodmoskovye.ui.common.TitleAwardDialog
 import ru.velopodmoskovye.ui.edit.PointEditorScreen
+import ru.velopodmoskovye.ui.edit.PointEditorViewModel
+import ru.velopodmoskovye.ui.edit.ReorderScreen
 import ru.velopodmoskovye.ui.map.MapScreen
 import ru.velopodmoskovye.ui.place.PlaceScreen
 import ru.velopodmoskovye.ui.route.ActiveRouteScreen
@@ -43,12 +45,16 @@ object Routes {
     const val ACTIVE = "active/{id}"
     const val STOP = "stop/{destId}/{stopId}"
     const val EDIT = "edit/{destId}/{stopId}"
+    const val ORDER = "order/{destId}"
 
     fun place(id: String) = "place/$id"
     fun active(id: String) = "active/$id"
     fun stop(destId: String, stopId: String) = "stop/$destId/$stopId"
     /** stopId: id точки, "start", "end" или "new" — новая своя точка. */
     fun edit(destId: String, stopId: String) = "edit/$destId/$stopId"
+    fun order(destId: String) = "order/$destId"
+    /** Создание своего места. */
+    val NEW_PLACE = edit(PointEditorViewModel.NEW_PLACE, "new")
 }
 
 private data class Tab(val route: String, val label: String, val icon: ImageVector)
@@ -90,6 +96,7 @@ fun AppRoot(appViewModel: AppViewModel) {
                     onOpenPlace = { nav.navigate(Routes.place(it)) },
                     onOpenActive = { nav.navigate(Routes.active(it)) },
                     onOpenStop = { d, s -> nav.navigate(Routes.stop(d, s)) },
+                    onAddPlace = { nav.navigate(Routes.NEW_PLACE) },
                 )
             }
             composable(Routes.MAP) { MapScreen(onOpenPlace = { nav.navigate(Routes.place(it)) }) }
@@ -101,6 +108,7 @@ fun AppRoot(appViewModel: AppViewModel) {
                     onOpenStop = { d, s -> nav.navigate(Routes.stop(d, s)) },
                     onStartRoute = { nav.navigate(Routes.active(it)) },
                     onEditPoint = { d, s -> nav.navigate(Routes.edit(d, s)) },
+                    onReorder = { nav.navigate(Routes.order(it)) },
                 )
             }
             composable(Routes.ACTIVE, arguments = listOf(navArgument("id") { type = NavType.StringType })) {
@@ -122,7 +130,18 @@ fun AppRoot(appViewModel: AppViewModel) {
                     navArgument("destId") { type = NavType.StringType },
                     navArgument("stopId") { type = NavType.StringType },
                 ),
-            ) { PointEditorScreen(onBack = { nav.popBackStack() }) }
+            ) {
+                PointEditorScreen(
+                    onBack = { nav.popBackStack() },
+                    onPlaceCreated = { id ->
+                        nav.popBackStack()
+                        nav.navigate(Routes.place(id))
+                    },
+                )
+            }
+            composable(Routes.ORDER, arguments = listOf(navArgument("destId") { type = NavType.StringType })) {
+                ReorderScreen(onBack = { nav.popBackStack() })
+            }
         }
     }
 

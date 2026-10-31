@@ -54,6 +54,7 @@ fun SpiralScreen(
     onOpenPlace: (String) -> Unit,
     onOpenActive: (String) -> Unit,
     onOpenStop: (String, String) -> Unit,
+    onAddPlace: () -> Unit = {},
     vm: SpiralViewModel = hiltViewModel(),
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
@@ -83,6 +84,9 @@ fun SpiralScreen(
                         progress = { if (state.total == 0) 0f else state.complete.toFloat() / state.total },
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    androidx.compose.material3.OutlinedButton(onClick = onAddPlace, modifier = Modifier.padding(top = 8.dp)) {
+                        Text("Добавить своё место")
+                    }
                     OutlinedTextField(
                         value = state.query,
                         onValueChange = vm::setQuery,

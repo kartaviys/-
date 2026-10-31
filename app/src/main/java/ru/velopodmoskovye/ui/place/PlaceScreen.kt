@@ -28,6 +28,7 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsBike
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -45,6 +46,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +57,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.velopodmoskovye.domain.edit.EditApplier
 import ru.velopodmoskovye.domain.model.Destination
 import ru.velopodmoskovye.domain.route.RouteTiming
 import ru.velopodmoskovye.service.RouteTrackingService
@@ -80,11 +85,22 @@ fun PlaceScreen(
     onOpenStop: (String, String) -> Unit,
     onStartRoute: (String) -> Unit,
     onEditPoint: (String, String) -> Unit = { _, _ -> },
+    onReorder: (String) -> Unit = {},
     vm: PlaceViewModel = hiltViewModel(),
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val dest = state.destination
+    var confirmDeletePlace by remember { mutableStateOf(false) }
+    if (confirmDeletePlace && dest != null) {
+        AlertDialog(
+            onDismissRequest = { confirmDeletePlace = false },
+            title = { Text("Удалить своё место?") },
+            text = { Text("Место «${dest.name}» и все его точки исчезнут из спирали.") },
+            confirmButton = { TextButton(onClick = { confirmDeletePlace = false; vm.deletePlace(onBack) }) { Text("Удалить") } },
+            dismissButton = { TextButton(onClick = { confirmDeletePlace = false }) { Text("Отмена") } },
+        )
+    }
     val permissions = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
         if (dest != null && (granted[Manifest.permission.ACCESS_FINE_LOCATION] == true || granted[Manifest.permission.ACCESS_COARSE_LOCATION] == true)) {
             vm.startRoute {
@@ -237,8 +253,17 @@ fun PlaceScreen(
                 )
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedButton(onClick = { onEditPoint(dest.id, "new") }) { Text("Добавить свою точку") }
+                    if (dest.stops.size > 1) OutlinedButton(onClick = { onReorder(dest.id) }) { Text("Поменять порядок точек") }
                     TextButton(onClick = { onEditPoint(dest.id, "start") }) { Text("Поправить старт") }
                     TextButton(onClick = { onEditPoint(dest.id, "end") }) { Text("Поправить финиш") }
+                    if (EditApplier.isUserPlace(dest.id)) TextButton(onClick = { confirmDeletePlace = true }) { Text("Удалить своё место") }
+                }
+                if (EditApplier.isUserPlace(dest.id) && dest.stops.isEmpty()) {
+                    Text(
+                        "В этом месте пока нет точек — добавьте хотя бы одну, и маршрут появится.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
                 }
             }
             item { DishCard(dest) }

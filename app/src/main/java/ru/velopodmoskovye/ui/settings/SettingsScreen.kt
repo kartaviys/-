@@ -116,7 +116,7 @@ fun SettingsScreen(vm: SettingsViewModel = hiltViewModel()) {
         val editsCount by vm.editsCount.collectAsStateWithLifecycle()
         val ctx = LocalContext.current
         Text(
-            if (editsCount == 0) "Правок пока нет. Поправить координаты или добавить точку можно на экране точки и места."
+            if (editsCount == 0) "Правок пока нет. Поправить координаты, поменять порядок или добавить точку можно на экране точки и места, своё место — на экране спирали."
             else "Правок: $editsCount. Они хранятся в телефоне и не пропадут при обновлении приложения. " +
                 "Отправьте их файлом — по нему их можно внести в общий контент.",
             style = MaterialTheme.typography.bodySmall,

@@ -62,6 +62,7 @@ import ru.velopodmoskovye.data.location.LocationTracker
 import ru.velopodmoskovye.domain.edit.CoordParser
 import ru.velopodmoskovye.domain.edit.EditApplier
 import ru.velopodmoskovye.domain.edit.StopMove
+import ru.velopodmoskovye.domain.edit.UserPlace
 import ru.velopodmoskovye.domain.edit.UserStop
 import ru.velopodmoskovye.domain.geo.Geo
 import ru.velopodmoskovye.domain.model.Destination
@@ -94,9 +95,15 @@ class PointEditorViewModel @Inject constructor(
 ) : ViewModel() {
     val destId: String = checkNotNull(savedState["destId"])
     val stopId: String = checkNotNull(savedState["stopId"])
-    val isNew = stopId == NEW
+    val isNewPlace = destId == NEW_PLACE
+    val isNew = stopId == NEW || isNewPlace
 
     val state: StateFlow<EditorUiState> = combine(content.packs, edits.edits) { pack, e ->
+        if (isNewPlace) {
+            val here = tracker.last.value?.point ?: Geo.KREMLIN
+            val draft = EditApplier.destinationFor(UserPlace(NEW_PLACE, "Новое место", here, "", 0L))
+            return@combine EditorUiState(false, draft, null, here, "", isNew = true)
+        }
         val dest = pack.destinations[destId] ?: return@combine EditorUiState(loading = false)
         if (isNew) return@combine EditorUiState(false, dest, null, dest.coords, "", isNew = true)
         val base = content.base().destinations[destId]
@@ -121,14 +128,21 @@ class PointEditorViewModel @Inject constructor(
 
     suspend fun myLocation(): GeoPoint? = if (tracker.hasPermission()) tracker.current()?.point ?: tracker.last.value?.point else null
 
-    fun save(point: GeoPoint, name: String, note: String, done: () -> Unit) = viewModelScope.launch {
+    /** [done] получает id созданного места, если создавали место. */
+    fun save(point: GeoPoint, name: String, note: String, done: (String?) -> Unit) = viewModelScope.launch {
         val now = System.currentTimeMillis()
+        if (isNewPlace) {
+            val id = EditApplier.PLACE_PREFIX + now
+            edits.addPlace(UserPlace(id, name.trim(), point, note.trim(), now))
+            done(id)
+            return@launch
+        }
         if (isNew) {
             edits.add(UserStop(destId, EditApplier.USER_PREFIX + now, name.trim(), point, note.trim(), now))
         } else {
             edits.move(StopMove(destId, stopId, point, now, state.value.name))
         }
-        done()
+        done(null)
     }
 
     fun resetMove(done: () -> Unit) = viewModelScope.launch { edits.resetMove(destId, stopId); done() }
@@ -136,6 +150,8 @@ class PointEditorViewModel @Inject constructor(
 
     companion object {
         const val NEW = "new"
+        /** destId для создания своего места. */
+        const val NEW_PLACE = "new-place"
     }
 }
 
@@ -150,7 +166,11 @@ private fun Context.clipboardText(): String? =
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PointEditorScreen(onBack: () -> Unit, vm: PointEditorViewModel = hiltViewModel()) {
+fun PointEditorScreen(
+    onBack: () -> Unit,
+    onPlaceCreated: (String) -> Unit = { onBack() },
+    vm: PointEditorViewModel = hiltViewModel(),
+) {
     val state by vm.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -189,7 +209,7 @@ fun PointEditorScreen(onBack: () -> Unit, vm: PointEditorViewModel = hiltViewMod
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (vm.isNew) "Новая точка" else "Поправить координаты") },
+                title = { Text(if (vm.isNewPlace) "Новое место" else if (vm.isNew) "Новая точка" else "Поправить координаты") },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Назад") } },
             )
         },
@@ -218,7 +238,7 @@ fun PointEditorScreen(onBack: () -> Unit, vm: PointEditorViewModel = hiltViewMod
                 Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text(if (vm.isNew) "Новая точка в «${dest.name}»" else state.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(if (vm.isNewPlace) "Своё место в спирали" else if (vm.isNew) "Новая точка в «${dest.name}»" else state.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 Text(
                     "Двигайте карту, чтобы перекрестие встало точно на объект. Или найдите место в Яндекс Картах, " +
                         "долгим нажатием возьмите координаты, скопируйте и вставьте сюда.",
@@ -261,21 +281,25 @@ fun PointEditorScreen(onBack: () -> Unit, vm: PointEditorViewModel = hiltViewMod
                 }
 
                 if (vm.isNew) {
-                    OutlinedTextField(name, { name = it }, label = { Text("Название точки") }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                    OutlinedTextField(note, { note = it }, label = { Text("Заметка (необязательно)") }, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(name, { name = it }, label = { Text(if (vm.isNewPlace) "Название места" else "Название точки") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(note, { note = it }, label = { Text(if (vm.isNewPlace) "О месте (необязательно)" else "Заметка (необязательно)") }, modifier = Modifier.fillMaxWidth())
                     Text(
-                        "Своя точка встанет в маршрут там, где меньше всего его удлинит. Она необязательная: звание места можно получить и без неё.",
+                        when {
+                            vm.isNewPlace -> "Перекрестие — центр места: здесь старт и финиш маршрута. Место встанет в спираль по своему кольцу, а точки вы добавите на его экране."
+                            EditApplier.isUserPlace(vm.destId) -> "Точка встанет в маршрут там, где меньше всего его удлинит; порядок можно поменять. В своём месте все точки нужны для звания."
+                            else -> "Своя точка встанет в маршрут там, где меньше всего его удлинит. Она необязательная: звание места можно получить и без неё."
+                        },
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
 
-                val far = center?.let { c -> Geo.distanceKm(dest.coords, c) > 30 } == true
+                val far = !vm.isNewPlace && center?.let { c -> Geo.distanceKm(dest.coords, c) > 30 } == true
                 if (far) Text("Перекрестие дальше 30 км от места — проверьте, туда ли вы попали.", color = MaterialTheme.colorScheme.error)
                 Button(
                     enabled = center != null && (!vm.isNew || name.isNotBlank()),
-                    onClick = { center?.let { vm.save(it, name, note, onBack) } },
+                    onClick = { center?.let { vm.save(it, name, note) { id -> if (id != null) onPlaceCreated(id) else onBack() } } },
                     modifier = Modifier.fillMaxWidth(),
-                ) { Text(if (vm.isNew) "Добавить точку" else "Сохранить координаты") }
+                ) { Text(if (vm.isNewPlace) "Создать место" else if (vm.isNew) "Добавить точку" else "Сохранить координаты") }
                 if (state.hasMove) TextButton(onClick = { vm.resetMove(onBack) }) { Text("Вернуть исходные координаты") }
                 if (state.isUserStop) TextButton(onClick = { confirmDelete = true }) { Text("Удалить свою точку") }
             }

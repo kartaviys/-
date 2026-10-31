@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.velopodmoskovye.data.content.ContentRepository
+import ru.velopodmoskovye.data.edit.EditsRepository
 import ru.velopodmoskovye.data.map.OfflineMaps
 import ru.velopodmoskovye.data.map.OfflineState
 import ru.velopodmoskovye.data.progress.ProgressRepository
@@ -53,7 +54,16 @@ class PlaceViewModel @Inject constructor(
     private val progress: ProgressRepository,
     settings: SettingsRepository,
     private val offline: OfflineMaps,
+    private val edits: EditsRepository,
 ) : ViewModel() {
+    /** Удалить своё место со всеми его точками. */
+    fun deletePlace(done: () -> Unit) {
+        viewModelScope.launch {
+            edits.removePlace(id)
+            done()
+        }
+    }
+
     private val id: String = checkNotNull(savedState["id"])
 
     val offlineState: StateFlow<OfflineState> = offline.states

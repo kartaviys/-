@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import ru.velopodmoskovye.domain.edit.EditApplier
 import ru.velopodmoskovye.data.content.ContentRepository
 import ru.velopodmoskovye.data.db.TitleAwardEntity
 import ru.velopodmoskovye.data.progress.ProgressRepository
@@ -77,7 +78,7 @@ class TitlesViewModel @Inject constructor(
     ) { pack, awards, visited, meters, s ->
         val completeDest = pack.destinations.values.filter { ProgressCalculator.destination(it, visited).complete }
         val completeIds = completeDest.map { it.id }.toSet()
-        val route = pack.spiral.places
+        val route = pack.spiral.places.filterNot { EditApplier.isUserPlace(it.id) }
         val placeDone = route.filter { it.destinationId in completeIds }.map { it.id }.toSet()
         val regionsDone = pack.spiral.regions.count { r ->
             val ps = route.filter { it.regionId == r.id }

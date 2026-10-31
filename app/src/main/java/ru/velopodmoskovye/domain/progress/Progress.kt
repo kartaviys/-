@@ -1,5 +1,6 @@
 package ru.velopodmoskovye.domain.progress
 
+import ru.velopodmoskovye.domain.edit.EditApplier
 import ru.velopodmoskovye.domain.model.Destination
 import ru.velopodmoskovye.domain.model.SpiralPack
 import ru.velopodmoskovye.domain.spiral.SpiralBuilder
@@ -70,7 +71,8 @@ object ProgressCalculator {
                 result += EarnedTitle("bonus:${dest.id}", TitleKind.PLACE_BONUS, dest.title.bonusVariant, "Все точки места, включая необязательные: ${dest.name}")
             }
         }
-        val route = spiral.places
+        // Свои места не входят в мета-звания: «вся спираль», кольца и округа — по общей спирали.
+        val route = spiral.places.filterNot { EditApplier.isUserPlace(it.id) }
         for (region in spiral.regions) {
             val places = route.filter { it.regionId == region.id }
             if (places.isNotEmpty() && places.all { it.id in completePlaceIds }) {

@@ -4,7 +4,7 @@ python3 content/tools/apply_user_edits.py edits.json [--dry]
 
 edits.json — то, что приложение отдаёт кнопкой «Настройки → Мои правки точек → Поделиться правками».
 Поправленные координаты записываются в destinations/*.json (точка помечается coordsVerified).
-Свои точки пользователя только перечисляются: им нужны рассказ и факты с источниками,
+Свои точки, порядок точек и свои места только перечисляются: им нужны рассказ и факты с источниками,
 поэтому в общий контент их добавляют руками по обычным правилам.
 """
 import json
@@ -52,6 +52,11 @@ def main():
     for u in edits.get("added", []):
         print(f"СВОЯ ТОЧКА {u['destinationId']}: «{u['name']}» {u['coords']['lat']:.6f}, {u['coords']['lon']:.6f}"
               + (f" — {u['note']}" if u.get("note") else ""))
+    for o in edits.get("orders", []):
+        print(f"ПОРЯДОК {o['destinationId']}: " + " → ".join(o["stopIds"]))
+    for pl in edits.get("places", []):
+        print(f"СВОЁ МЕСТО {pl['id']}: «{pl['name']}» {pl['coords']['lat']:.6f}, {pl['coords']['lon']:.6f}"
+              + (f" — {pl['note']}" if pl.get("note") else ""))
     print(f"Координат поправлено: {changed}" + (" (проверка, файлы не изменены)" if dry else ""))
     if changed and not dry:
         print("Дальше: python3 content/tools/validate_content.py")

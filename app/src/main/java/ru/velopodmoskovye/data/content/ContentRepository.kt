@@ -16,6 +16,9 @@ import ru.velopodmoskovye.domain.edit.EditApplier
 import ru.velopodmoskovye.domain.edit.UserEdits
 import ru.velopodmoskovye.domain.model.ContentManifest
 import ru.velopodmoskovye.domain.model.Destination
+import ru.velopodmoskovye.domain.model.Region
+import ru.velopodmoskovye.domain.model.SpiralPlace
+import ru.velopodmoskovye.domain.spiral.SpiralBuilder
 import ru.velopodmoskovye.domain.model.SpiralPack
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,8 +32,31 @@ data class ContentPack(
     val regionNames: Map<String, String> = spiral.regions.associate { it.id to it.name }
 
     /** Контент с наложенными правками пользователя. */
-    fun withEdits(edits: UserEdits): ContentPack =
-        if (edits.isEmpty) this else copy(destinations = destinations.mapValues { (_, d) -> EditApplier.apply(d, edits) })
+    fun withEdits(edits: UserEdits): ContentPack {
+        if (edits.isEmpty) return this
+        val userDest = edits.places.map { EditApplier.destinationFor(it) }
+        val dests = (destinations + userDest.associateBy { it.id }).mapValues { (_, d) -> EditApplier.apply(d, edits) }
+        if (edits.places.isEmpty()) return copy(destinations = dests)
+        // Свои места встают в спираль по тому же правилу: кольцо по расстоянию от Кремля, внутри — по часовой.
+        val userPlaces = edits.places.map { p ->
+            SpiralPlace(
+                id = p.id, num = 0, name = p.name, kindNote = "своё место", regionId = EditApplier.USER_REGION,
+                mustHave = 1, coords = p.coords, distanceFromKremlinKm = 0.0, azimuthDeg = 0.0, ring = 0, destinationId = p.id,
+            )
+        }
+        val nodes = SpiralBuilder.build(spiral.places + userPlaces, coords = { it.coords }, isStart = { it.start }, insideMkad = { it.insideMkad })
+        val places = nodes.map { n ->
+            n.item.copy(
+                num = n.order,
+                ring = n.ring,
+                distanceFromKremlinKm = Math.round(n.distanceKm * 10) / 10.0,
+                azimuthDeg = Math.round(n.azimuthDeg * 10) / 10.0,
+            ).let { if (EditApplier.isUserPlace(it.id)) it else n.item }
+        }
+        val regions = if (spiral.regions.any { it.id == EditApplier.USER_REGION }) spiral.regions
+        else spiral.regions + Region(EditApplier.USER_REGION, "Мои места", "своё")
+        return copy(spiral = spiral.copy(places = places, regions = regions), destinations = dests)
+    }
 }
 
 object ContentParser {

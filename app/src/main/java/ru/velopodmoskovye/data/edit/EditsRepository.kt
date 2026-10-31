@@ -12,6 +12,8 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.velopodmoskovye.domain.edit.StopMove
+import ru.velopodmoskovye.domain.edit.StopOrder
+import ru.velopodmoskovye.domain.edit.UserPlace
 import ru.velopodmoskovye.domain.edit.UserEdits
 import ru.velopodmoskovye.domain.edit.UserStop
 import java.io.File
@@ -42,6 +44,10 @@ class EditsRepository @Inject constructor(@ApplicationContext private val contex
     suspend fun resetMove(destinationId: String, stopId: String) = update { it.withoutMove(destinationId, stopId) }
     suspend fun add(s: UserStop) = update { it.withAdded(s) }
     suspend fun removeAdded(destinationId: String, id: String) = update { it.withoutAdded(destinationId, id).withoutMove(destinationId, id) }
+    suspend fun setOrder(o: StopOrder) = update { it.withOrder(o) }
+    suspend fun resetOrder(destinationId: String) = update { it.withoutOrder(destinationId) }
+    suspend fun addPlace(p: UserPlace) = update { it.withPlace(p) }
+    suspend fun removePlace(id: String) = update { it.withoutPlace(id) }
     suspend fun clear() = update { UserEdits() }
 
     /** Выгрузка для «Поделиться»: по ней правки можно перенести в общий контент. */

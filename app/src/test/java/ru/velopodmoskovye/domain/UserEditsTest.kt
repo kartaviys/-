@@ -9,6 +9,8 @@ import ru.velopodmoskovye.data.content.ContentParser
 import ru.velopodmoskovye.domain.edit.CoordParser
 import ru.velopodmoskovye.domain.edit.EditApplier
 import ru.velopodmoskovye.domain.edit.StopMove
+import ru.velopodmoskovye.domain.edit.StopOrder
+import ru.velopodmoskovye.domain.edit.UserPlace
 import ru.velopodmoskovye.domain.edit.UserEdits
 import ru.velopodmoskovye.domain.edit.UserStop
 import ru.velopodmoskovye.domain.model.GeoPoint
@@ -91,5 +93,41 @@ class UserEditsTest {
         assertTrue(e2.moves.isEmpty())
         assertEquals(GeoPoint(2.0, 2.0), e2.added[0].coords)
         assertFalse(e2.withoutAdded(dest.id, "user-1").count > 0)
+    }
+
+    @Test
+    fun customOrderIsApplied() {
+        val ids = dest.stops.map { it.id }
+        val swapped = listOf(ids[1], ids[0]) + ids.drop(2)
+        val out = EditApplier.apply(dest, UserEdits(orders = listOf(StopOrder(dest.id, swapped))))
+        assertEquals(swapped, out.stops.map { it.id })
+        assertEquals((1..ids.size).toList(), out.stops.map { it.order })
+        // Точка, добавленная после сохранения порядка, не теряется.
+        val u = UserStop(dest.id, EditApplier.USER_PREFIX + "9", "Новая", dest.stops[0].coords, "", 9L)
+        val out2 = EditApplier.apply(dest, UserEdits(added = listOf(u), orders = listOf(StopOrder(dest.id, swapped))))
+        assertEquals(ids.size + 1, out2.stops.size)
+        assertTrue(out2.stops.any { it.id == u.id })
+        assertEquals(swapped, out2.stops.map { it.id }.filter { it != u.id })
+    }
+
+    @Test
+    fun userPlaceJoinsSpiralWithRequiredStops() {
+        val place = UserPlace(EditApplier.PLACE_PREFIX + "1", "Моё место", GeoPoint(55.9, 38.5), "", 1L)
+        val stop = UserStop(place.id, EditApplier.USER_PREFIX + "2", "Родник", GeoPoint(55.905, 38.505), "", 2L)
+        val merged = pack.withEdits(UserEdits(added = listOf(stop), places = listOf(place)))
+        assertEquals(pack.spiral.places.size + 1, merged.spiral.places.size)
+        val sp = merged.spiral.places.first { it.id == place.id }
+        assertEquals(place.id, sp.destinationId)
+        assertTrue(sp.ring > 0)
+        val d = merged.destinations.getValue(place.id)
+        assertEquals(1, d.stops.size)
+        assertFalse(d.stops[0].optional)
+        assertTrue(d.route.distanceKm > 0)
+        // Общая спираль не перемешалась: свои места только вставлены.
+        assertEquals(pack.spiral.places.map { it.id }, merged.spiral.places.map { it.id }.filter { it != place.id })
+        // Пустое своё место не даёт звание.
+        val empty = pack.withEdits(UserEdits(places = listOf(place)))
+        assertFalse(ru.velopodmoskovye.domain.progress.ProgressCalculator.destination(empty.destinations.getValue(place.id), emptySet()).complete)
+        assertTrue(UserEdits(places = listOf(place), added = listOf(stop)).withoutPlace(place.id).isEmpty)
     }
 }
