@@ -25,7 +25,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.DirectionsBike
+import androidx.compose.material.icons.filled.AddLocationAlt
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.AlertDialog
@@ -118,6 +120,12 @@ fun PlaceScreen(
             TopAppBar(
                 title = { Text(dest?.name ?: "") },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Назад") } },
+                actions = {
+                    if (dest != null) {
+                        if (dest.stops.size > 1) IconButton(onClick = { onReorder(dest.id) }) { Icon(Icons.Filled.SwapVert, "Поменять порядок точек") }
+                        IconButton(onClick = { onEditPoint(dest.id, "new") }) { Icon(Icons.Filled.AddLocationAlt, "Добавить точку") }
+                    }
+                },
             )
         },
         bottomBar = {
@@ -231,7 +239,30 @@ fun PlaceScreen(
                     )
                 }
             }
-            item { SectionTitle("Точки маршрута") }
+            item {
+                SectionTitle("Точки маршрута")
+                // Правка маршрута — прямо у списка точек, чтобы её не искать внизу экрана.
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (dest.stops.size > 1) {
+                        OutlinedButton(onClick = { onReorder(dest.id) }) {
+                            Icon(Icons.Filled.SwapVert, null)
+                            Spacer(Modifier.width(6.dp))
+                            Text("Поменять порядок")
+                        }
+                    }
+                    OutlinedButton(onClick = { onEditPoint(dest.id, "new") }) {
+                        Icon(Icons.Filled.AddLocationAlt, null)
+                        Spacer(Modifier.width(6.dp))
+                        Text("Добавить точку")
+                    }
+                }
+                Text(
+                    "Чтобы поправить координаты, нажмите на точку и выберите «Поправить координаты».",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 4.dp),
+                )
+            }
             itemsIndexed(dest.stops, key = { _, s -> s.id }) { i, stop ->
                 val eta = state.timing?.stops?.getOrNull(i)
                 StopRow(
