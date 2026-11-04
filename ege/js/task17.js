@@ -255,7 +255,7 @@
       <p class="lead">В задании нужно найти цифры, на месте которых стоят запятые. Чаще всего это <b>причастные</b> и <b>деепричастные обороты</b>.</p>
       <div class="mission card">
         <div class="mission-row"><span>🧭</span><div><b>Миссия</b><br>Освой алгоритм, разметь 2 предложения как профи и получи ключ 🗝️ от ворот замка</div></div>
-        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>до 300 XP и монеты ${coin} для твоего города</div></div>
+        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>до 300 XP и эссенция ${coin} для твоей башни</div></div>
         <div class="mission-row"><span>🔥</span><div><b>Комбо</b><br>3 верных ответа подряд — опыт удваивается</div></div>
       </div>
     </div>`));
@@ -417,7 +417,7 @@
       <h2>Теперь сам!</h2>
       <p class="lead">Новое предложение. Разметь <b>всё</b> по алгоритму: основы → обороты → главные слова × и стрелки → границы |. Проверка будет только в самом конце, вместе с ответом.</p>
       <div class="mission card">
-        <div class="mission-row"><span>🎯</span><div>За каждый верно размеченный элемент — опыт и монеты</div></div>
+        <div class="mission-row"><span>🎯</span><div>За каждый верно размеченный элемент — опыт и эссенция</div></div>
         <div class="mission-row"><span>📜</span><div>Схема всегда под рукой — кнопка 📜 вверху</div></div>
       </div>
     </div>`));
@@ -511,17 +511,17 @@
     body.appendChild(h(`<div class="slide intro final">
       <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
       <h2>${r.first ? 'Задание 17 пройдено!' : 'Отличная тренировка!'}</h2>
-      <p class="lead">${r.first ? 'Ты получаешь <b>ключ 🗝️</b> от ворот Замка Грамотности. Следующая станция уже ждёт на пути!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
+      <p class="lead">${r.first ? 'Ты получаешь <b>ключ 🗝️</b> от ворот Замка Слова. Следующая станция уже ждёт на пути!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
       <div class="loot">
         <div><b>+${api.ctx.xp}</b><span>XP</span></div>
         <div><b>+${api.ctx.coins}</b><span>${coin}</span></div>
         <div><b>${e}</b><span>ошибок</span></div>
       </div>
-      <div class="card tip-card">🏙️ Загляни в <b>город</b> — монет уже может хватить на новое здание!</div>
+      <div class="card tip-card">🏰 Загляни в <b>башню</b> — эссенции уже может хватить на новый предмет!</div>
     </div>`));
     api.confetti(180);
     api.sound('level');
-    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏙️ В город', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="city"]').click(); } });
+    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏰 В башню', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="tower"]').click(); } });
   });
 
   App.LESSONS[17] = { slides, algoImg: ALGO };
