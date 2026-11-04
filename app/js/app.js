@@ -1,4 +1,4 @@
-/* ЕГЭ Квест — ядро: состояние, награды, путь к замку, город, профиль, движок уроков */
+/* ЕГЭ Квест — ядро: состояние, награды, карта Королевства, профиль, движок уроков (башня, книга и мини-игры — в world.js) */
 const App = (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const h = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
@@ -17,38 +17,23 @@ const App = (() => {
   };
   // Маршрут по главам; задания открываются строго по порядку, первым — №17
   const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+  // Каждая глава — область Королевства Слова со своим боссом на последней станции
   const GROUPS = [
-    { name: 'Пунктуация', e: '✒️', tasks: [17, 16, 18, 19, 20, 21], label: 'задания 16–21' },
-    { name: 'Орфография', e: '🔤', tasks: range(9, 15), label: 'задания 9–15' },
-    { name: 'Речевые нормы', e: '🗣️', tasks: range(4, 8), label: 'задания 4–8' },
-    { name: 'Текст', e: '📖', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
-    { name: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
+    { name: 'Пунктуация', region: 'Цитадель знаков', e: '⚔️', boss: 'Старый хранитель Цитадели', bossE: '🧙‍♂️', tasks: [17, 16, 18, 19, 20, 21], label: 'задания 16–21' },
+    { name: 'Орфография', region: 'Лес потерянных букв', e: '🌲', boss: 'Тёмный переписчик', bossE: '🦇', tasks: range(9, 15), label: 'задания 9–15' },
+    { name: 'Речевые нормы', region: 'Долина эха', e: '🏔️', boss: 'Эхо-искажатель', bossE: '👻', tasks: range(4, 8), label: 'задания 4–8' },
+    { name: 'Текст', region: 'Библиотека тысячи страниц', e: '📚', boss: 'Смотритель смыслов', bossE: '🦉', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
+    { name: 'Сочинение', region: 'Замок Слова', e: '🏰', boss: 'Великий Экзаменатор', bossE: '🐉', tasks: [27], label: 'задание 27' },
   ];
   const ROUTE = GROUPS.flatMap((g) => g.tasks);
   const GROUP_STARTS = GROUPS.map((g) => ROUTE.indexOf(g.tasks[0]));
   const LESSONS = {};
   const CHESTS = [4, 9, 14, 19, 24]; // после какого по счёту пройденного задания открывается сундук
 
-  const LEVEL_TITLES = ['Новичок', 'Ученик писаря', 'Грамотей', 'Знаток запятых', 'Охотник за оборотами', 'Мастер слова', 'Хранитель правил', 'Магистр пунктуации', 'Архитектор текста', 'Король ЕГЭ'];
+  const LEVEL_TITLES = ['Ученик мага', 'Подмастерье', 'Чародей запятых', 'Заклинатель слов', 'Хранитель рун', 'Маг орфографии', 'Архимаг пунктуации', 'Магистр слова', 'Верховный магистр', 'Легенда Королевства'];
   const GOOD = ['Огонь! 🔥', 'Чётко! 😎', 'Мозг на максималках 🧠', 'Вот это уровень!', 'Филолог от бога ✨', 'Красота! 💜', 'Ты в ударе! ⚡', 'В яблочко! 🎯', 'ЕГЭ уже нервничает 😏', 'Так держать! 🚀', 'Запятые тебя боятся 💪', 'Легенда! 👑', 'Это было чисто! 🧼', 'Изи! 😌'];
   const BAD = ['Почти! Посмотри ещё раз 👀', 'Ошибка — это тоже опыт 💡', 'Спокойно, разберёмся 🙌', 'Ещё попытка — и всё получится!', 'Мозг учится прямо сейчас 🧩', 'Не сдаёмся! 💜'];
 
-  const BUILDINGS = [
-    { id: 'tent', e: '⛺', name: 'Палатка', price: 20, inc: 2, pop: 1, lvl: 1, desc: 'Скромное начало великого города' },
-    { id: 'tree', e: '🌳', name: 'Дубовая роща', price: 15, inc: 1, pop: 0, lvl: 1, desc: 'Свежий воздух для мозга' },
-    { id: 'house', e: '🏠', name: 'Домик', price: 40, inc: 4, pop: 3, lvl: 1, desc: 'Сюда въезжают первые жители' },
-    { id: 'bakery', e: '🥐', name: 'Пекарня', price: 60, inc: 6, pop: 2, lvl: 2, desc: 'Круассаны — топливо для подготовки' },
-    { id: 'fountain', e: '⛲', name: 'Фонтан', price: 70, inc: 3, pop: 0, lvl: 2, desc: 'Сюда бросают монетки на удачу перед экзаменом' },
-    { id: 'library', e: '📚', name: 'Библиотека', price: 120, inc: 5, pop: 2, lvl: 2, xp: 0.1, desc: '+10% опыта за все задания' },
-    { id: 'school', e: '🏫', name: 'Школа', price: 150, inc: 8, pop: 5, lvl: 3, desc: 'Здесь учат ставить запятые правильно' },
-    { id: 'tower', e: '🕰️', name: 'Башня часов', price: 180, inc: 10, pop: 1, lvl: 3, desc: 'Тикает до ЕГЭ. Приносит доход' },
-    { id: 'theater', e: '🎭', name: 'Театр', price: 220, inc: 12, pop: 4, lvl: 4, desc: 'Драма, комедия и сочинения по ним' },
-    { id: 'observ', e: '🔭', name: 'Обсерватория', price: 260, inc: 14, pop: 2, lvl: 5, xp: 0.1, desc: '+10% опыта: смотришь на задания свысока' },
-    { id: 'ferris', e: '🎡', name: 'Колесо обозрения', price: 300, inc: 16, pop: 3, lvl: 6, desc: 'Видно весь путь до замка' },
-    { id: 'palace', e: '🏛️', name: 'Дворец Слова', price: 500, inc: 25, pop: 10, lvl: 8, xp: 0.15, desc: '+15% опыта. Сердце столицы грамотности' },
-  ];
-  const PLOTS = 12;
-  const INCOME_CAP_H = 12;
 
   const ACH = [
     { id: 'first', e: '🌱', name: 'Первый шаг', d: 'Первая верная проверка' },
@@ -56,9 +41,12 @@ const App = (() => {
     { id: 'clean', e: '💎', name: 'Без единой ошибки', d: 'Пройти задание на 3 звезды' },
     { id: 't1', e: '🔑', name: 'Первый ключ', d: 'Пройти задание 1' },
     { id: 't17', e: '🗝️', name: 'Мастер обособления', d: 'Пройти задание 17' },
-    { id: 'builder', e: '🔨', name: 'Строитель', d: 'Построить первое здание' },
-    { id: 'mayor', e: '🎩', name: 'Мэр', d: 'Построить 5 зданий' },
-    { id: 'rich', e: '💰', name: 'Богач', d: 'Накопить 200 монет' },
+    { id: 'builder', e: '🕯️', name: 'Новосёл', d: 'Поставить первый предмет в башню' },
+    { id: 'mayor', e: '🏰', name: 'Хозяин башни', d: 'Обустроить башню: 8 предметов' },
+    { id: 'familiar', e: '🦉', name: 'Верный спутник', d: 'Завести фамильяра' },
+    { id: 'secret', e: '🚪', name: 'Тайная дверь', d: 'Открыть секретную комнату' },
+    { id: 'mission', e: '📜', name: 'Исполнитель', d: 'Выполнить ежедневную миссию' },
+    { id: 'rich', e: '💎', name: 'Хранитель эссенции', d: 'Накопить 200 эссенции' },
     { id: 'lvl3', e: '⭐', name: 'Уровень 3', d: 'Достичь 3-го уровня' },
     { id: 'streak3', e: '🔥', name: 'Серия 3 дня', d: 'Заниматься 3 дня подряд' },
   ];
@@ -68,12 +56,21 @@ const App = (() => {
   const SAVE_KEY = 'egequest.v1';
   const fresh = () => ({
     name: '', avatar: '🦊', totalXp: 0, coins: 30, done: {}, chests: [],
-    city: { plots: {}, lastCollect: Date.now() }, ach: {}, streak: { count: 0, last: null },
+    tower: { slots: {}, familiar: null, lastCollect: Date.now() }, daily: null, magister: null, game: {},
+    ach: {}, streak: { count: 0, last: null },
     sound: true, stats: { correct: 0, wrong: 0 }, onboarded: false,
   });
   let S = load();
   function load() {
-    try { const raw = localStorage.getItem(SAVE_KEY); if (raw) return Object.assign(fresh(), JSON.parse(raw)); } catch (_) {}
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (raw) {
+        const st = Object.assign(fresh(), JSON.parse(raw));
+        // Город заменён башней: за построенные здания возвращаем эссенцию
+        if (st.city) { st.coins += Object.keys(st.city.plots || {}).length * 50; delete st.city; }
+        return st;
+      }
+    } catch (_) {}
     return fresh();
   }
   function save() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (_) {} }
@@ -83,7 +80,12 @@ const App = (() => {
     while (total >= acc + need) { acc += need; lvl++; need = 100 + (lvl - 1) * 50; }
     return { lvl, into: total - acc, need, title: LEVEL_TITLES[Math.min(lvl - 1, LEVEL_TITLES.length - 1)] };
   }
-  const xpBonus = () => Object.values(S.city.plots).reduce((s, id) => s + (BUILDINGS.find((b) => b.id === id)?.xp || 0), 0);
+  // Бонус к опыту даёт обстановка башни (считает world.js)
+  let xpBonus = () => 0;
+  // Простейшая шина событий: уроки сообщают о верных шагах, миссии их считают
+  const listeners = {};
+  const on = (ev, fn) => (listeners[ev] = listeners[ev] || []).push(fn);
+  const emit = (ev, data) => (listeners[ev] || []).forEach((fn) => fn(data));
   const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
 
   function touchStreak() {
@@ -198,7 +200,7 @@ const App = (() => {
     if (lvl >= 3) unlock('lvl3');
     sound('level'); confetti(160); buzz([30, 40, 60]);
     const li = levelInfo();
-    modal(`<div class="lvlup"><div class="lvl-badge big">${lvl}</div><h2>Новый уровень!</h2><p>Теперь ты — <b>${li.title}</b></p><p class="muted">Бонус: +25 ${coin} и новые здания в городе</p><button class="btn primary" data-close>Круто! 🎉</button></div>`);
+    modal(`<div class="lvlup"><div class="lvl-badge big">${lvl}</div><h2>Новый уровень!</h2><p>Теперь ты — <b>${li.title}</b></p><p class="muted">Бонус: +25 ${coin} и новые предметы для башни</p><button class="btn primary" data-close>Круто! 🎉</button></div>`);
     topbar(true);
   }
 
@@ -208,7 +210,7 @@ const App = (() => {
     S.coins += 15;
     save();
     const a = ACH.find((x) => x.id === id);
-    setTimeout(() => { toast(`${a.e} Достижение: <b>${a.name}</b> · +15 ${coin}`, 'ach'); sound('coin'); }, 900);
+    setTimeout(() => { toast(`${a.e} Достижение: <b>${a.name}</b> · +15 ${coin}`, 'achv'); sound('coin'); }, 900);
     topbar(true);
   }
 
@@ -226,14 +228,15 @@ const App = (() => {
   }
 
   /* ===== Навигация ===== */
-  let tab = 'map';
+  let tab = 'tower';
+  const VIEWS = {};
   function go(t) {
     tab = t;
     document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
     const v = $('#view');
     v.innerHTML = '';
     v.scrollTop = 0;
-    ({ map: renderMap, city: renderCity, profile: renderProfile })[t](v);
+    (VIEWS[t] || renderMap)(v);
   }
 
   /* ===== Путь к замку ===== */
@@ -258,10 +261,10 @@ const App = (() => {
   function renderMap(v) {
     const dc = doneCount();
     const head = h(`<div class="map-head card">
-      <div><div class="eyebrow">Твой путь к 100 баллам</div><h2>Дорога к Замку Грамотности</h2></div>
+      <div><div class="eyebrow">Твой путь к 100 баллам</div><h2>Карта Королевства Слова</h2></div>
       <div class="prog-row"><div class="pbar"><i style="width:${(dc / 27) * 100}%"></i></div><b>${dc}/27</b></div>
-      <div class="muted small">26 тестовых заданий + сочинение в замке. Каждое задание — ключ 🗝️ от ворот.</div>
-      <div class="group-chips">${GROUPS.map((g, gi) => { const n = g.tasks.filter((t) => S.done[t]).length; return `<span class="gchip ${n === g.tasks.length ? 'full' : ''}">${g.e} ${gi + 1}. ${g.name} <b>${n}/${g.tasks.length}</b></span>`; }).join('')}</div>
+      <div class="muted small">Пять областей, 26 заданий и сочинение в Замке Слова. В конце каждой области ждёт босс.</div>
+      <div class="group-chips">${GROUPS.map((g, gi) => { const n = g.tasks.filter((t) => S.done[t]).length; return `<span class="gchip ${n === g.tasks.length ? 'full' : ''}">${g.e} ${g.region} <b>${n}/${g.tasks.length}</b></span>`; }).join('')}</div>
     </div>`);
     v.appendChild(head);
     const wrap = h('<div class="map"></div>');
@@ -294,7 +297,7 @@ const App = (() => {
         <path d="${d}" class="road-edge"/><path d="${d}" class="road-body"/>
         <path d="${d}" class="road-done" id="roadDone"/><path d="${d}" class="road-line"/>
       </svg>
-      <div class="castle ${dc >= 26 ? 'open' : ''}" style="left:${W / 2}px;top:${top - 290}px">${castleSvg(dc >= 27)}<div class="castle-label">Замок Грамотности</div></div>
+      <div class="castle ${dc >= 26 ? 'open' : ''}" style="left:${W / 2}px;top:${top - 290}px">${castleSvg(dc >= 27)}<div class="castle-label">Замок Слова</div></div>
       <div class="start-sign" style="left:${pts[0].x}px;top:${pts[0].y + 222}px">СТАРТ</div>`;
     // пройденная часть дороги
     const done = wrap.querySelector('#roadDone');
@@ -321,7 +324,7 @@ const App = (() => {
       if (gi < GROUPS.length - 1) wrap.prepend(h(`<div class="zone z${gi % 2}" style="top:${yEnd}px;height:${yStart - yEnd}px"></div>`));
       wrap.appendChild(h(`<div class="gsign ${reached ? 'reached' : 'locked'} ${full ? 'full' : ''}" style="top:${yStart}px">
           <span class="gs-e">${full ? '✅' : reached ? g.e : '🔒'}</span>
-          <span class="gs-t"><small>Глава ${gi + 1} · ${g.label}</small><b>${g.name}</b></span>
+          <span class="gs-t"><small>${g.name} · ${g.label}</small><b>${g.region}</b></span>
           <span class="gs-n">${n}/${g.tasks.length}</span>
         </div>`));
     });
@@ -342,13 +345,16 @@ const App = (() => {
       const ready = open && !!LESSONS[n];
       const isCur = i === curIdx;
       const isCastle = n === 27;
-      const cls = ['station', isDone ? 'done' : '', isCur ? 'cur' : '', ready ? 'ready' : 'soon', isCastle ? 'essay' : ''].join(' ');
+      const g = GROUPS.find((x) => x.tasks.includes(n));
+      const isBoss = g.tasks[g.tasks.length - 1] === n;
+      const cls = ['station', isDone ? 'done' : '', isCur ? 'cur' : '', ready ? 'ready' : 'soon', isCastle ? 'essay' : '', isBoss ? 'boss' : ''].join(' ');
       const stars = isDone ? '★'.repeat(S.done[n].stars) + '☆'.repeat(3 - S.done[n].stars) : '';
       const st = h(`<button class="${cls}" style="left:${pt.x}px;top:${pt.y}px" data-n="${n}">
           <span class="st-num">${isCastle ? '✍️' : n}</span>
           ${!ready && !isDone ? '<span class="st-lock">🔒</span>' : ''}
           ${isCur ? `<span class="st-avatar">${S.avatar}</span>` : ''}
-          <span class="st-label">${isCastle ? '27 · ' : ''}${TASKS[n]}${stars ? `<em>${stars}</em>` : ''}</span>
+          ${isBoss && !isDone ? `<span class="st-boss" title="${g.boss}">${g.bossE}</span>` : ''}
+          <span class="st-label">${isBoss ? '👹 ' : ''}${isCastle ? '27 · ' : ''}${TASKS[n]}${stars ? `<em>${stars}</em>` : ''}</span>
         </button>`);
       st.addEventListener('click', () => openStation(n));
       wrap.appendChild(st);
@@ -384,87 +390,8 @@ const App = (() => {
     const open = S.done[n] || curIdx < 0 || i <= curIdx;
     if (open && LESSONS[n]) return openLesson(n);
     if (!open) return modal(`<div class="center"><div class="big-emoji">🔒</div><h2>Задание ${n}. ${TASKS[n]}</h2><p>Станции открываются по порядку. Сначала пройди задание <b>№${ROUTE[curIdx]}</b> — и дорога поведёт дальше.</p><button class="btn primary" data-close>Понятно</button></div>`);
-    if (n === 27) return modal(`<div class="center"><div class="big-emoji">🏰</div><h2>Сочинение — финальный босс</h2><p>Ворота замка откроются, когда ты соберёшь ключи от всех 26 заданий.</p><p class="muted">Ключей: ${doneCount()} / 26 🗝️</p><button class="btn primary" data-close>Вперёд!</button></div>`);
+    if (n === 27) return modal(`<div class="center"><div class="big-emoji">🐉</div><h2>Великий Экзаменатор</h2><p>Финальный босс ждёт в Замке Слова. Ворота откроются, когда ты соберёшь ключи от всех 26 заданий.</p><p class="muted">Ключей: ${doneCount()} / 26 🗝️</p><button class="btn primary" data-close>Вперёд!</button></div>`);
     modal(`<div class="center"><div class="big-emoji">🔒</div><h2>Задание ${n}. ${TASKS[n]}</h2><p>Ты дошёл до этой станции! 🎉 Урок по ней уже в разработке и скоро появится здесь.</p><button class="btn primary" data-close>Понятно</button></div>`);
-  }
-
-  /* ===== Город ===== */
-  const income = () => Object.values(S.city.plots).reduce((s, id) => s + (BUILDINGS.find((b) => b.id === id)?.inc || 0), 0);
-  const population = () => Object.values(S.city.plots).reduce((s, id) => s + (BUILDINGS.find((b) => b.id === id)?.pop || 0), 0);
-  function pending() {
-    const hours = Math.min(INCOME_CAP_H, (Date.now() - S.city.lastCollect) / 3.6e6);
-    return Math.floor(income() * hours);
-  }
-
-  function renderCity(v) {
-    const count = Object.keys(S.city.plots).length;
-    const pend = pending();
-    v.appendChild(h(`<div class="card city-head">
-      <div class="eyebrow">Твой город</div><h2>Город Грамотеев</h2>
-      <div class="city-stats">
-        <div><b>${population()}</b><span>жителей</span></div>
-        <div><b>${count}/${PLOTS}</b><span>зданий</span></div>
-        <div><b>${income()}</b><span>${coin}/час</span></div>
-        <div><b>+${Math.round(xpBonus() * 100)}%</b><span>к опыту</span></div>
-      </div>
-      <button class="btn ${pend > 0 ? 'gold' : 'ghost'} collect" ${pend > 0 ? '' : 'disabled'}>${pend > 0 ? `Собрать доход: +${pend} ${coin}` : count ? 'Доход копится… загляни позже' : 'Построй первое здание 👇'}</button>
-      <div class="muted small">Монеты дают за задания. Здания приносят доход каждый час (копится до ${INCOME_CAP_H} ч).</div>
-    </div>`));
-    $('.collect', v).addEventListener('click', (e) => {
-      const p = pending();
-      if (!p) return;
-      S.city.lastCollect = Date.now();
-      S.coins += p; save();
-      floatText(`+${p} ${coin}`, e.currentTarget); sound('coin'); buzz(20);
-      topbar(true); go('city');
-    });
-    const grid = h('<div class="city-grid"></div>');
-    for (let i = 0; i < PLOTS; i++) {
-      const id = S.city.plots[i];
-      const b = BUILDINGS.find((x) => x.id === id);
-      const cell = h(b
-        ? `<button class="plot built"><span class="pe">${b.e}</span><span class="pn">${b.name}</span><span class="pi">+${b.inc} ${coin}/ч</span></button>`
-        : `<button class="plot empty"><span class="plus">+</span><span class="pn">Участок</span></button>`);
-      cell.addEventListener('click', () => (b ? buildingInfo(b) : shop(i)));
-      grid.appendChild(cell);
-    }
-    v.appendChild(grid);
-    if (count < 1 && S.coins < 15) v.appendChild(h(`<div class="card hint-card">💡 Пройди задание 17 на пути к замку, чтобы заработать первые монеты.</div>`));
-  }
-
-  function buildingInfo(b) {
-    modal(`<div class="center"><div class="big-emoji">${b.e}</div><h2>${b.name}</h2><p>${b.desc}</p>
-      <div class="chips"><span class="chip">+${b.inc} ${coin}/час</span>${b.pop ? `<span class="chip">+${b.pop} жит.</span>` : ''}${b.xp ? `<span class="chip violet">+${b.xp * 100}% XP</span>` : ''}</div>
-      <button class="btn primary" data-close>Красота</button></div>`);
-  }
-
-  function shop(plot) {
-    const lvl = levelInfo().lvl;
-    const items = BUILDINGS.map((b) => {
-      const locked = lvl < b.lvl, poor = S.coins < b.price;
-      return `<button class="shop-item ${locked ? 'locked' : ''} ${poor ? 'poor' : ''}" data-id="${b.id}" ${locked ? 'disabled' : ''}>
-        <span class="se">${b.e}</span>
-        <span class="sbody"><b>${b.name}</b><small>${b.desc}</small><small class="sinc">+${b.inc} ${coin}/ч${b.xp ? ` · +${b.xp * 100}% XP` : ''}</small></span>
-        <span class="sprice">${locked ? `🔒 ур. ${b.lvl}` : `${b.price} ${coin}`}</span>
-      </button>`;
-    }).join('');
-    const m = modal(`<h2>Что построим?</h2><p class="muted">У тебя ${S.coins} ${coin}</p><div class="shop">${items}</div><button class="btn ghost" data-close>Закрыть</button>`, { cls: 'sheet' });
-    m.el.addEventListener('click', (e) => {
-      const it = e.target.closest('.shop-item');
-      if (!it) return;
-      const b = BUILDINGS.find((x) => x.id === it.dataset.id);
-      if (S.coins < b.price) { toast(`Не хватает ${b.price - S.coins} ${coin}. Реши ещё пару заданий! 💪`, 'bad'); sound('err'); return; }
-      if (!Object.keys(S.city.plots).length) S.city.lastCollect = Date.now();
-      S.coins -= b.price;
-      S.city.plots[plot] = b.id;
-      save();
-      m.close();
-      unlock('builder');
-      if (Object.keys(S.city.plots).length >= 5) unlock('mayor');
-      sound('level'); confetti(70); buzz(30);
-      toast(`${b.e} ${b.name} построен${b.id === 'tent' || b.id === 'tree' ? 'а' : ''}! Город растёт 🏙️`, 'good');
-      topbar(true); go('city');
-    });
   }
 
   /* ===== Профиль ===== */
@@ -503,18 +430,24 @@ const App = (() => {
     const set = h(`<div class="card"><h3>Настройки</h3>
       <label class="switch-row"><span>Звуки</span><input type="checkbox" ${S.sound ? 'checked' : ''}></label>
       <button class="btn ghost danger reset">Сбросить прогресс</button></div>`);
+    if (VIEWS.magisterCard) VIEWS.magisterCard(v);
     $('input', set).addEventListener('change', (e) => { S.sound = e.target.checked; save(); });
     $('.reset', set).addEventListener('click', () => {
-      ask('Точно сбросить весь прогресс, монеты и город?', 'Сбросить', () => { S = fresh(); save(); topbar(); onboarding(); go('map'); });
+      ask('Точно сбросить весь прогресс, эссенцию и башню?', 'Сбросить', () => { S = fresh(); save(); topbar(); onboarding(); go('tower'); });
     });
     v.appendChild(set);
   }
 
+  // Образы магов — эксклюзив MAGISTER
+  const MAG_AVATARS = ['🧙', '🧝', '🧚', '🧛', '🧜', '🦹'];
   function pickAvatar(cb) {
-    const m = modal(`<h2>Выбери персонажа</h2><div class="av-grid">${AVATARS.map((a) => `<button data-a="${a}" class="${a === S.avatar ? 'on' : ''}">${a}</button>`).join('')}</div>`);
+    const mag = !!(S.magister && S.magister.active);
+    const m = modal(`<h2>Выбери персонажа</h2><div class="av-grid">${AVATARS.map((a) => `<button data-a="${a}" class="${a === S.avatar ? 'on' : ''}">${a}</button>`).join('')}</div>
+      <h3>Образы магов <span class="mag-badge">MAGISTER</span></h3><div class="av-grid">${MAG_AVATARS.map((a) => `<button data-a="${a}" data-mag="1" class="${a === S.avatar ? 'on' : ''} ${mag ? '' : 'mag-lock'}">${a}</button>`).join('')}</div>`);
     m.el.addEventListener('click', (e) => {
       const b = e.target.closest('[data-a]');
       if (!b) return;
+      if (b.dataset.mag && !mag) { m.close(); App.openMagister && App.openMagister(); return; }
       S.avatar = b.dataset.a; save(); topbar(); m.close(); cb && cb();
     });
   }
@@ -524,9 +457,9 @@ const App = (() => {
   function onboarding() {
     if (S.onboarded) return;
     const m = modal(`<div class="center onb">
-      <div class="big-emoji">🏰</div>
-      <h2>Добро пожаловать в ЕГЭ Квест!</h2>
-      <p>Впереди дорога к <b>Замку Грамотности</b>: 26 заданий и сочинение. За каждый верный шаг — <b>опыт</b> и <b>монеты</b>, на них ты строишь свой город.</p>
+      <div class="big-emoji">🧙</div>
+      <h2>Добро пожаловать в Королевство Слова!</h2>
+      <p>Тёмная магия спутала знаки и буквы. Пройди пять областей и победи их боссов. За каждый верный шаг получай <b>опыт</b> и <b>эссенцию</b>, а на эссенцию обустраивай свою <b>башню мага</b>.</p>
       <input class="pf-name" placeholder="Как тебя зовут?" maxlength="20">
       <div class="av-grid small">${AVATARS.map((a, i) => `<button data-a="${a}" class="${i === 0 ? 'on' : ''}">${a}</button>`).join('')}</div>
       <button class="btn primary go">Начать путь 🚀</button>
@@ -537,7 +470,7 @@ const App = (() => {
       if (e.target.closest('.go')) {
         S.name = m.el.querySelector('.pf-name').value.trim();
         S.onboarded = true; save(); m.close(); topbar();
-        toast(`Стартовый бонус: 30 ${coin}`, 'good'); go('map');
+        toast(`Стартовый бонус: 30 ${coin} эссенции`, 'good'); go('tower');
       }
     });
   }
@@ -582,6 +515,7 @@ const App = (() => {
         const gx = reward(xp * mult, coins, { anchor: anchor || main, phrase: false });
         ctx.xp += gx; ctx.coins += coins;
         S.stats.correct++; save();
+        emit('step');
         if (!S.ach.first) unlock('first');
         combo.textContent = ctx.combo >= 2 ? `🔥 x${ctx.combo}` : '';
         combo.classList.toggle('hot', ctx.combo >= 3);
@@ -599,7 +533,7 @@ const App = (() => {
         api.feedback('bad', `<b>${pick(BAD)}</b> <span class="fb-rew">+2 XP за попытку</span>${(msgs || []).map((m) => `<div>• ${m}</div>`).join('')}`);
       },
       spendHint(cost, text) {
-        if (S.coins < cost) { toast(`Нужно ${cost} ${coin} для подсказки`, 'bad'); return false; }
+        if (S.coins < cost) { toast(`Нужно ${cost} ${coin} эссенции для подсказки`, 'bad'); return false; }
         S.coins -= cost; save(); topbar(true);
         modal(`<div class="center"><div class="big-emoji">💡</div><p>${text}</p><button class="btn primary" data-close>Понял(а)</button></div>`);
         return true;
@@ -617,6 +551,7 @@ const App = (() => {
         if (n === 1) unlock('t1');
         if (n === 17) unlock('t17');
         if (stars === 3) unlock('clean');
+        emit('lesson', n);
         return { first, bonusXp: gx, bonusCoins: bc };
       },
       close,
@@ -657,16 +592,25 @@ const App = (() => {
   window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 
   function start() {
+    VIEWS.map = renderMap;
+    VIEWS.profile = renderProfile;
     document.querySelectorAll('.tabbar button').forEach((b) => b.addEventListener('click', () => { sound('tap'); go(b.dataset.tab); }));
-    $('.tb-coins').addEventListener('click', () => go('city'));
+    $('.tb-coins').addEventListener('click', () => go('tower'));
     $('.tb-avatar').addEventListener('click', () => go('profile'));
     topbar();
-    go('map');
+    go('tower');
     onboarding();
     let rt;
     addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (tab === 'map' && $('#lesson').classList.contains('hidden')) go('map'); }, 250); });
     try { if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (_) {}
   }
 
-  return { start, LESSONS, TASKS, coin, h, $, pick, openAlgo, confetti };
+  // Внутреннее API для world.js
+  const core = {
+    get S() { return S; }, save, reward, modal, toast, ask, topbar, levelInfo, go, unlock, sound, buzz, confetti, floatText,
+    on, emit, openLesson, openStation, GROUPS, ROUTE, TASKS, LESSONS, GOOD, BAD, pick,
+    setXpBonus: (fn) => { xpBonus = fn; },
+    get tab() { return tab; },
+  };
+  return { start, LESSONS, TASKS, coin, h, $, pick, openAlgo, confetti, VIEWS, core };
 })();

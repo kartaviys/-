@@ -41,9 +41,10 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 
 /* ===== Монета ===== */
 .coin {
-  display: inline-block; width: 1em; height: 1em; border-radius: 50%; vertical-align: -.15em;
-  background: radial-gradient(circle at 35% 30%, #fff7cc 0 18%, #fcd34d 20% 55%, #f59e0b 57% 100%);
-  box-shadow: inset 0 0 0 .09em #d97706;
+  /* эссенция — магический кристалл */
+  display: inline-block; width: .82em; height: 1em; vertical-align: -.16em;
+  background: linear-gradient(160deg, #fef3c7 0 18%, #fbbf24 38%, #a855f7 78%, #6d28d9 100%);
+  clip-path: polygon(50% 0, 100% 36%, 50% 100%, 0 36%);
 }
 
 /* ===== Верхняя панель ===== */
@@ -205,7 +206,7 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .toast { background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 99px; font-weight: 750; font-size: .92rem; box-shadow: 0 8px 24px rgba(0, 0, 0, .2); animation: drop .35s cubic-bezier(.2, 1.4, .4, 1); max-width: 92vw; text-align: center; }
 .toast.good { background: var(--violet); }
 .toast.bad { background: var(--err); }
-.toast.ach { background: var(--yellow); color: var(--violet-dd); }
+.toast.achv { background: var(--yellow); color: var(--violet-dd); }
 .toast.out { opacity: 0; transform: translateY(-10px); transition: .4s; }
 .floater { position: fixed; z-index: 70; transform: translate(-50%, 0); font-weight: 900; font-size: 1.15rem; color: var(--violet); pointer-events: none; text-shadow: 0 2px 0 #fff, 0 0 8px #fff; animation: floatUp 1.4s ease-out forwards; white-space: nowrap; }
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 80; }
@@ -425,6 +426,116 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .gs-t b { font-size: 1.05rem; font-weight: 900; }
 .gs-n { font-weight: 900; font-size: .9rem; background: rgba(255, 255, 255, .22); padding: 3px 8px; border-radius: 99px; }
 .gsign.locked .gs-n { background: var(--violet-ll); }
+
+/* ===== Королевство Слова: главный экран — башня ===== */
+.realm { display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 8px; align-items: stretch; margin-bottom: 14px; }
+.side { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; padding: 10px 6px; border-radius: 18px; background: var(--violet-ll); border: 1.5px solid var(--line); box-shadow: 0 4px 0 #e9e2fb; min-width: 0; }
+.side:active { transform: translateY(2px); box-shadow: 0 2px 0 #e9e2fb; }
+.side b { font-size: .8rem; line-height: 1.15; color: var(--violet-d); }
+.side small { font-size: .64rem; color: var(--muted); line-height: 1.2; }
+.side-e { font-size: 30px; line-height: 1.1; }
+.side-left { background: linear-gradient(180deg, #fffbeb, #fef3c7); border-color: #fde68a; box-shadow: 0 4px 0 #fde68a; }
+.boss-tag { color: #b91c1c !important; font-weight: 800; margin-top: 4px; }
+.side-col { display: flex; flex-direction: column; gap: 8px; }
+.side-col .side { flex: 1; }
+.tower-wrap { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.tower-name { font-weight: 900; font-size: .78rem; color: var(--violet-d); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.tower-svg { width: 100%; max-width: 170px; height: auto; filter: drop-shadow(0 10px 14px rgba(91, 33, 182, .25)); }
+.tower-svg .win-on { animation: winGlow 2.4s ease-in-out infinite; }
+.tw-avatar { position: absolute; top: 34%; left: 50%; transform: translateX(-50%); font-size: 34px; animation: bob 1.6s ease-in-out infinite; filter: drop-shadow(0 4px 3px rgba(0, 0, 0, .2)); }
+.tw-fam { position: absolute; bottom: 4px; right: 4%; font-size: 26px; animation: bob 2s ease-in-out infinite .4s; }
+.tw-sparkle { position: absolute; color: var(--yellow-d); font-size: 16px; animation: twinkle 2s ease-in-out infinite; }
+.tw-sparkle.s1 { top: 12%; left: 10%; } .tw-sparkle.s2 { top: 26%; right: 8%; animation-delay: 1s; }
+.mission-card { background: linear-gradient(160deg, #fff, #f6f3ff); }
+.mission-card.ready { border-color: var(--yellow); box-shadow: 0 0 0 4px rgba(251, 191, 36, .3), var(--shadow); }
+.mc-top { display: flex; gap: 10px; align-items: flex-start; }
+.mc-e { font-size: 34px; }
+.mc-story { margin: 4px 0 10px; font-size: .95rem; }
+.mc-btn { width: 100%; }
+.tower-income .collect { width: 100%; }
+.room-h { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.room-h > span { font-size: 22px; }
+.room-h b { font-size: 1.05rem; }
+.room-h small { color: var(--muted); font-size: .75rem; }
+.room.locked { opacity: .65; background: #fafafa; }
+.room.locked .room-h { margin: 0; }
+.room.secret { background: linear-gradient(160deg, #1e1b4b, #4c1d95); color: #fff; border-color: #4c1d95; }
+.room.secret small { color: #c4b5fd; }
+.room.secret.locked { opacity: 1; }
+.slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.slot { aspect-ratio: 1; border-radius: 16px; border: 2px dashed #c4b5fd; background: rgba(255, 255, 255, .7); color: #a78bfa; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 0; }
+.slot .plus { font-size: 26px; font-weight: 300; line-height: 1; }
+.slot.full { border: 0; background: #fff; box-shadow: 0 5px 0 #e9d5ff, var(--shadow); color: var(--ink); animation: pop .4s cubic-bezier(.2, 1.6, .4, 1); }
+.slot.fam { aspect-ratio: auto; width: 100%; padding: 14px; flex-direction: row; gap: 10px; }
+.slot.fam .pe { font-size: 38px; }
+.room.secret .slot { background: rgba(255, 255, 255, .1); border-color: #a78bfa; }
+.room.secret .slot.full { background: #312e81; color: #fff; box-shadow: 0 5px 0 #1e1b4b; }
+.mag-badge { display: inline-block; font-size: .58rem; font-weight: 900; letter-spacing: .08em; padding: 2px 6px; border-radius: 6px; background: linear-gradient(90deg, var(--yellow), var(--yellow-d)); color: var(--violet-dd); vertical-align: middle; }
+.free-badge { display: inline-block; font-size: .58rem; font-weight: 900; letter-spacing: .08em; padding: 2px 6px; border-radius: 6px; background: var(--ok-l); color: #14532d; vertical-align: middle; }
+.av-grid button.mag-lock { opacity: .45; position: relative; }
+.av-grid button.mag-lock::after { content: '👑'; position: absolute; right: 2px; top: 0; font-size: 12px; }
+
+/* Книга заклинаний */
+.spells { display: flex; flex-direction: column; gap: 6px; }
+.spell { display: flex; align-items: center; gap: 10px; text-align: left; padding: 10px; border-radius: 14px; border: 1.5px solid var(--line); background: #fff; }
+.spell.soon { opacity: .55; }
+.spell.learned { background: var(--yellow-l); border-color: #fde68a; }
+.sp-n { width: 32px; height: 32px; border-radius: 10px; background: var(--violet); color: #fff; font-weight: 900; display: grid; place-items: center; flex: none; }
+.spell.soon .sp-n { background: #c4b5fd; }
+.sp-t { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.sp-t small { color: var(--muted); font-size: .74rem; }
+.sp-i { font-size: 20px; }
+
+/* Мини-игры */
+.games { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.game { display: flex; align-items: center; gap: 10px; text-align: left; padding: 12px; border-radius: 16px; border: 1.5px solid var(--line); background: #fff; box-shadow: 0 3px 0 var(--line); }
+.game.locked { background: #faf8ff; }
+.game .ge { font-size: 34px; }
+.game-screen { padding-top: 6px; }
+.g-title { font-weight: 900; color: var(--violet-d); display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; justify-content: space-between; }
+.duel-score { font-size: .8rem; background: var(--violet-ll); padding: 4px 10px; border-radius: 99px; }
+.g-timer { height: 8px; border-radius: 99px; background: var(--violet-l); overflow: hidden; margin: 10px 0 0; }
+.g-timer i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--yellow), var(--yellow-d)); border-radius: inherit; }
+.g-card { margin: 16px 0; padding: 26px 16px; border-radius: 22px; background: #fffdf5; border: 1.5px solid #fde68a; text-align: center; box-shadow: 0 5px 0 #fef3c7; }
+.gw { font-size: 2.1rem; font-weight: 800; letter-spacing: .02em; }
+.gw i { font-style: normal; color: var(--violet); border-bottom: 3px solid var(--violet); padding: 0 4px; }
+.gw b { color: var(--ok); }
+.gs { font-size: 1.2rem; font-weight: 650; line-height: 1.5; }
+.gs i { font-style: normal; display: inline-block; width: 1.4em; text-align: center; border-radius: 8px; background: var(--violet); color: #fff; font-weight: 900; }
+.gq { font-weight: 800; color: var(--muted); }
+.g-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.g-opts .opt { text-align: center; font-size: 1.15rem; padding: 18px 8px; }
+.g-opts.big .opt { font-size: 1.3rem; }
+.g-score { font-weight: 900; color: var(--violet-d); min-width: 28px; text-align: center; background: var(--yellow-l); border-radius: 10px; padding: 6px 8px; }
+
+/* MAGISTER */
+.mag-modal { max-width: 460px; }
+.mag-hero { text-align: center; padding: 14px; border-radius: 20px; background: linear-gradient(150deg, #4c1d95, #7c3aed 60%, #a855f7); color: #fff; margin-bottom: 12px; }
+.mag-hero h2 { margin: .1em 0; letter-spacing: .18em; color: #fde68a; }
+.mag-hero p { margin: 0; opacity: .9; }
+.mag-crown { font-size: 46px; animation: bob 2s ease-in-out infinite; }
+.mag-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.mag-col { border-radius: 16px; padding: 10px; background: var(--violet-ll); font-size: .8rem; min-width: 0; }
+.mag-col.gold { background: var(--yellow-l); }
+.mag-col ul { padding: 0; margin: 6px 0 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.mag-col em { font-style: normal; font-size: .65rem; font-weight: 800; color: var(--violet); background: #fff; padding: 1px 5px; border-radius: 6px; }
+.mag-label { font-weight: 800; font-size: .85rem; }
+.mag-form { display: flex; gap: 8px; margin: 6px 0; }
+.mag-input { flex: 1; min-width: 0; height: 50px; border-radius: 14px; border: 2px solid #c4b5fd; padding: 0 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.mag-form .btn { width: auto; margin: 0; }
+.mag-card { display: flex; align-items: center; gap: 12px; background: linear-gradient(150deg, #4c1d95, #7c3aed); color: #fff; border: 0; }
+.mag-card > span { font-size: 34px; }
+.mag-card div { flex: 1; display: flex; flex-direction: column; }
+.mag-card small { color: #ddd6fe; }
+.mag-card .btn { min-height: 42px; }
+
+/* Боссы на карте */
+.station.boss { border-color: #f87171; box-shadow: 0 5px 0 #dc2626; }
+.station.boss.done { border-color: var(--yellow-d); box-shadow: 0 5px 0 #d97706; }
+.st-boss { position: absolute; left: -14px; top: -10px; font-size: 26px; animation: wiggleB 1.6s ease-in-out infinite; }
+@keyframes wiggleB { 50% { transform: rotate(-12deg) scale(1.1); } }
+@keyframes winGlow { 50% { fill: #fbbf24; } }
+@keyframes twinkle { 50% { opacity: .2; transform: scale(.7); } }
 
 /* ===== Анимации ===== */
 @keyframes pop { 0% { transform: scale(.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
