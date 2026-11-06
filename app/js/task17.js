@@ -1,528 +1,773 @@
-/* Задание 17. Знаки препинания при обособленных членах предложения */
+/* Задание 17. Обособленные члены предложения — теория блоками, разбор по алгоритму, тренировка */
 (() => {
   const { h, coin } = App;
   const M = Markup;
-  const ALGO = 'assets/algorithm17.png';
-  const IMG_W = 1224, IMG_H = 2000;
+  const SCHEME = 'assets/algorithm17.png';
 
-  /* Узлы интеллект-карты (координаты на картинке) */
-  const NODES = {
-    all: [0, 0, IMG_W, IMG_H],
-    top: [430, 30, 280, 115],
-    bases: [447, 92, 239, 43],
-    branches: [238, 186, 720, 56],
-    defFind: [243, 192, 238, 45],
-    defMain: [243, 257, 238, 44],
-    nounQ: [94, 327, 238, 45],
-    pronQ: [352, 327, 238, 45],
-    beforeQ: [94, 461, 238, 47],
-    meaningQ: [39, 585, 238, 87],
-    betweenQ: [175, 796, 196, 65],
-    noCommas: [274, 953, 98, 46],
-    circFind: [714, 192, 238, 45],
-    circWord: [622, 277, 512, 66],
-    circMain: [764, 364, 238, 46],
-    circDeps: [764, 430, 238, 66],
-    final: [298, 1893, 238, 67],
-    moreQ: [759, 1119, 237, 64],
-    sameQ: [713, 1285, 169, 65],
-    sameNo: [838, 1368, 79, 64],
-  };
+  /* ===== Алгоритм (всегда под рукой) ===== */
+  const ALGO = [
+    'Найти прилагательные, причастия, деепричастия и предлоги НЕСМОТРЯ НА, НЕВЗИРАЯ НА.',
+    'Найти главное слово, выделить его крестиком ×, провести стрелочку к обороту.',
+    'Проверить, есть ли у них зависимые слова. Выделить определение и обстоятельство вертикальными палочками |.',
+    'Проверить, нет ли однородности. Если есть союз, соединяющий однородные члены, взять его в кружок.',
+    'Расставить знаки препинания, проверив условия обособления.',
+  ];
+  const ALGO_HTML = `<div class="algo-box"><h3>Алгоритм: задание 17</h3>
+    <ol class="algo-steps"><li>Выделить грамматические основы (разным цветом).</li>${ALGO.map((a) => `<li>${a}</li>`).join('')}</ol>
+    <h3>Схема</h3><img src="${SCHEME}" alt="Схема выполнения задания 17" style="width:100%;max-width:820px"></div>`;
 
-  class Zoom {
-    constructor(host) {
-      this.el = h(`<div class="zoom" title="Нажми, чтобы открыть схему целиком"><div class="zl"><img src="${ALGO}" alt="" draggable="false"><div class="zhl"></div></div><span class="zoom-tag">🔍 схема</span></div>`);
-      host.appendChild(this.el);
-      this.layer = this.el.querySelector('.zl');
-      this.hl = this.el.querySelector('.zhl');
-      this.el.addEventListener('click', () => App.openAlgo(ALGO));
-    }
-    go(key, instant) {
-      const [x, y, w, hh] = NODES[key];
-      const W = this.el.clientWidth || 340, H = this.el.clientHeight || 190;
-      const pad = key === 'all' ? 1 : 0.78;
-      const s = Math.min((W / w) * pad, (H / hh) * pad, 2.2);
-      const tx = W / 2 - (x + w / 2) * s, ty = H / 2 - (y + hh / 2) * s;
-      this.layer.style.transition = instant ? 'none' : '';
-      this.layer.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
-      Object.assign(this.hl.style, { left: x - 8 + 'px', top: y - 8 + 'px', width: w + 16 + 'px', height: hh + 16 + 'px', opacity: key === 'all' ? 0 : 1 });
-    }
-    /* Эффект «приближения»: сначала вся схема, затем нужный шаг */
-    zoomTo(key) {
-      requestAnimationFrame(() => {
-        this.go('all', true);
-        setTimeout(() => this.go(key), 350);
-      });
-    }
-  }
+  /* ===== Помощники для предложений ===== */
+  const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
+  const P = (t) => M.parse(t);
+  // n-е вхождение слова
+  const W = (S, w, n = 0) => { let c = 0; for (let i = 0; i < S.words.length; i++) if (norm(S.words[i]) === norm(w) && c++ === n) return i; throw new Error('нет слова ' + w); };
+  // фраза, начиная поиск с позиции after
+  const R = (S, ph, after) => M.find(S, ph, after == null ? 0 : after);
 
-  /* ===== Предложения и эталонная разметка ===== */
-  const S1 = M.parse('Утром метель улеглась, было тихо, только изредка набегал прохладный ветер (1) приподнимая (2) покрытые инеем (3) гривы лошадей (4) да шевелил ветви деревьев.');
-  const S2 = M.parse('Внезапно осины зашептались (1) с коротким шумом вздрагивая листьями (2) и заволновались; облако белых пушинок сорвалось с их серёжек и (3) словно сговорившись с ветром (4) весело понеслось в темнеющую чащу.');
-  const f1 = (p) => M.find(S1, p), f2 = (p) => M.find(S2, p);
-  const w1 = (p) => f1(p)[0], w2 = (p) => f2(p)[0];
-
-  const SPEC1 = {
-    bases: { groups: [{ s: f1('метель'), p: f1('улеглась') }, { s: f1('ветер'), p: [w1('набегал'), w1('шевелил')] }], optional: f1('было тихо') },
-    def: f1('покрытые инеем'),
-    defOpt: [w1('прохладный'), w1('лошадей'), w1('деревьев')],
-    circ: f1('приподнимая покрытые инеем гривы лошадей'),
-    circOpt: [w1('утром'), w1('изредка')],
-    defCross: [w1('гривы')],
-    circCross: [w1('набегал')],
-    defArrow: [{ from: w1('гривы'), to: f1('покрытые инеем') }],
-    circArrow: [{ from: w1('набегал'), to: f1('приподнимая покрытые инеем гривы лошадей') }],
-    defBars: [[w1('покрытые')], [w1('гривы')]],
-    circBars: [[w1('приподнимая')], [w1('да')]],
-    answer: '14',
-  };
-  const SPEC2 = {
-    bases: { groups: [{ s: f2('осины'), p: [w2('зашептались'), w2('заволновались')] }, { s: f2('облако'), p: [w2('сорвалось'), w2('понеслось')] }] },
-    def: [],
-    defOpt: [w2('белых'), w2('коротким'), w2('темнеющую'), w2('их'), w2('пушинок')],
-    circ: [...f2('с коротким шумом вздрагивая листьями'), ...f2('сговорившись с ветром')],
-    circOpt: [w2('словно'), w2('внезапно'), w2('весело'), ...f2('с их серёжек'), ...f2('в темнеющую чащу')],
-    cross: [w2('зашептались'), w2('понеслось')],
-    arrows: [
-      { from: w2('зашептались'), to: f2('с коротким шумом вздрагивая листьями') },
-      { from: w2('понеслось'), to: f2('словно сговорившись с ветром'), head: w2('сговорившись') },
-    ],
-    bars: [[w2('с')], [w2('листьями') + 1], [w2('словно'), w2('сговорившись')], [w2('весело')]],
-    answer: '1234',
-  };
-
-  function solution(spec) {
-    const m = M.emptyMarks();
-    spec.bases.groups.forEach((g, gi) => {
-      g.s.forEach((i) => (m.mem[i] = { t: 's', b: gi + 1 }));
-      g.p.forEach((i) => (m.mem[i] = { t: 'p', b: gi + 1 }));
-    });
-    m.def = [...spec.def];
-    m.circ = [...spec.circ, ...(spec.circExtraSol || [])];
-    m.cross = [...spec.cross];
-    m.bars = spec.bars.map((g) => g[0]);
-    m.arrows = spec.arrows.map((a) => [a.from, a.head ?? a.to[0]]);
+  /* Готовая разметка по краткому описанию: s/p — [индекс, цвет основы] */
+  function marks(spec) {
+    const m = Object.assign(M.emptyMarks(), M.clone(spec));
+    m.mem = {};
+    (spec.s || []).forEach(([i, b = 1]) => (m.mem[i] = { t: 's', b }));
+    (spec.p || []).forEach(([i, b = 1]) => (m.mem[i] = { t: 'p', b }));
+    delete m.s; delete m.p;
     return m;
   }
-  const SOL1 = solution({ ...SPEC1, cross: [...SPEC1.defCross, ...SPEC1.circCross], bars: [...SPEC1.defBars, ...SPEC1.circBars], arrows: [...SPEC1.defArrow, ...SPEC1.circArrow] });
-  const SOL2 = solution({ ...SPEC2, circExtraSol: [w2('словно')] });
-
-  const normAns = (s) => [...new Set(s.replace(/\D/g, '').split(''))].sort().join('');
-
-  /* ===== Проверки по шагам ===== */
-  const chk = {
-    bases: (spec) => (m) => M.checkBases(m, spec.bases),
-    def: (spec) => (m) => M.checkSet(m.def, spec.def, spec.defOpt, {
-      missing: 'Волнистой линией подчеркни все слова причастного оборота (причастие + зависимые слова).',
-      extra: 'Волнистой линией подчёркнуто лишнее. Определение отвечает на вопрос какой?',
-    }),
-    circ: (spec) => (m) => M.checkSet(m.circ, spec.circ, spec.circOpt, {
-      missing: 'Точкой-тире подчеркни все слова деепричастного оборота — до самого конца, вместе с зависимыми словами.',
-      extra: 'Точкой-тире подчёркнуто лишнее — эти слова не входят в оборот.',
-    }),
-    cross: (need, also) => (m) => M.checkSet(m.cross, need, also, {
-      missing: 'Поставь × над главным словом — тем, от которого задаётся вопрос к обороту.',
-      extra: 'Крестик стоит не над тем словом.',
-    }),
-    arrows: (need, also) => (m) => M.checkArrows(m, need, also),
-    bars: (need, also) => (m) => M.checkBars(m, need, also),
+  const merge = (a, b) => {
+    const r = M.clone(a);
+    for (const k of ['def', 'circ', 'obj', 'cross', 'bars', 'rings']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
+    r.arrows = [...(r.arrows || []), ...(b.arrows || [])];
+    r.mem = Object.assign({}, r.mem, b.mem);
+    r.labels = Object.assign({}, r.labels, b.labels);
+    for (const [k, v] of Object.entries(b.labels || {})) if (v === null) delete r.labels[k];
+    return r;
   };
 
-  /* ===== Общие кусочки слайдов ===== */
-  const legend = () => `<div class="legend">
-      <div><i class="g g-single" style="--c:#7c3aed"></i>подлежащее</div>
-      <div><i class="g g-double" style="--c:#7c3aed"></i>сказуемое</div>
-      <div><i class="g g-wavy"></i>определение</div>
-      <div><i class="g g-dashdot"></i>обстоятельство</div>
-      <div><b class="g-x">×</b>главное слово</div>
-      <div><b class="g-bar">|</b>границы оборота</div>
-    </div>`;
-
-  function slideShell(body, { chip, title, text }) {
-    const el = h(`<div class="slide">
-      ${chip ? `<div class="step-chip">${chip}</div>` : ''}
-      ${title ? `<h2>${title}</h2>` : ''}
-      <div class="zoom-host"></div>
-      ${text ? `<p class="lead">${text}</p>` : ''}
-      <div class="board-host"></div>
-      <div class="tool-host"></div>
-      <div class="extra-host"></div>
-    </div>`);
+  /* ===== Компоненты слайдов ===== */
+  function shell(body, { chip, title, lead }) {
+    const el = h(`<div class="slide">${chip ? `<div class="step-chip">${chip}</div>` : ''}${title ? `<h2>${title}</h2>` : ''}${lead ? `<p class="lead">${lead}</p>` : ''}<div class="phases"></div></div>`);
     body.appendChild(el);
-    return {
-      el,
-      zoomHost: el.querySelector('.zoom-host'),
-      boardHost: el.querySelector('.board-host'),
-      toolHost: el.querySelector('.tool-host'),
-      extraHost: el.querySelector('.extra-host'),
-    };
+    return el.querySelector('.phases');
   }
 
-  /* Слайд с разметкой и пошаговой проверкой */
-  function markSlide({ zoom, chip, title, text, tools, checks, hint, reveal, xp = 20, coins = 10, done, unlockOnPass }) {
-    return (body, api) => {
-      const sh = slideShell(body, { chip, title, text });
-      if (zoom) new Zoom(sh.zoomHost).zoomTo(zoom);
-      const d = api.ctx.data;
-      const board = new M.Board(sh.boardHost, S1, { marks: d.m1, onChange: (m) => { d.m1 = m; } });
-      M.toolbar(sh.toolHost, board, tools);
-      let tries = 0;
-      const hintBtn = { extraLabel: `💡 Подсказка · 5`, onExtra: () => api.spendHint(5, hint) };
-      const check = () => {
-        const m = board.getMarks();
-        const res = checks.map((c) => c(m));
-        if (res.every((r) => r.ok)) {
-          board.flash(Object.keys(m.mem).map(Number).concat(m.def, m.circ, m.cross));
-          api.good(tries ? Math.round(xp / 2) : xp, tries ? Math.round(coins / 2) : coins, null, done);
-          if (unlockOnPass) api.unlock(unlockOnPass);
-          api.foot({ label: 'Дальше' });
-          return;
-        }
-        tries++;
-        board.markWrong(res.flatMap((r) => r.wrong));
-        board.markWrongGaps(res.flatMap((r) => r.wrongGaps || []));
-        api.bad([...new Set(res.flatMap((r) => r.msgs))]);
-        if (tries >= 2) {
-          api.foot({
-            label: 'Проверить', onClick: check, extraLabel: '👀 Показать ответ',
-            onExtra: () => {
-              board.setMarks(reveal(board.getMarks()));
-              api.feedback('info', `<b>Вот верная разметка.</b> Посмотри внимательно и жми «Дальше».${done ? `<div>${done}</div>` : ''}`);
-              api.foot({ label: 'Дальше' });
-            },
-          });
-        } else api.foot({ label: 'Проверить', onClick: check, ...hintBtn });
-      };
-      api.foot({ label: 'Проверить', onClick: check, ...hintBtn });
+  // Фазы внутри одного слайда: следующая открывается, когда закончилась предыдущая
+  function phases(host, api, list, endLabel = 'Дальше') {
+    let i = 0;
+    const run = () => {
+      if (i >= list.length) { api.foot({ label: endLabel }); return; }
+      const box = h('<div class="phase"></div>');
+      host.appendChild(box);
+      list[i++](box, api, run);
+      requestAnimationFrame(() => box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
     };
+    run();
   }
 
-  /* Слайд-«развилка» по алгоритму: вопросы да/нет с приближением схемы */
-  function quizSlide({ chip, title, text, steps, outro, showBoard = true }) {
-    return (body, api) => {
-      const sh = slideShell(body, { chip, title, text });
-      const zoom = new Zoom(sh.zoomHost);
-      zoom.zoomTo(steps[0].node);
-      if (showBoard) new M.Board(sh.boardHost, S1, { readOnly: true, marks: api.ctx.data.m1 });
-      const qa = h('<div class="qa"></div>');
-      sh.extraHost.appendChild(qa);
-      let i = 0;
-      const ask = () => {
-        const s = steps[i];
-        if (i > 0) zoom.go(s.node);
-        api.feedback(null);
-        api.foot({ label: 'Ответь на вопрос', enabled: false });
-        qa.innerHTML = `<div class="q-count">Вопрос ${i + 1} из ${steps.length}</div><div class="q">${s.q}</div>
-          <div class="opts">${s.options.map((o, j) => `<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
-        let wrongOnce = false;
-        qa.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
-          const j = +b.dataset.j;
-          if (j === s.correct) {
-            b.classList.add('right');
-            qa.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
-            api.good(wrongOnce ? 3 : 6, wrongOnce ? 0 : 2, b, s.ok);
-            if (s.then) zoom.go(s.then);
-            const last = i === steps.length - 1;
-            api.foot({ label: last ? 'Дальше' : 'Следующий вопрос', onClick: () => { if (last) finish(); else { i++; ask(); } } });
-          } else {
-            wrongOnce = true;
-            b.classList.add('wrong');
-            b.disabled = true;
-            api.bad([s.bad]);
-          }
-        }));
-      };
-      const finish = () => {
-        if (!outro) return api.next();
-        qa.innerHTML = `<div class="conclusion">${outro.html}</div>`;
-        if (outro.node) zoom.go(outro.node);
-        api.feedback(null);
-        api.foot({ label: 'Дальше' });
-      };
-      ask();
+  // Карточки появляются по одной
+  const revealPh = (items, { btn = 'Дальше ▸' } = {}) => (box, api, done) => {
+    let k = 0;
+    const add = () => { const el = h(`<div class="rv">${items[k++]}</div>`); box.appendChild(el); return el; };
+    const one = () => {
+      add().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (k >= items.length) { done(); return; }
+      api.foot({ label: btn, onClick: one, extraLabel: items.length - k > 1 ? 'Показать всё' : null, onExtra: () => { while (k < items.length - 1) add(); one(); } });
     };
-  }
+    one();
+  };
+  const htmlPh = (html) => (box, api, done) => { box.innerHTML = html; done(); };
 
-  /* ===== Слайды ===== */
+  // Пошаговый разбор предложения: каждое нажатие добавляет разметку и пояснение
+  const demoPh = (text, steps, { title } = {}) => (box, api, done) => {
+    const S = P(text);
+    if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
+    let cur = M.emptyMarks();
+    const board = new M.Board(box, S, { readOnly: true, marks: cur });
+    const notes = h('<ol class="demo-notes"></ol>');
+    box.appendChild(notes);
+    let k = 0;
+    const one = () => {
+      const st = steps[k++](S);
+      cur = merge(cur, st.m || {});
+      board.setMarks(cur);
+      if (st.commas) board.showCommas(st.commas);
+      if (st.flash) board.flash(st.flash);
+      if (st.note) notes.appendChild(h(`<li class="rv">${st.note}</li>`)).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (k >= steps.length) { done(); return; }
+      api.foot({ label: 'Следующий шаг ▸', onClick: one });
+    };
+    api.foot({ label: 'Разобрать ▸', onClick: one });
+  };
+
+  // Карточки-перевёртыши для самопроверки (глагол → причастие/деепричастие)
+  const flipPh = (title, cards) => (box, api, done) => {
+    box.appendChild(h(`<div class="demo-title">${title}</div>`));
+    const grid = h(`<div class="flips">${cards.map(([suf, verb, res], i) => `<button class="flip" data-i="${i}"><span class="f-suf">${suf}</span><span class="f-front">${verb} → <b>?</b></span><span class="f-back">${verb} → <b>${res}</b></span></button>`).join('')}</div>`);
+    box.appendChild(grid);
+    let opened = 0;
+    const left = () => cards.length - opened;
+    const upd = () => api.foot({ label: `Переверни карточки (${left()})`, enabled: false, extraLabel: 'Открыть все', onExtra: () => grid.querySelectorAll('.flip:not(.on)').forEach((b) => b.click()) });
+    grid.querySelectorAll('.flip').forEach((b) => b.addEventListener('click', () => {
+      if (b.classList.contains('on')) return;
+      b.classList.add('on'); opened++; api.sound('tap');
+      if (!left()) { api.fly(b, 8, 2); done(); } else upd();
+    }));
+    upd();
+  };
+
+  const slide = (block, fn) => { fn.block = block; return fn; };
   const slides = [];
 
-  // 0. Вступление
-  slides.push((body, api) => {
+  /* ===== 0. Задание ===== */
+  const D = 'Встречный ветер (1) внезапно налетевший на нас (2) обдал всех волнами (3) разомлевшего за день разнотравья.';
+  slides.push(slide('Задание', (body, api) => {
     body.appendChild(h(`<div class="slide intro">
       <div class="hero"><div class="hero-num">17</div><div class="hero-castle">🏰</div></div>
       <div class="step-chip">Задание 17 · пунктуация</div>
-      <h2>Обособленные определения и обстоятельства</h2>
-      <p class="lead">В задании нужно найти цифры, на месте которых стоят запятые. Чаще всего это <b>причастные</b> и <b>деепричастные обороты</b>.</p>
+      <h2>Обособленные члены предложения</h2>
+      <div class="etask"><span class="etask-n">17</span><div>Укажите цифру(ы), на месте которой(ых) в предложении должна(ы) стоять запятая(ые):<br><i>${D}</i></div></div>
+      <div class="card know"><b>Что нужно знать</b><ul>
+        <li>части речи</li><li>члены предложения</li><li>чем выражено определение и обстоятельство</li>
+        <li>что такое причастие и деепричастие</li><li>когда определения и обстоятельства выделяются запятыми</li></ul></div>
       <div class="mission card">
-        <div class="mission-row"><span>🧭</span><div><b>Миссия</b><br>Освой алгоритм, разметь 2 предложения как профи и получи ключ 🗝️ от ворот замка</div></div>
-        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>до 300 XP и эссенция ${coin} для твоей башни</div></div>
-        <div class="mission-row"><span>🔥</span><div><b>Комбо</b><br>3 верных ответа подряд — опыт удваивается</div></div>
+        <div class="mission-row"><span>🧭</span><div><b>Твой путь</b><br>7 блоков теории → разбор по алгоритму → 10 тренировочных предложений</div></div>
+        <div class="mission-row"><span>🐷</span><div><b>Копилка опыта</b><br>за каждый верный шаг опыт улетает в копилку, а за каждый блок — бонус</div></div>
       </div>
     </div>`));
-    api.foot({ label: 'Погнали! 🚀' });
-  });
-
-  // 1. Алгоритм целиком
-  slides.push((body, api) => {
-    body.appendChild(h(`<div class="slide">
-      <div class="step-chip">Карта сокровищ</div>
-      <h2>Алгоритм выполнения</h2>
-      <p class="lead">Это твоя карта. Нажми на неё, чтобы рассмотреть. Дальше мы пройдём её по шагам — каждый шаг будем «приближать».</p>
-      <button class="algo-thumb"><img src="${ALGO}" alt="Алгоритм задания 17"><span>🔍 Открыть схему</span></button>
-      <ol class="algo-steps">
-        <li><b>Выдели грамматические основы.</b></li>
-        <li>Найди <b>определение</b> (какой?) или <b>обстоятельство</b> (что делая? что сделав? / предлог <i>несмотря на, невзирая на</i>).</li>
-        <li>Найди <b>главное слово</b> и зависимые слова — так получится оборот.</li>
-        <li>Определение после главного слова-существительного или при местоимении — обособляем. Перед существительным — только если есть обстоятельственное значение или оборот оторван от главного слова.</li>
-        <li>Деепричастный оборот и <i>несмотря на</i> — обособляем всегда.</li>
-        <li>Проверь, нет ли ещё оборотов. Однородные обороты при одном слове, соединённые <b>И</b>, — запятую у союза не ставим.</li>
-      </ol>
-      <h3>Как размечаем</h3>
-      ${legend()}
-    </div>`));
-    body.querySelector('.algo-thumb').addEventListener('click', () => api.openAlgo(ALGO));
-    api.foot({ label: 'Понятно, к шагу 1' });
-  });
-
-  // 2. Шаг 1 — основы
-  slides.push(markSlide({
-    zoom: 'bases', chip: 'Шаг 1 из 5', title: 'Выдели грамматические основы',
-    text: 'Подлежащее — <b>одной чертой</b>, сказуемое — <b>двумя</b>. Каждую основу — <b>своим цветом</b>: переключай «Основа 1 / 2». Можно водить пальцем по словам.',
-    tools: ['subj', 'pred', 'erase'],
-    checks: [chk.bases(SPEC1)],
-    unlockOnPass: 'bases',
-    hint: 'Ищи, <b>что</b> совершает действие: метель (что сделала?) — улеглась. Кто ещё действует в предложении? Ветер! И у него два сказуемых: <i>набегал</i> … да <i>шевелил</i>.',
-    reveal: (m) => {
-      const s = solution({ ...SPEC1, cross: [], bars: [], arrows: [] });
-      return { ...m, mem: s.mem };
-    },
-    done: 'Основа 1: <b>метель улеглась</b>. Основа 2: <b>ветер набегал, шевелил</b> (однородные сказуемые, «да» = «и»). <span class="muted">«Было тихо» — тоже основа (безличное предложение), но для задания 17 она не важна.</span>',
+    api.foot({ label: 'Начинаем! 🚀' });
   }));
 
-  // 3. Шаг 2 — развилка: определение или обстоятельство
-  slides.push(quizSlide({
-    chip: 'Шаг 2 из 5', title: 'Найди определение или обстоятельство',
-    text: 'Схема делится на две ветки. <b>Определение</b> отвечает на вопрос <i>какой?</i> (часто это причастие). <b>Обстоятельство</b> — на вопрос <i>что делая? что сделав?</i> (деепричастие) или начинается с <i>несмотря на</i>.',
-    steps: [
-      { node: 'branches', q: 'Слово «<b>покрытые</b>» (гривы какие?) — это…', options: ['определение (причастие)', 'обстоятельство (деепричастие)'], correct: 0, ok: 'Да! Гривы <i>какие?</i> — покрытые. Причастие → определение, левая ветка схемы.', bad: 'Задай вопрос: гривы <i>какие?</i> — покрытые. На «какой?» отвечает определение.' },
-      { node: 'circWord', q: 'Слово «<b>приподнимая</b>» (набегал что делая?) — это…', options: ['определение (причастие)', 'обстоятельство (деепричастие)'], correct: 1, ok: 'Точно! <i>Что делая?</i> — приподнимая. Образовано от глагола «приподнимать» → деепричастие, обстоятельство.', bad: 'Задай вопрос от глагола: набегал <i>что делая?</i> — приподнимая. Это деепричастие.' },
-    ],
-    outro: { node: 'branches', html: 'Итак, в предложении <b>два оборота</b>: причастный (определение) и деепричастный (обстоятельство). Разберём каждый по своей ветке! 🌿' },
+  /* ===== 1. Части речи ===== */
+  const POS = [
+    ['Имя существительное', 'кто? что?', 'весна, столы'],
+    ['Имя прилагательное', 'какой? чей?', 'весёлый, мамина'],
+    ['Краткое прилагательное', 'каков?', 'красив'],
+    ['Глагол', 'что делать? что сделать?', 'петь, станцевать'],
+    ['Причастие', 'какой?', 'бегущий'],
+    ['Краткое причастие', 'что сделан?', 'сшита'],
+    ['Деепричастие', 'как? что делая? что сделав?', 'играя, сбежав'],
+    ['Местоимение', 'кто? что? чей?', 'он, нечто, ваш'],
+    ['Имя числительное', 'сколько? который по счёту?', 'пять, третий'],
+    ['Наречие', 'где? куда? когда? откуда? почему? зачем? как?', 'очень, весело'],
+  ];
+  const posCard = ([n, q, ex], cls = '') => `<div class="pos ${cls}"><b>${n}</b><span class="pos-q">${q}</span><span class="pos-ex">${ex}</span></div>`;
+  slides.push(slide('Части речи', (body, api) => {
+    const host = shell(body, { chip: 'Блок 1 · теория', title: 'Начнём с частей речи', lead: 'Части речи бывают самостоятельные, служебные и особые. Открывай по одной.' });
+    phases(host, api, [
+      htmlPh('<div class="sec-h violet">Самостоятельные — отвечают на вопросы</div>'),
+      revealPh(POS.map((r) => posCard(r))),
+      htmlPh('<div class="sec-h yellow">Служебные — помогают другим словам</div>'),
+      revealPh([
+        posCard(['Предлог', 'связывает слова в словосочетании', 'из-за, над, по, к, несмотря на'], 'serv'),
+        posCard(['Союз', 'соединяет однородные члены и части сложного предложения', 'и, а, но, да, или'], 'serv'),
+        posCard(['Частица', 'вносит дополнительное значение и образует форму слова', 'не, бы, же, ль'], 'serv'),
+      ]),
+      htmlPh('<div class="sec-h pink">Особая часть речи</div>'),
+      revealPh([posCard(['Междометие', 'выражает чувства и побуждения, но не называет их', 'ах, увы, ой'], 'spec')]),
+    ]);
   }));
 
-  // 4. Определение — подчеркнуть
-  slides.push(markSlide({
-    zoom: 'defFind', chip: 'Шаг 3 · ветка «Определение»', title: 'Подчеркни определение',
-    text: 'Найди причастие с зависимыми словами и подчеркни весь оборот <b>волнистой линией</b>. Затем инструментом «Граница» отметь его начало и конец <b>|</b>.',
-    tools: ['def', 'bar', 'erase'],
-    checks: [chk.def(SPEC1), chk.bars(SPEC1.defBars, SPEC1.circBars)],
-    hint: 'Причастие — <i>покрытые</i>. Покрытые чем? — <i>инеем</i>. Значит, оборот: «покрытые инеем». Границы: перед «покрытые» и после «инеем».',
-    reveal: (m) => ({ ...m, def: [...new Set([...m.def, ...SPEC1.def])], bars: [...new Set([...m.bars, ...SPEC1.defBars.flat()])] }),
-    done: 'Причастный оборот: <b>|покрытые инеем|</b>.',
+  /* ===== 2. Члены предложения ===== */
+  slides.push(slide('Члены предложения', (body, api) => {
+    const host = shell(body, { chip: 'Блок 2 · теория', title: 'Члены предложения', lead: 'Каждый член предложения подчёркивается по-своему. Запомни линии — они пригодятся в каждом задании.' });
+    phases(host, api, [revealPh([
+      ['<i class="g g-single" style="--c:#e11d48"></i>', 'Подлежащее', 'кто? что?'],
+      ['<i class="g g-double" style="--c:#e11d48"></i>', 'Сказуемое', 'что делать? каков? что сделан? что такое предмет?'],
+      ['<i class="g g-dashed"></i>', 'Дополнение', 'вопросы косвенных падежей (всех, кроме именительного)'],
+      ['<i class="g g-wavy"></i>', 'Определение', 'какой? чей?'],
+      ['<i class="g g-dashdot"></i>', 'Обстоятельство', 'где? куда? когда? откуда? почему? зачем? как? сколько?'],
+    ].map(([g, n, q]) => `<div class="mem-row">${g}<b>${n}</b><span>${q}</span></div>`))]);
   }));
 
-  // 5. Главное слово для определения
-  slides.push(markSlide({
-    zoom: 'defMain', chip: 'Шаг 3 · ветка «Определение»', title: 'Найди главное слово',
-    text: 'От какого слова задаём вопрос <i>какие?</i> к обороту? Поставь над ним <b>×</b>, затем инструментом «Стрелка» проведи стрелку от главного слова к обороту.',
-    tools: ['cross', 'arrow', 'erase'],
-    checks: [chk.cross(SPEC1.defCross, SPEC1.circCross), chk.arrows(SPEC1.defArrow, SPEC1.circArrow)],
-    hint: '<i>Гривы</i> (какие?) покрытые инеем. Главное слово — «гривы». Нажми «Стрелка», затем на «гривы», затем на «инеем».',
-    reveal: (m) => ({ ...m, cross: [...new Set([...m.cross, ...SPEC1.defCross])], arrows: [...m.arrows.filter((a) => a[0] !== SPEC1.defArrow[0].from), [SPEC1.defArrow[0].from, w1('покрытые')]] }),
-    done: 'Главное слово — <b>гривы</b> (какие? покрытые инеем).',
+  /* ===== 3. Чем отличаются члены предложения от частей речи ===== */
+  slides.push(slide('Части речи и члены', (body, api) => {
+    const host = shell(body, { chip: 'Блок 3 · теория', title: 'Чем отличаются члены предложения от частей речи?' });
+    phases(host, api, [
+      revealPh([
+        '<div class="tcard"><b>Члены предложения</b> — это то, <b>как слова подчёркиваются</b>, то есть какую синтаксическую функцию они выполняют.</div>',
+        '<div class="tcard"><b>Части речи</b> — это то, <b>чем выражен</b> член предложения, то есть то, что обычно подписывается над словом.</div>',
+        '<div class="tcard yellow">Один член предложения может быть выражен <b>разными частями речи</b>.</div>',
+      ]),
+      demoPh('Незаметно пролетело жаркое лето.', [
+        (S) => ({ m: marks({ s: [[W(S, 'лето')]], labels: { [W(S, 'лето')]: 'сущ.' } }), flash: [W(S, 'лето')], note: '<b>Кто? что?</b> — <i>лето</i>. Это <b>подлежащее</b>, подчёркиваем одной чертой. Выражено <b>существительным</b>.' }),
+        (S) => ({ m: marks({ p: [[W(S, 'пролетело')]], labels: { [W(S, 'пролетело')]: 'гл.' }, arrows: [[W(S, 'лето'), W(S, 'пролетело'), 'что сделало?']] }), flash: [W(S, 'пролетело')], note: 'Лето <b>что сделало?</b> — <i>пролетело</i>. Это <b>сказуемое</b>, подчёркиваем двумя чертами. Выражено <b>глаголом</b>.' }),
+        (S) => ({ m: marks({ def: [W(S, 'жаркое')], labels: { [W(S, 'жаркое')]: 'прил.' }, arrows: [[W(S, 'лето'), W(S, 'жаркое'), 'какое?']] }), flash: [W(S, 'жаркое')], note: 'Лето <b>какое?</b> — <i>жаркое</i>. Это <b>определение</b>, подчёркиваем волнистой линией. Выражено <b>прилагательным</b>.' }),
+        (S) => ({ m: marks({ circ: [W(S, 'незаметно')], labels: { [W(S, 'незаметно')]: 'нар.' }, arrows: [[W(S, 'пролетело'), W(S, 'незаметно'), 'как?']] }), flash: [W(S, 'незаметно')], note: 'Пролетело <b>как?</b> — <i>незаметно</i>. Это <b>обстоятельство</b>, подчёркиваем точкой-тире. Выражено <b>наречием</b>.' }),
+      ], { title: 'Например:' }),
+    ]);
   }));
 
-  // 6. Развилки ветки «Определение»
-  slides.push(quizSlide({
-    chip: 'Шаг 4 · решаем по схеме', title: 'Нужны ли запятые у определения?',
-    text: 'Идём по схеме вниз и отвечаем на её вопросы.',
-    steps: [
-      { node: 'nounQ', q: 'Главное слово «гривы» — существительное?', options: ['Да', 'Нет, местоимение'], correct: 0, ok: 'Да, «гривы» — существительное. Идём дальше по левой ветке.', bad: '«Гривы» — это предмет (что?), значит, существительное.' },
-      { node: 'beforeQ', q: 'Оборот «покрытые инеем» стоит <b>перед</b> главным словом «гривы»?', options: ['Да', 'Нет'], correct: 0, ok: 'Верно: «покрытые инеем <b>гривы</b>» — оборот перед главным словом.', bad: 'Посмотри на порядок слов: «покрытые инеем гривы» — оборот впереди.' },
-      { node: 'meaningQ', q: 'Есть ли у оборота обстоятельственное значение (причина, уступка, условие, цель)? Можно ли заменить его на «так как покрыты инеем», «хотя покрыты инеем»?', options: ['Да', 'Нет'], correct: 1, ok: 'Правильно, такого значения нет — оборот просто описывает гривы.', bad: 'Попробуй: «приподнимая гривы, так как они покрыты инеем» — смысл ломается. Значения причины нет.' },
-      { node: 'betweenQ', q: 'Есть ли между оборотом и главным словом другие члены предложения?', options: ['Да', 'Нет'], correct: 1, ok: 'Нет: «покрытые инеем» стоят вплотную к «гривы».', bad: 'Между «инеем» и «гривы» ничего нет — они рядом.', then: 'noCommas' },
-    ],
-    outro: { node: 'noCommas', html: '🚫 <b>Запятые не ставятся!</b><br>Определение стоит перед главным словом, поэтому на месте цифр <b>2</b> и <b>3</b> запятых нет.' },
-  }));
-
-  // 7. Обстоятельство — подчеркнуть
-  slides.push(markSlide({
-    zoom: 'circWord', chip: 'Шаг 3 · ветка «Обстоятельство»', title: 'Подчеркни обстоятельство',
-    text: 'Подчеркни весь деепричастный оборот <b>точкой-тире</b> (вместе со всеми зависимыми словами!), поставь <b>×</b> над главным словом-глаголом, проведи <b>стрелку</b> и отметь <b>границы |</b>.',
-    tools: ['circ', 'cross', 'arrow', 'bar', 'erase'],
-    checks: [chk.circ(SPEC1), chk.cross([...SPEC1.defCross, ...SPEC1.circCross], []), chk.arrows([...SPEC1.defArrow, ...SPEC1.circArrow]), chk.bars([...SPEC1.defBars, ...SPEC1.circBars])],
-    hint: 'Ветер <i>набегал</i> (что делая?) приподнимая (что?) гривы (какие?) покрытые инеем, гривы (чьи?) лошадей. Оборот: «приподнимая покрытые инеем гривы лошадей». Главное слово — «набегал».',
-    reveal: () => SOL1,
-    done: 'Деепричастный оборот: <b>|приподнимая покрытые инеем гривы лошадей|</b>, главное слово — <b>набегал</b>.',
-    xp: 30, coins: 15,
-  }));
-
-  // 8. Развилки ветки «Обстоятельство» и проверка «есть ли ещё»
-  slides.push(quizSlide({
-    chip: 'Шаг 5 · финальная проверка', title: 'Нужны ли запятые у обстоятельства?',
-    steps: [
-      { node: 'circWord', q: '«Приподнимая» отвечает на вопрос <i>что делая?</i> и образовано от глагола?', options: ['Да', 'Нет'], correct: 0, ok: 'Да, это деепричастие.', bad: 'Набегал <i>что делая?</i> — приподнимая. От глагола «приподнимать». Это деепричастие.' },
-      { node: 'circMain', q: 'Какое слово главное для деепричастного оборота?', options: ['ветер', 'набегал', 'гривы'], correct: 1, ok: 'Да! Деепричастие всегда зависит от глагола: набегал (что делая?) приподнимая.', bad: 'Главное слово для деепричастия — всегда глагол (сказуемое).' },
-      { node: 'final', q: 'Деепричастный оборот выделяется запятыми…', options: ['всегда, с двух сторон', 'только если стоит после глагола'], correct: 0, ok: 'Именно! Обстоятельство (деепричастный оборот) обособляется всегда → запятые на месте <b>1</b> и <b>4</b>.', bad: 'Деепричастный оборот обособляется всегда, где бы он ни стоял.' },
-      { node: 'moreQ', q: 'Обороты «покрытые инеем» и «приподнимая…» относятся к одному главному слову?', options: ['Да', 'Нет'], correct: 1, ok: 'Нет: у одного главное слово «гривы», у другого — «набегал». Это разные обороты, каждый разбираем отдельно — что мы и сделали ✅', bad: 'Посмотри на крестики: «гривы» и «набегал» — разные главные слова.', then: 'sameNo' },
-    ],
-    outro: { node: 'final', html: '🧠 Все обороты разобраны! Осталось записать ответ.' },
-  }));
-
-  // 9. Ответ к первому предложению
-  slides.push((body, api) => {
-    const sh = slideShell(body, { chip: 'Ответ', title: 'Запиши ответ', text: 'Укажи все цифры, на месте которых должны стоять запятые (как в бланке ЕГЭ — без пробелов).' });
-    new M.Board(sh.boardHost, S1, { readOnly: true, marks: api.ctx.data.m1 });
-    const box = h(`<div class="answer-box"><label>Ответ:</label><input class="ans" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="например, 12"></div>`);
-    sh.extraHost.appendChild(box);
-    const inp = box.querySelector('input');
-    let tries = 0;
-    const explain = () => {
-      sh.extraHost.innerHTML = '';
-      sh.boardHost.innerHTML = '';
-      sh.extraHost.appendChild(h(`<div class="explain card">
-        <div class="ans-big">Ответ: <b>14</b></div>
-        <h3>Верная разметка</h3><div class="sol-a"></div>
-        <h3>Как правильно</h3><div class="sol-b"></div>
-        <p><b>Определение</b> — «покрытые инеем», главное слово — «гривы». На месте цифр <b>2 и 3</b> запятые <b>не ставятся</b>, потому что определение стоит <b>перед</b> главным словом.</p>
-        <p><b>Обстоятельство</b> — деепричастный оборот «приподнимая покрытые инеем гривы лошадей», главное слово — «набегал». Обстоятельство <b>всегда обособляется</b> → запятые на месте <b>1 и 4</b>.</p>
-        <p class="star-note">* Иногда один оборот входит в состав другого, как здесь: причастный оборот вошёл в состав деепричастного.</p>
-      </div>`));
-      new M.Board(sh.extraHost.querySelector('.sol-a'), S1, { readOnly: true, marks: SOL1 });
-      new M.Board(sh.extraHost.querySelector('.sol-b'), S1, { readOnly: true, commas: [1, 4] });
-      api.foot({ label: 'Дальше' });
+  /* Упражнение: часть речи и член предложения */
+  slides.push(slide('Части речи и члены', (body, api) => {
+    const host = shell(body, { chip: 'Блок 3 · упражнение', title: 'Часть речи или член предложения?', lead: 'Для подсвеченного слова определи сначала часть речи, потом член предложения.' });
+    const S = P('Мой младший брат читал интересную книгу.');
+    const board = new M.Board(host, S, { readOnly: true });
+    const qa = h('<div class="qa"></div>');
+    host.appendChild(qa);
+    const POSO = ['существительное', 'прилагательное', 'местоимение', 'глагол', 'наречие'];
+    const MEMO = ['подлежащее', 'сказуемое', 'дополнение', 'определение', 'обстоятельство'];
+    const items = [
+      ['брат', 0, 0, 'сущ.', 's'], ['читал', 3, 1, 'гл.', 'p'], ['мой', 2, 3, 'мест.', 'def'],
+      ['младший', 1, 3, 'прил.', 'def'], ['книгу', 0, 2, 'сущ.', 'obj'], ['интересную', 1, 3, 'прил.', 'def'],
+    ];
+    let i = 0, cur = M.emptyMarks();
+    const ask = (stage) => {
+      const [w, pos, mem, lab, kind] = items[i];
+      const wi = W(S, w);
+      board.wordEls.forEach((e) => e.classList.remove('focus'));
+      board.wordEls[wi].classList.add('focus');
+      const opts = stage === 0 ? POSO : MEMO;
+      const correct = stage === 0 ? pos : mem;
+      qa.innerHTML = `<div class="q-count">Слово ${i + 1} из ${items.length}</div><div class="q">«<b>${w}</b>» — ${stage === 0 ? 'какая это часть речи?' : 'какой это член предложения?'}</div><div class="opts grid2">${opts.map((o, j) => `<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
+      api.foot({ label: 'Выбери ответ', enabled: false });
+      let miss = false;
+      qa.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
+        if (+b.dataset.j !== correct) { miss = true; b.classList.add('wrong'); b.disabled = true; api.bad([stage === 0 ? 'Задай вопрос к слову и вспомни таблицу частей речи.' : 'Найди слово, от которого задаётся вопрос, и вспомни таблицу членов предложения.']); return; }
+        b.classList.add('right'); qa.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
+        api.good(miss ? 2 : 4, miss ? 0 : 1, b);
+        if (stage === 0) { cur = merge(cur, { labels: { [wi]: lab } }); board.setMarks(cur); api.foot({ label: 'А член предложения?', onClick: () => { api.feedback(null); ask(1); } }); return; }
+        const add = kind === 's' ? { mem: { [wi]: { t: 's', b: 1 } } } : kind === 'p' ? { mem: { [wi]: { t: 'p', b: 1 } } } : { [kind]: [wi] };
+        cur = merge(cur, add); board.setMarks(cur); board.flash([wi]);
+        const last = i === items.length - 1;
+        api.foot({ label: last ? 'Дальше' : 'Следующее слово', onClick: () => {
+          api.feedback(null);
+          if (!last) { i++; ask(0); return; }
+          board.wordEls.forEach((e) => e.classList.remove('focus'));
+          qa.innerHTML = '<div class="conclusion">Видишь? <b>Определение</b> здесь выражено и <b>местоимением</b> (мой), и <b>прилагательными</b> (младший, интересную). Член предложения один — части речи разные.</div>';
+          api.foot({ label: 'Дальше' });
+        } });
+      }));
     };
-    const check = () => {
-      const v = normAns(inp.value);
-      if (!v) { inp.focus(); return App.$('.ans').classList.add('need'); }
-      if (v === SPEC1.answer) {
-        api.good(tries ? 15 : 30, tries ? 8 : 15, inp, 'Ответ <b>14</b> — абсолютно верно!');
-        App.confetti(100);
-        explain();
-      } else {
-        tries++;
-        api.bad([tries === 1 ? 'Вспомни: какой оборот обособляется всегда, а какой стоит перед главным словом?' : 'Деепричастный оборот — с двух сторон (1 и 4). Причастный перед существительным — без запятых.']);
-        if (tries >= 2) api.foot({ label: 'Проверить', onClick: check, extraLabel: '👀 Показать ответ', onExtra: () => { api.feedback('info', '<b>Разбор ниже.</b> В следующем предложении точно получится! 💪'); explain(); } });
+    ask(0);
+  }));
+
+  /* ===== 4. Причастие ===== */
+  slides.push(slide('Причастие', (body, api) => {
+    const host = shell(body, { chip: 'Блок 4 · теория', title: 'Причастие', lead: 'Уделим особое внимание причастиям и деепричастиям — именно они чаще всего образуют обороты в задании 17.' });
+    phases(host, api, [
+      revealPh([
+        '<div class="tcard">Причастие отличается от прилагательного тем, что <b>образуется от глагола</b>.</div>',
+        '<div class="tcard yellow">Например, <b>забежавший</b> — отвечает на вопрос <i>какой?</i> и образуется от глагола <i>забежать</i>.</div>',
+        '<div class="tcard">Чтобы легче находить причастия, нужно знать <b>суффиксы</b>, которые их образуют. Попробуй образовать причастие сам и нажми на карточку для самопроверки.</div>',
+      ]),
+      flipPh('Суффиксы причастий', [
+        ['-ущ- (-ющ-)', 'существовать', 'существ<u>ующ</u>ий'], ['-ащ- (-ящ-)', 'говорить', 'говор<u>ящ</u>ий'],
+        ['-ем-', 'омывать', 'омыва<u>ем</u>ый'], ['-ом-', 'вести', 'вед<u>ом</u>ый'], ['-им-', 'осуществить', 'осуществ<u>им</u>ый'],
+        ['-вш-', 'поравняться', 'поравня<u>вш</u>ийся'], ['-ш-', 'порасти', 'порос<u>ш</u>ий'], ['-т-', 'сшить', 'сши<u>т</u>ый'],
+        ['-нн-', 'сделать', 'сдела<u>нн</u>ый'], ['-енн-', 'сплотить', 'сплоч<u>ённ</u>ый'],
+      ]),
+      htmlPh('<div class="tcard violet">Причастие подчёркивается как <b>определение</b> — волнистой линией <i class="g g-wavy"></i></div>'),
+    ]);
+  }));
+
+  slides.push(slide('Причастие', (body, api) => {
+    const host = shell(body, { chip: 'Блок 4 · причастный оборот', title: 'Причастный оборот', lead: 'Причастный оборот — это причастие с зависимыми словами. Разберём по шагам.' });
+    phases(host, api, [
+      demoPh('Цветы, выросшие в саду, удивительно красивы.', [
+        (S) => ({ m: marks({ def: [W(S, 'выросшие')], labels: { [W(S, 'выросшие')]: 'прич.' } }), flash: [W(S, 'выросшие')], note: 'Причастие — <b>выросшие</b> (какие? от глагола <i>вырасти</i>).' }),
+        (S) => ({ m: marks({ cross: [W(S, 'цветы')], arrows: [[W(S, 'цветы'), W(S, 'выросшие'), 'какие?']] }), flash: [W(S, 'цветы')], note: '<b>Главное слово</b> (×) — то, от которого задаём вопрос к причастию: <i>цветы</i> (что выросло? — цветы). Стрелка от главного слова к причастию с вопросом <i>какие?</i> Главное слово у причастия — <b>существительное или местоимение</b>.' }),
+        (S) => ({ m: marks({ arrows: [[W(S, 'выросшие'), W(S, 'саду'), 'где?']] }), flash: [W(S, 'в'), W(S, 'саду')], note: '<b>Зависимые слова</b> — слова, к которым задаём вопрос от причастия: выросшие <i>где?</i> — <b>в саду</b>.' }),
+        (S) => ({ m: marks({ def: R(S, 'выросшие в саду'), labels: { [W(S, 'выросшие')]: 'ПО' }, bars: [W(S, 'выросшие'), W(S, 'саду') + 1] }), flash: R(S, 'выросшие в саду'), note: '<b>Выросшие в саду</b> — причастие с зависимыми словами, то есть <b>причастный оборот</b>. Сверху подписываем <b>ПО</b>, с двух сторон ставим вертикальные палочки |, весь оборот подчёркиваем волнистой линией.' }),
+      ]),
+      htmlPh('<div class="sec-h yellow">Что ещё нужно знать про причастие?</div>'),
+      revealPh(['<div class="tcard">У причастия есть <b>2 формы</b>: полная и краткая. Краткое причастие отвечает на вопрос <i>что сделан?</i> и является <b>сказуемым</b>.</div>']),
+      demoPh('Партия сыграна.', [
+        (S) => ({ m: marks({ s: [[W(S, 'партия')]] }), note: '<i>Партия</i> — подлежащее.' }),
+        (S) => ({ m: marks({ p: [[W(S, 'сыграна')]], labels: { [W(S, 'сыграна')]: 'кр. прич.' } }), flash: [W(S, 'сыграна')], note: '<i>Сыграна</i> — краткое причастие, это сказуемое: подчёркиваем двумя чертами, сверху подписываем <b>кр. прич.</b>' }),
+      ]),
+    ]);
+  }));
+
+  /* ===== 5. Деепричастие ===== */
+  slides.push(slide('Деепричастие', (body, api) => {
+    const host = shell(body, { chip: 'Блок 5 · теория', title: 'Деепричастие' });
+    phases(host, api, [
+      revealPh([
+        '<div class="tcard">Деепричастие отличается от наречия тем, что <b>образуется от глагола</b>.</div>',
+        '<div class="tcard yellow">Например, <b>забежав</b> — отвечает на вопрос <i>что сделав?</i> и образуется от глагола <i>забежать</i>.</div>',
+        '<div class="tcard">Чтобы легче находить деепричастия, нужно знать их <b>суффиксы</b>. Образуй деепричастие сам и нажми на карточку для самопроверки.</div>',
+      ]),
+      flipPh('Суффиксы деепричастий', [
+        ['-а / -я', 'ворчать', 'ворч<u>а</u>'], ['-в', 'сделать', 'сдела<u>в</u>'], ['-ши', 'извлечь', 'извлёк<u>ши</u>'],
+        ['-вши', 'попроситься', 'попроси<u>вши</u>сь'], ['-учи / -ючи (устар.)', 'быть', 'буд<u>учи</u>'],
+      ]),
+      htmlPh('<div class="tcard violet">Деепричастие подчёркивается как <b>обстоятельство</b> — точкой-тире <i class="g g-dashdot"></i></div>'),
+    ]);
+  }));
+
+  slides.push(slide('Деепричастие', (body, api) => {
+    const host = shell(body, { chip: 'Блок 5 · деепричастный оборот', title: 'Деепричастный оборот', lead: 'Деепричастный оборот — это деепричастие с зависимыми словами.' });
+    phases(host, api, [
+      demoPh('Высоко поднявшись в небо, парила птица.', [
+        (S) => ({ m: marks({ circ: [W(S, 'поднявшись')], labels: { [W(S, 'поднявшись')]: 'деепр.' } }), flash: [W(S, 'поднявшись')], note: 'Деепричастие — <b>поднявшись</b> (что сделав? от глагола <i>подняться</i>).' }),
+        (S) => ({ m: marks({ cross: [W(S, 'парила')], arrows: [[W(S, 'парила'), W(S, 'поднявшись'), 'что сделав?']] }), flash: [W(S, 'парила')], note: '<b>Главное слово</b> — <i>парила</i>. От него стрелка с вопросом <i>как? что сделав?</i> Главное слово у деепричастия — всегда <b>глагол</b>.' }),
+        (S) => ({ m: marks({ arrows: [[W(S, 'поднявшись'), W(S, 'небо'), 'куда?'], [W(S, 'поднявшись'), W(S, 'высоко'), 'как?']] }), flash: [W(S, 'высоко'), W(S, 'в'), W(S, 'небо')], note: '<b>Зависимые слова</b>: поднявшись <i>куда?</i> — в небо, поднявшись <i>как?</i> — высоко.' }),
+        (S) => ({ m: marks({ circ: R(S, 'высоко поднявшись в небо'), labels: { [W(S, 'поднявшись')]: null, [W(S, 'высоко')]: 'ДО' }, bars: [W(S, 'высоко'), W(S, 'небо') + 1] }), flash: R(S, 'высоко поднявшись в небо'), note: '<b>Высоко поднявшись в небо</b> — деепричастный оборот: с двух сторон вертикальные палочки |, подчёркиваем точкой-тире, сверху <b>ДО</b>.' }),
+        (S) => ({ m: marks({ s: [[W(S, 'птица')]], p: [[W(S, 'парила')]] }), note: 'И основа: <i>птица</i> — подлежащее, <i>парила</i> — сказуемое.' }),
+      ]),
+    ]);
+  }));
+
+  /* Упражнение: причастие, прилагательное или деепричастие */
+  slides.push(slide('Деепричастие', (body, api) => {
+    const host = shell(body, { chip: 'Блок 5 · упражнение', title: 'Причастие, прилагательное или деепричастие?', lead: 'Задай вопрос и проверь: образовано ли слово от глагола?' });
+    const WORDS = [
+      ['читающий', 1, 'Какой? От глагола <i>читать</i>, суффикс -ющ- — причастие.'],
+      ['читая', 2, 'Что делая? От глагола <i>читать</i>, суффикс -я — деепричастие.'],
+      ['красный', 0, 'Какой? Не образовано от глагола — прилагательное.'],
+      ['прочитав', 2, 'Что сделав? Суффикс -в — деепричастие.'],
+      ['прочитанный', 1, 'Какой? От глагола <i>прочитать</i>, суффикс -нн- — причастие.'],
+      ['деревянный', 0, 'Ловушка! Суффикс -янн-, но слово образовано от существительного <i>дерево</i> — прилагательное.'],
+      ['улыбаясь', 2, 'Что делая? От глагола <i>улыбаться</i> — деепричастие.'],
+      ['сломанный', 1, 'Какой? От глагола <i>сломать</i> — причастие.'],
+      ['весёлый', 0, 'Какой? Не от глагола — прилагательное.'],
+      ['бегущий', 1, 'Какой? От глагола <i>бежать</i>, суффикс -ущ- — причастие.'],
+    ];
+    const box = h('<div class="sort"></div>');
+    host.appendChild(box);
+    let i = 0;
+    const ask = () => {
+      const [w, c, why] = WORDS[i];
+      box.innerHTML = `<div class="q-count">Слово ${i + 1} из ${WORDS.length}</div><div class="g-card"><span class="gw">${w}</span></div><div class="opts grid3">${['прилагательное', 'причастие', 'деепричастие'].map((o, j) => `<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
+      api.foot({ label: 'Выбери ответ', enabled: false });
+      let miss = false;
+      box.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
+        if (+b.dataset.j !== c) { miss = true; b.classList.add('wrong'); b.disabled = true; api.bad([why]); return; }
+        b.classList.add('right'); box.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
+        api.good(miss ? 2 : 4, miss ? 0 : 1, b, why);
+        const last = i === WORDS.length - 1;
+        api.foot({ label: last ? 'Дальше' : 'Следующее слово', onClick: () => { api.feedback(null); if (last) api.next(); else { i++; ask(); } } });
+      }));
+    };
+    ask();
+  }));
+
+  /* ===== 6. Обособленные определения и обстоятельства ===== */
+  slides.push(slide('Обособленные определения', (body, api) => {
+    const host = shell(body, { chip: 'Блок 6 · определение', title: 'Когда определение обособляется?' });
+    phases(host, api, [
+      revealPh([
+        '<div class="tcard">В 17 задании ЕГЭ знаками препинания выделяют только <b>два члена предложения — определение и обстоятельство</b>.</div>',
+        '<div class="tcard yellow"><b>Обособляется</b> — значит выделяется запятыми <b>с двух сторон</b>.</div>',
+        '<div class="tcard violet"><b>Определение</b> выражено <b>прилагательным или причастием</b> — с зависимыми словами или без них.</div>',
+        '<div class="sec-h violet">Определение обособляется, если…</div><div class="cond"><span>1</span>…стоит <b>после определяемого слова</b></div>',
+      ]),
+      demoPh('Небо, полное грозою, всё в зарницах трепетало.', [
+        (S) => ({ m: marks({ s: [[W(S, 'небо')]], p: [[W(S, 'трепетало')]] }), note: 'Основа: <i>небо трепетало</i>.' }),
+        (S) => ({ m: marks({ def: R(S, 'полное грозою'), labels: { [W(S, 'полное')]: 'прил.+з.с.' }, cross: [W(S, 'небо')], arrows: [[W(S, 'небо'), W(S, 'полное'), 'какое?']], bars: [W(S, 'полное'), W(S, 'грозою') + 1] }), flash: R(S, 'полное грозою'), note: 'Небо <i>какое?</i> — <b>полное грозою</b>: прилагательное с зависимым словом (<b>прил. + з.с.</b>). Стоит <b>после</b> главного слова <i>небо</i> → обособляется.' }),
+      ]),
+      revealPh(['<div class="cond"><span>2</span>…имеет <b>обстоятельственное значение</b> — даже если стоит перед главным словом</div><div class="tcard">Виды обстоятельственного значения: <b>причина</b> (так как…), <b>уступка</b> (хотя…), <b>условие</b> (если…), <b>время</b> (когда…). Проверка: замени оборот придаточным с этими союзами.</div>']),
+      demoPh('Раненный осколком в плечо, капитан Сабуров не покинул строя.', [
+        (S) => ({ m: marks({ s: [[W(S, 'капитан')]], p: [[W(S, 'покинул')]] }), note: 'Основа: <i>капитан не покинул</i>.' }),
+        (S) => ({ m: marks({ def: R(S, 'раненный осколком в плечо'), labels: { [W(S, 'раненный')]: 'ПО' }, cross: [W(S, 'капитан')], arrows: [[W(S, 'капитан'), W(S, 'раненный'), 'какой?']], bars: [W(S, 'раненный'), W(S, 'плечо') + 1] }), flash: R(S, 'раненный осколком в плечо'), note: 'Причастный оборот стоит перед главным словом, но имеет значение <b>уступки</b>: <i>хотя был ранен осколком в плечо</i>, капитан не покинул строя → обособляется.' }),
+      ]),
+      revealPh(['<div class="cond"><span>3</span>…относится к <b>личному местоимению</b> — где бы ни стоял</div><div class="tcard yellow">Личные местоимения: <b>я, ты, он, она, оно, мы, вы, они</b>.</div>']),
+      demoPh('Усталая, она не могла идти дальше.', [
+        (S) => ({ m: marks({ s: [[W(S, 'она')]], p: [[W(S, 'могла')], [W(S, 'идти')]] }), note: 'Основа: <i>она не могла идти</i>.' }),
+        (S) => ({ m: marks({ def: [W(S, 'усталая')], labels: { [W(S, 'усталая')]: 'прил.' }, cross: [W(S, 'она')], arrows: [[W(S, 'она'), W(S, 'усталая'), 'какая?']], bars: [W(S, 'усталая'), W(S, 'усталая') + 1] }), flash: [W(S, 'усталая')], note: 'Она <i>какая?</i> — <b>усталая</b>. Одиночное прилагательное, но главное слово — личное местоимение <i>она</i> → обособляется.' }),
+      ]),
+      revealPh(['<div class="cond"><span>4</span>…<b>отделено от определяемого слова</b> другими членами предложения</div>']),
+      demoPh('Вечно чуждый тени, моет жёлтый Нил раскалённые ступени царственных могил.', [
+        (S) => ({ m: marks({ s: [[W(S, 'нил')]], p: [[W(S, 'моет')]] }), note: 'Основа: <i>Нил моет</i>.' }),
+        (S) => ({ m: marks({ def: R(S, 'вечно чуждый тени'), labels: { [W(S, 'вечно')]: 'прил.+з.с.' }, cross: [W(S, 'нил')], arrows: [[W(S, 'нил'), W(S, 'чуждый'), 'какой?']], bars: [W(S, 'вечно'), W(S, 'тени') + 1] }), flash: R(S, 'вечно чуждый тени'), note: 'Нил <i>какой?</i> — <b>вечно чуждый тени</b>. Между оборотом и главным словом стоит сказуемое <i>моет</i> → обособляется.' }),
+      ]),
+    ]);
+  }));
+
+  slides.push(slide('Обособленные обстоятельства', (body, api) => {
+    const host = shell(body, { chip: 'Блок 6 · обстоятельство', title: 'Когда обстоятельство обособляется?' });
+    phases(host, api, [
+      revealPh([
+        '<div class="tcard violet"><b>Обстоятельство</b> выражено: <br>1) <b>деепричастием</b> с зависимыми словами или без них; <br>2) сочетанием с производными предлогами <b>НЕСМОТРЯ НА, НЕВЗИРАЯ НА</b>.</div>',
+        '<div class="tcard yellow">Такое обстоятельство <b>обособляется всегда</b> — где бы оно ни стояло.</div>',
+      ]),
+      demoPh('Девочка вошла в класс, весело улыбаясь.', [
+        (S) => ({ m: marks({ s: [[W(S, 'девочка')]], p: [[W(S, 'вошла')]], circ: R(S, 'весело улыбаясь'), labels: { [W(S, 'весело')]: 'ДО' }, cross: [W(S, 'вошла')], arrows: [[W(S, 'вошла'), W(S, 'улыбаясь'), 'как?']], bars: [W(S, 'весело'), W(S, 'улыбаясь') + 1] }), flash: R(S, 'весело улыбаясь'), note: 'Деепричастный оборот <b>весело улыбаясь</b> стоит после глагола — и всё равно обособляется.' }),
+      ], { title: 'Деепричастный оборот' }),
+      demoPh('Подумав, он согласился.', [
+        (S) => ({ m: marks({ s: [[W(S, 'он')]], p: [[W(S, 'согласился')]], circ: [W(S, 'подумав')], labels: { [W(S, 'подумав')]: 'деепр.' }, cross: [W(S, 'согласился')], arrows: [[W(S, 'согласился'), W(S, 'подумав'), 'что сделав?']], bars: [W(S, 'подумав'), W(S, 'подумав') + 1] }), flash: [W(S, 'подумав')], note: '<b>Одиночное деепричастие</b> тоже обособляется.' }),
+      ], { title: 'Одиночное деепричастие' }),
+      demoPh('Несмотря на сильный дождь, мы продолжили путь.', [
+        (S) => ({ m: marks({ s: [[W(S, 'мы')]], p: [[W(S, 'продолжили')]], circ: R(S, 'несмотря на сильный дождь'), labels: { [W(S, 'несмотря')]: 'несмотря на' }, cross: [W(S, 'продолжили')], arrows: [[W(S, 'продолжили'), W(S, 'несмотря'), 'вопреки чему?']], bars: [W(S, 'несмотря'), W(S, 'дождь') + 1] }), flash: R(S, 'несмотря на сильный дождь'), note: 'Обстоятельство с предлогом <b>несмотря на</b> обособляется.' }),
+      ], { title: 'Предлог НЕСМОТРЯ НА' }),
+      demoPh('Невзирая на усталость, туристы шли вперёд.', [
+        (S) => ({ m: marks({ s: [[W(S, 'туристы')]], p: [[W(S, 'шли')]], circ: R(S, 'невзирая на усталость'), labels: { [W(S, 'невзирая')]: 'невзирая на' }, cross: [W(S, 'шли')], arrows: [[W(S, 'шли'), W(S, 'невзирая'), 'вопреки чему?']], bars: [W(S, 'невзирая'), W(S, 'усталость') + 1] }), flash: R(S, 'невзирая на усталость'), note: 'То же с предлогом <b>невзирая на</b>.' }),
+      ], { title: 'Предлог НЕВЗИРАЯ НА' }),
+      revealPh(['<div class="sec-h pink">Кроме одного случая!</div><div class="tcard">Деепричастный оборот <b>не обособляется</b>, если он — <b>фразеологизм</b>: <i>спустя рукава, не мудрствуя лукаво, сломя голову, не покладая рук, не смыкая глаз, сложа руки, разиня рот</i> и т. д.</div>']),
+      demoPh('Мастер работал не покладая рук.', [
+        (S) => ({ m: marks({ s: [[W(S, 'мастер')]], p: [[W(S, 'работал')]], circ: R(S, 'не покладая рук'), labels: { [W(S, 'не')]: 'фразеол.' } }), flash: R(S, 'не покладая рук'), note: '<b>Не покладая рук</b> = «усердно». Это фразеологизм — запятые <b>не нужны</b>.' }),
+      ], { title: 'Фразеологизм' }),
+    ]);
+  }));
+
+  /* ===== 7. Однородные обороты ===== */
+  slides.push(slide('Однородные обороты', (body, api) => {
+    const host = shell(body, { chip: 'Блок 7 · однородность', title: 'Однородные определения и обстоятельства', lead: 'В этом задании встречается сложность — однородные обороты.' });
+    phases(host, api, [
+      revealPh([
+        '<div class="tcard"><b>Однородные</b> — члены предложения, которые <b>отвечают на один вопрос</b> и имеют <b>общее главное слово</b>.</div>',
+        '<div class="tcard yellow">Между однородными обстоятельствами или определениями, связанными <b>соединительными или разделительными</b> союзами, запятая <b>не ставится</b>.</div>',
+        '<div class="sec-h violet">Сочинительные союзы</div><div class="unions"><div><b>соединительные</b><span>и, да (= и)</span></div><div><b>разделительные</b><span>или, иль, либо</span></div><div><b>противительные</b><span>а, но, да (= но), однако, зато</span></div></div>',
+      ]),
+      demoPh('Эпоха, начавшаяся после открытий Галилео Галилея и завершившаяся работами Исаака Ньютона, обозначила важный поворот в истории человечества.', [
+        (S) => ({ m: marks({ s: [[W(S, 'эпоха')]], p: [[W(S, 'обозначила')]] }), note: 'Основа: <i>эпоха обозначила</i>.' }),
+        (S) => ({ m: marks({ def: [...R(S, 'начавшаяся после открытий Галилео Галилея'), ...R(S, 'завершившаяся работами Исаака Ньютона')], labels: { [W(S, 'начавшаяся')]: 'ПО', [W(S, 'завершившаяся')]: 'ПО' }, cross: [W(S, 'эпоха')], arrows: [[W(S, 'эпоха'), W(S, 'начавшаяся'), 'какая?'], [W(S, 'эпоха'), W(S, 'завершившаяся'), 'какая?']] }), note: 'Два причастных оборота, оба отвечают на вопрос <i>какая?</i> и относятся к одному слову <i>эпоха</i> → они <b>однородные</b>.' }),
+        (S) => ({ m: marks({ rings: [W(S, 'и')], bars: [W(S, 'начавшаяся'), W(S, 'и'), W(S, 'и') + 1, W(S, 'ньютона') + 1] }), flash: [W(S, 'и')], note: 'Союз <b>и</b> берём в кружок: между однородными оборотами при <b>и</b> запятая не ставится. Снаружи — запятые: обороты стоят после главного слова.' }),
+      ], { title: 'Однородные определения' }),
+      demoPh('Сняв перчатки и стряхнув снег с шапки, он вошёл в дом.', [
+        (S) => ({ m: marks({ s: [[W(S, 'он')]], p: [[W(S, 'вошёл')]] }), note: 'Основа: <i>он вошёл</i>.' }),
+        (S) => ({ m: marks({ circ: [...R(S, 'сняв перчатки'), ...R(S, 'стряхнув снег с шапки')], labels: { [W(S, 'сняв')]: 'ДО', [W(S, 'стряхнув')]: 'ДО' }, cross: [W(S, 'вошёл')], arrows: [[W(S, 'вошёл'), W(S, 'сняв'), 'что сделав?'], [W(S, 'вошёл'), W(S, 'стряхнув'), 'что сделав?']], rings: [W(S, 'и')], bars: [0, W(S, 'и'), W(S, 'и') + 1, W(S, 'шапки') + 1] }), flash: [W(S, 'и')], note: 'Два деепричастных оборота с общим главным словом <i>вошёл</i> — однородные. Союз <b>и</b> в кружок, между ними запятой нет; после всей группы — запятая.' }),
+      ], { title: 'Однородные обстоятельства' }),
+    ]);
+  }));
+
+  /* ===== Алгоритм ===== */
+  slides.push(slide('Алгоритм', (body, api) => {
+    const host = shell(body, { chip: 'Алгоритм', title: 'Алгоритм выполнения', lead: 'Он будет рядом во всех упражнениях. Каждый следующий шаг откроется, только когда сделан предыдущий.' });
+    phases(host, api, [
+      revealPh(['<div class="algo-li"><b>0</b><span>Выделить <b>грамматические основы</b> — разным цветом.</span></div>', ...ALGO.map((a, i) => `<div class="algo-li"><b>${i + 1}</b><span>${a}</span></div>`)]),
+      htmlPh('<div class="tcard yellow">💡 Алгоритм и схема всегда открываются кнопкой 📜 в правом верхнем углу.</div>'),
+    ]);
+  }));
+
+  /* ===== Разбор задания по алгоритму ===== */
+  slides.push(slide('Разбор по алгоритму', (body, api) => {
+    const host = shell(body, { chip: 'Разбор', title: 'Решаем задание по алгоритму', lead: 'Смотри, как ход мысли превращается в разметку. Шаг за шагом.' });
+    phases(host, api, [
+      demoPh(D, [
+        (S) => ({ m: marks({ s: [[W(S, 'ветер')]], p: [[W(S, 'обдал')]] }), note: '<b>Шаг 0.</b> Основа: <i>ветер</i> — подлежащее, <i>обдал</i> — сказуемое.' }),
+        (S) => ({ m: marks({ def: [W(S, 'встречный'), W(S, 'налетевший'), W(S, 'разомлевшего')], labels: { [W(S, 'встречный')]: 'прил.', [W(S, 'налетевший')]: 'прич.', [W(S, 'разомлевшего')]: 'прич.' } }), flash: [W(S, 'встречный'), W(S, 'налетевший'), W(S, 'разомлевшего')], note: '<b>Шаг 1.</b> Ищем прилагательные, причастия, деепричастия, «несмотря на»: <i>встречный</i> — прилагательное, <i>налетевший</i> и <i>разомлевшего</i> — причастия.' }),
+        (S) => ({ m: marks({ cross: [W(S, 'ветер'), W(S, 'разнотравья')], arrows: [[W(S, 'ветер'), W(S, 'налетевший'), 'какой?'], [W(S, 'разнотравья'), W(S, 'разомлевшего'), 'какого?']] }), flash: [W(S, 'ветер'), W(S, 'разнотравья')], note: '<b>Шаг 2.</b> Главные слова: ветер <i>какой?</i> — налетевший; разнотравья <i>какого?</i> — разомлевшего. Ставим ×, проводим стрелки.' }),
+        (S) => ({ m: marks({ def: [...R(S, 'внезапно налетевший на нас'), ...R(S, 'разомлевшего за день')], labels: { [W(S, 'налетевший')]: null, [W(S, 'внезапно')]: 'ПО', [W(S, 'разомлевшего')]: 'ПО' }, bars: [W(S, 'внезапно'), W(S, 'нас') + 1, W(S, 'разомлевшего'), W(S, 'день') + 1] }), flash: [...R(S, 'внезапно налетевший на нас'), ...R(S, 'разомлевшего за день')], note: '<b>Шаг 3.</b> Зависимые слова: налетевший <i>как?</i> внезапно, <i>на кого?</i> на нас; разомлевшего <i>когда?</i> за день. Это два причастных оборота — подписываем <b>ПО</b>, ставим палочки |.' }),
+        () => ({ note: '<b>Шаг 4.</b> Однородность? Обороты относятся к разным главным словам, союза между ними нет — однородности нет.' }),
+        (S) => ({ commas: [1, 2], note: '<b>Шаг 5.</b> «Внезапно налетевший на нас» стоит <b>после</b> главного слова <i>ветер</i> → запятые на месте <b>1 и 2</b>. «Разомлевшего за день» стоит <b>перед</b> главным словом <i>разнотравья</i> → на месте <b>3</b> запятой нет.' }),
+      ]),
+      (box, api, done) => {
+        box.appendChild(h('<div class="answer-box"><label>Ответ:</label><input class="ans" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="цифры"></div>'));
+        const inp = box.querySelector('input');
+        let tries = 0;
+        const check = () => {
+          const v = [...new Set(inp.value.replace(/\D/g, ''))].sort().join('');
+          if (!v) return inp.focus();
+          if (v === '12') { api.good(tries ? 8 : 15, tries ? 3 : 6, inp, 'Ответ <b>12</b> — верно!'); App.confetti(90); inp.disabled = true; done(); }
+          else { tries++; api.bad(['Посмотри на шаг 5: какой оборот стоит после главного слова?']); }
+        };
+        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+        api.foot({ label: 'Проверить', onClick: check });
+      },
+    ]);
+  }));
+
+  /* ===== Тренировка: 10 предложений, этапы открываются по очереди ===== */
+  // Оборот: k — def (определение) или circ (обстоятельство); words — оборот целиком; head — причастие/деепричастие/прилагательное;
+  // main — варианты главного слова; lab — допустимые подписи; opt — необязательные слова; start — запасная позиция левой палочки
+  const TRAIN = [];
+  const T = (text, build) => { const S = P(text); TRAIN.push(Object.assign({ text, S }, build(S, (w, n) => W(S, w, n), (ph, after) => R(S, ph, after)))); };
+  const ob = (k, words, head, main, lab, extra = {}) => Object.assign({ k, words, head, main: [].concat(main), lab: [].concat(lab) }, extra);
+
+  T('Я (1) спустясь в середину города (2) пошёл бульваром, где встретил несколько (3) медленно подымающихся в гору (4) групп.', (S, w, r) => ({
+    answer: '12',
+    bases: { groups: [{ s: [w('я')], p: [w('пошёл')] }, { s: [], p: [w('встретил')], free: true }] },
+    obs: [ob('circ', r('спустясь в середину города'), w('спустясь'), w('пошёл'), 'ДО'), ob('def', r('медленно подымающихся в гору'), w('подымающихся'), w('групп'), 'ПО')],
+    defOpt: [w('несколько')], circOpt: [w('бульваром'), w('где')], rings: [], ringsOpt: [],
+    explain: ['<b>1 и 2</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>3 и 4</b> — определение, выраженное причастным оборотом, стоит перед определяемым словом, поэтому запятыми не выделяется.'],
+  }));
+  T('Потом (1) близоруко щурясь (2) и (3) находя глазами Зину (4) бросал на неё несколько тоскующих взглядов и снова начинал беседовать с девушкой (5) кружащейся с ним в танце.', (S, w, r) => ({
+    answer: '145',
+    bases: { groups: [{ s: [], p: [w('бросал'), w('начинал'), w('беседовать')] }] },
+    obs: [ob('circ', r('близоруко щурясь'), w('щурясь'), w('бросал'), 'ДО'), ob('circ', r('находя глазами Зину'), w('находя'), w('бросал'), 'ДО'), ob('def', r('кружащейся с ним в танце'), w('кружащейся'), w('девушкой'), 'ПО')],
+    defOpt: [w('тоскующих'), w('несколько')], circOpt: [w('потом'), w('снова')], rings: [w('и')], ringsOpt: [w('и', 1)],
+    explain: ['<b>1 и 4</b> — деепричастные обороты всегда выделяются с двух сторон запятыми.', '<b>2 и 3</b> — деепричастные обороты однородные, так как у них общее главное слово «бросал»; обороты, связанные союзом И, между собой не отделяются запятой.', '<b>5</b> — определение выделяется запятой, потому что стоит после определяемого слова.'],
+  }));
+  T('Я лежал на диване (1) устремив глаза в потолок (2) и (3) заложив руки под затылок, а когда Вернер вошёл в мою комнату, я (4) зевнув (5) объявил, что на дворе становится жарко.', (S, w, r) => ({
+    answer: '145',
+    bases: { groups: [{ s: [w('я')], p: [w('лежал')] }, { s: [w('вернер')], p: [w('вошёл')] }, { s: [w('я', 1)], p: [w('объявил')] }, { s: [], p: [w('становится'), w('жарко')], free: true }] },
+    obs: [ob('circ', r('устремив глаза в потолок'), w('устремив'), w('лежал'), 'ДО'), ob('circ', r('заложив руки под затылок'), w('заложив'), w('лежал'), 'ДО'), ob('circ', [w('зевнув')], w('зевнув'), w('объявил'), ['деепр.', 'ДО'])],
+    defOpt: [w('мою')], circOpt: [...r('на диване'), ...r('в мою комнату'), ...r('на дворе'), w('когда')], rings: [w('и')], ringsOpt: [],
+    explain: ['<b>1</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>2 и 3</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «лежал»; обороты, связанные союзом И, между собой запятой не отделяются.', '<b>4 и 5</b> — одиночное деепричастие выделяется с двух сторон запятыми.'],
+  }));
+  T('Наевшись ароматнейшей ухи (1) и (2) сидя у костра (3) выбрасывающего (4) весело потрескивающие (5) искры вверх (6) слушая краем уха плеск рыбы (7) жирующей в заливе (8) и крики просыпающихся ночных птиц (9) я решился на разговор с отцом.', (S, w, r) => ({
+    answer: '36789',
+    bases: { groups: [{ s: [w('я')], p: [w('решился')] }] },
+    obs: [
+      ob('circ', r('наевшись ароматнейшей ухи'), w('наевшись'), w('решился'), 'ДО'),
+      ob('circ', r('сидя у костра выбрасывающего весело потрескивающие искры вверх'), w('сидя'), w('решился'), 'ДО'),
+      ob('circ', r('слушая краем уха плеск рыбы жирующей в заливе и крики просыпающихся ночных птиц'), w('слушая'), w('решился'), 'ДО'),
+      ob('def', r('выбрасывающего весело потрескивающие искры вверх'), w('выбрасывающего'), w('костра'), 'ПО'),
+      ob('def', r('весело потрескивающие'), w('потрескивающие'), w('искры'), ['ПО', 'прич.']),
+      ob('def', r('жирующей в заливе'), w('жирующей'), w('рыбы'), 'ПО'),
+    ],
+    defOpt: [w('ароматнейшей'), w('просыпающихся'), w('ночных')], circOpt: [], rings: [w('и')], ringsOpt: [w('и', 1)],
+    explain: ['<b>1 и 2</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «решился»; обороты, связанные союзом И, между собой запятой не отделяются.', '<b>3</b> — причастный оборот «выбрасывающего… вверх» стоит после определяемого слова «костра» и выделяется запятыми (3 и 6).', '<b>4 и 5</b> — определение «весело потрескивающие» не выделяется запятыми, потому что стоит перед определяемым словом.', '<b>6 и 9</b> — деепричастные обороты всегда выделяются с двух сторон запятыми.', '<b>7 и 8</b> — определение выделяется запятыми, потому что стоит после определяемого слова.'],
+  }));
+  T('Окончив перевязку (1) девушка (2) не глядя ни на кого (3) и (4) ничего не говоря (5) стала спускаться по (6) инкрустированной красным деревом (7) лестнице.', (S, w, r) => ({
+    answer: '125',
+    bases: { groups: [{ s: [w('девушка')], p: [w('стала'), w('спускаться')] }] },
+    obs: [ob('circ', r('окончив перевязку'), w('окончив'), [w('стала'), w('спускаться')], 'ДО'), ob('circ', r('не глядя ни на кого'), w('глядя'), [w('стала'), w('спускаться')], 'ДО'), ob('circ', r('ничего не говоря'), w('говоря'), [w('стала'), w('спускаться')], 'ДО'), ob('def', r('инкрустированной красным деревом'), w('инкрустированной'), w('лестнице'), 'ПО')],
+    defOpt: [w('красным')], circOpt: [], rings: [w('и')], ringsOpt: [],
+    explain: ['<b>1</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>2 и 5</b> — деепричастные обороты всегда выделяются с двух сторон запятыми.', '<b>3 и 4</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «стала спускаться»; обороты, связанные союзом И, между собой запятой не отделяются.', '<b>6 и 7</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.'],
+  }));
+  T('Поля тянулись вплоть до самого небосклона (1) то слегка вздымаясь (2) то опускаясь снова; кое-где виднелись небольшие леса и вились (3) усеянные редким и низким кустарником овраги (4) напоминая глазу их собственное изображение на старинных планах екатерининского времени.', (S, w, r) => ({
+    answer: '124',
+    bases: { groups: [{ s: [w('поля')], p: [w('тянулись')] }, { s: [w('леса')], p: [w('виднелись')] }, { s: [w('овраги')], p: [w('вились')] }] },
+    obs: [
+      ob('circ', r('слегка вздымаясь'), w('вздымаясь'), w('тянулись'), 'ДО', { opt: [w('то')], start: [w('то')] }),
+      ob('circ', r('опускаясь снова'), w('опускаясь'), w('тянулись'), 'ДО', { opt: [w('то', 1)], start: [w('то', 1)] }),
+      ob('def', r('усеянные редким и низким кустарником'), w('усеянные'), w('овраги'), 'ПО'),
+      ob('circ', r('напоминая глазу их собственное изображение на старинных планах екатерининского времени'), w('напоминая'), w('вились'), 'ДО'),
+    ],
+    defOpt: [w('самого'), w('небольшие'), w('редким'), w('низким'), w('собственное'), w('старинных'), w('екатерининского'), w('их')],
+    circOpt: [...r('вплоть до самого небосклона'), w('кое-где'), w('то'), w('то', 1)], rings: [], ringsOpt: [w('то'), w('то', 1), w('и'), w('и', 1)],
+    explain: ['<b>1</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>2</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «тянулись». Они соединены повторяющимся союзом «то…, то…», поэтому между ними запятая ставится.', '<b>3</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.', '<b>4</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.'],
+    unionNote: 'Обороты соединены повторяющимся союзом «то…, то…» — между ними запятая ставится, поэтому брать в кружок нечего.',
+  }));
+  T('Одолев неприступный хребет (1) вертолёт (2) припадая к земле (3) облетел (4) большим кругом разбросанный по пологому склону горы небольшой эвенкийский посёлок (5) и (6) закрутив в небе рыжую пыль (7) осторожно присел на (8) залитую серым бетоном (9) площадку.', (S, w, r) => ({
+    answer: '12367',
+    bases: { groups: [{ s: [w('вертолёт')], p: [w('облетел'), w('присел')] }] },
+    obs: [
+      ob('circ', r('одолев неприступный хребет'), w('одолев'), [w('облетел'), w('присел')], 'ДО'),
+      ob('circ', r('припадая к земле'), w('припадая'), [w('облетел'), w('присел')], 'ДО'),
+      ob('def', r('разбросанный по пологому склону горы'), w('разбросанный'), w('посёлок'), 'ПО', { opt: r('большим кругом'), start: [w('большим')] }),
+      ob('circ', r('закрутив в небе рыжую пыль'), w('закрутив'), w('присел'), 'ДО'),
+      ob('def', r('залитую серым бетоном'), w('залитую'), w('площадку'), 'ПО'),
+    ],
+    defOpt: [w('неприступный'), w('небольшой'), w('эвенкийский'), w('рыжую'), ...r('большим кругом')], circOpt: [...r('большим кругом'), w('осторожно')], rings: [], ringsOpt: [w('и')],
+    explain: ['<b>1</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>2 и 3</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>4</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.', '<b>5</b> — союз «и» соединяет однородные сказуемые «облетел» и «присел», поэтому запятая не нужна.', '<b>6 и 7</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>8 и 9</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.'],
+    unionNote: 'Союз «и» здесь соединяет однородные сказуемые «облетел» и «присел», а не обороты.',
+  }));
+  T('Отлетаю как можно дальше, снижаюсь (1) и (2) рискуя врезаться во что-нибудь (3) лечу (4) прощупывая землю слабым светом (5) зажатой в руках (6) плоскостной (7) фары.', (S, w, r) => ({
+    answer: '234',
+    bases: { groups: [{ s: [], p: [w('отлетаю'), w('снижаюсь'), w('лечу')] }] },
+    obs: [
+      ob('circ', r('рискуя врезаться во что-нибудь'), w('рискуя'), w('лечу'), 'ДО'),
+      ob('circ', r('прощупывая землю слабым светом зажатой в руках плоскостной фары'), w('прощупывая'), w('лечу'), 'ДО'),
+      ob('def', r('зажатой в руках'), w('зажатой'), w('фары'), 'ПО'),
+    ],
+    defOpt: [w('слабым'), w('плоскостной')], circOpt: [...r('как можно дальше')], rings: [], ringsOpt: [w('и')],
+    explain: ['<b>1</b> — союз «и» связывает однородные сказуемые «снижаюсь» и «лечу», поэтому запятая не нужна.', '<b>2 и 3</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>4</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>5 и 6</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.', '<b>7</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.'],
+    unionNote: 'Союз «и» соединяет однородные сказуемые «снижаюсь» и «лечу», а не обороты.',
+  }));
+  T('Я (1) будучи человеком (2) наделённым кое-какими скромными талантами (3) по совету одного академика приучил себя записывать (4) неожиданно приходящие мне в голову (5) мысли.', (S, w, r) => ({
+    answer: '123',
+    bases: { groups: [{ s: [w('я')], p: [w('приучил')] }], optional: [w('записывать')] },
+    obs: [
+      ob('circ', r('будучи человеком наделённым кое-какими скромными талантами'), w('будучи'), w('приучил'), 'ДО'),
+      ob('def', r('наделённым кое-какими скромными талантами'), w('наделённым'), w('человеком'), 'ПО'),
+      ob('def', r('неожиданно приходящие мне в голову'), w('приходящие'), w('мысли'), 'ПО'),
+    ],
+    defOpt: [w('одного')], circOpt: [...r('по совету одного академика')], rings: [], ringsOpt: [],
+    explain: ['<b>1 и 2</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>2 и 3</b> — определение выделяется запятыми, потому что стоит после определяемого слова.', '<b>4 и 5</b> — определение не выделяется запятыми, потому что стоит перед определяемым словом.'],
+  }));
+  T('Цветы (1) сливаясь в целую лесную поляну (2) утопающую в зелени (3) и (4) образуя открытое пространство (5) при ближайшем рассмотрении поражали идеальной формой каждого венчика (6) обрамлённого нежными лепестками (7) пушистого.', (S, w, r) => ({
+    answer: '123567',
+    bases: { groups: [{ s: [w('цветы')], p: [w('поражали')] }] },
+    obs: [
+      ob('circ', r('сливаясь в целую лесную поляну утопающую в зелени'), w('сливаясь'), w('поражали'), 'ДО'),
+      ob('def', r('утопающую в зелени'), w('утопающую'), w('поляну'), 'ПО'),
+      ob('circ', r('образуя открытое пространство'), w('образуя'), w('поражали'), 'ДО'),
+      ob('def', r('обрамлённого нежными лепестками'), w('обрамлённого'), w('венчика'), 'ПО'),
+      ob('def', [w('пушистого')], w('пушистого'), w('венчика'), 'прил.', { endOpt: true }),
+    ],
+    defOpt: [w('целую'), w('лесную'), w('открытое'), w('ближайшем'), w('идеальной'), w('каждого'), w('нежными')], circOpt: [...r('при ближайшем рассмотрении')], rings: [w('и')], ringsOpt: [],
+    explain: ['<b>1 и 5</b> — деепричастные обороты всегда выделяются с двух сторон запятыми.', '<b>2 и 3</b> — определение выделяется запятыми, потому что стоит после определяемого слова.', '<b>4</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «поражали»; обороты, связанные союзом И, между собой запятой не отделяются.', '<b>6 и 7</b> — определения выделяются запятыми, потому что стоят после определяемого слова.'],
+  }));
+
+  /* Производные проверки и эталонная разметка по описанию предложения */
+  function derive(t) {
+    const defs = t.obs.filter((o) => o.k === 'def'), circs = t.obs.filter((o) => o.k === 'circ');
+    const uniq = (groups) => { const seen = new Set(); return groups.filter((g) => { const k = [...g].sort((a, b) => a - b).join(','); if (seen.has(k)) return false; seen.add(k); return true; }); };
+    const bars = [], barsOpt = [];
+    t.obs.forEach((o) => {
+      bars.push([o.words[0], ...(o.start || [])]);
+      const end = [o.words[o.words.length - 1] + 1];
+      if (o.endOpt) barsOpt.push(...end); else bars.push(end);
+    });
+    const sol = M.emptyMarks();
+    t.bases.groups.forEach((g, gi) => { g.s.forEach((i) => (sol.mem[i] = { t: 's', b: gi + 1 })); g.p.forEach((i) => (sol.mem[i] = { t: 'p', b: gi + 1 })); });
+    sol.def = [...new Set(defs.flatMap((o) => o.words))];
+    sol.circ = [...new Set(circs.flatMap((o) => o.words))];
+    t.obs.forEach((o) => { if (sol.labels[o.words[0]] == null) sol.labels[o.words[0]] = o.lab[0]; });
+    sol.cross = [...new Set(t.obs.map((o) => o.main[0]))];
+    sol.arrows = t.obs.map((o) => [o.main[0], o.head]);
+    const ub = uniq(bars);
+    sol.bars = [...new Set(ub.map((g) => g[0]))];
+    sol.rings = [...t.rings];
+    return {
+      sol, bars: ub, barsOpt,
+      crossGroups: uniq(t.obs.map((o) => o.main)),
+      arrows: t.obs.map((o) => ({ from: o.main, to: [...o.words, ...(o.opt || [])] })),
+      defAll: sol.def, circAll: sol.circ,
+      defOpt: [...t.defOpt, ...defs.flatMap((o) => o.opt || [])],
+      circOpt: [...t.circOpt, ...circs.flatMap((o) => o.opt || [])],
+      heads: t.obs.map((o) => ({ k: o.k, i: o.head })),
+    };
+  }
+
+  const STAGES = [
+    { t: 'Выдели грамматические основы', d: 'Подлежащее — одной чертой, сказуемое — двумя. Разные основы — разными цветами.', tools: ['subj', 'pred', 'erase'] },
+    { t: 'Найди прилагательные, причастия, деепричастия', d: 'Подчеркни их: причастие и прилагательное — волнистой, деепричастие — точкой-тире.', tools: ['def', 'circ', 'erase'] },
+    { t: 'Найди главные слова и проведи стрелки', d: 'Поставь × над главным словом и проведи стрелку к обороту.', tools: ['cross', 'arrow', 'erase'] },
+    { t: 'Зависимые слова и границы', d: 'Подчеркни обороты целиком, подпиши (ПО, ДО, прил.…) и выдели вертикальными палочками |.', tools: ['def', 'circ', 'label', 'bar', 'erase'] },
+    { t: 'Проверь однородность', d: 'Есть ли однородные обороты, соединённые союзом? Если да — возьми союз в кружок.', tools: ['ring', 'erase'] },
+    { t: 'Расставь запятые', d: 'Проверь условия обособления и запиши цифры.', tools: [] },
+  ];
+
+  function stageCheck(t, d, si, m) {
+    switch (si) {
+      case 0: return [M.checkBases(m, t.bases)];
+      case 1: {
+        const msgs = new Set(), wrong = new Set();
+        for (const hd of d.heads) {
+          if (!(hd.k === 'def' ? m.def : m.circ).includes(hd.i)) { wrong.add(hd.i); msgs.add('Найдены не все причастия, деепричастия и прилагательные, от которых зависят обороты.'); }
+          // слово может законно иметь обе линии, если оборот вложен в оборот другого типа
+          const nested = (hd.k === 'def' ? [...d.circAll, ...d.circOpt] : [...d.defAll, ...d.defOpt]).includes(hd.i);
+          if (!nested && (hd.k === 'def' ? m.circ : m.def).includes(hd.i)) { wrong.add(hd.i); msgs.add('Проверь тип линии: причастие и прилагательное — волнистая, деепричастие — точка-тире.'); }
+        }
+        const okDef = new Set([...d.defAll, ...d.defOpt]), okCirc = new Set([...d.circAll, ...d.circOpt]);
+        m.def.filter((i) => !okDef.has(i)).forEach((i) => { wrong.add(i); msgs.add('Волнистой линией подчёркнуто лишнее слово.'); });
+        m.circ.filter((i) => !okCirc.has(i)).forEach((i) => { wrong.add(i); msgs.add('Точкой-тире подчёркнуто лишнее слово.'); });
+        return [{ ok: !msgs.size, wrong: [...wrong], msgs: [...msgs] }];
       }
-    };
-    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
-    api.foot({ label: 'Проверить', onClick: check });
-  });
+      case 2: return [M.checkCrossGroups(m, d.crossGroups), M.checkArrows(m, d.arrows)];
+      case 3: return [
+        M.checkSet(m.def, d.defAll, d.defOpt, { missing: 'Подчеркни волнистой линией причастные обороты целиком — вместе с зависимыми словами.', extra: 'Волнистой линией подчёркнуто лишнее.' }),
+        M.checkSet(m.circ, d.circAll, d.circOpt, { missing: 'Подчеркни точкой-тире деепричастные обороты целиком — со всеми зависимыми словами.', extra: 'Точкой-тире подчёркнуто лишнее.' }),
+        M.checkLabels(m, t.obs),
+        M.checkBars(m, d.bars, [d.barsOpt]),
+      ];
+      case 4: return [M.checkRings(m, t.rings, t.ringsOpt)];
+      default: return [];
+    }
+  }
+  function stageReveal(d, si, m) {
+    const s = d.sol;
+    if (si === 0) return { ...m, mem: s.mem };
+    if (si === 1) return { ...m, def: [...new Set([...m.def, ...d.heads.filter((x) => x.k === 'def').map((x) => x.i)])], circ: [...new Set([...m.circ, ...d.heads.filter((x) => x.k === 'circ').map((x) => x.i)])] };
+    if (si === 2) return { ...m, cross: s.cross, arrows: s.arrows };
+    if (si === 3) return { ...m, def: s.def, circ: s.circ, labels: s.labels, bars: s.bars };
+    if (si === 4) return { ...m, rings: s.rings };
+    return m;
+  }
 
-  // 10. Подготовка к самостоятельному
-  slides.push((body, api) => {
+  slides.push(slide('Тренировка', (body, api) => {
     body.appendChild(h(`<div class="slide intro">
       <div class="hero"><div class="hero-num boss">⚔️</div></div>
-      <div class="step-chip gold">Испытание</div>
-      <h2>Теперь сам!</h2>
-      <p class="lead">Новое предложение. Разметь <b>всё</b> по алгоритму: основы → обороты → главные слова × и стрелки → границы |. Проверка будет только в самом конце, вместе с ответом.</p>
+      <div class="step-chip gold">Тренировка</div>
+      <h2>Теперь — сам!</h2>
+      <p class="lead">10 предложений из ЕГЭ. Делай всё в том же порядке, что и в разборе. Следующий этап алгоритма откроется, только когда верно сделан предыдущий.</p>
       <div class="mission card">
-        <div class="mission-row"><span>🎯</span><div>За каждый верно размеченный элемент — опыт и эссенция</div></div>
-        <div class="mission-row"><span>📜</span><div>Схема всегда под рукой — кнопка 📜 вверху</div></div>
+        <div class="mission-row"><span>✅</span><div>Засчитывается не только ответ, но и <b>все верные подчёркивания</b></div></div>
+        <div class="mission-row"><span>🐷</span><div>За каждый этап опыт улетает в копилку</div></div>
+        <div class="mission-row"><span>📜</span><div>Алгоритм всегда рядом — над предложением</div></div>
       </div>
     </div>`));
-    api.foot({ label: 'Принять вызов' });
-  });
+    api.foot({ label: 'Начать тренировку' });
+  }));
 
-  // 11. Самостоятельная разметка второго предложения
-  slides.push((body, api) => {
-    const sh = slideShell(body, { chip: 'Испытание', title: 'Разметь предложение', text: 'Все инструменты доступны. Когда закончишь — нажми «Ввести ответ».' });
-    const d = api.ctx.data;
-    const board = new M.Board(sh.boardHost, S2, { marks: d.m2, onChange: (m) => { d.m2 = m; } });
-    M.toolbar(sh.toolHost, board, ['subj', 'pred', 'def', 'circ', 'cross', 'arrow', 'bar', 'erase']);
-    const toAnswer = () => {
-      const m = board.getMarks();
-      const count = Object.keys(m.mem).length + m.def.length + m.circ.length + m.cross.length + m.bars.length + m.arrows.length;
-      if (count < 4) { api.toast('Сначала разметь предложение по алгоритму ✍️', 'bad'); return; }
-      sh.toolHost.classList.add('hidden');
-      board.readOnly = true; board.el.classList.add('ro'); board.setTool(null);
-      const box = h(`<div class="answer-box"><label>Ответ:</label><input class="ans" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="цифры"></div>`);
-      sh.extraHost.appendChild(box);
-      const inp = box.querySelector('input');
-      inp.focus();
-      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      const submit = () => {
-        const v = normAns(inp.value);
-        if (!v) return inp.focus();
-        d.ans2 = v;
-        api.next();
-      };
-      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
-      api.foot({ label: 'Проверить всё', onClick: submit, extraLabel: '✏️ Вернуться к разметке', onExtra: () => { box.remove(); sh.toolHost.classList.remove('hidden'); board.readOnly = false; board.el.classList.remove('ro'); board.setTool('subj'); sh.toolHost.querySelector('.tool[data-t="subj"]').click(); api.foot({ label: 'Ввести ответ', onClick: toAnswer }); } });
+  TRAIN.forEach((t, k) => slides.push(slide(`Тренировка ${k + 1}/10`, (body, api) => {
+    const d = derive(t);
+    const el = h(`<div class="slide train">
+      <div class="step-chip">Предложение ${k + 1} из 10</div>
+      <div class="algo-panel"></div>
+      <div class="etask small"><span class="etask-n">17</span><div>Укажите цифры, на месте которых должны стоять запятые.</div></div>
+      <div class="board-host"></div>
+      <div class="stage-extra"></div>
+      <div class="tool-host"></div>
+    </div>`);
+    body.appendChild(el);
+    const panel = el.querySelector('.algo-panel'), extra = el.querySelector('.stage-extra'), toolHost = el.querySelector('.tool-host');
+    const key = 'train' + k;
+    let si = 0, tries = 0;
+    const board = new M.Board(el.querySelector('.board-host'), t.S, { marks: api.ctx.data[key], onChange: (m) => (api.ctx.data[key] = m) });
+    const drawPanel = () => {
+      panel.innerHTML = `<div class="ap-h">Алгоритм</div>${STAGES.map((s, i) => `<div class="ap ${i < si ? 'done' : i === si ? 'cur' : 'lock'}"><b>${i < si ? '✓' : i}</b><span>${s.t}${i === si ? `<small>${s.d}</small>` : ''}</span></div>`).join('')}`;
     };
-    api.foot({ label: 'Ввести ответ', onClick: toAnswer });
-  });
+    const hintFor = (i) => [
+      'Ищи, кто или что совершает действие, и само действие. В сложном предложении основ несколько.',
+      'Ищи слова, которые отвечают на «какой?» и образованы от глагола (причастия), и на «что делая? что сделав?» (деепричастия).',
+      'Для причастия главное слово — существительное или местоимение, для деепричастия — глагол-сказуемое.',
+      'Задай вопросы от причастия или деепричастия: всё, что от него зависит, входит в оборот.',
+    ][i] || '';
+    const setStage = () => {
+      tries = 0;
+      drawPanel();
+      toolHost.innerHTML = ''; extra.innerHTML = '';
+      board.readOnly = false; board.el.classList.remove('ro');
+      if (si === 4) return unionStage();
+      if (si === 5) return answerStage();
+      M.toolbar(toolHost, board, STAGES[si].tools);
+      api.foot({ label: 'Проверить этап', onClick: check, extraLabel: '💡 5', onExtra: () => api.spendHint(5, hintFor(si)) });
+    };
+    const passed = (anchor) => {
+      api.good(tries ? 5 : 10, tries ? 1 : 3, anchor || panel.querySelector('.ap.cur'));
+      si++;
+      setTimeout(setStage, 250);
+    };
+    function check() {
+      const m = board.getMarks();
+      const res = stageCheck(t, d, si, m);
+      if (res.every((r) => r.ok)) { board.flash([...Object.keys(m.mem).map(Number), ...m.def, ...m.circ]); passed(); return; }
+      tries++;
+      board.markWrong(res.flatMap((r) => r.wrong || []));
+      board.markWrongGaps(res.flatMap((r) => r.wrongGaps || []));
+      api.bad([...new Set(res.flatMap((r) => r.msgs))]);
+      if (tries >= 2) api.foot({ label: 'Проверить этап', onClick: check, extraLabel: '👀 Показать', onExtra: () => { board.setMarks(stageReveal(d, si, board.getMarks())); api.feedback('info', 'Вот верная разметка этого этапа. Разберись и иди дальше.'); api.foot({ label: 'Дальше ▸', onClick: () => { api.feedback(null); si++; setStage(); } }); } });
+    }
+    function unionStage() {
+      const need = t.rings.length > 0;
+      extra.innerHTML = '<div class="q">Есть ли однородные обороты, соединённые союзом?</div><div class="opts grid2"><button class="opt" data-a="1">Да, есть</button><button class="opt" data-a="0">Нет</button></div>';
+      api.foot({ label: 'Ответь на вопрос', enabled: false });
+      extra.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
+        const yes = b.dataset.a === '1';
+        if (yes !== need) { b.classList.add('wrong'); b.disabled = true; tries++; api.bad([need ? 'Посмотри внимательнее: два оборота с общим главным словом соединены союзом.' : (t.unionNote || 'Однородных оборотов, соединённых союзом, здесь нет.')]); return; }
+        b.classList.add('right'); extra.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
+        if (!need) { passed(b); if (t.unionNote) setTimeout(() => api.feedback('info', t.unionNote), 300); return; }
+        M.toolbar(toolHost, board, ['ring', 'erase']);
+        api.feedback('info', 'Верно! Теперь возьми этот союз в кружок.');
+        api.foot({ label: 'Проверить этап', onClick: check });
+      }));
+    }
+    function answerStage() {
+      board.readOnly = true; board.el.classList.add('ro'); board.setTool(null);
+      extra.innerHTML = '<div class="answer-box"><label>Ответ:</label><input class="ans" inputmode="numeric" autocomplete="off" maxlength="9" placeholder="цифры"></div>';
+      const inp = extra.querySelector('input');
+      const go = () => {
+        const v = [...new Set(inp.value.replace(/\D/g, ''))].sort().join('');
+        if (!v) return inp.focus();
+        if (v === t.answer) { api.good(tries ? 8 : 15, tries ? 2 : 5, inp, `Ответ <b>${t.answer}</b> — верно!`); App.confetti(80); finish(); return; }
+        tries++;
+        api.bad(['Вернись к разметке: оборот после главного слова и деепричастный оборот обособляются, оборот перед главным словом — нет. Между однородными при одиночном И запятой нет.']);
+        if (tries >= 2) api.foot({ label: 'Проверить', onClick: go, extraLabel: '👀 Ответ', onExtra: () => { api.feedback('info', `Верный ответ: <b>${t.answer}</b>. Разбор ниже 👇`); finish(); } });
+      };
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
+      api.foot({ label: 'Проверить', onClick: go });
+    }
+    function finish() {
+      si = 6; drawPanel();
+      toolHost.innerHTML = '';
+      extra.innerHTML = `<div class="explain card"><div class="ans-big">Ответ: <b>${t.answer}</b></div><h3>Верная разметка</h3><div class="sol-a"></div><h3>С запятыми</h3><div class="sol-b"></div>${t.explain.map((x) => `<p>${x}</p>`).join('')}</div>`;
+      new M.Board(extra.querySelector('.sol-a'), t.S, { readOnly: true, marks: d.sol });
+      new M.Board(extra.querySelector('.sol-b'), t.S, { readOnly: true, commas: t.answer.split('').map(Number) });
+      extra.querySelector('.explain').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      api.foot({ label: k < TRAIN.length - 1 ? 'Следующее предложение ▸' : 'Итоги' });
+    }
+    setStage();
+  })));
 
-  // 12. Результаты испытания
-  slides.push((body, api) => {
-    const d = api.ctx.data;
-    const m = d.m2 || M.emptyMarks();
-    const rows = [
-      ['Грамматические основы', M.checkBases(m, SPEC2.bases)],
-      ['Обстоятельства (точка-тире)', M.checkSet(m.circ, SPEC2.circ, SPEC2.circOpt, { missing: 'Подчёркнуты не все слова оборотов.', extra: 'Подчёркнуто лишнее.' })],
-      ['Определения', M.checkSet(m.def, SPEC2.def, SPEC2.defOpt, { missing: '', extra: 'Причастных оборотов здесь нет.' })],
-      ['Главные слова ×', M.checkSet(m.cross, SPEC2.cross, [], { missing: 'Не все главные слова отмечены.', extra: 'Лишний крестик.' })],
-      ['Стрелки', M.checkArrows(m, SPEC2.arrows)],
-      ['Границы оборотов |', M.checkBars(m, SPEC2.bars)],
-    ];
-    const ansOk = d.ans2 === SPEC2.answer;
-    let xp = 0, coins = 0;
-    rows.forEach(([, r]) => { if (r.ok) { xp += 10; coins += 5; } });
-    if (ansOk) { xp += 40; coins += 20; }
-    const okCount = rows.filter(([, r]) => r.ok).length + (ansOk ? 1 : 0);
-    d.trialScore = okCount;
-    if (!ansOk) api.ctx.errors += 2;
-    api.ctx.errors += rows.filter(([, r]) => !r.ok).length > 2 ? 1 : 0;
-    body.appendChild(h(`<div class="slide">
-      <div class="step-chip ${ansOk ? 'gold' : ''}">Результат испытания</div>
-      <h2>${ansOk ? 'Испытание пройдено! 🏆' : 'Почти! Разберём ошибки'}</h2>
-      <div class="score-ring" style="--p:${(okCount / 7) * 100}"><b>${okCount}/7</b></div>
-      <div class="results">
-        ${rows.map(([n, r]) => `<div class="res ${r.ok ? 'ok' : 'no'}"><span>${r.ok ? '✅' : '❌'}</span><div><b>${n}</b>${!r.ok && r.msgs.filter(Boolean).length ? `<small>${r.msgs.filter(Boolean).join(' ')}</small>` : ''}</div></div>`).join('')}
-        <div class="res ${ansOk ? 'ok' : 'no'}"><span>${ansOk ? '✅' : '❌'}</span><div><b>Ответ: ${d.ans2 || '—'}</b>${ansOk ? '' : '<small>Верный ответ: 1234</small>'}</div></div>
-      </div>
-      <h3>Твоя разметка</h3><div class="mine"></div>
-      <h3>Верная разметка</h3><div class="sol-a"></div>
-      <h3>Как правильно</h3><div class="sol-b"></div>
-      <div class="explain card">
-        <div class="ans-big">Ответ: <b>1234</b></div>
-        <p>«<b>С коротким шумом вздрагивая листьями</b>» — деепричастный оборот, зависящий от глагола «<b>зашептались</b>»; выделяется запятыми с обеих сторон → на месте цифр <b>1 и 2</b> ставятся запятые.</p>
-        <p>«<b>Словно сговорившись с ветром</b>» — деепричастный оборот со значением сравнения (главное слово «<b>понеслось</b>»); выделяется запятыми с обеих сторон → на месте цифр <b>3 и 4</b> ставятся запятые.</p>
-        <p class="muted small">Обрати внимание: запятая на месте 3 стоит сразу после союза «и» — союз соединяет сказуемые «сорвалось и понеслось», а оборот всё равно выделяется.</p>
-      </div>
-    </div>`));
-    new M.Board(body.querySelector('.mine'), S2, { readOnly: true, marks: m });
-    new M.Board(body.querySelector('.sol-a'), S2, { readOnly: true, marks: SOL2 });
-    new M.Board(body.querySelector('.sol-b'), S2, { readOnly: true, commas: [1, 2, 3, 4] });
-    setTimeout(() => {
-      const gx = api.reward(xp, coins, { anchor: body.querySelector('.score-ring'), phrase: ansOk });
-      api.ctx.xp += gx; api.ctx.coins += coins;
-      if (ansOk) api.confetti(140);
-      if (M.checkBases(m, SPEC2.bases).ok) api.unlock('bases');
-    }, 500);
-    api.foot({ label: 'Забрать награду' });
-  });
-
-  // 13. Финал
-  slides.push((body, api) => {
+  /* ===== Финал ===== */
+  slides.push(slide('Финал', (body, api) => {
     const e = api.ctx.errors;
-    const stars = e <= 2 ? 3 : e <= 6 ? 2 : 1;
+    const stars = e <= 4 ? 3 : e <= 12 ? 2 : 1;
     const r = api.finish(stars);
     body.appendChild(h(`<div class="slide intro final">
       <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
       <h2>${r.first ? 'Задание 17 пройдено!' : 'Отличная тренировка!'}</h2>
-      <p class="lead">${r.first ? 'Ты получаешь <b>ключ 🗝️</b> от ворот Замка Слова. Следующая станция уже ждёт на пути!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
-      <div class="loot">
-        <div><b>+${api.ctx.xp}</b><span>XP</span></div>
-        <div><b>+${api.ctx.coins}</b><span>${coin}</span></div>
-        <div><b>${e}</b><span>ошибок</span></div>
-      </div>
-      <div class="card tip-card">🏰 Загляни в <b>башню</b> — эссенции уже может хватить на новый предмет!</div>
+      <p class="lead">${r.first ? 'Ты разобрал всю теорию и 10 предложений ЕГЭ. Ключ 🗝️ от ворот замка — твой!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
+      <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>+${api.ctx.coins}</b><span>${coin}</span></div><div><b>${e}</b><span>ошибок</span></div></div>
+      <div class="card tip-card">🏙️ Загляни в <b>город</b> — монет уже может хватить на новое здание!</div>
     </div>`));
-    api.confetti(180);
-    api.sound('level');
-    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏰 В башню', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="tower"]').click(); } });
-  });
+    api.confetti(180); api.sound('level');
+    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏙️ В город', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="city"]').click(); } });
+  }));
 
-  App.LESSONS[17] = { slides, algoImg: ALGO };
+  App.LESSONS[17] = { slides, algoImg: ALGO_HTML, _train: TRAIN, _derive: derive, _check: stageCheck };
 })();

@@ -1,13 +1,16 @@
 /* Движок разметки предложения: основы, обороты, главные слова, стрелки, границы */
 const Markup = (() => {
   const NS = 'http://www.w3.org/2000/svg';
-  const BASE_COLORS = { 1: '#7c3aed', 2: '#f59e0b', 3: '#ec4899' };
+  const BASE_COLORS = { 1: '#7c3aed', 2: '#f59e0b', 3: '#ec4899', 4: '#14b8a6' };
+  // Подписи над словами: чем выражен член предложения
+  const LABELS = ['ПО', 'ДО', 'прил.', 'прич.', 'деепр.', 'прил.+з.с.'];
   let uid = 0;
 
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], circ: [], cross: [], bars: [], arrows: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, rings: [] });
+  const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
   const toggle = (arr, v) => { const i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); };
   const without = (arr, v) => arr.filter((x) => x !== v);
 
@@ -45,13 +48,16 @@ const Markup = (() => {
     arrow: 'Нажми на главное слово, а затем на слово из оборота',
     bar: 'Нажми у края слова — там встанет граница |',
     erase: 'Нажми на слово или границу, чтобы стереть разметку',
+    label: 'Нажми на первое слово оборота и выбери подпись: ПО, ДО, прил.…',
+    ring: 'Нажми на союз, который соединяет однородные обороты',
   };
 
   class Board {
     constructor(host, sent, opts = {}) {
       this.sent = sent;
       this.readOnly = !!opts.readOnly;
-      this.marks = opts.marks ? clone(opts.marks) : emptyMarks();
+      this.marks = normMarks(opts.marks);
+      this.labelSet = opts.labels || LABELS;
       this.tool = null;
       this.base = 1;
       this.pending = null;
@@ -105,7 +111,7 @@ const Markup = (() => {
           const t = document.createElement('span');
           t.className = 'tok';
           t.dataset.w = it.wi;
-          t.innerHTML =
+          t.innerHTML = '<span class="lbl"></span>' +
             (it.pre ? `<span class="p">${esc(it.pre)}</span>` : '') +
             `<span class="w">${esc(it.text)}<span class="lines"></span></span>` +
             (it.punct ? `<span class="p">${esc(it.punct)}</span>` : '');
@@ -128,6 +134,7 @@ const Markup = (() => {
       const m = this.marks, out = [];
       const mem = m.mem[wi];
       if (mem) out.push({ k: 'mem', t: mem.t, b: mem.b });
+      if (m.obj.includes(wi)) out.push({ k: 'obj' });
       if (m.def.includes(wi)) out.push({ k: 'def' });
       if (m.circ.includes(wi)) out.push({ k: 'circ' });
       return out;
@@ -147,6 +154,10 @@ const Markup = (() => {
         const t = this.wordEls[wi];
         t.querySelector('.lines').innerHTML = this.linesHtml(this.layers(wi));
         t.classList.toggle('x', m.cross.includes(wi));
+        t.classList.toggle('ring', m.rings.includes(wi));
+        const lb = m.labels[wi] || '';
+        t.querySelector('.lbl').textContent = lb;
+        t.classList.toggle('has-lbl', !!lb);
         t.classList.toggle('pending', this.pending === wi);
       }
       for (let k = 0; k <= n; k++) {
@@ -167,7 +178,7 @@ const Markup = (() => {
       if (!br.width) return;
       const aid = 'ah' + this.id;
       let h = `<defs><marker id="${aid}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker></defs>`;
-      for (const [a, b] of this.marks.arrows) {
+      for (const [a, b, label] of this.marks.arrows) {
         const ea = this.wordEls[a], eb = this.wordEls[b];
         if (!ea || !eb) continue;
         const ra = ea.querySelector('.w').getBoundingClientRect();
@@ -175,29 +186,34 @@ const Markup = (() => {
         const x1 = ra.left + ra.width / 2 - br.left;
         let y1 = ra.top - br.top - 2;
         if (this.marks.cross.includes(a)) y1 -= 16;
+        if (this.marks.labels[a]) y1 -= 14;
         const x2 = rb.left + rb.width / 2 - br.left;
-        const y2 = rb.top - br.top - 3;
+        const y2 = rb.top - br.top - 3 - (this.marks.labels[b] ? 14 : 0);
+        let mx, my;
         const f = (n) => n.toFixed(1);
         if (Math.abs(y1 - y2) < 24) {
           // одна строка — дуга над словами
           const lift = 22 + Math.min(34, Math.abs(x2 - x1) * 0.12);
           const cy = Math.max(2, Math.min(y1, y2) - lift);
           h += `<path d="M${f(x1)},${f(y1)} Q${f((x1 + x2) / 2)},${f(cy)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
+          mx = (x1 + (x1 + x2) + x2) / 4; my = (y1 + 2 * cy + y2) / 4;
         } else {
           // разные строки — S-образная кривая, входящая в слово сверху
           h += `<path d="M${f(x1)},${f(y1)} C${f(x1)},${f(y1 - 26)} ${f(x2)},${f(y2 - 34)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
+          mx = (x1 + 3 * x1 + 3 * x2 + x2) / 8; my = (y1 + 3 * (y1 - 26) + 3 * (y2 - 34) + y2) / 8;
         }
+        if (label) h += `<text x="${f(mx)}" y="${f(my - 4)}" text-anchor="middle" class="arr-q">${esc(label)}</text>`;
       }
       this.svg.innerHTML = h;
     }
 
-    setTool(t) { this.tool = t; this.pending = null; this.render(); }
+    setTool(t) { this.tool = t; this.pending = null; this.closeMenu(); this.render(); }
     setBase(b) { this.base = b; }
     getMarks() { return clone(this.marks); }
-    setMarks(m) { this.marks = clone(m); this.pending = null; this.render(); this.onChange(this.getMarks()); }
+    setMarks(m) { this.marks = normMarks(m); this.pending = null; this.closeMenu(); this.render(); this.onChange(this.getMarks()); }
     snap() { this.hist.push(JSON.stringify(this.marks)); if (this.hist.length > 60) this.hist.shift(); }
     undo() { if (!this.hist.length) return false; this.marks = JSON.parse(this.hist.pop()); this.pending = null; this.changed(); return true; }
-    clear() { this.snap(); this.marks = emptyMarks(); this.pending = null; this.changed(); }
+    clear() { this.snap(); this.marks = emptyMarks(); this.pending = null; this.closeMenu(); this.changed(); }
     changed() { this.clearWrong(); this.render(); this.onChange(this.getMarks()); }
 
     has(wi) {
@@ -208,6 +224,7 @@ const Markup = (() => {
         case 'def': return m.def.includes(wi);
         case 'circ': return m.circ.includes(wi);
         case 'cross': return m.cross.includes(wi);
+        case 'ring': return m.rings.includes(wi);
         default: return false;
       }
     }
@@ -222,9 +239,11 @@ const Markup = (() => {
         case 'def': m.def = without(m.def, wi); if (on) m.def.push(wi); break;
         case 'circ': m.circ = without(m.circ, wi); if (on) m.circ.push(wi); break;
         case 'cross': m.cross = without(m.cross, wi); if (on) m.cross.push(wi); break;
+        case 'ring': m.rings = without(m.rings, wi); if (on) m.rings.push(wi); break;
         case 'erase':
           delete m.mem[wi];
           m.def = without(m.def, wi); m.circ = without(m.circ, wi); m.cross = without(m.cross, wi);
+          m.rings = without(m.rings, wi); m.obj = without(m.obj, wi); delete m.labels[wi];
           m.arrows = m.arrows.filter((a) => a[0] !== wi && a[1] !== wi);
           break;
       }
@@ -245,6 +264,10 @@ const Markup = (() => {
             k = e.clientX < r.left + r.width / 2 ? wi : wi + 1;
           }
           if (k != null) { this.snap(); toggle(this.marks.bars, k); this.changed(); this.onTap('mark'); }
+          return;
+        }
+        if (this.tool === 'label') {
+          if (tok) this.openMenu(+tok.dataset.w);
           return;
         }
         if (this.tool === 'arrow') {
@@ -298,6 +321,34 @@ const Markup = (() => {
       s.addEventListener('pointercancel', up);
     }
 
+    /* Меню подписей над словом */
+    openMenu(wi) {
+      this.closeMenu();
+      const t = this.wordEls[wi], br = this.el.getBoundingClientRect(), r = t.getBoundingClientRect();
+      const menu = document.createElement('div');
+      menu.className = 'lbl-menu';
+      menu.innerHTML = this.labelSet.map((l) => `<button data-l="${esc(l)}">${esc(l)}</button>`).join('') + (this.marks.labels[wi] ? '<button data-l="" class="del">✕ убрать</button>' : '');
+      menu.style.top = r.bottom - br.top + 4 + 'px';
+      menu.style.left = Math.max(0, Math.min(br.width - 230, r.left - br.left - 20)) + 'px';
+      menu.addEventListener('pointerdown', (e) => e.stopPropagation());
+      menu.addEventListener('click', (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        this.snap();
+        if (b.dataset.l) this.marks.labels[wi] = b.dataset.l; else delete this.marks.labels[wi];
+        this.closeMenu();
+        this.changed();
+        this.onTap('mark');
+      });
+      this.el.appendChild(menu);
+      this.menu = menu;
+      t.classList.add('pending');
+    }
+    closeMenu() {
+      if (this.menu) { this.menu.remove(); this.menu = null; }
+      this.el.querySelectorAll('.tok.pending').forEach((e) => e.classList.remove('pending'));
+    }
+
     markWrong(list) {
       this.clearWrong();
       for (const wi of list) this.wordEls[wi] && this.wordEls[wi].classList.add('wrong');
@@ -326,6 +377,8 @@ const Markup = (() => {
     circ: { label: 'Обстоятельство', glyph: '<i class="g g-dashdot"></i>' },
     cross: { label: 'Главное слово', glyph: '<b class="g-x">×</b>' },
     arrow: { label: 'Стрелка', glyph: '<b class="g-arr">↷</b>' },
+    label: { label: 'Подпись', glyph: '<b class="g-lbl">ПО</b>' },
+    ring: { label: 'Союз в кружок', glyph: '<b class="g-ring">и</b>' },
     bar: { label: 'Граница', glyph: '<b class="g-bar">|</b>' },
     erase: { label: 'Ластик', glyph: '<b class="g-er">⌫</b>' },
   };
@@ -336,7 +389,7 @@ const Markup = (() => {
     const hasBase = tools.includes('subj') || tools.includes('pred');
     const drawTools = tools.filter((t) => TOOL_DEFS[t]);
     wrap.innerHTML = `
-      ${hasBase ? `<div class="bases"><span>Основа:</span>${[1, 2, 3].map((b) => `<button class="bdot${b === 1 ? ' on' : ''}" data-b="${b}" style="--c:${BASE_COLORS[b]}">${b}</button>`).join('')}</div>` : ''}
+      ${hasBase ? `<div class="bases"><span>Основа:</span>${[1, 2, 3, 4].map((b) => `<button class="bdot${b === 1 ? ' on' : ''}" data-b="${b}" style="--c:${BASE_COLORS[b]}">${b}</button>`).join('')}</div>` : ''}
       <div class="tools">${drawTools.map((t) => `<button class="tool" data-t="${t}" style="--c:${BASE_COLORS[1]}">${TOOL_DEFS[t].glyph}<span>${TOOL_DEFS[t].label}</span></button>`).join('')}
         <button class="tool util" data-u="undo"><b class="g-er">↶</b><span>Отменить</span></button>
         <button class="tool util" data-u="clear"><b class="g-er">⟲</b><span>Сбросить</span></button>
@@ -392,6 +445,7 @@ const Markup = (() => {
       if (!all.has(i) && !opt.has(i)) { wrong.add(i); msgs.add('Есть лишние подчёркивания: эти слова не входят в грамматическую основу.'); }
     }
     let colorErr = false;
+    // free: основа без подлежащего — её цвет не обязан отличаться от других
     const used = spec.groups.map((g) => {
       const bs = new Set([...g.s, ...g.p].map((i) => m.mem[i] && m.mem[i].b).filter(Boolean));
       if (bs.size > 1) { colorErr = true; msgs.add('Слова одной основы подчеркни одним цветом.'); }
@@ -399,7 +453,7 @@ const Markup = (() => {
     });
     for (let a = 0; a < used.length; a++)
       for (let b = a + 1; b < used.length; b++)
-        if (used[a] && used[a] === used[b]) { colorErr = true; msgs.add('Разные основы подчеркни разными цветами 🎨 (переключи «Основа: 1 / 2»).'); }
+        if (used[a] && used[a] === used[b] && !spec.groups[a].free && !spec.groups[b].free) { colorErr = true; msgs.add('Разные основы подчеркни разными цветами 🎨 (переключи «Основа: 1 / 2»).'); }
     return { ok: !wrong.size && !colorErr, wrong: [...wrong], msgs: [...msgs] };
   }
 
@@ -414,15 +468,16 @@ const Markup = (() => {
   function checkArrows(m, expected, also = []) {
     const msgs = new Set(), wrong = new Set();
     for (const e of expected) {
-      const ok = m.arrows.some((a) => a[0] === e.from && e.to.includes(a[1]));
+      const from = [].concat(e.from);
+      const ok = m.arrows.some((a) => from.includes(a[0]) && e.to.includes(a[1]));
       if (!ok) {
-        const rev = m.arrows.some((a) => a[1] === e.from && e.to.includes(a[0]));
+        const rev = m.arrows.some((a) => from.includes(a[1]) && e.to.includes(a[0]));
         msgs.add(rev ? 'Стрелка идёт ОТ главного слова К обороту — разверни её.' : 'Не хватает стрелки от главного слова к обороту.');
-        wrong.add(e.from);
+        wrong.add(from[0]);
       }
     }
     for (const a of m.arrows) {
-      const fits = [...expected, ...also].some((e) => (a[0] === e.from && e.to.includes(a[1])) || (a[1] === e.from && e.to.includes(a[0])));
+      const fits = [...expected, ...also].some((e) => { const from = [].concat(e.from); return (from.includes(a[0]) && e.to.includes(a[1])) || (from.includes(a[1]) && e.to.includes(a[0])); });
       if (!fits) { msgs.add('Есть лишняя стрелка — она соединяет не те слова.'); wrong.add(a[0]); wrong.add(a[1]); }
     }
     return { ok: !msgs.size, wrong: [...wrong], msgs: [...msgs] };
@@ -439,5 +494,38 @@ const Markup = (() => {
     return { ok: !missing.length && !extra.length, wrongGaps: [...extra, ...missing.map((g) => g[0])], wrong: [], msgs };
   }
 
-  return { parse, find, Board, toolbar, emptyMarks, BASE_COLORS, checkBases, checkSet, checkArrows, checkBars, clone };
+  /* Главные слова: в каждой группе — допустимые варианты одного главного слова */
+  function checkCrossGroups(m, groups, optional = []) {
+    const msgs = [], wrong = [];
+    const missing = groups.filter((g) => !g.some((k) => m.cross.includes(k)));
+    const allowed = new Set([...groups.flat(), ...optional]);
+    const extra = m.cross.filter((k) => !allowed.has(k));
+    if (missing.length) { msgs.push('Отмечены не все главные слова (×). У каждого оборота — своё главное слово.'); wrong.push(...missing.map((g) => g[0])); }
+    if (extra.length) { msgs.push('Крестик стоит не над главным словом. Главное слово — то, от которого задаём вопрос к обороту.'); wrong.push(...extra); }
+    return { ok: !missing.length && !extra.length, wrong, msgs };
+  }
+
+  /* Подписи: у каждого оборота хотя бы одна верная подпись, лишних неверных нет */
+  function checkLabels(m, obs) {
+    const msgs = new Set(), wrong = new Set();
+    for (const ob of obs) {
+      const ws = [...ob.words, ...(ob.opt || [])];
+      if (!ws.some((w) => ob.lab.includes(m.labels[w]))) { msgs.add('Подпиши над каждым оборотом, чем он выражен (ПО, ДО, прил.…).'); wrong.add(ob.words[0]); }
+    }
+    for (const k of Object.keys(m.labels)) {
+      const wi = +k;
+      const fits = obs.some((ob) => [...ob.words, ...(ob.opt || [])].includes(wi) && ob.lab.includes(m.labels[wi]));
+      if (!fits) { msgs.add(`Подпись «${m.labels[wi]}» стоит не там или не та. ПО — причастный оборот, ДО — деепричастный.`); wrong.add(wi); }
+    }
+    return { ok: !msgs.size, wrong: [...wrong], msgs: [...msgs] };
+  }
+
+  function checkRings(m, need, optional = []) {
+    return checkSet(m.rings, need, optional, {
+      missing: 'Возьми в кружок союз, который соединяет однородные обороты.',
+      extra: 'В кружок берём только союз между однородными оборотами.',
+    });
+  }
+
+  return { parse, find, Board, toolbar, emptyMarks, BASE_COLORS, LABELS, checkBases, checkSet, checkArrows, checkBars, checkCrossGroups, checkLabels, checkRings, clone };
 })();
