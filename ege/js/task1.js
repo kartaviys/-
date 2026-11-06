@@ -179,8 +179,8 @@
       <h2>Слово на месте пропуска</h2>
       <p class="lead">В тексте пропущено слово, которое <b>связывает</b> предложения по смыслу. Нужно самому подобрать его — без вариантов ответа — и записать.</p>
       <div class="mission card">
-        <div class="mission-row"><span>🧭</span><div><b>Миссия</b><br>Освой алгоритм, разбери текст по шагам и пройди испытание — первый ключ 🗝️ от Замка Слова твой</div></div>
-        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>опыт и эссенция ${coin} для твоей башни</div></div>
+        <div class="mission-row"><span>🧭</span><div><b>Миссия</b><br>Освой алгоритм, разбери текст по шагам и пройди испытание — первый ключ 🗝️ от замка твой</div></div>
+        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>опыт и монеты ${coin} для твоего города</div></div>
         <div class="mission-row"><span>🔥</span><div><b>Комбо</b><br>3 верных ответа подряд — опыт удваивается</div></div>
       </div>
     </div>`));
@@ -377,17 +377,17 @@
     body.appendChild(h(`<div class="slide intro final">
       <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
       <h2>${r.first ? 'Задание 1 пройдено!' : 'Отличная тренировка!'}</h2>
-      <p class="lead">${r.first ? 'Первый ключ 🗝️ от ворот Замка Слова у тебя. Дорога ведёт дальше!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
+      <p class="lead">${r.first ? 'Первый ключ 🗝️ от ворот Замка Грамотности у тебя. Дорога ведёт дальше!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
       <div class="loot">
         <div><b>+${api.ctx.xp}</b><span>XP</span></div>
         <div><b>+${api.ctx.coins}</b><span>${coin}</span></div>
         <div><b>${e}</b><span>ошибок</span></div>
       </div>
-      <div class="card tip-card">🏰 Загляни в <b>башню</b> — эссенции уже может хватить на первый предмет!</div>
+      <div class="card tip-card">🏙️ Загляни в <b>город</b> — монет уже может хватить на первое здание!</div>
     </div>`));
     api.confetti(180);
     api.sound('level');
-    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏰 В башню', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="tower"]').click(); } });
+    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏙️ В город', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="city"]').click(); } });
   });
 
   App.LESSONS[1] = { slides, algoImg: ALGO_HTML };
