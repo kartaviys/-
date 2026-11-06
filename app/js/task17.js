@@ -82,6 +82,7 @@
     if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
     let cur = M.emptyMarks();
     const board = new M.Board(box, S, { readOnly: true, marks: cur });
+    board.el.classList.add('demo-board');
     const notes = h('<ol class="demo-notes"></ol>');
     box.appendChild(notes);
     let k = 0;
@@ -666,9 +667,8 @@
   TRAIN.forEach((t, k) => slides.push(slide(`Тренировка ${k + 1}/10`, (body, api) => {
     const d = derive(t);
     const el = h(`<div class="slide train">
-      <div class="step-chip">Предложение ${k + 1} из 10</div>
+      <div class="step-chip">Предложение ${k + 1} из 10 · найди, где нужны запятые</div>
       <div class="algo-panel"></div>
-      <div class="etask small"><span class="etask-n">17</span><div>Укажите цифры, на месте которых должны стоять запятые.</div></div>
       <div class="board-host"></div>
       <div class="stage-extra"></div>
       <div class="tool-host"></div>
@@ -679,7 +679,10 @@
     let si = 0, tries = 0;
     const board = new M.Board(el.querySelector('.board-host'), t.S, { marks: api.ctx.data[key], onChange: (m) => (api.ctx.data[key] = m) });
     const drawPanel = () => {
-      panel.innerHTML = `<div class="ap-h">Алгоритм</div>${STAGES.map((s, i) => `<div class="ap ${i < si ? 'done' : i === si ? 'cur' : 'lock'}"><b>${i < si ? '✓' : i}</b><span>${s.t}${i === si ? `<small>${s.d}</small>` : ''}</span></div>`).join('')}`;
+      // компактно: строка шагов алгоритма + текущий шаг словами (полный алгоритм — кнопка 📜)
+      const cur = STAGES[Math.min(si, STAGES.length - 1)];
+      panel.innerHTML = `<div class="ap-row">${STAGES.map((s, i) => `<span class="ap ${i < si ? 'done' : i === si ? 'cur' : 'lock'}" title="${s.t}">${i < si ? '✓' : i}</span>`).join('<i></i>')}</div>
+        ${si < STAGES.length ? `<div class="ap-cur"><b>Шаг ${si}. ${cur.t}</b><small>${cur.d}</small></div>` : '<div class="ap-cur"><b>Все шаги алгоритма выполнены ✓</b></div>'}`;
     };
     const hintFor = (i) => [
       'Ищи, кто или что совершает действие, и само действие. В сложном предложении основ несколько.',
@@ -698,7 +701,7 @@
       api.foot({ label: 'Проверить этап', onClick: check, extraLabel: '💡 5', onExtra: () => api.spendHint(5, hintFor(si)) });
     };
     const passed = (anchor) => {
-      api.good(tries ? 5 : 10, tries ? 1 : 3, anchor || panel.querySelector('.ap.cur'));
+      api.good(tries ? 5 : 10, tries ? 1 : 3, anchor || panel.querySelector('.ap.cur') || panel);
       si++;
       setTimeout(setStage, 250);
     };
