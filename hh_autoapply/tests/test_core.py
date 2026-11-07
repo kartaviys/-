@@ -36,6 +36,32 @@ class FilterTest(unittest.TestCase):
         self.assertFalse(_title_ok("Java Developer", self.filt))
 
 
+class AiTitlesTest(unittest.TestCase):
+    """Фильтр из config.example.toml: все AI/ML-названия проходят, CV и мусор — нет."""
+
+    def setUp(self):
+        import tomllib
+        path = os.path.join(os.path.dirname(__file__), "..", "config.example.toml")
+        with open(path, "rb") as f:
+            self.filt = tomllib.load(f)["filters"]
+
+    def test_ai_titles_pass(self):
+        for t in ["ML-аналитик", "ML Analyst", "Специалист по внедрению ИИ", "AI-инженер", "Инженер ИИ",
+                  "NLP Engineer", "Data Scientist (классическое ML)", "Разработчик ML", "AI Developer",
+                  "LLM Engineer", "Senior Data Analyst", "Дата сайентист"]:
+            self.assertTrue(_title_ok(t, self.filt), t)
+
+    def test_cv_and_noise_rejected(self):
+        for t in ["CV Engineer", "Computer Vision Engineer", "Инженер компьютерного зрения",
+                  "ML-инженер (Computer Vision)", "Retail аналитик", "HTML-верстальщик", "Junior Data Scientist"]:
+            self.assertFalse(_title_ok(t, self.filt), t)
+
+    def test_cv_heavy_description(self):
+        from hh_autoapply.__main__ import is_cv_heavy
+        self.assertTrue(is_cv_heavy("Computer vision, YOLO, OpenCV, детекция объектов"))
+        self.assertFalse(is_cv_heavy("NLP, LLM; плюсом будет опыт computer vision"))
+
+
 class SalaryTest(unittest.TestCase):
     def test_salary_regex(self):
         for q in ["Ваши зарплатные ожидания?", "Желаемый уровень дохода", "Expected salary",

@@ -54,9 +54,21 @@ def _title_ok(name: str, filt: dict) -> bool:
     low = name.lower()
     include = [w.lower() for w in filt.get("title_include", [])]
     exclude = [w.lower() for w in filt.get("title_exclude", [])]
-    if include and not any(w in low for w in include):
+    if include and not any(re.search(rf"\b{re.escape(w)}", low) for w in include):
         return False
     return not any(re.search(rf"\b{re.escape(w)}", low) for w in exclude)
+
+
+_CV_RE = re.compile(
+    r"computer vision|компьютерн\w* зрени|opencv|yolo|детекци\w* объект|сегментаци\w* изображ|"
+    r"обработк\w* изображ|видеоаналит|image (?:recognition|segmentation|classification)",
+    re.IGNORECASE,
+)
+
+
+def is_cv_heavy(description: str, min_hits: int = 3) -> bool:
+    """Вакансия про компьютерное зрение, если CV-терминов в описании много."""
+    return len(_CV_RE.findall(description or "")) >= min_hits
 
 
 def collect_vacancies(cfg, hh: HHClient, store: Storage):
@@ -111,6 +123,10 @@ def cmd_run(cfg, hh: HHClient, args):
                 v = hh.vacancy(item["id"])
             except HHError as e:
                 print(f"- {item['id']}: не удалось загрузить ({e})")
+                continue
+            if is_cv_heavy(v.get("description", "")):
+                print(f"- пропуск (компьютерное зрение): {v.get('name')}")
+                store.record(v, "", "skipped", "filter", error="computer vision")
                 continue
             if "got_response" in (v.get("relations") or []):
                 store.record(v, "", "applied", "earlier")

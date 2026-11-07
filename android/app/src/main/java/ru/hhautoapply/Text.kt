@@ -35,9 +35,18 @@ object Text {
 
     fun titleOk(name: String, include: List<String>, exclude: List<String>): Boolean {
         val low = name.lowercase()
-        if (include.isNotEmpty() && include.none { low.contains(it.lowercase()) }) return false
+        if (include.isNotEmpty() && include.none { Regex("\\b" + Regex.escape(it.lowercase())).containsMatchIn(low) }) return false
         return exclude.none { Regex("\\b" + Regex.escape(it.lowercase())).containsMatchIn(low) }
     }
+
+    private val cvTerms = Regex(
+        "computer vision|компьютерн\\w* зрени|opencv|yolo|детекци\\w* объект|сегментаци\\w* изображ|" +
+            "обработк\\w* изображ|видеоаналит|image (?:recognition|segmentation|classification)",
+        RegexOption.IGNORE_CASE,
+    )
+
+    /** Вакансия про компьютерное зрение, если CV-терминов в описании много. */
+    fun isCvHeavy(descriptionHtml: String): Boolean = cvTerms.findAll(stripHtml(descriptionHtml)).count() >= 3
 
     /** Для радиокнопок с диапазонами зарплат выбирает вариант, в который попадает salary. */
     fun salaryOption(options: List<Pair<String, String>>, salary: String): String? {

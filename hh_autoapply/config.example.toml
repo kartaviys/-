@@ -10,13 +10,15 @@ token_path = "token.json"
 
 [search]
 queries = [
-  "senior data scientist",
-  "ведущий data scientist",
-  "senior ml engineer",
-  "senior machine learning engineer",
-  "ml engineer",
-  "senior data analyst",
-  "ведущий аналитик данных",
+  '"data scientist" OR "дата сайентист" OR "дата-сайентист" OR "data science" OR "специалист по анализу данных"',
+  '"ml engineer" OR "ml-engineer" OR "ml инженер" OR "ml-инженер" OR "machine learning engineer" OR "инженер машинного обучения" OR "инженер по машинному обучению" OR "специалист по машинному обучению"',
+  '"ml developer" OR "ml-разработчик" OR "ml разработчик" OR "разработчик ml" OR "разработчик машинного обучения" OR "ai developer" OR "ai-разработчик" OR "разработчик ai" OR "разработчик ии" OR "ии-разработчик"',
+  '"ml analyst" OR "ml-аналитик" OR "ml аналитик" OR "аналитик ml" OR "аналитик машинного обучения"',
+  '"ai engineer" OR "ai-инженер" OR "ai инженер" OR "инженер ai" OR "инженер ии" OR "ии-инженер" OR "llm engineer" OR "llm-инженер" OR "llm инженер" OR "genai engineer"',
+  '"внедрение ai" OR "внедрению ai" OR "внедрение ии" OR "внедрению ии" OR "ai specialist" OR "ai-специалист" OR "специалист по ии" OR "специалист по искусственному интеллекту" OR "ai automation" OR "ai integration"',
+  'nlp OR "обработка естественного языка" OR "natural language processing"',
+  '"classic ml" OR "classical ml" OR "классическое ml" OR "классический ml" OR "классическому ml" OR "классическое машинное обучение"',
+  '"data analyst" OR "аналитик данных"',
 ]
 search_field = "name"                  # искать только в названии вакансии
 experience = ["between3And6", "moreThan6"]   # уровень Senior
@@ -26,10 +28,10 @@ max_pages = 3                          # до 100 вакансий на стра
 # schedule = "remote"                  # раскомментируйте, если нужна только удалёнка
 
 [filters]
-# Название должно содержать хотя бы одно слово из include и ни одного из exclude
-title_include = ["data scien", "ml", "machine learning", "машинн", "data analyst",
-                 "аналитик данных", "analyst", "аналитик", "scientist"]
-title_exclude = ["junior", "intern", "стажер", "стажёр", "младший", "lead", "head", "руководител"]
+# Название должно содержать хотя бы одно слово из include (с начала слова) и ни одного из exclude.
+# Компьютерное зрение (CV) исключено. Плюс вакансии, где в описании >= 3 упоминаний CV, тоже пропускаются.
+title_include = ["data scien", "дата сайент", "дата-сайент", "анализу данных", "ml", "machine learning", "машинн", "ai", "ии", "искусственн", "llm", "genai", "nlp", "естественного языка", "natural language", "data analyst", "аналитик данных"]
+title_exclude = ["junior", "intern", "стажер", "стажёр", "младший", "lead", "head", "руководител", "cv", "computer vision", "зрени", "opencv", "видеоаналит", "image", "изображен"]
 
 [resumes]
 ru_resume_id = ""          # id резюме на hh.ru (команда: python -m hh_autoapply resumes)

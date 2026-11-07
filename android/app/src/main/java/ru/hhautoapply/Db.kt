@@ -102,6 +102,7 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
             "hh_test" to "тест на hh",
             "external" to "сайт работодателя",
             "earlier" to "откликались раньше",
+            "filter" to "фильтр: компьютерное зрение",
         )
     }
 }

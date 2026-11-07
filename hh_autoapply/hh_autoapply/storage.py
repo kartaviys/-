@@ -27,8 +27,8 @@ class Storage:
         row = self.conn.execute(
             "SELECT status FROM applications WHERE vacancy_id = ?", (vacancy_id,)
         ).fetchone()
-        # Ошибки и пропуски по фильтру можно попробовать снова в следующий запуск.
-        return row is not None and row[0] in ("applied", "dry_run_skip", "manual")
+        # Ошибки и пробные (dry_run) можно повторить в следующий запуск.
+        return row is not None and row[0] in ("applied", "manual", "skipped")
 
     def record(self, vacancy: dict, language: str, status: str, channel: str,
                letter: str = "", error: str = "") -> None:

@@ -68,6 +68,11 @@ class Runner(private val ctx: Context, private val dryRun: Boolean, private val 
             val title = v.optString("name")
             val employer = v.optJSONObject("employer")?.optString("name").orEmpty()
             val url = v.optString("alternate_url")
+            if (Text.isCvHeavy(v.optString("description"))) {
+                log("- пропуск (компьютерное зрение): $title")
+                db.record(id, title, employer, url, "", "", "skipped", "filter", error = "computer vision")
+                continue
+            }
             val relations = v.optJSONArray("relations")?.toString().orEmpty()
             if (relations.contains("got_response")) {
                 db.record(id, title, employer, url, "", "", "applied", "earlier"); continue
