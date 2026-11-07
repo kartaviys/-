@@ -1,0 +1,6 @@
+requests>=2.31
+openai>=1.40        # клиент для DeepSeek (OpenAI-совместимый API)
+anthropic>=0.70     # Claude; можно не ставить, если используете только DeepSeek
+pypdf>=4.0
+python-docx>=1.1
+playwright>=1.45    # после установки: playwright install chromium

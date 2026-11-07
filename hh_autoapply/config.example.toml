@@ -1,0 +1,85 @@
+# Скопируйте в config.toml и заполните. config.toml в git не попадает.
+
+[hh]
+# Приложение регистрируется на https://dev.hh.ru/admin
+client_id = ""
+client_secret = ""
+redirect_uri = ""                      # тот же, что указан в настройках приложения
+user_agent = "hh-autoapply/1.0 (you@example.com)"   # hh требует контакт в HH-User-Agent
+token_path = "token.json"
+
+[search]
+queries = [
+  "senior data scientist",
+  "ведущий data scientist",
+  "senior ml engineer",
+  "senior machine learning engineer",
+  "ml engineer",
+  "senior data analyst",
+  "ведущий аналитик данных",
+]
+search_field = "name"                  # искать только в названии вакансии
+experience = ["between3And6", "moreThan6"]   # уровень Senior
+area = 113                             # 113 — вся Россия; 1 — Москва; 2 — СПб
+period = 7                             # вакансии за последние N дней
+max_pages = 3                          # до 100 вакансий на страницу
+# schedule = "remote"                  # раскомментируйте, если нужна только удалёнка
+
+[filters]
+# Название должно содержать хотя бы одно слово из include и ни одного из exclude
+title_include = ["data scien", "ml", "machine learning", "машинн", "data analyst",
+                 "аналитик данных", "analyst", "аналитик", "scientist"]
+title_exclude = ["junior", "intern", "стажер", "стажёр", "младший", "lead", "head", "руководител"]
+
+[resumes]
+ru_resume_id = ""          # id резюме на hh.ru (команда: python -m hh_autoapply resumes)
+en_resume_id = ""          # id английского резюме на hh.ru (для англоязычных вакансий)
+ru_title = "Senior Data Scientist"     # как называется резюме на hh (для выбора в анкете)
+en_title = "Senior Data Scientist (EN)"
+ru_file = "resumes/resume_ru.pdf"      # текст резюме для писем + файл для анкет на сайтах
+en_file = "resumes/resume_en.pdf"      # ваше английское резюме
+en_cv_url = ""             # необязательно: публичная ссылка на PDF, добавится в англ. письмо
+
+[profile]                  # для анкет на сторонних сайтах
+name = "Имя Фамилия"
+name_en = "Name Surname"
+email = ""
+phone = ""
+city = "Москва"
+telegram = ""
+linkedin = ""
+github = ""
+
+[llm]
+providers = ["deepseek", "claude"]     # порядок провайдеров
+# "fallback"    — всегда первый, второй только если первый упал
+# "round_robin" — по очереди, вперемешку
+strategy = "fallback"
+
+[llm.deepseek]                          # ключ: переменная окружения DEEPSEEK_API_KEY
+model = "deepseek-chat"
+base_url = "https://api.deepseek.com"
+price_input_per_m = 0.28                # $ за 1M токенов, только для отчёта о расходах
+price_output_per_m = 0.42
+
+[llm.claude]                            # ключ: переменная окружения ANTHROPIC_API_KEY
+model = "claude-haiku-5-5"              # самый дешёвый Claude
+effort = "low"
+price_input_per_m = 0.10
+price_output_per_m = 0.50
+
+[browser]                               # для тестов на hh и анкет на сайтах работодателей
+enabled = true
+profile_dir = "browser_profile"         # здесь хранится сессия входа в hh.ru
+headless = false                        # true — без окна (капчи и логины тогда пропускаются)
+auto_submit = false                     # false — бот заполняет, вы проверяете и жмёте «Отправить»
+ask_human = true
+max_steps = 6                           # сколько страниц многошаговой анкеты проходить
+salary_answer = "25000"                 # ответ на ЛЮБОЙ вопрос про зарплату
+
+[run]
+dry_run = true                          # сначала посмотрите письма, потом --live
+max_applications = 30                   # за один запуск
+daily_limit = 190                       # у hh лимит 200 откликов в сутки
+delay_seconds = [20, 60]                # пауза между откликами
+db_path = "applications.db"
