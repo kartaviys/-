@@ -4,6 +4,7 @@
   python -m hh_autoapply resumes   — показать id ваших резюме
   python -m hh_autoapply login     — войти в hh.ru в браузере (для тестов/анкет)
   python -m hh_autoapply run       — откликнуться (по умолчанию dry_run из конфига)
+  python -m hh_autoapply journal   — журнал всех откликов (--status applied, --letters)
 """
 
 import argparse
@@ -177,19 +178,41 @@ def cmd_run(cfg, hh: HHClient, args):
     print(f"\nГотово. Обработано: {done}.\nРасход LLM:\n{llm.report()}")
 
 
+def cmd_journal(cfg, args):
+    import sqlite3
+
+    conn = sqlite3.connect(cfg["run"].get("db_path", "applications.db"))
+    q = "SELECT created_at, status, channel, language, title, employer, url, letter FROM applications"
+    params = ()
+    if args.status:
+        q += " WHERE status = ?"
+        params = (args.status,)
+    rows = conn.execute(q + " ORDER BY created_at DESC", params).fetchall()
+    counts = conn.execute("SELECT status, COUNT(*) FROM applications GROUP BY status").fetchall()
+    print("Итого: " + ", ".join(f"{s}={n}" for s, n in counts))
+    for created, status, channel, lang, title, employer, url, letter in rows:
+        print(f"\n{created}  [{status}] [{channel}] [{lang}]  {title} — {employer}\n  {url}")
+        if args.letters and letter:
+            print("  " + letter.replace("\n", "\n  "))
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="hh_autoapply")
-    p.add_argument("command", choices=["auth", "resumes", "login", "run"])
+    p.add_argument("command", choices=["auth", "resumes", "login", "run", "journal"])
     p.add_argument("-c", "--config", default="config.toml")
     p.add_argument("--dry-run", dest="dry_run", action="store_true", default=None,
                    help="только сгенерировать письма, не откликаться")
     p.add_argument("--live", dest="dry_run", action="store_false", help="реально откликаться")
     p.add_argument("--limit", type=int, help="максимум откликов за запуск")
+    p.add_argument("--status", help="журнал: фильтр по статусу (applied, dry_run, failed, manual…)")
+    p.add_argument("--letters", action="store_true", help="журнал: показать тексты писем")
     args = p.parse_args(argv)
 
     if not Path(args.config).exists():
         sys.exit(f"Нет файла {args.config}. Скопируйте config.example.toml в config.toml и заполните.")
     cfg = load_config(args.config)
+    if args.command == "journal":
+        return cmd_journal(cfg, args)
     hh = HHClient(cfg["hh"], cfg["hh"].get("token_path", "token.json"))
 
     {"auth": cmd_auth, "resumes": cmd_resumes, "login": cmd_login}.get(

@@ -65,7 +65,7 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND created_at >= ?", arrayOf(today()),
     ).use { it.moveToFirst(); it.getInt(0) }
 
-    fun list(where: String = "1=1", args: Array<String> = emptyArray(), limit: Int = 200): List<Application> =
+    fun list(where: String = "1=1", args: Array<String> = emptyArray(), limit: Int = 5000): List<Application> =
         readableDatabase.rawQuery(
             "SELECT vacancy_id, title, employer, url, form_url, language, status, channel, letter, created_at " +
                 "FROM applications WHERE $where ORDER BY created_at DESC LIMIT $limit", args,
@@ -80,4 +80,28 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         }
 
     fun pendingBrowser() = list("status = 'needs_browser'")
+
+    fun countsByStatus(): Map<String, Int> =
+        readableDatabase.rawQuery("SELECT status, COUNT(*) FROM applications GROUP BY status", null).use { c ->
+            val m = mutableMapOf<String, Int>()
+            while (c.moveToNext()) m[c.getString(0)] = c.getInt(1)
+            m
+        }
+
+    companion object {
+        val STATUS_RU = mapOf(
+            "applied" to "✅ Отклик отправлен",
+            "dry_run" to "📝 Пробный (не отправлен)",
+            "needs_browser" to "🧾 Ждёт анкету",
+            "manual" to "✋ Пропущен / вручную",
+            "skipped" to "⏭ Пропущен",
+            "failed" to "❌ Ошибка",
+        )
+        val CHANNEL_RU = mapOf(
+            "api" to "через API hh",
+            "hh_test" to "тест на hh",
+            "external" to "сайт работодателя",
+            "earlier" to "откликались раньше",
+        )
+    }
 }

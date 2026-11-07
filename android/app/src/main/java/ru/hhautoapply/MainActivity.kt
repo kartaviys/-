@@ -167,19 +167,44 @@ class MainActivity : ComponentActivity() {
 
     private fun showJournal() {
         lifecycleScope.launch {
-            val apps = withContext(Dispatchers.IO) { Db(this@MainActivity).list() }
-            if (apps.isEmpty()) { toast("Журнал пуст"); return@launch }
-            val names = apps.map { "${it.status} · ${it.title} — ${it.employer} (${it.createdAt})" }.toTypedArray()
-            pick("Журнал", names) { i ->
-                val a = apps[i]
-                AlertDialog.Builder(this@MainActivity)
-                    .setTitle(a.title)
-                    .setMessage("${a.employer}\nЯзык: ${a.language} · ${a.channel} · ${a.status}\n\n${a.letter}")
-                    .setPositiveButton("Открыть вакансию") { _, _ -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(a.url))) }
-                    .setNegativeButton("Закрыть", null)
-                    .show()
+            val all = withContext(Dispatchers.IO) { Db(this@MainActivity).list() }
+            if (all.isEmpty()) { toast("Журнал пуст"); return@launch }
+            // Фильтры журнала со счётчиками
+            val filters = listOf<Pair<String, (Application) -> Boolean>>(
+                "Все" to { _ -> true },
+                "Отправленные" to { a -> a.status == "applied" },
+                "Пробные (письма без отправки)" to { a -> a.status == "dry_run" },
+                "Ждут анкету" to { a -> a.status == "needs_browser" },
+                "Пропущенные и ошибки" to { a -> a.status in setOf("manual", "skipped", "failed") },
+            )
+            val labels = filters.map { (name, f) -> "$name — ${all.count(f)}" }.toTypedArray()
+            pick("Журнал откликов", labels) { fi ->
+                val apps = all.filter(filters[fi].second)
+                if (apps.isEmpty()) { toast("Здесь пусто"); return@pick }
+                val names = apps.map {
+                    "${Db.STATUS_RU[it.status] ?: it.status}\n${it.title} — ${it.employer}\n${it.createdAt}"
+                }.toTypedArray()
+                pick(filters[fi].first, names) { i -> showApplication(apps[i]) }
             }
         }
+    }
+
+    private fun showApplication(a: Application) {
+        val lang = if (a.language == "en") "английский" else "русский"
+        AlertDialog.Builder(this)
+            .setTitle(a.title)
+            .setMessage(
+                "${a.employer}\n${Db.STATUS_RU[a.status] ?: a.status} · ${Db.CHANNEL_RU[a.channel] ?: a.channel}\n" +
+                    "Язык: $lang · ${a.createdAt}\n\n${a.letter.ifBlank { "(письма нет)" }}",
+            )
+            .setPositiveButton("Открыть вакансию") { _, _ -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(a.url))) }
+            .setNeutralButton("Копировать письмо") { _, _ ->
+                getSystemService(android.content.ClipboardManager::class.java)
+                    .setPrimaryClip(android.content.ClipData.newPlainText("letter", a.letter))
+                toast("Письмо скопировано")
+            }
+            .setNegativeButton("Закрыть", null)
+            .show()
     }
 
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_LONG).show()

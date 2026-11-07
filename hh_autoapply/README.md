@@ -87,6 +87,12 @@ cp config.example.toml config.toml
 python -m hh_autoapply run --dry-run --limit 5
 ```
 
+Журнал всех откликов (с текстами писем):
+
+```bash
+python -m hh_autoapply journal --letters
+```
+
 Когда письма понравятся, запустите реальные отклики:
 
 ```bash

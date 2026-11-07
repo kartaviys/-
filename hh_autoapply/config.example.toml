@@ -79,7 +79,7 @@ salary_answer = "25000"                 # ответ на ЛЮБОЙ вопро�
 
 [run]
 dry_run = true                          # сначала посмотрите письма, потом --live
-max_applications = 30                   # за один запуск
-daily_limit = 190                       # у hh лимит 200 откликов в сутки
-delay_seconds = [20, 60]                # пауза между откликами
+max_applications = 150                  # за один запуск
+daily_limit = 150                       # в сутки (у hh максимум 200)
+delay_seconds = [10, 30]                # пауза между откликами
 db_path = "applications.db"
