@@ -1,14 +1,18 @@
-name: Android APK
+name: HH Автоотклик APK
 
 on:
   push:
     paths:
       - "android/**"
-      - ".github/workflows/android.yml"
+      - ".github/workflows/hh-autoapply-apk.yml"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: hh-autoapply-apk
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -39,12 +43,13 @@ jobs:
           name: hh-autoapply-apk
           path: android/hh-autoapply.apk
 
-      - name: Publish to release "apk-latest"
+      # Свой тег, чтобы не задеть релизы других приложений в этом репозитории
+      - name: Publish to release "hh-autoapply-latest"
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete apk-latest --yes --cleanup-tag || true
-          gh release create apk-latest hh-autoapply.apk \
+          gh release delete hh-autoapply-latest --yes --cleanup-tag || true
+          gh release create hh-autoapply-latest hh-autoapply.apk \
             --target "${GITHUB_SHA}" --prerelease \
             --title "HH Автоотклик (последняя сборка)" \
             --notes "Сборка из ветки ${GITHUB_REF_NAME}, коммит ${GITHUB_SHA}. Скачайте hh-autoapply.apk на телефон и установите."
