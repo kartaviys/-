@@ -1,0 +1,50 @@
+name: Android APK
+
+on:
+  push:
+    paths:
+      - "android/**"
+      - ".github/workflows/android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14.3"
+
+      - name: Build APK
+        run: gradle assembleDebug --no-daemon --stacktrace
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk hh-autoapply.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hh-autoapply-apk
+          path: android/hh-autoapply.apk
+
+      - name: Publish to release "apk-latest"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete apk-latest --yes --cleanup-tag || true
+          gh release create apk-latest hh-autoapply.apk \
+            --target "${GITHUB_SHA}" --prerelease \
+            --title "HH Автоотклик (последняя сборка)" \
+            --notes "Сборка из ветки ${GITHUB_REF_NAME}, коммит ${GITHUB_SHA}. Скачайте hh-autoapply.apk на телефон и установите."

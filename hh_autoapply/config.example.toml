@@ -51,7 +51,7 @@ linkedin = ""
 github = ""
 
 [llm]
-providers = ["deepseek", "claude"]     # порядок провайдеров
+providers = ["claude", "deepseek"]     # порядок: Claude основной, DeepSeek запасной
 # "fallback"    — всегда первый, второй только если первый упал
 # "round_robin" — по очереди, вперемешку
 strategy = "fallback"

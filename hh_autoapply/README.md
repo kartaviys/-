@@ -25,7 +25,7 @@
 работодателя стоит ещё один такой же запрос.
 
 Обе модели обходятся в копейки. В `[llm]` можно выбрать:
-- `providers = ["deepseek", "claude"]` и `strategy = "fallback"`: всегда DeepSeek, а Claude только при ошибке;
+- `providers = ["claude", "deepseek"]` и `strategy = "fallback"` (по умолчанию): всегда Claude Haiku, а DeepSeek только при ошибке;
 - `strategy = "round_robin"`: модели по очереди (вперемешку), удобно сравнить качество писем;
 - `providers = ["deepseek"]`: только DeepSeek, ключ Claude не нужен.
 
