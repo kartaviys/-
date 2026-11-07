@@ -19,6 +19,9 @@ queries = [
   'nlp OR "обработка естественного языка" OR "natural language processing"',
   '"classic ml" OR "classical ml" OR "классическое ml" OR "классический ml" OR "классическому ml" OR "классическое машинное обучение"',
   '"data analyst" OR "аналитик данных"',
+  '"applied scientist" OR "research scientist" OR "research engineer" OR "ml researcher" OR "ai researcher" OR "machine learning scientist" OR "ml scientist" OR "исследователь машинного обучения" OR "исследователь ml" OR "исследователь ai"',
+  '"deep learning" OR "специалист по нейросетям" OR "разработчик нейросетей" OR "инженер нейросетей" OR "нейросетевой" OR "prompt engineer" OR "промпт-инженер" OR "промпт инженер" OR "generative ai" OR "генеративный ии" OR "genai"',
+  '"рекомендательных систем" OR "recommender" OR "recsys" OR "ранжирования" OR "search ranking" OR "компьютерный лингвист" OR "computational linguist" OR "decision scientist" OR "conversational ai" OR "ai solutions"',
 ]
 search_field = "name"                  # искать только в названии вакансии
 experience = ["between3And6", "moreThan6"]   # уровень Senior
@@ -30,7 +33,7 @@ max_pages = 3                          # до 100 вакансий на стра
 [filters]
 # Название должно содержать хотя бы одно слово из include (с начала слова) и ни одного из exclude.
 # Компьютерное зрение (CV) исключено. Плюс вакансии, где в описании >= 3 упоминаний CV, тоже пропускаются.
-title_include = ["data scien", "дата сайент", "дата-сайент", "анализу данных", "ml", "machine learning", "машинн", "ai", "ии", "искусственн", "llm", "genai", "nlp", "естественного языка", "natural language", "data analyst", "аналитик данных"]
+title_include = ["data scien", "дата сайент", "дата-сайент", "анализу данных", "ml", "machine learning", "машинн", "ai", "ии", "искусственн", "llm", "genai", "nlp", "естественного языка", "natural language", "data analyst", "аналитик данных", "applied scien", "research scien", "research engineer", "ml researcher", "ai researcher", "исследователь машинн", "исследователь ml", "исследователь ai", "deep learning", "нейросет", "нейронн", "prompt", "промпт", "generative", "генеративн", "рекомендательн", "recommender", "recsys", "ranking", "ранжирован", "decision scien", "лингвист", "linguist", "conversational"]
 title_exclude = ["junior", "intern", "стажер", "стажёр", "младший", "lead", "head", "руководител", "cv", "computer vision", "зрени", "opencv", "видеоаналит", "image", "изображен"]
 
 [resumes]

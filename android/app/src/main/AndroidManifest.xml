@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" android:label="Настройки" />
+        <activity android:name=".SourcesActivity" android:label="Источники вакансий" />
         <activity android:name=".WebActivity" android:label="Браузер" android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <provider

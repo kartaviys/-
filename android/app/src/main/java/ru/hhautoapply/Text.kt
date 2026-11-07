@@ -17,6 +17,12 @@ object Text {
     fun stripHtml(html: String?): String =
         Html.fromHtml(html.orEmpty(), Html.FROM_HTML_MODE_LEGACY).toString().replace(Regex("\\s+"), " ").trim()
 
+    /** То же, но с сохранением переносов строк (для постов Telegram и Hacker News). */
+    fun stripHtmlKeepLines(html: String?): String =
+        Html.fromHtml(html.orEmpty(), Html.FROM_HTML_MODE_LEGACY).toString()
+            .lines().joinToString("\n") { it.replace(Regex("[ \t\u00A0]+"), " ").trim() }
+            .replace(Regex("\n{3,}"), "\n\n").trim()
+
     /** "en", если доля латиницы (без технических терминов) >= 60%, иначе "ru". */
     fun detectLanguage(text: String): String {
         val clean = tech.replace(stripHtml(text), " ")

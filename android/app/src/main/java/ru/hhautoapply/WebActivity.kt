@@ -29,18 +29,25 @@ import org.json.JSONObject
 import java.io.File
 import kotlin.coroutines.resume
 
+/** Вакансия, для которой сейчас заполняется форма. */
+data class FormCtx(val id: String, val title: String, val employer: String, val letter: String, val language: String)
+
 /**
  * Встроенный браузер:
- *  oauth — авторизация приложения в API hh;
- *  login — вход на hh.ru (cookies нужны для вакансий с тестом);
- *  forms — по очереди открывает анкеты и заполняет их с помощью нейросети.
+ *  oauth  — авторизация приложения в API hh;
+ *  login  — вход на hh.ru (cookies нужны для вакансий с тестом);
+ *  forms  — по очереди открывает анкеты из очереди и заполняет их с помощью нейросети;
+ *  assist — любая площадка: «Отклик с ИИ» читает вакансию на странице, пишет письмо и заполняет форму.
  */
 class WebActivity : ComponentActivity() {
     companion object {
         const val EXTRA_MODE = "mode"
+        const val EXTRA_URL = "url"
+        const val EXTRA_SOURCE = "source"
         const val MODE_OAUTH = "oauth"
         const val MODE_LOGIN = "login"
         const val MODE_FORMS = "forms"
+        const val MODE_ASSIST = "assist"
     }
 
     private lateinit var web: WebView
@@ -55,6 +62,12 @@ class WebActivity : ComponentActivity() {
     private var filling = false
     private var llm: Llm? = null
     private var oauthHandled = false
+
+    // режим assist
+    private var assistCtx: FormCtx? = null
+    private var assistCtxUrl = ""
+    private var assistUrl = ""
+    private var sourceKey = ""
 
     private var fileCallback: ValueCallback<Array<Uri>>? = null
     private val pickFile = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -86,6 +99,12 @@ class WebActivity : ComponentActivity() {
                 button("Отправлено ✓") { mark("applied") },
                 button("Пропуск") { mark("manual") },
             ))
+            MODE_ASSIST -> root.addView(row(
+                button("Отклик с ИИ") { assistApply() },
+                button("Письмо") { copyLetter() },
+                button("В журнал ✓") { assistRecord() },
+                button("Назад") { if (web.canGoBack()) web.goBack() else finish() },
+            ))
             else -> root.addView(button("Готово") { CookieManager.getInstance().flush(); finish() })
         }
         setContentView(root)
@@ -94,6 +113,7 @@ class WebActivity : ComponentActivity() {
             MODE_OAUTH -> startOauth()
             MODE_LOGIN -> { info.text = "Войдите в свой аккаунт hh.ru и нажмите «Готово»."; web.loadUrl("https://hh.ru/account/login") }
             MODE_FORMS -> startForms()
+            MODE_ASSIST -> startAssist()
         }
     }
 
@@ -130,7 +150,7 @@ class WebActivity : ComponentActivity() {
         return true
     }
 
-    // ---------- Анкеты ----------
+    // ---------- Очередь анкет ----------
     private fun startForms() {
         queue = Db(this).pendingBrowser()
         if (queue.isEmpty()) { toast("Анкет в очереди нет"); finish(); return }
@@ -145,7 +165,8 @@ class WebActivity : ComponentActivity() {
         val a = current ?: run { toast("Все анкеты пройдены"); finish(); return }
         steps = 0
         seenSignatures.clear()
-        info.text = "${index + 1}/${queue.size}: ${a.title} — ${a.employer}\nЗагружаю…"
+        val src = Sources.byKey(a.channel)?.name ?: a.channel
+        info.text = "${index + 1}/${queue.size} · $src: ${a.title} — ${a.employer}\nЗагружаю…"
         web.loadUrl(a.formUrl)
     }
 
@@ -155,9 +176,68 @@ class WebActivity : ComponentActivity() {
         openCurrent()
     }
 
+    // ---------- Режим assist (любая площадка) ----------
+    private fun startAssist() {
+        assistUrl = intent.getStringExtra(EXTRA_URL).orEmpty()
+        sourceKey = intent.getStringExtra(EXTRA_SOURCE).orEmpty()
+        try { llm = Llm(this) { } } catch (e: Exception) { toast(e.message.orEmpty()) }
+        val name = Sources.byKey(sourceKey)?.name ?: sourceKey
+        info.text = "$name: откройте вакансию и нажмите «Отклик с ИИ»."
+        web.loadUrl(assistUrl)
+    }
+
+    /** Читает вакансию со страницы, пишет письмо и заполняет форму (если она уже открыта). */
+    private fun assistApply() {
+        val model = llm ?: run { toast("Не указан ключ нейросети в настройках"); return }
+        // Та же вакансия (например, следующий шаг Easy Apply) — письмо уже есть, просто заполняем форму
+        if (assistCtx != null && web.url.orEmpty().substringBefore("?") == assistCtxUrl.substringBefore("?")) {
+            seenSignatures.clear()
+            fillCurrent(force = true)
+            return
+        }
+        lifecycleScope.launch {
+            try {
+                info.text = "Читаю вакансию и пишу письмо…"
+                val title = decodeJs(js("document.title"))
+                val text = decodeJs(js("(document.body ? document.body.innerText : '').slice(0, 9000)"))
+                val lang = Text.detectLanguage(title + " " + text)
+                val letter = withContext(Dispatchers.IO) {
+                    val v = JSONObject().put("name", title).put("employer", JSONObject().put("name", ""))
+                        .put("description", text)
+                    Letters.write(model, v, lang, resumeText(lang), Prefs.get(this@WebActivity, if (lang == "en") "name_en" else "name"),
+                        Prefs.get(this@WebActivity, "en_cv_url"))
+                }
+                assistCtx = FormCtx("$sourceKey:${web.url.orEmpty().hashCode()}", title, "", letter, lang)
+                assistCtxUrl = web.url.orEmpty()
+                getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("letter", letter))
+                info.text = "Письмо готово и скопировано. Заполняю форму…"
+                seenSignatures.clear()
+                fillCurrent(force = true)
+            } catch (e: Exception) {
+                info.text = "Ошибка: ${e.message}"
+            }
+        }
+    }
+
+    private fun assistRecord() {
+        val ctx = assistCtx
+        val url = web.url.orEmpty()
+        val title = ctx?.title ?: web.title.orEmpty()
+        Db(this).record(ctx?.id ?: "$sourceKey:${url.hashCode()}", title, "", url, url,
+            ctx?.language.orEmpty(), "applied", sourceKey, ctx?.letter.orEmpty())
+        toast("Записано в журнал ✅")
+    }
+
+    // ---------- Общее заполнение форм ----------
+    private fun currentCtx(): FormCtx? = when (mode) {
+        MODE_FORMS -> current?.let { FormCtx(it.vacancyId, it.title, it.employer, it.letter, it.language) }
+        MODE_ASSIST -> assistCtx
+        else -> null
+    }
+
     private fun copyLetter() {
-        val a = current ?: return
-        getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("letter", a.letter))
+        val c = currentCtx() ?: run { toast("Письма пока нет — нажмите «Отклик с ИИ»"); return }
+        getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("letter", c.letter))
         toast("Письмо скопировано")
     }
 
@@ -165,8 +245,15 @@ class WebActivity : ComponentActivity() {
         web.evaluateJavascript(code) { cont.resume(it ?: "null") }
     }
 
+    /** evaluateJavascript возвращает строку в JSON-кавычках — раскодируем. */
+    private fun decodeJs(raw: String): String = try {
+        org.json.JSONTokener(raw).nextValue() as? String ?: ""
+    } catch (_: Exception) { "" }
+
+    private fun headLine(c: FormCtx): String = if (mode == MODE_FORMS) "${index + 1}/${queue.size}: ${c.title} — ${c.employer}\n" else "${c.title}\n"
+
     private fun fillCurrent(force: Boolean = false) {
-        val a = current ?: return
+        val c = currentCtx() ?: return
         val model = llm ?: return
         if (filling) return
         if (!force && steps >= 6) return
@@ -183,31 +270,35 @@ class WebActivity : ComponentActivity() {
                     if (f.optString("type") == "password") needsLogin = true
                     if (!Text.forbidden.containsMatchIn(fieldText(f))) fields.put(f)
                 }
-                val head = "${index + 1}/${queue.size}: ${a.title} — ${a.employer}\n"
-                if (needsLogin && mode == MODE_FORMS) {
-                    info.text = head + "Сайт просит войти или зарегистрироваться — сделайте это вручную, затем «Заполнить»."
+                val head = headLine(c)
+                if (needsLogin) {
+                    info.text = head + "Сайт просит войти или зарегистрироваться — сделайте это вручную, затем «${if (mode == MODE_FORMS) "Заполнить" else "Отклик с ИИ"}»."
                     return@launch
                 }
-                if (fields.length() == 0) { info.text = head + "Полей анкеты не найдено."; return@launch }
+                if (fields.length() == 0) {
+                    info.text = head + if (mode == MODE_FORMS) "Полей анкеты не найдено. Если нужно, перейдите к форме и нажмите «Заполнить». Письмо — кнопка «Письмо»."
+                    else "Письмо скопировано. Формы на странице нет — нажмите «Откликнуться» на сайте, затем снова «Отклик с ИИ»."
+                    return@launch
+                }
                 val sig = (0 until fields.length()).joinToString("|") { fields.getJSONObject(it).optString("id") + fieldText(fields.getJSONObject(it)) }
                 if (!force && !seenSignatures.add(sig)) return@launch
                 steps++
 
                 info.text = head + "Нейросеть заполняет ${fields.length()} полей…"
-                val answers = withContext(Dispatchers.IO) { askLlm(model, a, fields) }
+                val answers = withContext(Dispatchers.IO) { askLlm(model, c, fields) }
                 var filled = 0
                 for (i in 0 until fields.length()) {
                     for (call in fillCalls(fields.getJSONObject(i), answers)) {
                         if (js(call).contains("ok")) filled++
                     }
                 }
-                val autoSubmit = Prefs.bool(this@WebActivity, "auto_submit")
-                if (autoSubmit) {
+                val done = if (mode == MODE_FORMS) "«Отправлено ✓»" else "«В журнал ✓»"
+                if (Prefs.bool(this@WebActivity, "auto_submit")) {
                     val clicked = js("window.__aaSubmit()")
-                    info.text = head + "Заполнено полей: $filled. Нажата кнопка $clicked. Проверьте результат и нажмите ✓."
+                    info.text = head + "Заполнено полей: $filled. Нажата кнопка $clicked. Проверьте результат и нажмите $done."
                 } else {
                     info.text = head + "Заполнено полей: $filled. Файл резюме прикрепите тапом по полю. " +
-                        "Проверьте анкету, отправьте её на сайте и нажмите «Отправлено ✓»."
+                        "Проверьте, отправьте на сайте и нажмите $done."
                 }
             } catch (e: Exception) {
                 info.text = "Ошибка: ${e.message}"
@@ -217,14 +308,15 @@ class WebActivity : ComponentActivity() {
         }
     }
 
-    private fun askLlm(model: Llm, a: Application, fields: JSONArray): JSONObject {
+    private fun resumeText(lang: String) =
+        Prefs.get(this, if (lang == "en") "en_resume_text" else "ru_resume_text").ifBlank { Prefs.get(this, "ru_resume_text") }
+
+    private fun askLlm(model: Llm, c: FormCtx, fields: JSONArray): JSONObject {
         val system = Letters.FORM_SYSTEM
             .replace("%SALARY%", Prefs.get(this, "salary_answer"))
-            .replace("%RESUME%", Prefs.get(this, if (a.language == "en") "en_title" else "ru_title"))
-        val resume = Prefs.get(this, if (a.language == "en") "en_resume_text" else "ru_resume_text")
-            .ifBlank { Prefs.get(this, "ru_resume_text") }
+            .replace("%RESUME%", Prefs.get(this, if (c.language == "en") "en_title" else "ru_title"))
         val user = "ПОЛЯ ФОРМЫ:\n$fields\n\nПРОФИЛЬ КАНДИДАТА:\n${Prefs.profileJson(this)}\n\n" +
-            "ВАКАНСИЯ: ${a.title} — ${a.employer}\n\nСОПРОВОДИТЕЛЬНОЕ ПИСЬМО:\n${a.letter}\n\nРЕЗЮМЕ:\n${resume.take(6000)}"
+            "ВАКАНСИЯ: ${c.title} — ${c.employer}\n\nСОПРОВОДИТЕЛЬНОЕ ПИСЬМО:\n${c.letter}\n\nРЕЗЮМЕ:\n${resumeText(c.language).take(6000)}"
         val data = model.completeJson(system, user)
         return data.optJSONObject("answers") ?: data
     }
@@ -260,7 +352,7 @@ class WebActivity : ComponentActivity() {
     private fun fieldText(f: JSONObject) = listOf("label", "name", "question").joinToString(" ") { f.optString(it) }
 
     private fun resumeUri(): Uri? {
-        val lang = current?.language ?: "ru"
+        val lang = currentCtx()?.language ?: "ru"
         val file = listOf(File(filesDir, "resume_$lang.pdf"), File(filesDir, "resume_ru.pdf")).firstOrNull { it.exists() } ?: return null
         return FileProvider.getUriForFile(this, "$packageName.files", file)
     }
@@ -281,7 +373,9 @@ class WebActivity : ComponentActivity() {
         }
 
         override fun onPageFinished(view: WebView, url: String) {
-            if (mode != MODE_FORMS) return
+            // Автозаполнение: в очереди — всегда; в assist — только после «Отклик с ИИ» (многошаговые формы, как Easy Apply)
+            val sameVacancy = assistCtx != null && url.substringBefore("?") == assistCtxUrl.substringBefore("?")
+            if (mode != MODE_FORMS && !(mode == MODE_ASSIST && sameVacancy)) return
             lifecycleScope.launch {
                 delay(2500) // даём SPA дорисовать форму
                 fillCurrent()
