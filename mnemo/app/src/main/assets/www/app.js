@@ -30,6 +30,7 @@ const LANGS = {
   en: { name: 'Английский', flag: '🇬🇧', front: 'en-US' },
   it: { name: 'Итальянский', flag: '🇮🇹', front: 'it-IT' },
   uk: { name: 'Украинский', flag: '🇺🇦', front: 'uk-UA' },
+  de: { name: 'Немецкий', flag: '🇩🇪', front: 'de-DE' },
   xx: { name: 'Другие', flag: '🌐', front: 'en-US' },
 };
 const LEVEL_ORDER = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2', ''];
@@ -194,7 +195,8 @@ function reindex() {
 const curLang = () => db.settings.lang;
 const deckById = id => DECKS.find(d => d.id === id);
 const langDecks = (l = curLang()) => DECKS.filter(d => d.lang === l);
-const langList = () => Object.keys(LANGS).filter(l => l !== 'xx' || DECKS.some(d => d.lang === 'xx'));
+// Вкладка языка — если для него есть словарь (пакет) или свои наборы.
+const langList = () => Object.keys(LANGS).filter(l => (l === 'xx' ? false : !window.MNEMO_PACKS || window.MNEMO_PACKS.includes(l)) || DECKS.some(d => d.lang === l));
 const allCards = () => byLang[curLang()] || [];
 const everyCard = () => [...cardIdx.values()].map(x => x.c);
 
@@ -375,8 +377,16 @@ function lev(a, b) {
   return prev[n];
 }
 // Без диакритики: è→e, ї→і, й→и. Совпадение без неё засчитываем как опечатку.
-const loose = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ʼ/g, "'");
+const loose = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ʼ/g, "'").replace(/ß/g, 'ss');
+// Немецкое существительное (der Tisch): без артикля засчитываем, но неверный артикль — ошибка.
+const DE_ART = /^(der|die|das) (?=\p{Lu})/u;
 function checkAnswer(input, answer) {
+  const de = DE_ART.exec(String(answer).trim());
+  if (de) {
+    const a = /^(der|die|das)\s+/i.exec(String(input).trim());
+    if (a && a[1].toLowerCase() !== de[1]) return { ok: false };
+    return checkAnswer(String(input).trim().slice(a ? a[0].length : 0), String(answer).trim().slice(de[0].length));
+  }
   const n = stripArticles(norm(input));
   if (!n) return { ok: false };
   const v = variants(answer);
@@ -684,7 +694,8 @@ function deckRow(d) {
 }
 function langBar() {
   const L = curLang();
-  return `<div class="langbar">${langList().map(l => `<button class="lb ${l === L ? 'on' : ''}" data-act="lang" data-l="${l}"><b>${LANGS[l].flag}</b><span>${LANGS[l].name}</span></button>`).join('')}</div>`;
+  const ls = langList();
+  return `<div class="langbar ${ls.length > 3 ? 'many' : ''}">${ls.map(l => `<button class="lb ${l === L ? 'on' : ''}" data-act="lang" data-l="${l}"><b>${LANGS[l].flag}</b><span>${LANGS[l].name}</span></button>`).join('')}</div>`;
 }
 function byLevel(decks) {
   const m = new Map();
@@ -1010,6 +1021,7 @@ function lessonsWords() {
 const JOURNEYS = {
   it: { data: window.MNEMO_ITALY, flag: '🇮🇹', title: 'Путешествие в Рим', goal: 'Рим', goalTo: 'Рима', wiki: 'it', voice: 'it-IT', thanks: 'Grazie!', bravo: 'Complimenti!', what: 'по Италии' },
   uk: { data: window.MNEMO_UKRAINE, flag: '🇺🇦', title: 'Дорога в Киев', goal: 'Киев', goalTo: 'Киева', wiki: 'uk', voice: 'uk-UA', thanks: 'Дякую!', bravo: 'Вітаю!', what: 'по Украине' },
+  de: { data: window.MNEMO_GERMANY, flag: '🇩🇪', title: 'Дорога в Берлин', goal: 'Берлин', goalTo: 'Берлина', wiki: 'de', voice: 'de-DE', thanks: 'Danke!', bravo: 'Herzlichen Glückwunsch!', what: 'по Германии' },
   en: { data: window.MNEMO_USA, flag: '🇺🇸', title: 'Дорога в Вашингтон', goal: 'Вашингтон', goalTo: 'Вашингтона', wiki: 'en', voice: 'en-US', thanks: 'Thank you!', bravo: 'Congratulations!', what: 'по США' },
 };
 // Звания: за каждый покорённый город — звание; чем дальше по пути, тем выше. [звание, перевод]
@@ -1030,6 +1042,11 @@ const RANKS = {
     ['Курінний отаман', 'куренной атаман'], ['Осавул', 'есаул'], ['Сотник', 'сотник'], ['Хорунжий', 'хорунжий'], ['Полковник', 'полковник'],
     ['Генеральний писар', 'генеральный писарь'], ['Генеральний суддя', 'генеральный судья'], ['Кошовий отаман', 'кошевой атаман'], ['Гетьман', 'гетман'], ['Князь', 'князь'],
     ['Великий князь київський', 'великий князь киевский']],
+  de: [['Bettler', 'нищий'], ['Landstreicher', 'бродяга'], ['Tagelöhner', 'подёнщик'], ['Knecht', 'батрак'], ['Bauer', 'крестьянин'],
+    ['Lehrling', 'ученик ремесленника'], ['Geselle', 'подмастерье'], ['Handwerksmeister', 'мастер цеха'], ['Krämer', 'лавочник'], ['Kaufmann', 'купец'],
+    ['Hansekaufmann', 'ганзейский купец'], ['Ratsherr', 'член городского совета'], ['Bürgermeister', 'бургомистр'], ['Knappe', 'оруженосец'], ['Ritter', 'рыцарь'],
+    ['Vogt', 'фогт, наместник'], ['Freiherr', 'барон'], ['Graf', 'граф'], ['Landgraf', 'ландграф'], ['Markgraf', 'маркграф'],
+    ['Pfalzgraf', 'пфальцграф'], ['Herzog', 'герцог'], ['Kurfürst', 'курфюрст'], ['König', 'король'], ['Kaiser', 'император']],
 };
 // Картинка звания: эмодзи (работает без интернета) и статья английской Википедии для иллюстрации.
 const RANK_ART = {
@@ -1044,6 +1061,10 @@ const RANK_ART = {
   uk: [['🥣', 'Begging'], ['🎒', 'Vagrancy'], ['🌾', 'Day labourer'], ['🧑‍🌾', 'Peasant'], ['🐂', 'Chumaks'], ['🔨', 'Artisan'], ['🧺', 'Merchant'], ['🐎', 'Zaporozhian Cossacks'],
     ['🛡️', 'Dzhura'], ['🔟', 'Cossack ranks'], ['🏕️', 'Kurin'], ['📯', 'Yesaul'], ['⚔️', 'Sotnik'], ['🚩', 'Khorunzhy'], ['🎖️', 'Polkovnyk'], ['✒️', 'General Military Chancellery'],
     ['⚖️', 'Cossack Hetmanate'], ['🏹', 'Kosh otaman'], ['🏵️', 'Hetman'], ['👑', 'Kniaz'], ['🔱', 'Grand Prince of Kiev']],
+  de: [['🥣', 'Begging'], ['🎒', 'Vagrancy'], ['🌾', 'Day labourer'], ['🐄', 'Farmworker'], ['🧑‍🌾', 'Peasant'], ['🪚', 'Apprenticeship'], ['🧳', 'Journeyman years'],
+    ['🔨', 'Master craftsman'], ['🧺', 'Shopkeeper'], ['⚖️', 'Merchant'], ['⛵', 'Hanseatic League'], ['📜', 'City council'], ['🏛️', 'Mayor'], ['🛡️', 'Squire'],
+    ['⚔️', 'Knight'], ['🏰', 'Vogt'], ['🎖️', 'Freiherr'], ['🍷', 'Count'], ['🌲', 'Landgrave'], ['🗺️', 'Margrave'], ['🍇', 'Count palatine'], ['🦁', 'Duke'],
+    ['🗳️', 'Prince-elector'], ['👑', 'King'], ['🦅', 'German Emperor']],
 };
 const rankTier = (k, of) => (k >= of - 1 ? 'top' : k / of < 0.25 ? 'bronze' : k / of < 0.5 ? 'silver' : k / of < 0.75 ? 'gold' : 'royal');
 // Значок звания; big — с иллюстрацией из Википедии поверх эмодзи (если загрузится).
@@ -1067,6 +1088,7 @@ function rankOf(i, lang) {
   let full;
   if (lang === 'it') full = `${t} ${/^[aeiouAEIOU]/.test(c.n) ? "d'" : 'di '}${c.n}`;
   else if (lang === 'en') full = i >= M - 1 ? 'President of the United States' : `${t} ${k < 9 ? 'from' : 'of'} ${c.n}`; // «Hobo from…», но «Sheriff of…»
+  else if (lang === 'de') full = i >= M - 1 ? 'Deutscher Kaiser' : `${t} ${k < 11 ? 'aus' : 'von'} ${c.n}`; // «Bettler aus…», «Graf von…»
   else full = i >= M - 1 ? 'Великий князь київський' : `${t} · ${c.n}`;
   return { t, ru, full, k, of: L.length };
 }
@@ -1076,11 +1098,11 @@ function topRank(st) {
   return best < 0 ? null : rankOf(best, st.lang);
 }
 // Ссылка на город в Google Картах.
-const MAP_COUNTRY = { it: 'Italia', en: 'USA', uk: 'Україна' };
+const MAP_COUNTRY = { it: 'Italia', en: 'USA', uk: 'Україна', de: 'Deutschland' };
 const mapsUrl = (c, lang) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${c.n}, ${c.r}, ${MAP_COUNTRY[lang] || ''}`)}`;
 const jour = lang => { const J = JOURNEYS[lang]; return J && J.data && J.data.cities.length ? J : null; };
 const journeyOn = () => !!jour(curLang());
-const factOf = c => c.it || c.en || c.uk || c.f || '';
+const factOf = c => c.it || c.en || c.uk || c.de || c.f || '';
 const jIdx = {};
 function journeyList(lang) {
   const J = jour(lang);
@@ -1308,7 +1330,7 @@ function getJSON(url) {
     netBusy < 3 ? run() : netQueue.push(run);
   });
 }
-const COUNTRY = { it: ['Q38', 'Italia'], en: ['Q30', 'United States'], uk: ['Q212', 'Україна'] };
+const COUNTRY = { it: ['Q38', 'Italia'], en: ['Q30', 'United States'], uk: ['Q212', 'Україна'], de: ['Q183', 'Deutschland'] };
 // Отбрасываем гербы, флаги, карты и логотипы — нужен снимок города.
 const notPhoto = u => {
   if (!u) return true;
@@ -1329,7 +1351,7 @@ function photoSteps(key) {
   const region = (r || '').replace(/ область$/, '');
   const regShort = region.replace(/(ська|цька|зька)$/, '').replace(/^Автономна Республіка /, '');
   const latin = wiki === 'uk' ? ukLatin(n) : n;
-  const country = COUNTRY[wiki] ? (wiki === 'uk' ? 'Ukraine' : COUNTRY[wiki][1]) : '';
+  const country = COUNTRY[wiki] ? ({ uk: 'Ukraine', de: 'Germany' }[wiki] || COUNTRY[wiki][1]) : '';
   const one = pr => pr.then(u => (u ? [u] : []));
   return [
     () => one(photoFor(wiki, w)),
@@ -1412,7 +1434,7 @@ function openversePhotos(q) {
 // Поиск объекта в Викиданных по названию: берём первый из нужной страны с фотографией.
 function wikidataSearch(wiki, name) {
   if (!name || !COUNTRY[wiki]) return Promise.resolve(null);
-  const lang = wiki === 'uk' ? 'uk' : wiki === 'it' ? 'it' : 'en';
+  const lang = ['uk', 'it', 'de'].includes(wiki) ? wiki : 'en';
   return getJSON(`https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(name)}&language=${lang}&type=item&limit=7&format=json&origin=*`)
     .then(j => {
       const ids = (j.search || []).map(x => x.id);
@@ -1546,7 +1568,7 @@ function wonHtml(i, lang) {
  * К каждой открытке — заметка о культуре страны; на каждую 10-ю тему курса — песня;
  * на последнем наборе каждого уровня — книга, которую уже можно прочитать. */
 const EXTRAS = window.MNEMO_EXTRAS || {};
-const LYRICS = { it: 'testo', en: 'lyrics', uk: 'текст пісні' };
+const LYRICS = { it: 'testo', en: 'lyrics', uk: 'текст пісні', de: 'Songtext' };
 function cultureOf(i, lang) { const E = EXTRAS[lang]; return E && E.culture.length && i >= 0 ? E.culture[i % E.culture.length] : null; }
 function songOfDeck(d) {
   const E = EXTRAS[d.lang];
@@ -3115,7 +3137,7 @@ function seg(k, opts) {
 function tgl(k, label, sub) {
   return `<label class="tgl row"><span>${label}${sub ? `<small>${sub}</small>` : ''}</span><input type="checkbox" class="sw" data-ch="set-bool" data-k="${k}" ${db.settings[k] ? 'checked' : ''}></label>`;
 }
-const VOICE_TEST = [['it-IT', '🇮🇹', 'Ciao! Impariamo nuove parole.'], ['uk-UA', '🇺🇦', 'Привіт! Вивчаймо нові слова.'], ['en-US', '🇬🇧', "Hello! Let's learn some new words."], ['ru-RU', '🇷🇺', 'Привет! Учим новые слова.']];
+const VOICE_TEST = [['de-DE', '🇩🇪', 'Hallo! Lernen wir neue Wörter.'], ['it-IT', '🇮🇹', 'Ciao! Impariamo nuove parole.'], ['uk-UA', '🇺🇦', 'Привіт! Вивчаймо нові слова.'], ['en-US', '🇬🇧', "Hello! Let's learn some new words."], ['ru-RU', '🇷🇺', 'Привет! Учим новые слова.']];
 function voiceRows() {
   const rows = VOICE_TEST.map(([lang, flag, text]) => {
     const h = hasVoice(lang);

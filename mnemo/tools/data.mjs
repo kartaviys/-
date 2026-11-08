@@ -15,7 +15,7 @@ const SRC = join(MAIN, 'vocab');
 const WWW = join(MAIN, 'assets/www');
 const OUT = join(WWW, 'data');
 const fix = process.argv.includes('--fix');
-const LANG_ORDER = ['en', 'it', 'uk'];
+const LANG_ORDER = ['en', 'it', 'uk', 'de'];
 const LEVELS = ['a0', 'a1', 'a2', 'b1', 'b2', 'c1', 'c2'];
 
 // Порядок: en-core, затем по языку, уровню и номеру части.
@@ -125,7 +125,7 @@ for (const f of readdirSync(OUT)) {
 const loader = `<script>
 /* Грузим словарь только текущего языка (остальные — при переключении вкладки). */
 (function () {
-  var all = ${JSON.stringify(langs)}, gram = ${JSON.stringify(gramLangs)}, lang = 'en', need = [];
+  window.MNEMO_PACKS = ${JSON.stringify(langs)}; var all = window.MNEMO_PACKS, gram = ${JSON.stringify(gramLangs)}, lang = 'en', need = [];
   try {
     var s = JSON.parse(localStorage.getItem('mnemo.v1') || 'null');
     if (s && s.settings && s.settings.lang) lang = s.settings.lang;
