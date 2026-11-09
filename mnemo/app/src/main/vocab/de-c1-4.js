@@ -151,8 +151,8 @@ jemanden im Regen stehen lassen|бросить в беде|Meine Freunde haben m
 etwas ausbaden müssen|расхлёбывать (чужое)|Jetzt muss ich deine Fehler ausbaden.|Теперь мне приходится расхлёбывать твои ошибки.
 ` },
 { lang: 'de', id: 'de-c1-winged', level: 'C1', emoji: '🪶', title: 'Geflügelte Worte', desc: 'Крылатые выражения из Гёте, Шиллера, Гейне, философов и истории ФРГ — и как их цитируют сегодня.', cards: `
-des Pudels Kern|суть дела, вот в чём штука (Гёте, «Фауст»)|Das also war des Pudels Kern!|Так вот в чём суть!
-Zwei Seelen wohnen, ach, in meiner Brust|две души живут в моей груди (Гёте)|Wenn ich an den Umzug denke, wohnen zwei Seelen in meiner Brust.|Когда я думаю о переезде, во мне борются два чувства.
+Wer immer strebend sich bemüht, den können wir erlösen|кто жил, трудясь и стремясь, того спасти мы можем (Гёте)|Gib nicht auf — wer immer strebend sich bemüht, den können wir erlösen.|Не сдавайся — кто неустанно стремится, тот будет спасён.
+Das Ewig-Weibliche zieht uns hinan|вечная женственность влечёт нас ввысь (Гёте, финал «Фауста»)|Der Film endet mit dem Faust-Zitat: Das Ewig-Weibliche zieht uns hinan.|Фильм заканчивается цитатой из «Фауста»: вечная женственность влечёт нас ввысь.
 Die Botschaft hör ich wohl, allein mir fehlt der Glaube|слышу весть, но веры нет (Гёте)|Er will sich bessern? Die Botschaft hör ich wohl, allein mir fehlt der Glaube.|Он хочет исправиться? Слышу весть, но веры нет.
 Grau, teurer Freund, ist alle Theorie|суха, мой друг, теория везде (Гёте)|Grau, teurer Freund, ist alle Theorie — probier es einfach aus!|Теория, мой друг, суха — просто попробуй!
 Da steh ich nun, ich armer Tor|и вот я здесь, бедный глупец, не умнее, чем был (Гёте)|Nach drei Stunden Recherche dachte ich: Da steh ich nun, ich armer Tor.|После трёх часов поиска я подумал: «И вот я, бедный глупец, не умнее прежнего».
@@ -160,7 +160,7 @@ Verweile doch, du bist so schön|остановись, мгновенье, ты 
 Der Worte sind genug gewechselt|довольно слов, пора к делам (Гёте)|Der Worte sind genug gewechselt, jetzt müssen Taten folgen.|Довольно слов, теперь нужны дела.
 der Weisheit letzter Schluss|последнее слово мудрости, лучшее решение (Гёте)|Ist dieser Kompromiss wirklich der Weisheit letzter Schluss?|Неужели этот компромисс — лучшее, что можно придумать?
 Die Axt im Haus erspart den Zimmermann|топор в доме заменяет плотника (Шиллер)|Ich repariere das selbst — die Axt im Haus erspart den Zimmermann.|Починю сам — топор в доме заменяет плотника.
-Der Mohr hat seine Arbeit getan, der Mohr kann gehen|мавр сделал своё дело, мавр может уходить (Шиллер)|Nach dem Projekt wurde er entlassen — der Mohr hat seine Arbeit getan, der Mohr kann gehen.|После проекта его уволили — мавр сделал своё дело, мавр может уходить.
+Die Gedanken sind frei|мысли свободны (народная песня)|Man kann mir vieles verbieten, aber die Gedanken sind frei.|Мне многое можно запретить, но мысли свободны.
 Drum prüfe, wer sich ewig bindet|проверь, прежде чем связать себя навеки (Шиллер)|Drum prüfe, wer sich ewig bindet — wohnt doch erst mal zusammen!|Проверьте, прежде чем связать себя навеки, — поживите сначала вместе!
 Durch diese hohle Gasse muss er kommen|по этой дороге он должен пройти (Шиллер)|Durch diese hohle Gasse muss er kommen — ich warte am Ausgang auf ihn.|Здесь он непременно пройдёт — я жду его у выхода.
 Früh übt sich, was ein Meister werden will|мастерами становятся с детства (Шиллер)|Mit vier spielt er schon Schach — früh übt sich, was ein Meister werden will!|В четыре года он уже играет в шахматы — мастерами становятся с детства!

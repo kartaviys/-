@@ -24,15 +24,12 @@ die Lautmalerei|звукоподражание|„Kuckuck“ ist ein Beispiel f�
 { lang: 'de', id: 'de-c2-diplomacy', level: 'C2', emoji: '🤝', title: 'Diplomatie und Geopolitik', desc: 'Дипломатический протокол, международное право и язык геополитики.', cards: `
 das Beglaubigungsschreiben|верительная грамота|Der Botschafter überreichte sein Beglaubigungsschreiben.|Посол вручил верительную грамоту.
 die Persona non grata|персона нон грата|Der Diplomat wurde zur Persona non grata erklärt.|Дипломата объявили персоной нон грата.
-die Immunität|иммунитет|Diplomaten genießen Immunität.|Дипломаты пользуются иммунитетом.
 das Kommuniqué|коммюнике|Nach dem Gipfel wurde ein Kommuniqué veröffentlicht.|После саммита опубликовали коммюнике.
 die Demarche|демарш|Das Außenministerium unternahm eine Demarche.|МИД предпринял демарш.
-die Protestnote|нота протеста|Die Regierung überreichte eine Protestnote.|Правительство вручило ноту протеста.
 der Gesandte|посланник|Der Gesandte überbrachte eine Botschaft des Königs.|Посланник передал послание короля.
 der Geschäftsträger|поверенный в делах|Der Geschäftsträger vertritt den abwesenden Botschafter.|Поверенный в делах замещает отсутствующего посла.
 die Akkreditierung|аккредитация|Die Akkreditierung der Journalisten dauerte lange.|Аккредитация журналистов затянулась.
 die Pendeldiplomatie|челночная дипломатия|Durch Pendeldiplomatie wurde ein Waffenstillstand erreicht.|Челночной дипломатией удалось добиться перемирия.
-die Annäherung|сближение|Die Annäherung zwischen beiden Staaten kam voran.|Сближение двух государств продвигалось.
 die Entspannungspolitik|политика разрядки|Die Entspannungspolitik veränderte Europa.|Политика разрядки изменила Европу.
 die Realpolitik|реальная политика, прагматизм|Bismarck stand für Realpolitik.|Бисмарк олицетворял реальную политику.
 die Einflusssphäre|сфера влияния|Die Großmächte teilten die Welt in Einflusssphären.|Великие державы поделили мир на сферы влияния.
@@ -40,13 +37,9 @@ die Pufferzone|буферная зона|Eine Pufferzone trennt die Gegner.|Пр
 die Hegemonie|гегемония|Die Hegemonie der USA wird infrage gestellt.|Гегемония США ставится под сомнение.
 die Großmacht|великая держава|China ist zur Großmacht aufgestiegen.|Китай стал великой державой.
 der Bündnisfall|случай коллективной обороны|Die NATO rief 2001 den Bündnisfall aus.|В 2001 году НАТО объявило случай коллективной обороны.
-die Sanktion|санкция|Die EU verhängte neue Sanktionen.|ЕС ввёл новые санкции.
-das Embargo|эмбарго|Ein Embargo verbietet Waffenexporte in das Land.|Эмбарго запрещает экспорт оружия в эту страну.
-das Völkerrecht|международное право|Die Annexion verstößt gegen das Völkerrecht.|Аннексия нарушает международное право.
 die Annexion|аннексия|Die Annexion wurde international verurteilt.|Аннексия была осуждена международным сообществом.
 die Nichteinmischung|невмешательство|Das Prinzip der Nichteinmischung ist umstritten.|Принцип невмешательства спорен.
 das Gipfeltreffen|встреча на высшем уровне, саммит|Beim Gipfeltreffen wurde viel versprochen.|На саммите много обещали.
-ratifizieren|ратифицировать|Der Bundestag ratifizierte den Vertrag.|Бундестаг ратифицировал договор.
 die Absichtserklärung|меморандум о намерениях|Beide Seiten unterzeichneten eine Absichtserklärung.|Обе стороны подписали меморандум о намерениях.
 die Geopolitik|геополитика|Energie ist längst eine Frage der Geopolitik.|Энергетика давно стала вопросом геополитики.
 ` },
@@ -84,16 +77,12 @@ die Widerspruchsfreiheit|непротиворечивость|Eine Theorie muss 
 die Synthese|синтез|Aus These und Antithese entsteht die Synthese.|Из тезиса и антитезиса рождается синтез.
 die Redekunst|ораторское искусство|Cicero war ein Meister der Redekunst.|Цицерон был мастером ораторского искусства.
 das Redepult|трибуна (для выступлений)|Sie trat ans Redepult.|Она вышла на трибуну.
-die rhetorische Frage|риторический вопрос|„Wer will schon verlieren?“ ist eine rhetorische Frage.|«Кто же хочет проиграть?» — риторический вопрос.
 die Captatio Benevolentiae|снискание благосклонности слушателей|Mit einem Scherz als Captatio Benevolentiae gewann er das Publikum.|Шуткой в начале он завоевал расположение публики.
 das Plädoyer|речь защитника; пламенная речь в защиту|Sie hielt ein leidenschaftliches Plädoyer für die Freiheit.|Она произнесла пламенную речь в защиту свободы.
-die Demagogie|демагогия|Populisten setzen auf Demagogie.|Популисты делают ставку на демагогию.
 der Demagoge|демагог|Der Demagoge hetzte die Menge auf.|Демагог подстрекал толпу.
 die Suggestivfrage|наводящий вопрос|Der Anwalt stellte eine Suggestivfrage.|Адвокат задал наводящий вопрос.
 die Spitzfindigkeit|казуистика, крючкотворство|Das sind juristische Spitzfindigkeiten.|Это юридическое крючкотворство.
 die Sophisterei|софистика|Seine Argumente sind reine Sophisterei.|Его аргументы — чистая софистика.
-das Pathos|пафос|Er sprach mit viel Pathos.|Он говорил с большим пафосом.
-die Schlagfertigkeit|находчивость (в ответе)|Ihre Schlagfertigkeit ist legendär.|Её находчивость легендарна.
 die Floskel|пустая фраза, штамп|Die Rede bestand aus leeren Floskeln.|Речь состояла из пустых фраз.
 die Ausflucht|отговорка, увёртка|Das sind doch nur Ausflüchte!|Это же просто отговорки!
 die Unterstellung|инсинуация, домысел|Das ist eine böswillige Unterstellung!|Это злонамеренная инсинуация!
@@ -115,15 +104,10 @@ der Komödiant|комедиант|Er ist ein geborener Komödiant.|Он прир
 der Statist|статист|Für die Massenszene suchte man Statisten.|Для массовой сцены искали статистов.
 das Beiseitesprechen|реплика в сторону|Durch das Beiseitesprechen erfährt das Publikum seine Gedanken.|Через реплики в сторону публика узнаёт его мысли.
 die Bühnenanweisung|ремарка|Die Bühnenanweisung verlangt völlige Dunkelheit.|Ремарка требует полной темноты.
-die Katharsis|катарсис|Die Tragödie soll eine Katharsis bewirken.|Трагедия должна вызывать катарсис.
 die Fallhöhe|высота падения (героя трагедии)|Je größer die Fallhöhe, desto tragischer der Sturz.|Чем выше положение героя, тем трагичнее падение.
 das epische Theater|эпический театр|Brecht entwickelte das epische Theater.|Брехт создал эпический театр.
 der Verfremdungseffekt|эффект очуждения|Der Verfremdungseffekt soll den Zuschauer zum Nachdenken bringen.|Эффект очуждения должен заставить зрителя задуматься.
 das Regietheater|режиссёрский театр|Kritiker werfen dem Regietheater Willkür vor.|Критики упрекают режиссёрский театр в произволе.
-der Verriss|разгромная рецензия|Die Kritik war ein vernichtender Verriss.|Рецензия оказалась уничтожающей.
-die Legislative|законодательная власть|Das Parlament bildet die Legislative.|Парламент — законодательная власть.
-die Exekutive|исполнительная власть|Die Regierung ist die Exekutive.|Правительство — исполнительная власть.
-die Judikative|судебная власть|Die Judikative ist unabhängig.|Судебная власть независима.
 das Verhältniswahlrecht|пропорциональная избирательная система|Deutschland hat ein personalisiertes Verhältniswahlrecht.|В Германии персонализированная пропорциональная система.
 das Überhangmandat|избыточный мандат|Durch Überhangmandate wuchs der Bundestag.|Из-за избыточных мандатов бундестаг разрастался.
 der Staatssekretär|статс-секретарь|Der Staatssekretär vertrat den Minister.|Статс-секретарь замещал министра.

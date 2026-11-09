@@ -109,10 +109,10 @@ die Ribisel|смородина (австр.)|Die Ribiseln sind reif.|Сморо�
 der Feudel|половая тряпка (сев.)|Wisch den Boden mit dem Feudel!|Протри пол тряпкой!
 schnacken|болтать (сев.)|Wir haben noch ein bisschen geschnackt.|Мы ещё немного поболтали.
 grüezi|здравствуйте (швейц.)|Grüezi mitenand!|Здравствуйте все!
+des Pudels Kern|суть дела, вот в чём штука|Das also war des Pudels Kern!|Так вот в чём суть!
 Zwei Seelen wohnen in meiner Brust|Две души живут в моей груди|Zwei Seelen wohnen in meiner Brust: Ich will gehen und bleiben.|Две души живут во мне: хочу и уйти, и остаться.
 Das ist der Weisheit letzter Schluss|Вот мудрости последний вывод|Er hielt den Kompromiss für der Weisheit letzten Schluss.|Он считал компромисс вершиной мудрости.
 Augenblick, verweile doch|Мгновенье, остановись|Am liebsten hätte sie gerufen: Augenblick, verweile doch!|Ей хотелось воскликнуть: мгновенье, остановись!
-Die Gedanken sind frei|Мысли свободны|Man kann mir alles verbieten – die Gedanken sind frei.|Мне можно запретить всё — мысли свободны.
 Die Religion ist das Opium des Volkes|Религия — опиум народа|Marx schrieb: Die Religion ist das Opium des Volkes.|Маркс писал: религия — опиум народа.
 Der Mensch ist, was er isst|Человек есть то, что он ест (Фейербах)|Feuerbach meinte: Der Mensch ist, was er isst.|Фейербах считал: человек есть то, что он ест.
 Blut und Eisen|железом и кровью (Бисмарк)|Bismarck wollte die Einheit durch Blut und Eisen erreichen.|Бисмарк хотел достичь единства железом и кровью.

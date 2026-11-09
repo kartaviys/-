@@ -158,10 +158,8 @@ die Vedute|ведута, видовой городской пейзаж|Canalett
 { lang: 'de', id: 'de-c2-stylistics', level: 'C2', emoji: '🖋️', title: 'Stilfiguren und Tropen', desc: 'Термины стилистики и риторики с немецкими примерами из поэзии и речи.', cards: `
 die Metonymie|метонимия|„Das ganze Haus lachte“ ist eine Metonymie.|«Весь дом смеялся» — метонимия.
 die Synekdoche|синекдоха|„Ein Dach über dem Kopf“ ist eine Synekdoche.|«Крыша над головой» — синекдоха.
-die Personifikation|олицетворение|„Die Sonne lacht“ ist eine Personifikation.|«Солнце смеётся» — олицетворение.
 die Hyperbel|гипербола|„Ich habe es dir tausendmal gesagt“ ist eine Hyperbel.|«Я тебе это тысячу раз говорил» — гипербола.
 die Litotes|литота|„Nicht schlecht“ statt „sehr gut“ ist eine Litotes.|«Неплохо» вместо «очень хорошо» — литота.
-der Euphemismus|эвфемизм|„Entschlafen“ ist ein Euphemismus für „sterben“.|«Почить» — эвфемизм для «умереть».
 das Oxymoron|оксюморон|„Bittersüß“ ist ein Oxymoron.|«Горько-сладкий» — оксюморон.
 das Paradoxon|парадокс|„Weniger ist mehr“ ist ein Paradoxon.|«Меньше — значит больше» — парадокс.
 die Antithese|антитеза|Die Antithese stellt Gegensätze schroff gegenüber.|Антитеза резко противопоставляет противоположности.
@@ -184,8 +182,6 @@ die Apostrophe|апострофа, риторическое обращение|�
 die Synästhesie|синестезия|„Schreiendes Rot“ ist eine Synästhesie.|«Кричащий красный» — синестезия.
 das Epitheton|эпитет|Das Epitheton „rosenfingrig“ stammt von Homer.|Эпитет «розовоперстая» восходит к Гомеру.
 die Emphase|эмфаза, выразительное усиление|Er sprach mit großer Emphase.|Он говорил с большой эмфазой.
-die Pointe|соль, неожиданная концовка (шутки)|Die Pointe des Witzes kam zu spät.|Соль шутки прозвучала слишком поздно.
-das Stilmittel|стилистическое средство|Bestimme die Stilmittel im Gedicht!|Определи стилистические средства в стихотворении!
 ` },
 { lang: 'de', id: 'de-c2-economy', level: 'C2', emoji: '📈', title: 'Wirtschaftstheorie', desc: 'Понятия экономической теории: предельные величины, провалы рынка, школы и денежная политика.', cards: `
 die Volkswirtschaftslehre|экономическая теория, политэкономия|Er studiert Volkswirtschaftslehre in Köln.|Он изучает экономическую теорию в Кёльне.
@@ -209,7 +205,6 @@ der Keynesianismus|кейнсианство|Der Keynesianismus setzt auf staatli
 die soziale Marktwirtschaft|социальное рыночное хозяйство|Ludwig Erhard gilt als Vater der sozialen Marktwirtschaft.|Людвиг Эрхард считается отцом социального рыночного хозяйства.
 der Ordoliberalismus|ордолиберализм|Die Freiburger Schule vertrat den Ordoliberalismus.|Фрайбургская школа отстаивала ордолиберализм.
 das Oligopol|олигополия|Der Mobilfunkmarkt ist ein Oligopol.|Рынок мобильной связи — олигополия.
-das Kartell|картель|Die Firmen bildeten ein verbotenes Kartell.|Фирмы образовали запрещённый картель.
 der Skaleneffekt|эффект масштаба|Große Firmen profitieren von Skaleneffekten.|Крупные фирмы выигрывают от эффекта масштаба.
 die Arbeitsteilung|разделение труда|Die Arbeitsteilung steigert die Produktivität.|Разделение труда повышает производительность.
 der komparative Vorteil|сравнительное преимущество|Ricardo erklärte den Handel durch den komparativen Vorteil.|Рикардо объяснял торговлю сравнительным преимуществом.
