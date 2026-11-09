@@ -2747,6 +2747,377 @@ unterrichten|преподавать|Sie unterrichtet Deutsch an einer Schule.|О
 unterbrechen|прерывать|Entschuldigung, dass ich unterbreche.|Извините, что перебиваю.
 ` },
 );
+/* de-a2-8.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-a2-x-guests', level: 'A2', emoji: '🏠', title: 'Gäste und Besuch', desc: 'Гости, визиты и застольные фразы; «Fühl dich wie zu Hause!» — «Чувствуй себя как дома!».', cards: `
+der Besuch|визит, гости|Wir bekommen am Sonntag Besuch.|В воскресенье к нам придут гости.
+Herzlich willkommen!|Добро пожаловать!|Herzlich willkommen bei uns!|Добро пожаловать к нам!
+Schön, dass du da bist!|Как хорошо, что ты пришёл!|Komm rein! Schön, dass du da bist!|Заходи! Как хорошо, что ты пришёл!
+Fühl dich wie zu Hause!|Чувствуй себя как дома!|Setz dich, fühl dich wie zu Hause!|Садись, чувствуй себя как дома!
+Mach es dir bequem!|Располагайся поудобнее!|Hier ist das Sofa, mach es dir bequem!|Вот диван, располагайся поудобнее!
+Nimm doch Platz!|Присаживайся!|Nimm doch Platz, das Essen ist gleich fertig.|Присаживайся, еда почти готова.
+Darf ich vorstellen?|Разрешите представить?|Darf ich vorstellen? Das ist mein Bruder Max.|Разрешите представить: это мой брат Макс.
+die Türklingel|дверной звонок|Die Türklingel ist kaputt, bitte klopf.|Звонок сломан, постучи, пожалуйста.
+die Wohnungstür|входная дверь квартиры|Die Wohnungstür ist offen.|Дверь квартиры открыта.
+der Hausschlüssel|ключ от дома|Ich habe meinen Hausschlüssel vergessen.|Я забыл ключ от дома.
+ablegen|снимать (верхнюю одежду)|Möchten Sie ablegen?|Хотите снять пальто?
+der Hausschuh|домашний тапок|Möchtest du Hausschuhe?|Хочешь тапочки?
+das Mitbringsel|гостинец, маленький подарок|Ich habe ein kleines Mitbringsel dabei.|У меня с собой небольшой гостинец.
+das Gastgeschenk|подарок хозяевам|Als Gastgeschenk bringe ich Wein mit.|В подарок хозяевам я принесу вино.
+die Praline|шоколадная конфета|Möchtest du eine Praline?|Хочешь конфету?
+Das wäre nicht nötig gewesen!|Не стоило!|Blumen für mich? Das wäre nicht nötig gewesen!|Цветы мне? Не стоило!
+gastfreundlich|гостеприимный|Deine Eltern sind sehr gastfreundlich.|Твои родители очень гостеприимные.
+die Kaffeetasse|кофейная чашка|Stell die Kaffeetassen auf den Tisch.|Поставь кофейные чашки на стол.
+das Kuchenstück|кусок пирога|Nimm doch noch ein Kuchenstück!|Возьми ещё кусочек пирога!
+nachschenken|подливать (ещё)|Darf ich Ihnen Kaffee nachschenken?|Можно подлить вам кофе?
+Guten Appetit!|Приятного аппетита!|Das Essen ist fertig. Guten Appetit!|Еда готова. Приятного аппетита!
+Lass es dir schmecken!|Приятного аппетита! (на «ты»)|Hier ist deine Suppe, lass es dir schmecken!|Вот твой суп, приятного аппетита!
+Mahlzeit!|Приятного аппетита! (в обед, на работе)|Mahlzeit! Gehst du auch in die Kantine?|Приятного аппетита! Ты тоже в столовую?
+Zum Wohl!|Ваше здоровье! (тост)|Zum Wohl! Auf einen schönen Abend!|Ваше здоровье! За прекрасный вечер!
+Es hat gut geschmeckt.|Было очень вкусно.|Danke, es hat sehr gut geschmeckt.|Спасибо, было очень вкусно.
+Ich bin satt.|Я наелся.|Nein danke, ich bin wirklich satt.|Нет, спасибо, я правда наелся.
+abräumen|убирать со стола|Nach dem Essen räumen wir ab.|После еды мы убираем со стола.
+das Gästezimmer|гостевая комната|Du kannst im Gästezimmer schlafen.|Ты можешь спать в гостевой комнате.
+das Gästebett|гостевая кровать|Das Gästebett steht im Arbeitszimmer.|Гостевая кровать стоит в кабинете.
+Komm gut nach Hause!|Хорошо добраться до дома!|Tschüss, komm gut nach Hause!|Пока, доброй дороги домой!
+Bis zum nächsten Mal!|До следующего раза!|Danke für alles, bis zum nächsten Mal!|Спасибо за всё, до следующего раза!
+` },
+{ lang: 'de', id: 'de-a2-x-move', level: 'A2', emoji: '📦', title: 'Umzug und neue Wohnung', desc: 'Переезд и новая квартира; die Zweizimmerwohnung — двухкомнатная квартира (кухня не считается).', cards: `
+die Wohnungsanzeige|объявление о квартире|Ich lese jeden Tag die Wohnungsanzeigen.|Я каждый день читаю объявления о квартирах.
+der Besichtigungstermin|время осмотра квартиры|Der Besichtigungstermin ist am Freitag um fünf.|Осмотр квартиры в пятницу в пять.
+die Einzimmerwohnung|однокомнатная квартира|Für mich reicht eine Einzimmerwohnung.|Мне достаточно однокомнатной квартиры.
+die Zweizimmerwohnung|двухкомнатная квартира|Wir suchen eine Zweizimmerwohnung mit Balkon.|Мы ищем двухкомнатную квартиру с балконом.
+die Altbauwohnung|квартира в старом доме|Die Altbauwohnung hat hohe Decken.|В квартире в старом доме высокие потолки.
+das WG-Zimmer|комната в общей квартире|Das WG-Zimmer kostet 400 Euro.|Комната в общей квартире стоит 400 евро.
+die Mitbewohnerin|соседка по квартире|Meine Mitbewohnerin kommt aus Spanien.|Моя соседка по квартире из Испании.
+die Monatsmiete|месячная арендная плата|Die Monatsmiete ist leider sehr hoch.|Месячная аренда, к сожалению, очень высокая.
+das Dachgeschoss|мансардный этаж|Die Wohnung liegt im Dachgeschoss.|Квартира на мансардном этаже.
+die Küchenzeile|кухонный гарнитур (в одну линию)|Das Zimmer hat eine kleine Küchenzeile.|В комнате есть маленький кухонный уголок.
+der Fahrradkeller|подвал для велосипедов|Dein Fahrrad kannst du in den Fahrradkeller stellen.|Велосипед можешь поставить в подвал для велосипедов.
+der Stellplatz|место для парковки|Zur Wohnung gehört ein Stellplatz.|К квартире прилагается парковочное место.
+die Tiefgarage|подземный гараж|Das Auto steht in der Tiefgarage.|Машина стоит в подземном гараже.
+die Umzugsfirma|компания по переездам|Wir haben eine Umzugsfirma bestellt.|Мы заказали компанию по переездам.
+der Umzugswagen|машина для переезда|Ich miete einen Umzugswagen für Samstag.|Я арендую машину для переезда на субботу.
+der Möbelwagen|мебельный фургон|Der Möbelwagen steht vor dem Haus.|Мебельный фургон стоит перед домом.
+der Umzugshelfer|помощник при переезде|Wir brauchen noch zwei Umzugshelfer.|Нам нужны ещё два помощника для переезда.
+der Umzugskarton|коробка для переезда|Wir brauchen noch zwanzig Umzugskartons.|Нам нужно ещё двадцать коробок.
+abbauen|разбирать (мебель)|Das Bett müssen wir abbauen.|Кровать нам придётся разобрать.
+aufbauen|собирать (мебель)|Kannst du mir helfen, das Regal aufzubauen?|Поможешь мне собрать стеллаж?
+das Loch|дыра, отверстие|Für das Bild brauchen wir ein Loch in der Wand.|Для картины нужно отверстие в стене.
+die Wand streichen|красить стену|Am Wochenende streichen wir die Wände weiß.|На выходных мы красим стены в белый.
+die Schlüsselübergabe|передача ключей|Die Schlüsselübergabe ist am ersten Mai.|Передача ключей первого мая.
+der Wohnungsschlüssel|ключ от квартиры|Hier sind zwei Wohnungsschlüssel.|Вот два ключа от квартиры.
+das Namensschild|табличка с именем|Ich klebe ein Namensschild an den Briefkasten.|Я приклеиваю табличку с именем на почтовый ящик.
+der Nachsendeauftrag|заявка на пересылку почты|Mit einem Nachsendeauftrag kommt die Post an die neue Adresse.|По заявке на пересылку почта приходит на новый адрес.
+der Nachmieter|следующий жилец|Wir suchen einen Nachmieter.|Мы ищем следующего жильца.
+die Einweihungsparty|новоселье|Am Samstag feiern wir unsere Einweihungsparty.|В субботу мы празднуем новоселье.
+sich einleben|обжиться, привыкнуть|Habt ihr euch schon gut eingelebt?|Вы уже хорошо обжились?
+` },
+{ lang: 'de', id: 'de-a2-x-camping', level: 'A2', emoji: '⛺', title: 'Camping und Picknick', desc: 'Отдых на природе: палатка, костёр, пикник и гриль.', cards: `
+der Zeltplatz|место для палатки, палаточный лагерь|Der Zeltplatz liegt direkt am See.|Палаточный лагерь находится прямо у озера.
+das Zelt aufbauen|ставить палатку|Hilfst du mir, das Zelt aufzubauen?|Поможешь мне поставить палатку?
+die Zeltstange|палаточная стойка|Eine Zeltstange fehlt!|Одной стойки от палатки не хватает!
+das Wohnmobil|кемпер, дом на колёсах|Wir mieten ein Wohnmobil.|Мы арендуем дом на колёсах.
+der Schlafsack|спальный мешок|Mein Schlafsack ist sehr warm.|Мой спальный мешок очень тёплый.
+die Isomatte|туристический коврик|Vergiss die Isomatte nicht!|Не забудь коврик!
+die Luftmatratze|надувной матрас|Die Luftmatratze hat ein Loch.|В надувном матрасе дырка.
+der Campingstuhl|складной стул для кемпинга|Ich sitze im Campingstuhl und lese.|Я сижу на складном стуле и читаю.
+der Klapptisch|складной стол|Wir stellen den Klapptisch vor das Zelt.|Мы ставим складной стол перед палаткой.
+der Campingkocher|походная плитка|Auf dem Campingkocher kochen wir Nudeln.|На походной плитке мы варим макароны.
+der Gaskocher|газовая плитка|Der Gaskocher ist sehr praktisch.|Газовая плитка очень удобная.
+die Stirnlampe|налобный фонарик|Mit der Stirnlampe habe ich die Hände frei.|С налобным фонариком у меня свободны руки.
+der Waschraum|умывальная, душевая|Der Waschraum ist neben dem Eingang.|Умывальная рядом со входом.
+der Kompass|компас|Mit dem Kompass finden wir den Weg.|С компасом мы найдём дорогу.
+draußen schlafen|спать на улице|Heute Nacht schlafen wir draußen.|Сегодня ночью мы спим на улице.
+das Lagerfeuer|костёр|Abends sitzen wir am Lagerfeuer.|Вечером мы сидим у костра.
+das Feuer machen|разводить огонь|Wer kann Feuer machen?|Кто умеет разводить огонь?
+das Stockbrot|хлеб на палочке (печётся на костре)|Die Kinder backen Stockbrot am Feuer.|Дети пекут хлеб на палочках над костром.
+das Mückenspray|спрей от комаров|Ohne Mückenspray gehe ich nicht in den Wald.|Без спрея от комаров я в лес не пойду.
+der Mückenstich|укус комара|Ich habe überall Mückenstiche.|У меня везде укусы комаров.
+der Sonnenhut|панама, шляпа от солнца|Setz deinen Sonnenhut auf!|Надень свою панаму!
+der Regenschauer|ливень, кратковременный дождь|Nach dem Regenschauer ist das Zelt nass.|После ливня палатка мокрая.
+der Picknickkorb|корзина для пикника|Der Picknickkorb ist voll mit Brötchen.|Корзина для пикника полна булочек.
+die Kühltasche|сумка-холодильник|Die Getränke sind in der Kühltasche.|Напитки в сумке-холодильнике.
+die Brotdose|ланч-бокс, контейнер для бутербродов|In der Brotdose sind zwei Käsebrote.|В ланч-боксе два бутерброда с сыром.
+der Müllsack|мешок для мусора|Den Müll nehmen wir im Müllsack mit.|Мусор мы забираем в мешке.
+der Grill|гриль, мангал|Der Grill ist schon heiß.|Гриль уже горячий.
+der Grillplatz|место для гриля|Im Park gibt es einen Grillplatz.|В парке есть место для гриля.
+die Grillkohle|древесный уголь для гриля|Hast du an die Grillkohle gedacht?|Ты не забыл про уголь для гриля?
+die Grillwurst|колбаска для гриля|Eine Grillwurst mit Senf, bitte!|Колбаску с горчицей, пожалуйста!
+die Grillparty|вечеринка с грилем|Am Samstag machen wir eine Grillparty.|В субботу у нас вечеринка с грилем.
+` },
+{ lang: 'de', id: 'de-a2-x-farm', level: 'A2', emoji: '🐄', title: 'Bauernhof und Zoo', desc: 'Детёныши животных, ферма и зоопарк; das Kalb — телёнок, das Ferkel — поросёнок.', cards: `
+die Bäuerin|фермерша, крестьянка|Die Bäuerin verkauft Eier.|Фермерша продаёт яйца.
+das Nutztier|домашнее (сельскохозяйственное) животное|Kühe und Schweine sind Nutztiere.|Коровы и свиньи — сельскохозяйственные животные.
+das Kalb|телёнок|Das Kalb trinkt Milch.|Телёнок пьёт молоко.
+das Ferkel|поросёнок|Die Ferkel sind rosa und klein.|Поросята розовые и маленькие.
+das Lamm|ягнёнок|Im Frühling gibt es viele Lämmer.|Весной много ягнят.
+das Küken|цыплёнок|Das Küken ist gelb.|Цыплёнок жёлтый.
+die Henne|курица-несушка|Die Henne sitzt auf ihren Eiern.|Наседка сидит на яйцах.
+Eier legen|нести яйца|Unsere Hühner legen jeden Tag Eier.|Наши куры каждый день несут яйца.
+der Esel|осёл|Der Esel ist sehr stur.|Осёл очень упрямый.
+das Pony|пони|Die Kinder reiten auf einem Pony.|Дети катаются на пони.
+der Reiterhof|конный двор|In den Ferien fährt sie auf einen Reiterhof.|На каникулы она едет на конный двор.
+das Stroh|солома|Die Tiere schlafen auf Stroh.|Животные спят на соломе.
+zahm|ручной, приручённый|Die Ziege ist ganz zahm.|Коза совсем ручная.
+der Streichelzoo|контактный зоопарк|Im Streichelzoo kann man Ziegen streicheln.|В контактном зоопарке можно гладить коз.
+das Gehege|вольер|Die Wölfe leben in einem großen Gehege.|Волки живут в большом вольере.
+der Tierpfleger|смотритель животных|Der Tierpfleger füttert die Löwen.|Смотритель кормит львов.
+die Fütterung|кормление|Die Fütterung der Pinguine ist um drei.|Кормление пингвинов в три часа.
+der Pinguin|пингвин|Die Pinguine schwimmen sehr schnell.|Пингвины плавают очень быстро.
+der Eisbär|белый медведь|Der Eisbär liebt kaltes Wasser.|Белый медведь любит холодную воду.
+der Seehund|тюлень|Der Seehund liegt auf dem Stein.|Тюлень лежит на камне.
+das Nilpferd|бегемот|Das Nilpferd ist im Wasser.|Бегемот в воде.
+das Nashorn|носорог|Das Nashorn hat ein Horn auf der Nase.|У носорога рог на носу.
+das Horn|рог|Die Kuh hat zwei Hörner.|У коровы два рога.
+das Zebra|зебра|Das Zebra hat Streifen.|У зебры полоски.
+das Känguru|кенгуру|Das Känguru springt sehr weit.|Кенгуру прыгает очень далеко.
+das Kamel|верблюд|Das Kamel kann lange ohne Wasser leben.|Верблюд может долго жить без воды.
+der Gorilla|горилла|Der Gorilla ist sehr stark.|Горилла очень сильная.
+der Leopard|леопард|Der Leopard schläft auf einem Baum.|Леопард спит на дереве.
+der Flamingo|фламинго|Der Flamingo steht auf einem Bein.|Фламинго стоит на одной ноге.
+das Krokodil|крокодил|Das Krokodil hat große Zähne.|У крокодила большие зубы.
+der Rüssel|хобот|Der Elefant trinkt mit dem Rüssel.|Слон пьёт хоботом.
+die Mähne|грива|Der Löwe hat eine große Mähne.|У льва большая грива.
+die Kralle|коготь|Die Katze hat scharfe Krallen.|У кошки острые когти.
+` },
+{ lang: 'de', id: 'de-a2-x-dates', level: 'A2', emoji: '📅', title: 'Termine und Verabredungen', desc: 'Договориться о встрече, перенести, отказаться; «Abgemacht!» — «Договорились!».', cards: `
+der Arzttermin|приём у врача|Ich habe heute einen Arzttermin.|У меня сегодня приём у врача.
+der Zahnarzttermin|приём у зубного врача|Mein Zahnarzttermin ist am Montag.|Мой приём у зубного в понедельник.
+der Friseurtermin|запись к парикмахеру|Ich brauche einen Friseurtermin.|Мне нужно записаться к парикмахеру.
+der Kalender|календарь|Ich schreibe es in meinen Kalender.|Я запишу это в свой календарь.
+eintragen|вносить, записывать|Hast du den Termin eingetragen?|Ты записал встречу?
+der Treffpunkt|место встречи|Unser Treffpunkt ist der Bahnhof.|Наше место встречи — вокзал.
+Zeit haben|иметь время|Hast du am Montag Zeit?|У тебя есть время в понедельник?
+Wann hast du Zeit?|Когда у тебя есть время?|Wann hast du Zeit? Diese Woche?|Когда у тебя есть время? На этой неделе?
+Wann passt es dir?|Когда тебе удобно?|Wann passt es dir am besten?|Когда тебе удобнее всего?
+Wie wäre es mit|как насчёт|Wie wäre es mit Donnerstag?|Как насчёт четверга?
+Das passt mir gut.|Мне это подходит.|Um drei? Das passt mir gut.|В три? Мне подходит.
+Das geht leider nicht.|К сожалению, не получится.|Am Dienstag? Das geht leider nicht.|Во вторник? К сожалению, не получится.
+Ich kann leider nicht.|К сожалению, я не могу.|Am Freitag kann ich leider nicht.|В пятницу я, к сожалению, не могу.
+Abgemacht!|Договорились!|Also Samstag um acht? Abgemacht!|Значит, в субботу в восемь? Договорились!
+der Wochentag|день недели|An welchem Wochentag hast du frei?|В какой день недели ты свободен?
+werktags|по рабочим дням|Werktags stehe ich um sechs auf.|По рабочим дням я встаю в шесть.
+am Wochenende|на выходных|Am Wochenende habe ich Zeit.|На выходных у меня есть время.
+unter der Woche|в будни|Unter der Woche arbeite ich lange.|В будни я работаю допоздна.
+am Vormittag|до обеда, в первой половине дня|Am Vormittag bin ich im Büro.|До обеда я в офисе.
+die Uhrzeit|время (на часах)|Welche Uhrzeit passt dir?|Какое время тебе подходит?
+Viertel nach|четверть (после часа)|Wir treffen uns um Viertel nach sieben.|Встречаемся в четверть восьмого.
+Viertel vor|без четверти|Der Bus kommt um Viertel vor acht.|Автобус приходит без четверти восемь.
+eine Viertelstunde|четверть часа|Ich bin in einer Viertelstunde da.|Я буду через четверть часа.
+eine halbe Stunde|полчаса|Wir warten schon eine halbe Stunde.|Мы ждём уже полчаса.
+spätestens|не позднее|Ich bin spätestens um acht da.|Я буду не позднее восьми.
+frühestens|не раньше|Ich kann frühestens am Mittwoch.|Я могу не раньше среды.
+warten auf|ждать (кого-то/что-то)|Ich warte schon lange auf dich.|Я жду тебя уже давно.
+warten lassen|заставлять ждать|Entschuldige, dass ich dich warten lasse.|Извини, что заставляю тебя ждать.
+zu spät kommen|опаздывать|Komm bitte nicht wieder zu spät!|Пожалуйста, не опаздывай снова!
+erinnern an|напоминать о|Kannst du mich an den Termin erinnern?|Можешь напомнить мне о встрече?
+Bis später!|До скорого! Увидимся позже!|Ich muss los. Bis später!|Мне пора. Увидимся позже!
+Bis dann!|До встречи!|Also um sechs am Kino. Bis dann!|Значит, в шесть у кинотеатра. До встречи!
+Bis bald!|До скорой встречи!|Es war schön mit dir. Bis bald!|С тобой было здорово. До скорого!
+` },
+);
+/* de-a2-9.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-a2-x-bakery', level: 'A2', emoji: '🥐', title: 'Bäckerei und Café', desc: 'Булочная, кафе и оплата; «Stimmt so.» — «Сдачи не надо».', cards: `
+die Konditorei|кондитерская|In der Konditorei gibt es tolle Torten.|В кондитерской есть отличные торты.
+die Theke|прилавок, стойка|Die Kuchen liegen in der Theke.|Пирожные лежат на витрине.
+die Öffnungszeit|часы работы|Wie sind die Öffnungszeiten am Sonntag?|Какие часы работы в воскресенье?
+geöffnet|открыто|Die Bäckerei ist ab sechs Uhr geöffnet.|Булочная открыта с шести часов.
+der Ruhetag|выходной день (заведения)|Montag ist Ruhetag.|Понедельник — выходной.
+die Mittagspause|обеденный перерыв|Von eins bis zwei ist Mittagspause.|С часу до двух обеденный перерыв.
+das Vollkornbrot|цельнозерновой хлеб|Ein Vollkornbrot, bitte.|Цельнозерновой хлеб, пожалуйста.
+das Roggenbrot|ржаной хлеб|Roggenbrot ist dunkel und schmeckt kräftig.|Ржаной хлеб тёмный и с насыщенным вкусом.
+das Mohnbrötchen|булочка с маком|Ich nehme zwei Mohnbrötchen.|Я возьму две булочки с маком.
+das belegte Brötchen|булочка-бутерброд|Ein belegtes Brötchen mit Käse, bitte.|Бутерброд с сыром, пожалуйста.
+die Laugenbrezel|солёный крендель|Die Laugenbrezel ist noch warm.|Крендель ещё тёплый.
+das Hörnchen|рогалик|Zum Frühstück esse ich ein Hörnchen.|На завтрак я ем рогалик.
+das Croissant|круассан|Das Croissant ist sehr frisch.|Круассан очень свежий.
+der Apfelkuchen|яблочный пирог|Der Apfelkuchen ist mit Sahne besonders gut.|Яблочный пирог особенно хорош со сливками.
+der Käsekuchen|творожный пирог, чизкейк|Oma backt den besten Käsekuchen.|Бабушка печёт лучший творожный пирог.
+der Streuselkuchen|пирог с посыпкой|Ein Stück Streuselkuchen, bitte.|Кусок пирога с посыпкой, пожалуйста.
+der Milchkaffee|кофе с молоком|Einen großen Milchkaffee, bitte.|Большой кофе с молоком, пожалуйста.
+der Cappuccino|капучино|Ich trinke einen Cappuccino.|Я пью капучино.
+der Espresso|эспрессо|Nach dem Essen trinkt er einen Espresso.|После еды он пьёт эспрессо.
+zum Mitnehmen|с собой, навынос|Einen Kaffee zum Mitnehmen, bitte.|Кофе с собой, пожалуйста.
+hier essen|есть здесь (на месте)|Möchten Sie hier essen oder mitnehmen?|Будете есть здесь или с собой?
+Das ist alles.|Это всё.|Danke, das ist alles.|Спасибо, это всё.
+Was kostet das?|Сколько это стоит?|Entschuldigung, was kostet das?|Извините, сколько это стоит?
+Zahlen bitte!|Счёт, пожалуйста!|Entschuldigung, zahlen bitte!|Извините, счёт, пожалуйста!
+zusammen oder getrennt|вместе или раздельно|Zahlen Sie zusammen oder getrennt?|Вы платите вместе или раздельно?
+Kann ich mit Karte zahlen?|Можно заплатить картой?|Kann ich hier mit Karte zahlen?|Здесь можно заплатить картой?
+bar zahlen|платить наличными|Hier kann man nur bar zahlen.|Здесь можно платить только наличными.
+das Kleingeld|мелочь|Ich habe leider kein Kleingeld.|У меня, к сожалению, нет мелочи.
+Stimmt so.|Сдачи не надо.|Das macht 9 Euro 50? Hier sind 10, stimmt so.|9,50? Вот 10, сдачи не надо.
+` },
+{ lang: 'de', id: 'de-a2-x-chores', level: 'A2', emoji: '🧺', title: 'Wäsche und Hausarbeit', desc: 'Стирка, уборка и мусор; в Германии мусор сортируют: Biotonne, Gelber Sack, Glascontainer.', cards: `
+Wäsche waschen|стирать бельё|Am Samstag wasche ich Wäsche.|В субботу я стираю бельё.
+die Buntwäsche|цветное бельё|Die Buntwäsche wasche ich bei 40 Grad.|Цветное бельё я стираю при 40 градусах.
+die Feinwäsche|деликатные вещи (при стирке)|Die Bluse ist Feinwäsche.|Блузка — это деликатная стирка.
+der Wäschekorb|корзина для белья|Der Wäschekorb ist schon wieder voll.|Корзина для белья опять полная.
+aufhängen|развешивать, вешать|Kannst du die Wäsche aufhängen?|Можешь развесить бельё?
+die Wäscheleine|верёвка для белья|Die Hemden hängen an der Wäscheleine.|Рубашки висят на верёвке.
+trocknen|сушить, сохнуть|Die Handtücher trocknen in der Sonne.|Полотенца сохнут на солнце.
+der Trockner|сушильная машина|Die Pullover dürfen nicht in den Trockner.|Свитера нельзя класть в сушилку.
+zusammenlegen|складывать (вещи)|Ich lege die T-Shirts zusammen.|Я складываю футболки.
+das Bett machen|заправлять кровать|Mach bitte dein Bett!|Заправь, пожалуйста, кровать!
+das Bett beziehen|менять постельное бельё|Heute beziehe ich die Betten neu.|Сегодня я меняю постельное бельё.
+der Kissenbezug|наволочка|Der Kissenbezug ist blau.|Наволочка синяя.
+lüften|проветривать|Morgens lüfte ich das Schlafzimmer.|По утрам я проветриваю спальню.
+Ordnung machen|наводить порядок|Heute machen wir in der Küche Ordnung.|Сегодня мы наводим порядок на кухне.
+der Putzplan|график уборки|In unserer WG gibt es einen Putzplan.|В нашей общей квартире есть график уборки.
+Staub wischen|вытирать пыль|Ich wische jede Woche Staub.|Я вытираю пыль каждую неделю.
+kehren|подметать|Er kehrt den Boden in der Küche.|Он подметает пол на кухне.
+das Kehrblech|совок|Wo ist das Kehrblech?|Где совок?
+der Putzlappen|тряпка для уборки|Nimm einen feuchten Putzlappen.|Возьми влажную тряпку.
+der Schwamm|губка|Mit dem Schwamm putze ich das Waschbecken.|Губкой я мою раковину.
+die Gummihandschuhe|резиновые перчатки (мн. ч.)|Zum Putzen trage ich Gummihandschuhe.|Для уборки я надеваю резиновые перчатки.
+Fenster putzen|мыть окна|Im Frühling putzen wir die Fenster.|Весной мы моем окна.
+die Klobürste|ёршик для унитаза|Die Klobürste steht neben der Toilette.|Ёршик стоит рядом с унитазом.
+die Tischdecke|скатерть|Die Tischdecke muss in die Wäsche.|Скатерть надо постирать.
+die Spüle|кухонная мойка|In der Spüle steht noch Geschirr.|В мойке ещё стоит посуда.
+abspülen|мыть посуду|Wer spült heute ab?|Кто сегодня моет посуду?
+das Spülmittel|средство для мытья посуды|Das Spülmittel ist leer.|Средство для мытья посуды закончилось.
+das Geschirrtuch|кухонное полотенце (для посуды)|Gib mir bitte ein Geschirrtuch.|Дай мне, пожалуйста, полотенце для посуды.
+die Biotonne|бак для пищевых отходов|Kartoffelschalen kommen in die Biotonne.|Картофельные очистки идут в бак для биоотходов.
+der Gelbe Sack|жёлтый мешок (для упаковки)|Joghurtbecher gehören in den Gelben Sack.|Стаканчики от йогурта кладут в жёлтый мешок.
+der Glascontainer|контейнер для стекла|Die leeren Flaschen bringe ich zum Glascontainer.|Пустые бутылки я отношу в контейнер для стекла.
+` },
+{ lang: 'de', id: 'de-a2-x-kids', level: 'A2', emoji: '🧸', title: 'Kleine Kinder', desc: 'Малыши, детский сад, площадка и праздники; das Seepferdchen — первый детский значок по плаванию.', cards: `
+das Fläschchen|бутылочка (детская)|Das Baby trinkt sein Fläschchen.|Малыш пьёт из бутылочки.
+das Lätzchen|слюнявчик|Bind dem Baby ein Lätzchen um!|Повяжи малышу слюнявчик!
+der Brei|каша, пюре|Das Baby isst Brei.|Малыш ест кашу.
+der Hochstuhl|детский стульчик для кормления|Das Kind sitzt im Hochstuhl.|Ребёнок сидит в стульчике для кормления.
+das Kinderbett|детская кроватка|Das Kinderbett steht im Schlafzimmer.|Детская кроватка стоит в спальне.
+der Mittagsschlaf|дневной сон|Nach dem Essen macht sie Mittagsschlaf.|После обеда она спит днём.
+das Schlaflied|колыбельная|Mama singt ein Schlaflied.|Мама поёт колыбельную.
+die Gutenachtgeschichte|сказка на ночь|Papa liest eine Gutenachtgeschichte vor.|Папа читает сказку на ночь.
+ins Bett bringen|укладывать спать|Ich bringe die Kinder um acht ins Bett.|Я укладываю детей в восемь.
+das Kuscheltier|мягкая игрушка|Ohne sein Kuscheltier schläft er nicht.|Без мягкой игрушки он не засыпает.
+der Milchzahn|молочный зуб|Lena hat ihren ersten Milchzahn verloren.|Лена потеряла свой первый молочный зуб.
+die Kinderärztin|детский врач (женщина)|Wir gehen morgen zur Kinderärztin.|Завтра мы идём к детскому врачу.
+die Krabbelgruppe|группа для малышей (ползунков)|Einmal pro Woche gehen wir in die Krabbelgruppe.|Раз в неделю мы ходим в группу для малышей.
+die Kinderkrippe|ясли|Mit einem Jahr kommt sie in die Kinderkrippe.|В год она пойдёт в ясли.
+der Kindergarten|детский сад|Mein Sohn geht in den Kindergarten.|Мой сын ходит в детский сад.
+die Erzieherin|воспитательница|Die Erzieherin spielt mit den Kindern.|Воспитательница играет с детьми.
+die Einschulung|поступление в первый класс|Die Einschulung ist im September.|Поступление в школу в сентябре.
+der Schulranzen|школьный ранец|Der neue Schulranzen ist rot.|Новый ранец красный.
+das Bilderbuch|книжка с картинками|Wir schauen ein Bilderbuch an.|Мы смотрим книжку с картинками.
+das Malbuch|раскраска|Im Malbuch sind viele Tiere.|В раскраске много животных.
+ausmalen|раскрашивать|Sie malt das Bild bunt aus.|Она раскрашивает картинку разными цветами.
+die Buntstifte|цветные карандаши (мн. ч.)|Wo sind meine Buntstifte?|Где мои цветные карандаши?
+die Knete|пластилин|Aus Knete macht er einen Hund.|Из пластилина он лепит собаку.
+der Bauklotz|кубик (строительный)|Das Kind baut einen Turm aus Bauklötzen.|Ребёнок строит башню из кубиков.
+das Kinderlied|детская песенка|Im Kindergarten singen sie Kinderlieder.|В детском саду они поют детские песенки.
+Fangen spielen|играть в догонялки|Die Kinder spielen Fangen im Hof.|Дети играют во дворе в догонялки.
+das Klettergerüst|лазалка (на площадке)|Er klettert auf das Klettergerüst.|Он забирается на лазалку.
+rutschen|скатываться (с горки)|Die Kleine rutscht gern.|Малышка любит кататься с горки.
+die Wippe|качели-балансир|Zwei Kinder sitzen auf der Wippe.|Двое детей сидят на качелях-балансире.
+das Dreirad|трёхколёсный велосипед|Mein Bruder fährt Dreirad.|Мой брат катается на трёхколёсном велосипеде.
+das Laufrad|беговел|Mit drei Jahren fährt sie schon Laufrad.|В три года она уже катается на беговеле.
+das Seepferdchen|«морской конёк» (первый значок по плаванию)|Tom hat heute sein Seepferdchen gemacht.|Том сегодня сдал на значок «морской конёк».
+der Kindergeburtstag|детский день рождения|Zum Kindergeburtstag kommen zehn Kinder.|На детский день рождения придут десять детей.
+der Geburtstagskuchen|торт на день рождения|Der Geburtstagskuchen hat fünf Kerzen.|На праздничном торте пять свечей.
+auspusten|задувать|Puste die Kerzen aus!|Задуй свечи!
+` },
+{ lang: 'de', id: 'de-a2-x-phone', level: 'A2', emoji: '☎️', title: 'Telefonieren und Formulare', desc: 'Фразы для телефона, письма и анкеты; der Familienstand — семейное положение.', cards: `
+Wer spricht da?|Кто говорит?|Hallo? Wer spricht da, bitte?|Алло? Кто говорит?
+Einen Moment, bitte.|Минуточку, пожалуйста.|Einen Moment, bitte, ich hole ihn.|Минуточку, я его позову.
+Ich verbinde Sie.|Соединяю вас.|Frau Weber? Ich verbinde Sie.|Госпожа Вебер? Соединяю вас.
+Kann ich etwas ausrichten?|Что-нибудь передать?|Er ist nicht da. Kann ich etwas ausrichten?|Его нет. Что-нибудь передать?
+Ich rufe später zurück.|Я перезвоню позже.|Ich bin gerade im Bus, ich rufe später zurück.|Я сейчас в автобусе, перезвоню позже.
+falsch verbunden|не туда попали|Entschuldigung, ich bin falsch verbunden.|Извините, я не туда попал.
+der Anrufbeantworter|автоответчик|Sprich auf den Anrufbeantworter!|Оставь сообщение на автоответчике!
+Ich melde mich.|Я дам о себе знать.|Ich melde mich morgen bei dir.|Я позвоню тебе завтра.
+Wie ist Ihr Name, bitte?|Как вас зовут?|Wie ist Ihr Name, bitte? – Schmidt.|Как вас зовут? – Шмидт.
+Können Sie das bitte buchstabieren?|Можете продиктовать по буквам?|Können Sie Ihren Namen bitte buchstabieren?|Можете продиктовать фамилию по буквам?
+Können Sie das bitte wiederholen?|Можете повторить, пожалуйста?|Entschuldigung, können Sie das bitte wiederholen?|Извините, можете повторить?
+Sprechen Sie bitte langsamer.|Говорите, пожалуйста, медленнее.|Sprechen Sie bitte langsamer, ich lerne noch Deutsch.|Говорите, пожалуйста, медленнее, я ещё учу немецкий.
+die Handynummer|номер мобильного|Gib mir deine Handynummer.|Дай мне свой номер мобильного.
+die Festnetznummer|номер стационарного телефона|Wir haben keine Festnetznummer mehr.|У нас больше нет стационарного телефона.
+Der Akku ist leer.|Батарея села.|Ich kann nicht anrufen, der Akku ist leer.|Я не могу позвонить, батарея села.
+der Vorname|имя|Mein Vorname ist Olga.|Моё имя Ольга.
+der Nachname|фамилия|Wie ist Ihr Nachname?|Какая у вас фамилия?
+das Geburtsdatum|дата рождения|Schreiben Sie hier Ihr Geburtsdatum.|Напишите здесь вашу дату рождения.
+der Geburtsort|место рождения|Mein Geburtsort ist Kiew.|Место моего рождения — Киев.
+der Familienstand|семейное положение|Familienstand: verheiratet.|Семейное положение: женат.
+verwitwet|овдовевший|Seine Mutter ist seit zwei Jahren verwitwet.|Его мама два года как вдова.
+die Hausnummer|номер дома|Welche Hausnummer hat das Haus?|Какой номер у этого дома?
+das Kästchen|клеточка, графа (в анкете)|Kreuzen Sie das richtige Kästchen an.|Отметьте нужную клеточку.
+beantworten|отвечать (на что-то)|Ich beantworte heute alle E-Mails.|Сегодня я отвечу на все письма.
+weiterleiten|пересылать|Kannst du mir die E-Mail weiterleiten?|Можешь переслать мне это письмо?
+anhängen|прикреплять (файл)|Ich hänge das Foto an die Mail an.|Я прикрепляю фото к письму.
+Vielen Dank im Voraus|заранее большое спасибо|Vielen Dank im Voraus für Ihre Hilfe.|Заранее большое спасибо за вашу помощь.
+Viele Grüße|с приветом (в письме)|Viele Grüße aus Berlin!|Привет из Берлина!
+Herzliche Grüße|сердечный привет (в письме)|Herzliche Grüße an deine Eltern!|Сердечный привет твоим родителям!
+` },
+{ lang: 'de', id: 'de-a2-x-fun', level: 'A2', emoji: '🎡', title: 'Kino, Schwimmbad, Jahrmarkt', desc: 'Развлечения: кино, бассейн, ярмарка и футбол; ermäßigt — со скидкой (для студентов, детей).', cards: `
+das Kinoprogramm|программа кинотеатра|Was steht heute im Kinoprogramm?|Что сегодня идёт в кино?
+der Kinofilm|фильм для кино|Der neue Kinofilm ist sehr lustig.|Новый фильм очень смешной.
+der Actionfilm|боевик|Er sieht gern Actionfilme.|Он любит смотреть боевики.
+die Spätvorstellung|поздний сеанс|Wir gehen in die Spätvorstellung um elf.|Мы идём на поздний сеанс в одиннадцать.
+die Kinokarte|билет в кино|Ich habe zwei Kinokarten gekauft.|Я купил два билета в кино.
+die Abendkasse|касса перед началом (вечером)|Karten gibt es auch an der Abendkasse.|Билеты есть и в кассе перед сеансом.
+ermäßigt|со скидкой, льготный|Für Studenten ist der Eintritt ermäßigt.|Для студентов вход со скидкой.
+der Eintrittspreis|цена входного билета|Der Eintrittspreis ist zehn Euro.|Вход стоит десять евро.
+die Reihe|ряд|Wir sitzen in der fünften Reihe.|Мы сидим в пятом ряду.
+das Popcorn|попкорн|Süßes oder salziges Popcorn?|Сладкий или солёный попкорн?
+der Zirkus|цирк|Heute gehen wir in den Zirkus.|Сегодня мы идём в цирк.
+der Clown|клоун|Der Clown ist sehr witzig.|Клоун очень смешной.
+der Jahrmarkt|ярмарка (с аттракционами)|Im Herbst ist hier ein Jahrmarkt.|Осенью здесь ярмарка.
+das Karussell|карусель|Die Kleine fährt Karussell.|Малышка катается на карусели.
+das Riesenrad|колесо обозрения|Vom Riesenrad sieht man die ganze Stadt.|С колеса обозрения виден весь город.
+die Achterbahn|американские горки|Fährst du mit mir Achterbahn?|Покатаешься со мной на американских горках?
+die Zuckerwatte|сахарная вата|Die Kinder essen Zuckerwatte.|Дети едят сахарную вату.
+das Fußballspiel|футбольный матч|Am Samstag sehen wir das Fußballspiel.|В субботу мы смотрим футбольный матч.
+die Fußballmannschaft|футбольная команда|Unsere Fußballmannschaft hat gewonnen!|Наша футбольная команда победила!
+ein Tor schießen|забить гол|Müller hat zwei Tore geschossen.|Мюллер забил два гола.
+Schlitten fahren|кататься на санках|Im Winter fahren wir Schlitten.|Зимой мы катаемся на санках.
+die Liegewiese|лужайка для загара|Wir liegen auf der Liegewiese in der Sonne.|Мы загораем на лужайке.
+der Bademeister|спасатель в бассейне|Der Bademeister passt auf die Kinder auf.|Спасатель присматривает за детьми.
+das Nichtschwimmerbecken|бассейн для не умеющих плавать|Die Kinder spielen im Nichtschwimmerbecken.|Дети играют в бассейне для не умеющих плавать.
+das Planschbecken|детский лягушатник|Das Baby sitzt im Planschbecken.|Малыш сидит в лягушатнике.
+die Wasserrutsche|водяная горка|Die Wasserrutsche ist sehr lang.|Водяная горка очень длинная.
+der Sprungturm|вышка для прыжков|Traust du dich auf den Sprungturm?|Ты решишься прыгнуть с вышки?
+die Schwimmbrille|очки для плавания|Ohne Schwimmbrille brennen meine Augen.|Без очков для плавания у меня щиплет глаза.
+die Badekappe|шапочка для плавания|Im Hallenbad braucht man eine Badekappe.|В крытом бассейне нужна шапочка.
+die Schwimmflügel|нарукавники для плавания (мн. ч.)|Das Kind trägt Schwimmflügel.|Ребёнок в нарукавниках.
+der Schwimmkurs|курс плавания|Mein Sohn macht einen Schwimmkurs.|Мой сын ходит на курс плавания.
+Bahnen schwimmen|плавать по дорожкам|Jeden Morgen schwimme ich zwanzig Bahnen.|Каждое утро я проплываю двадцать дорожек.
+` },
+{ lang: 'de', id: 'de-a2-x-clothes', level: 'A2', emoji: '👗', title: 'Kleidung anprobieren', desc: 'Примерка и покупка одежды; «Das steht dir gut.» — «Тебе идёт».', cards: `
+Kann ich das anprobieren?|Можно это примерить?|Entschuldigung, kann ich das anprobieren?|Извините, можно это примерить?
+die Anprobe|примерка|Die Anprobe ist dort hinten.|Примерочная вон там сзади.
+die Schuhgröße|размер обуви|Welche Schuhgröße haben Sie?|Какой у вас размер обуви?
+eine Nummer größer|на размер больше|Haben Sie die Hose eine Nummer größer?|У вас есть эти брюки на размер больше?
+eine Nummer kleiner|на размер меньше|Ich brauche eine Nummer kleiner.|Мне нужно на размер меньше.
+zu groß|слишком большой|Die Jacke ist mir zu groß.|Куртка мне велика.
+zu klein|слишком маленький|Die Schuhe sind zu klein.|Ботинки малы.
+zu eng|слишком тесный|Die Jeans ist zu eng.|Джинсы слишком тесные.
+Das passt nicht.|Не подходит по размеру.|Schade, das passt nicht.|Жаль, не подходит.
+Das steht dir gut.|Тебе идёт.|Die rote Farbe steht dir gut.|Красный цвет тебе идёт.
+der Ärmel|рукав|Die Ärmel sind zu lang.|Рукава слишком длинные.
+die Kapuze|капюшон|Die Jacke hat eine Kapuze.|У куртки есть капюшон.
+die Hosentasche|карман брюк|Das Handy ist in der Hosentasche.|Телефон в кармане брюк.
+der Kassenzettel|чек|Ohne Kassenzettel kann man nicht umtauschen.|Без чека нельзя обменять.
+der Schlafanzug|пижама|Der Schlafanzug ist aus Baumwolle.|Пижама из хлопка.
+die Unterwäsche|нижнее бельё|Ich kaufe neue Unterwäsche.|Я покупаю новое нижнее бельё.
+die Strumpfhose|колготки|Im Winter trägt sie eine warme Strumpfhose.|Зимой она носит тёплые колготки.
+die Handschuhe|перчатки (мн. ч.)|Es ist kalt, zieh Handschuhe an!|Холодно, надень перчатки!
+die Wollmütze|шерстяная шапка|Die Wollmütze hat meine Oma gestrickt.|Шерстяную шапку связала моя бабушка.
+der Wintermantel|зимнее пальто|Mein Wintermantel ist sehr warm.|Моё зимнее пальто очень тёплое.
+die Winterjacke|зимняя куртка|Ich brauche eine neue Winterjacke.|Мне нужна новая зимняя куртка.
+der Regenmantel|плащ-дождевик|Nimm deinen Regenmantel mit!|Возьми свой дождевик!
+die Gummistiefel|резиновые сапоги (мн. ч.)|Bei Regen trägt das Kind Gummistiefel.|В дождь ребёнок носит резиновые сапоги.
+die Stiefel|сапоги (мн. ч.)|Die braunen Stiefel sind neu.|Коричневые сапоги новые.
+die Turnschuhe|кроссовки, кеды (мн. ч.)|Für den Sport brauchst du Turnschuhe.|Для спорта тебе нужны кроссовки.
+die Sandalen|сандалии (мн. ч.)|Im Sommer trage ich Sandalen.|Летом я ношу сандалии.
+die Badelatschen|шлёпанцы (мн. ч.)|Im Schwimmbad trage ich Badelatschen.|В бассейне я ношу шлёпанцы.
+der Trainingsanzug|спортивный костюм|Er trägt zu Hause einen Trainingsanzug.|Дома он ходит в спортивном костюме.
+die Lederjacke|кожаная куртка|Die Lederjacke ist ziemlich teuer.|Кожаная куртка довольно дорогая.
+das Sommerkleid|летнее платье|Sie trägt ein leichtes Sommerkleid.|На ней лёгкое летнее платье.
+` },
+);
 /* de-b1-1.js */
 (window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
 { lang: 'de', id: 'de-b1-verbs1', level: 'B1', emoji: '⚙️', title: 'Verben B1 (1)', desc: 'Важные глаголы уровня B1; обращайте внимание на управление: achten auf + Akk., verzichten auf + Akk.', cards: `
@@ -4682,6 +5053,1339 @@ der Knopf|кнопка, пуговица|An meiner Jacke fehlt ein Knopf.|На �
 das Bügeleisen|утюг|Vorsicht, das Bügeleisen ist heiß!|Осторожно, утюг горячий!
 die Verlängerungsschnur|удлинитель|Wir brauchen eine Verlängerungsschnur.|Нам нужен удлинитель.
 der Kleiderbügel|вешалка-плечики|Häng das Hemd auf einen Kleiderbügel.|Повесь рубашку на плечики.
+` },
+);
+/* de-b1-13.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b1-x-service', level: 'B1', emoji: '📞', title: 'Kundenservice und Reklamation', desc: 'Жалобы, гарантия и общение со службой поддержки; sich beschweren über + Akk. — жаловаться на что-то.', cards: `
+die Servicenummer|номер службы поддержки|Die Servicenummer steht auf der Rechnung.|Номер службы поддержки указан в счёте.
+die Hotline|горячая линия|Ich habe schon dreimal bei der Hotline angerufen.|Я уже три раза звонил на горячую линию.
+in der Warteschleife hängen|висеть на линии в ожидании|Ich hänge seit zwanzig Minuten in der Warteschleife.|Я уже двадцать минут жду на линии.
+durchkommen|дозвониться|Endlich bin ich durchgekommen!|Наконец-то я дозвонился!
+die Kundenberatung|консультация клиентов|Die Kundenberatung ist bis 18 Uhr erreichbar.|Консультация клиентов доступна до 18 часов.
+der Kundenberater|консультант по работе с клиентами|Der Kundenberater war sehr freundlich.|Консультант был очень вежлив.
+die Rechnungsnummer|номер счёта|Die Rechnungsnummer finden Sie oben rechts.|Номер счёта вы найдёте справа вверху.
+die Bestellbestätigung|подтверждение заказа|Ich habe noch keine Bestellbestätigung bekommen.|Я ещё не получил подтверждения заказа.
+die Rechnungsadresse|адрес для счёта|Die Rechnungsadresse ist anders als die Lieferadresse.|Адрес для счёта отличается от адреса доставки.
+die Falschlieferung|доставка не того товара|Das ist eine Falschlieferung, ich habe Blau bestellt.|Это ошибка в доставке, я заказывал синий.
+der Defekt|дефект, неисправность|Das Gerät hat einen Defekt.|У прибора неисправность.
+kaputtgehen|ломаться|Der Wasserkocher ist nach einer Woche kaputtgegangen.|Чайник сломался через неделю.
+Das funktioniert nicht.|Это не работает.|Ich habe alles versucht, aber das funktioniert nicht.|Я всё перепробовал, но это не работает.
+Das kann doch nicht wahr sein!|Не может быть! Это просто невозможно!|Schon wieder kaputt? Das kann doch nicht wahr sein!|Опять сломалось? Не может быть!
+sich beschweren über|жаловаться на|Er beschwert sich über den schlechten Service.|Он жалуется на плохое обслуживание.
+Ich möchte mich beschweren.|Я хотел бы подать жалобу.|Guten Tag, ich möchte mich beschweren.|Добрый день, я хотел бы пожаловаться.
+der Beschwerdebrief|письмо с жалобой|Ich schreibe einen Beschwerdebrief an die Firma.|Я пишу письмо с жалобой в фирму.
+die Unzufriedenheit|недовольство|Die Unzufriedenheit der Kunden ist groß.|Недовольство клиентов велико.
+der Kaufbeleg|документ о покупке, чек|Bitte legen Sie den Kaufbeleg bei.|Пожалуйста, приложите чек.
+die Garantiezeit|гарантийный срок|Die Garantiezeit beträgt zwei Jahre.|Гарантийный срок составляет два года.
+auf Garantie|по гарантии|Die Reparatur läuft auf Garantie.|Ремонт делается по гарантии.
+die Reparaturwerkstatt|ремонтная мастерская|Wir schicken das Handy in unsere Reparaturwerkstatt.|Мы отправим телефон в нашу мастерскую.
+der Techniker|техник|Morgen kommt ein Techniker vorbei.|Завтра зайдёт техник.
+den Fehler beheben|устранить неисправность|Der Techniker konnte den Fehler schnell beheben.|Техник быстро устранил неисправность.
+der Ersatz|замена|Sie bekommen kostenlos Ersatz.|Вы бесплатно получите замену.
+die Ware zurückschicken|отправить товар обратно|Sie können die Ware innerhalb von 14 Tagen zurückschicken.|Вы можете вернуть товар в течение 14 дней.
+das Geld zurückbekommen|получить деньги обратно|Wann bekomme ich mein Geld zurück?|Когда я получу свои деньги обратно?
+die Preisminderung|снижение цены (из-за недостатка)|Wegen des Kratzers verlange ich eine Preisminderung.|Из-за царапины я требую снижения цены.
+kulant|сговорчивый, идущий навстречу (о фирме)|Die Firma war sehr kulant und hat alles ersetzt.|Фирма пошла навстречу и всё заменила.
+weiterhelfen|помочь (дальше), выручить|Leider kann ich Ihnen da nicht weiterhelfen.|К сожалению, тут я вам помочь не могу.
+eine Lösung finden|найти решение|Wir finden sicher eine Lösung.|Мы наверняка найдём решение.
+` },
+{ lang: 'de', id: 'de-b1-x-contracts', level: 'B1', emoji: '📝', title: 'Tarife, Abos und Versicherungen', desc: 'Договоры, подписки, тарифы и страховки; die Laufzeit — срок действия договора.', cards: `
+die Vertragslaufzeit|срок действия договора|Die Vertragslaufzeit beträgt 24 Monate.|Срок действия договора — 24 месяца.
+das Vertragsende|окончание договора|Kurz vor dem Vertragsende bekommt man ein neues Angebot.|Незадолго до окончания договора приходит новое предложение.
+einen Vertrag kündigen|расторгнуть договор|Ich möchte meinen Vertrag zum Monatsende kündigen.|Я хочу расторгнуть договор с конца месяца.
+die Bedingungen|условия (мн. ч.)|Lies die Bedingungen genau, bevor du unterschreibst.|Внимательно прочитай условия, прежде чем подписывать.
+das Probeabo|пробная подписка|Das Probeabo ist vier Wochen kostenlos.|Пробная подписка бесплатна четыре недели.
+kostenlos testen|бесплатно попробовать|Sie können die App einen Monat kostenlos testen.|Вы можете месяц бесплатно попробовать приложение.
+die Testphase|пробный период|Nach der Testphase kostet es zehn Euro im Monat.|После пробного периода это стоит десять евро в месяц.
+das Zeitungsabo|подписка на газету|Mein Vater hat ein Zeitungsabo.|У моего отца подписка на газету.
+das Streamingabo|подписка на стриминговый сервис|Wir teilen uns ein Streamingabo.|Мы делим одну подписку на стриминг.
+der Monatsbeitrag|ежемесячный взнос|Der Monatsbeitrag wird am Ersten abgebucht.|Ежемесячный взнос списывается первого числа.
+die Zusatzkosten|дополнительные расходы (мн. ч.)|Gibt es noch Zusatzkosten?|Есть ли ещё дополнительные расходы?
+versteckte Kosten|скрытые расходы|Achten Sie auf versteckte Kosten!|Обращайте внимание на скрытые расходы!
+die Abschlagszahlung|авансовый платёж|Die monatliche Abschlagszahlung für Strom beträgt 60 Euro.|Ежемесячный авансовый платёж за электричество — 60 евро.
+die Rückzahlung|возврат денег|Nach der Abrechnung bekommen wir eine Rückzahlung.|После расчёта нам вернут деньги.
+der Stromtarif|тариф на электричество|Dieser Stromtarif ist günstiger.|Этот тариф на электричество дешевле.
+den Zähler ablesen|снимать показания счётчика|Einmal im Jahr muss man den Zähler ablesen.|Раз в год нужно снимать показания счётчика.
+der Vertragsentwurf|проект договора|Schicken Sie mir bitte den Vertragsentwurf.|Пришлите мне, пожалуйста, проект договора.
+die Vertragsänderung|изменение договора|Jede Vertragsänderung muss schriftlich sein.|Каждое изменение договора должно быть письменным.
+die Preiserhöhung|повышение цены|Wegen der Preiserhöhung kündige ich.|Из-за повышения цены я расторгаю договор.
+monatlich kündbar|с возможностью расторжения каждый месяц|Der Vertrag ist monatlich kündbar.|Договор можно расторгнуть в любой месяц.
+die Kontoverbindung|банковские реквизиты|Bitte geben Sie Ihre Kontoverbindung an.|Пожалуйста, укажите ваши банковские реквизиты.
+das Vergleichsportal|сайт сравнения цен|Auf einem Vergleichsportal findest du günstigere Tarife.|На сайте сравнения найдёшь тарифы дешевле.
+der Neukundenrabatt|скидка для новых клиентов|Im ersten Jahr gibt es einen Neukundenrabatt.|В первый год действует скидка для новых клиентов.
+der Wechselbonus|бонус за переход (к другому поставщику)|Beim Wechsel bekommt man 100 Euro Wechselbonus.|При переходе дают бонус 100 евро.
+der Gasanbieter|поставщик газа|Unser Gasanbieter hat die Preise erhöht.|Наш поставщик газа поднял цены.
+die Gasrechnung|счёт за газ|Die Gasrechnung war dieses Jahr sehr hoch.|Счёт за газ в этом году был очень большим.
+die Jahresabrechnung|годовой расчёт|Mit der Jahresabrechnung kam eine Nachzahlung.|С годовым расчётом пришла доплата.
+die Privathaftpflicht|частное страхование ответственности|Die Privathaftpflicht zahlt, wenn du etwas kaputt machst.|Страховка ответственности платит, если ты что-то сломаешь.
+die Versicherungsprämie|страховой взнос|Die Versicherungsprämie wird jährlich bezahlt.|Страховой взнос оплачивается ежегодно.
+der Versicherungsmakler|страховой брокер|Ein Versicherungsmakler hat uns beraten.|Нас проконсультировал страховой брокер.
+die Kosten übernehmen|брать на себя расходы|Die Versicherung übernimmt die Kosten.|Страховка берёт расходы на себя.
+die Kostenübernahme|покрытие расходов|Wir warten noch auf die Kostenübernahme.|Мы ещё ждём подтверждения покрытия расходов.
+die Versicherungsnummer|номер страхового полиса|Geben Sie bitte Ihre Versicherungsnummer an.|Укажите, пожалуйста, номер вашего полиса.
+die Unfallversicherung|страхование от несчастных случаев|Die Unfallversicherung zahlt auch in der Freizeit.|Страховка от несчастных случаев платит и в свободное время.
+die Zahnzusatzversicherung|дополнительная стоматологическая страховка|Die Zahnzusatzversicherung zahlt einen Teil der Krone.|Дополнительная стоматологическая страховка оплачивает часть коронки.
+die Kaskoversicherung|автокаско|Für ein neues Auto lohnt sich eine Kaskoversicherung.|Для новой машины стоит оформить каско.
+` },
+{ lang: 'de', id: 'de-b1-x-friends', level: 'B1', emoji: '🤝', title: 'Freundschaft und Streit', desc: 'Дружба, ссоры и примирение; «ein offenes Ohr haben» — быть готовым выслушать.', cards: `
+die beste Freundin|лучшая подруга|Meine beste Freundin kenne ich seit dem Kindergarten.|Свою лучшую подругу я знаю с детского сада.
+der beste Freund|лучший друг|Er ist mein bester Freund.|Он мой лучший друг.
+der Schulfreund|школьный друг|Gestern habe ich einen alten Schulfreund getroffen.|Вчера я встретил старого школьного друга.
+die Brieffreundschaft|дружба по переписке|Unsere Brieffreundschaft hat vor zehn Jahren begonnen.|Наша дружба по переписке началась десять лет назад.
+der Bekanntenkreis|круг знакомых|In meinem Bekanntenkreis sind viele Lehrer.|В моём кругу знакомых много учителей.
+die Clique|компания (друзей)|Am Wochenende trifft sich die ganze Clique.|На выходных собирается вся компания.
+befreundet sein|дружить|Wir sind seit Jahren befreundet.|Мы дружим много лет.
+Freunde finden|находить друзей|In einer neuen Stadt ist es schwer, Freunde zu finden.|В новом городе трудно найти друзей.
+sich gut verstehen|хорошо ладить|Wir verstehen uns sehr gut.|Мы очень хорошо ладим.
+zusammenhalten|держаться вместе, поддерживать друг друга|In schweren Zeiten halten wir zusammen.|В трудные времена мы держимся вместе.
+für jemanden da sein|быть рядом (для поддержки)|Ich bin immer für dich da.|Я всегда рядом с тобой.
+ein offenes Ohr haben|быть готовым выслушать|Meine Schwester hat immer ein offenes Ohr für mich.|Сестра всегда готова меня выслушать.
+um Rat fragen|просить совета|Darf ich dich um Rat fragen?|Можно попросить у тебя совета?
+einen Rat geben|давать совет|Kannst du mir einen Rat geben?|Можешь дать мне совет?
+sich Sorgen machen um|беспокоиться о|Ich mache mir Sorgen um dich.|Я беспокоюсь о тебе.
+einen Gefallen tun|сделать одолжение|Kannst du mir einen Gefallen tun?|Можешь сделать мне одолжение?
+gönnen|не завидовать, радоваться за кого-то|Ich gönne dir den Erfolg von Herzen.|Я от всей души рад твоему успеху.
+loyal|верный, лояльный|Sie ist eine sehr loyale Freundin.|Она очень верная подруга.
+die Ehrlichkeit|честность|Ehrlichkeit ist mir in einer Freundschaft wichtig.|В дружбе мне важна честность.
+den Kontakt halten|поддерживать связь|Wir halten über WhatsApp Kontakt.|Мы поддерживаем связь через WhatsApp.
+sich aus den Augen verlieren|потерять друг друга из виду|Nach der Schule haben wir uns aus den Augen verloren.|После школы мы потеряли друг друга из виду.
+sich auseinanderleben|отдалиться друг от друга|Mit den Jahren haben wir uns auseinandergelebt.|С годами мы отдалились друг от друга.
+die Meinungsverschiedenheit|разногласие|Wir hatten eine kleine Meinungsverschiedenheit.|У нас было небольшое разногласие.
+Krach haben|ссориться, быть в ссоре|Ich habe Krach mit meinem Mitbewohner.|Я поссорился с соседом по квартире.
+sich zerstreiten|разругаться|Die beiden haben sich wegen Geld zerstritten.|Они разругались из-за денег.
+die Funkstille|молчание, прерванная связь|Seit dem Streit herrscht Funkstille.|После ссоры мы не общаемся.
+die Beleidigung|оскорбление|Das war eine schlimme Beleidigung.|Это было тяжёлое оскорбление.
+verletzend|обидный, ранящий|Deine Worte waren sehr verletzend.|Твои слова были очень обидными.
+übel nehmen|обижаться на, не прощать|Nimm es mir bitte nicht übel!|Не обижайся на меня, пожалуйста!
+hinter dem Rücken|за спиной|Sie hat hinter meinem Rücken über mich geredet.|Она говорила обо мне за моей спиной.
+der Tratsch|сплетни|Ich interessiere mich nicht für Tratsch.|Меня не интересуют сплетни.
+ein Geheimnis verraten|выдать секрет|Er hat mein Geheimnis verraten.|Он выдал мой секрет.
+schuld sein|быть виноватым|Wer ist schuld an dem Streit?|Кто виноват в ссоре?
+sich aussprechen|объясниться, выговориться|Wir sollten uns endlich aussprechen.|Нам пора наконец объясниться.
+vergeben|прощать|Kannst du mir vergeben?|Ты можешь меня простить?
+` },
+{ lang: 'de', id: 'de-b1-x-club', level: 'B1', emoji: '⚽', title: 'Vereinsleben', desc: 'Немецкие клубы и общества (Vereine): членство, собрания, тренировки, матчи.', cards: `
+das Vereinsmitglied|член клуба|Der Verein hat 300 Vereinsmitglieder.|В клубе 300 членов.
+beitreten|вступать (в организацию)|Ich bin einem Sportverein beigetreten.|Я вступил в спортивный клуб.
+der Mitgliedsbeitrag|членский взнос|Der Mitgliedsbeitrag beträgt 50 Euro im Jahr.|Членский взнос — 50 евро в год.
+die Mitgliedskarte|членский билет, клубная карта|Zeigen Sie bitte Ihre Mitgliedskarte.|Покажите, пожалуйста, вашу клубную карту.
+der Vorsitzende|председатель|Der Vorsitzende eröffnet die Versammlung.|Председатель открывает собрание.
+der Kassenwart|казначей (клуба)|Der Kassenwart kümmert sich um das Geld.|Казначей отвечает за деньги.
+die Vereinskasse|касса клуба|In der Vereinskasse ist nicht mehr viel Geld.|В кассе клуба осталось немного денег.
+der Schriftführer|секретарь (собрания)|Der Schriftführer schreibt das Protokoll.|Секретарь ведёт протокол.
+die Mitgliederversammlung|общее собрание членов|Die Mitgliederversammlung findet im März statt.|Общее собрание проходит в марте.
+die Jahreshauptversammlung|ежегодное общее собрание|Auf der Jahreshauptversammlung wird gewählt.|На ежегодном собрании проходят выборы.
+das Vereinsheim|клубный дом, помещение клуба|Nach dem Training sitzen wir im Vereinsheim.|После тренировки мы сидим в клубном доме.
+der Fußballverein|футбольный клуб|Er spielt in einem kleinen Fußballverein.|Он играет в небольшом футбольном клубе.
+der Turnverein|гимнастическое общество|Der Turnverein ist über hundert Jahre alt.|Гимнастическому обществу больше ста лет.
+der Musikverein|музыкальное общество, духовой оркестр|Der Musikverein spielt beim Stadtfest.|Музыкальное общество играет на городском празднике.
+der Karnevalsverein|карнавальное общество|Der Karnevalsverein plant den Umzug.|Карнавальное общество готовит шествие.
+der Schützenverein|стрелковое общество|Im Dorf feiert der Schützenverein ein großes Fest.|В деревне стрелковое общество празднует большой праздник.
+der Kegelverein|клуб любителей кегельбана|Jeden Freitag trifft sich der Kegelverein.|Каждую пятницу собирается клуб кегельбана.
+der Schachclub|шахматный клуб|Im Schachclub spielen auch Kinder.|В шахматном клубе играют и дети.
+die Wandergruppe|группа любителей пеших походов|Die Wandergruppe trifft sich sonntags am Bahnhof.|Туристическая группа собирается по воскресеньям у вокзала.
+der Übungsleiter|тренер, руководитель занятий (в клубе)|Der Übungsleiter arbeitet ehrenamtlich.|Тренер работает на общественных началах.
+die Trainingszeit|время тренировок|Die Trainingszeiten stehen auf der Webseite.|Время тренировок указано на сайте.
+das Trainingslager|тренировочный лагерь, сборы|Im Sommer fährt die Mannschaft ins Trainingslager.|Летом команда едет на сборы.
+die Jugendabteilung|молодёжное отделение|Die Jugendabteilung sucht neue Trainer.|Молодёжное отделение ищет новых тренеров.
+die Jugendmannschaft|юношеская команда|Mein Neffe spielt in der Jugendmannschaft.|Мой племянник играет в юношеской команде.
+der Mannschaftskapitän|капитан команды|Der Mannschaftskapitän hält eine kurze Rede.|Капитан команды произносит короткую речь.
+der Teamgeist|командный дух|Bei uns ist der Teamgeist sehr gut.|У нас отличный командный дух.
+das Heimspiel|домашний матч|Am Sonntag haben wir ein Heimspiel.|В воскресенье у нас домашний матч.
+das Auswärtsspiel|выездной матч|Zum Auswärtsspiel fahren wir mit dem Bus.|На выездной матч мы едем на автобусе.
+aufsteigen|подняться (в лиге)|Die Mannschaft ist in die Bezirksliga aufgestiegen.|Команда поднялась в окружную лигу.
+das Vereinsfest|праздник клуба|Beim Vereinsfest gibt es Kuchen und Musik.|На празднике клуба будут пироги и музыка.
+das Sommerfest|летний праздник|Das Sommerfest ist am letzten Samstag im Juli.|Летний праздник — в последнюю субботу июля.
+der Vereinsausflug|поездка клуба|Der Vereinsausflug geht dieses Jahr an den Bodensee.|В этом году клуб едет на Боденское озеро.
+` },
+{ lang: 'de', id: 'de-b1-x-injury', level: 'B1', emoji: '🩹', title: 'Verletzungen und Beschwerden', desc: 'Травмы, ушибы, укусы и что с ними делать; umknicken — подвернуть ногу.', cards: `
+der Fahrradunfall|авария на велосипеде|Nach dem Fahrradunfall hatte sie Schmerzen im Knie.|После падения с велосипеда у неё болело колено.
+sich wehtun|ушибиться, сделать себе больно|Hast du dir wehgetan?|Ты ушибся?
+der Unfallhergang|ход (обстоятельства) аварии|Können Sie den Unfallhergang beschreiben?|Вы можете описать, как произошла авария?
+die Fahrerflucht|бегство водителя с места ДТП|Fahrerflucht ist eine Straftat.|Бегство с места ДТП — уголовное преступление.
+der Erste-Hilfe-Kurs|курс первой помощи|Für den Führerschein braucht man einen Erste-Hilfe-Kurs.|Для водительских прав нужен курс первой помощи.
+ansprechbar|в сознании, реагирующий на обращение|Der Mann ist nicht ansprechbar.|Мужчина не реагирует на обращение.
+der Puls|пульс|Der Arzt fühlt den Puls.|Врач щупает пульс.
+die Herzdruckmassage|непрямой массаж сердца|Beginnen Sie sofort mit der Herzdruckmassage!|Немедленно начинайте непрямой массаж сердца!
+die Rettungsdecke|спасательное одеяло|Wir legen ihm eine Rettungsdecke um.|Мы укрываем его спасательным одеялом.
+die Schürfwunde|ссадина|Das Kind hat eine Schürfwunde am Knie.|У ребёнка ссадина на колене.
+verstaucht|растянутый (о связках)|Mein Fuß ist verstaucht.|У меня растяжение на ноге.
+kühlen|охлаждать, прикладывать холод|Du musst den Knöchel kühlen.|Тебе нужно приложить холод к лодыжке.
+das Kühlpack|охлаждающий пакет|Leg ein Kühlpack auf die Stelle.|Положи на это место охлаждающий пакет.
+hochlegen|держать в приподнятом положении|Leg das Bein hoch!|Положи ногу повыше!
+der blaue Fleck|синяк|Nach dem Sturz hatte ich einen blauen Fleck am Bein.|После падения у меня был синяк на ноге.
+die Beule|шишка|Das Kind hat eine Beule am Kopf.|У ребёнка шишка на голове.
+sich schneiden|порезаться|Ich habe mich beim Kochen in den Finger geschnitten.|Я порезал палец, когда готовил.
+sich den Arm brechen|сломать руку|Er ist vom Baum gefallen und hat sich den Arm gebrochen.|Он упал с дерева и сломал руку.
+umknicken|подвернуть (ногу)|Beim Joggen bin ich umgeknickt.|Во время пробежки я подвернул ногу.
+der Bänderriss|разрыв связок|Der Arzt vermutet einen Bänderriss.|Врач подозревает разрыв связок.
+die Schiene|шина (медицинская)|Der Finger kommt in eine Schiene.|На палец наложат шину.
+ruhigstellen|обездвижить|Das Knie muss zwei Wochen ruhiggestellt werden.|Колено нужно обездвижить на две недели.
+die Mullbinde|марлевый бинт|Wickle eine Mullbinde um die Wunde.|Обмотай рану марлевым бинтом.
+die Kompresse|компресс, стерильная салфетка|Drück eine Kompresse auf die Wunde.|Прижми к ране стерильную салфетку.
+der Zeckenbiss|укус клеща|Nach einem Zeckenbiss sollte man zum Arzt gehen.|После укуса клеща стоит пойти к врачу.
+der Bienenstich|укус пчелы|Ein Bienenstich tut sehr weh.|Укус пчелы очень болезненный.
+die allergische Reaktion|аллергическая реакция|Nach dem Stich hatte sie eine allergische Reaktion.|После укуса у неё была аллергическая реакция.
+Kreislaufprobleme|проблемы с кровообращением, головокружение (мн. ч.)|Bei der Hitze hat er Kreislaufprobleme.|В жару у него проблемы с давлением.
+der Sonnenstich|солнечный удар|Ohne Hut bekommst du einen Sonnenstich.|Без шляпы ты получишь солнечный удар.
+der Hitzschlag|тепловой удар|Der Wanderer hatte einen Hitzschlag.|У туриста был тепловой удар.
+die Unterkühlung|переохлаждение|Nach dem Sturz ins Wasser hatte er eine Unterkühlung.|Упав в воду, он переохладился.
+der Gips|гипс|Sein Arm ist sechs Wochen in Gips.|Его рука шесть недель в гипсе.
+der Rollstuhl|инвалидная коляска|Nach dem Unfall saß sie im Rollstuhl.|После аварии она была в инвалидной коляске.
+` },
+{ lang: 'de', id: 'de-b1-x-schoolsys', level: 'B1', emoji: '🏫', title: 'Schule: System und Eltern', desc: 'Немецкая школьная система, оценки и родители; sitzen bleiben — остаться на второй год.', cards: `
+die Schulform|тип школы|In Deutschland gibt es viele Schulformen.|В Германии много типов школ.
+die weiterführende Schule|средняя школа (после начальной)|Nach der vierten Klasse kommt die weiterführende Schule.|После четвёртого класса идёт средняя школа.
+die Schulempfehlung|рекомендация о типе школы|Mein Sohn hat eine Schulempfehlung fürs Gymnasium.|У моего сына рекомендация в гимназию.
+die Oberstufe|старшие классы (гимназии)|In der Oberstufe wählt man Leistungskurse.|В старших классах выбирают профильные курсы.
+die Schulleitung|администрация школы|Die Schulleitung hat einen Brief an die Eltern geschickt.|Администрация школы разослала письмо родителям.
+der Schulleiter|директор школы|Der Schulleiter begrüßt die neuen Schüler.|Директор приветствует новых учеников.
+die Klassenlehrerin|классная руководительница|Die Klassenlehrerin ruft die Eltern an.|Классная руководительница звонит родителям.
+das Lehrerzimmer|учительская|Die Lehrer machen Pause im Lehrerzimmer.|Учителя отдыхают в учительской.
+der Elternsprechtag|день встреч родителей с учителями|Am Elternsprechtag rede ich mit allen Lehrern.|В день встреч с родителями я говорю со всеми учителями.
+die Elternvertreterin|представительница родителей (класса)|Sie ist dieses Jahr Elternvertreterin.|В этом году она представляет родителей класса.
+der Elternbeirat|родительский совет|Der Elternbeirat organisiert das Sommerfest.|Родительский совет организует летний праздник.
+die Hausaufgabenbetreuung|помощь с домашними заданиями (продлёнка)|Nach dem Essen gibt es Hausaufgabenbetreuung.|После обеда — помощь с домашними заданиями.
+die Nachhilfe|репетиторство, дополнительные занятия|Sie bekommt Nachhilfe in Mathe.|Она занимается математикой с репетитором.
+das Pflichtfach|обязательный предмет|Englisch ist ein Pflichtfach.|Английский — обязательный предмет.
+das Wahlfach|предмет по выбору|Als Wahlfach habe ich Spanisch genommen.|В качестве предмета по выбору я взял испанский.
+der Religionsunterricht|урок религии|Statt Religionsunterricht hat er Ethik.|Вместо религии у него этика.
+die Schulordnung|школьные правила|Laut Schulordnung sind Handys im Unterricht verboten.|По школьным правилам телефоны на уроке запрещены.
+das Schuljahr|учебный год|Das neue Schuljahr beginnt im August.|Новый учебный год начинается в августе.
+das Halbjahr|полугодие|Im zweiten Halbjahr wird es schwerer.|Во втором полугодии будет труднее.
+das Halbjahreszeugnis|табель за полугодие|Im Februar gibt es das Halbjahreszeugnis.|В феврале выдают табель за полугодие.
+die Zeugnisnote|оценка в табеле|In Deutsch hat er die Zeugnisnote Zwei.|По немецкому у него в табеле «хорошо».
+der Notenschnitt|средний балл|Mit einem Notenschnitt von 1,5 kann sie Medizin studieren.|Со средним баллом 1,5 она может изучать медицину.
+die Bestnote|высшая оценка|Sie hat in allen Fächern die Bestnote.|У неё по всем предметам высшая оценка.
+versetzt werden|быть переведённым в следующий класс|Trotz der Fünf in Mathe wurde er versetzt.|Несмотря на двойку по математике, его перевели в следующий класс.
+die Versetzung|перевод в следующий класс|Die Versetzung ist gefährdet.|Перевод в следующий класс под угрозой.
+sitzen bleiben|остаться на второй год|Wenn er so weitermacht, bleibt er sitzen.|Если он так продолжит, останется на второй год.
+der Schulabschluss|школьный аттестат, окончание школы|Ohne Schulabschluss ist es schwer, eine Lehrstelle zu finden.|Без аттестата трудно найти место ученика.
+der Hauptschulabschluss|аттестат основной школы (после 9 класса)|Nach dem Hauptschulabschluss macht er eine Ausbildung.|После окончания основной школы он идёт учиться профессии.
+der Realschulabschluss|аттестат реальной школы (после 10 класса)|Mit dem Realschulabschluss kann sie eine Ausbildung zur Bankkauffrau machen.|С аттестатом реальной школы она может выучиться на банковского служащего.
+die mittlere Reife|аттестат о среднем образовании (10 классов)|Er hat die mittlere Reife gemacht.|Он окончил десять классов.
+das Abschlusszeugnis|выпускной аттестат|Das Abschlusszeugnis gibt es auf der Abschlussfeier.|Выпускной аттестат вручают на выпускном.
+der Tag der offenen Tür|день открытых дверей|Am Tag der offenen Tür besuchen wir das Gymnasium.|В день открытых дверей мы посетим гимназию.
+` },
+{ lang: 'de', id: 'de-b1-x-schoolday', level: 'B1', emoji: '✏️', title: 'Schulalltag', desc: 'Будни школьника: уроки, контрольные, шпаргалки и поездки классом.', cards: `
+der Schulweg|дорога в школу|Der Schulweg dauert zehn Minuten.|Дорога в школу занимает десять минут.
+der Schulbus|школьный автобус|Der Schulbus kommt um sieben Uhr.|Школьный автобус приходит в семь.
+die Schulsachen|школьные принадлежности (мн. ч.)|Pack bitte deine Schulsachen ein!|Собери, пожалуйста, свои школьные вещи!
+das Federmäppchen|пенал|Im Federmäppchen sind Stifte und ein Lineal.|В пенале ручки и линейка.
+der Füller|перьевая ручка|In der Grundschule schreiben die Kinder mit Füller.|В начальной школе дети пишут перьевой ручкой.
+der Textmarker|маркер (текстовыделитель)|Markier die wichtigen Wörter mit dem Textmarker.|Выдели важные слова маркером.
+das Schulheft|школьная тетрадь|Schreib die Aufgabe in dein Schulheft.|Запиши задание в тетрадь.
+das Arbeitsblatt|рабочий лист|Die Lehrerin verteilt die Arbeitsblätter.|Учительница раздаёт рабочие листы.
+das Pausenbrot|бутерброд на перемену|Mama hat mir ein Pausenbrot gemacht.|Мама сделала мне бутерброд на перемену.
+die Doppelstunde|сдвоенный урок|Montags haben wir eine Doppelstunde Sport.|По понедельникам у нас сдвоенная физкультура.
+die Freistunde|свободный урок, «окно»|In der Freistunde gehen wir in die Bibliothek.|В свободный урок мы идём в библиотеку.
+der Vertretungsplan|расписание замен|Schau mal auf den Vertretungsplan!|Посмотри на расписание замен!
+der Unterrichtsausfall|отмена уроков|Wegen Krankheit gibt es viel Unterrichtsausfall.|Из-за болезней много уроков отменяется.
+Vokabeln lernen|учить слова|Jeden Abend lerne ich Vokabeln.|Каждый вечер я учу слова.
+der Vokabeltest|словарный тест|Morgen schreiben wir einen Vokabeltest.|Завтра у нас словарный тест.
+das Diktat|диктант|Im Diktat hatte ich nur zwei Fehler.|В диктанте у меня было только две ошибки.
+ein Referat halten|делать доклад|Ich halte morgen ein Referat über Bienen.|Завтра я делаю доклад о пчёлах.
+abschreiben|списывать|Er hat die Hausaufgaben von mir abgeschrieben.|Он списал у меня домашку.
+spicken|подсматривать (в шпаргалку), списывать|Wer spickt, bekommt eine Sechs.|Кто списывает, получает единицу.
+der Spickzettel|шпаргалка|Die Lehrerin hat den Spickzettel gefunden.|Учительница нашла шпаргалку.
+schwänzen|прогуливать (уроки)|Er hat heute die Schule geschwänzt.|Он сегодня прогулял школу.
+nachsitzen|оставаться после уроков (в наказание)|Weil er gestört hat, muss er nachsitzen.|Так как он мешал, его оставили после уроков.
+das Klassenbuch|классный журнал|Sein Name steht im Klassenbuch.|Его имя записано в классном журнале.
+der Mitschüler|одноклассник|Meine Mitschüler sind sehr nett.|Мои одноклассники очень милые.
+der Banknachbar|сосед по парте|Mein Banknachbar heißt Jonas.|Моего соседа по парте зовут Йонас.
+die Klassengemeinschaft|сплочённость класса, коллектив класса|Die Klassenfahrt ist gut für die Klassengemeinschaft.|Поездка классом хороша для сплочения класса.
+gemobbt werden|подвергаться травле|Leider wird er in der Schule gemobbt.|К сожалению, его травят в школе.
+der Klassensprecher|староста класса|Wir haben Tim zum Klassensprecher gewählt.|Мы выбрали Тима старостой класса.
+die Klassensprecherin|староста класса (девочка)|Die Klassensprecherin spricht mit dem Direktor.|Староста класса говорит с директором.
+die Schülerzeitung|школьная газета|Sie schreibt Artikel für die Schülerzeitung.|Она пишет статьи для школьной газеты.
+die Projektwoche|проектная неделя|In der Projektwoche gibt es keinen normalen Unterricht.|В проектную неделю нет обычных уроков.
+der Wandertag|день похода (школьный)|Am Wandertag gehen wir in den Wald.|В день похода мы идём в лес.
+die Klassenfahrt|поездка классом|Die Klassenfahrt geht nach Hamburg.|Класс едет в Гамбург.
+der Schüleraustausch|школьный обмен|Durch den Schüleraustausch war ich drei Monate in Frankreich.|По школьному обмену я три месяца был во Франции.
+das Schulfest|школьный праздник|Beim Schulfest singt der Chor.|На школьном празднике поёт хор.
+` },
+);
+/* de-b1-14.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b1-x-diet', level: 'B1', emoji: '🥗', title: 'Ernährung und Essgewohnheiten', desc: 'Как и что мы едим: режим питания, доставка, вегетарианство; sich ernähren — питаться.', cards: `
+die Ernährungsweise|образ питания|Seine Ernährungsweise ist sehr ungesund.|Его образ питания очень нездоровый.
+sich gesund ernähren|правильно питаться|Ich versuche, mich gesund zu ernähren.|Я стараюсь правильно питаться.
+der Ernährungsplan|план питания|Die Ärztin hat mir einen Ernährungsplan gegeben.|Врач дала мне план питания.
+die Ernährungsberaterin|диетолог, консультант по питанию|Die Ernährungsberaterin empfiehlt mehr Gemüse.|Консультант по питанию советует больше овощей.
+die Ernährungspyramide|пирамида питания|Unten in der Ernährungspyramide stehen Wasser und Gemüse.|Внизу пирамиды питания — вода и овощи.
+die Essgewohnheiten|пищевые привычки (мн. ч.)|Im Urlaub ändern sich meine Essgewohnheiten.|В отпуске мои пищевые привычки меняются.
+die Essenszeit|время приёма пищи|Feste Essenszeiten sind gut für Kinder.|Постоянное время еды полезно детям.
+regelmäßig essen|есть регулярно|Wer regelmäßig isst, hat weniger Heißhunger.|Кто ест регулярно, реже испытывает сильный голод.
+warm essen|есть горячее|Wir essen nur abends warm.|Горячее мы едим только вечером.
+die Zwischenmahlzeit|перекус|Ein Apfel ist eine gute Zwischenmahlzeit.|Яблоко — хороший перекус.
+das Frühstück auslassen|пропускать завтрак|Viele Jugendliche lassen das Frühstück aus.|Многие подростки пропускают завтрак.
+satt werden|наедаться|Von einem Salat werde ich nicht satt.|Одним салатом я не наедаюсь.
+vorkochen|готовить заранее|Sonntags koche ich für die ganze Woche vor.|По воскресеньям я готовлю на всю неделю вперёд.
+das Kantinenessen|еда в столовой|Das Kantinenessen ist günstig, aber langweilig.|Еда в столовой дешёвая, но скучная.
+der Lieferdienst|служба доставки (еды)|Heute bestellen wir beim Lieferdienst.|Сегодня мы закажем в службе доставки.
+Essen bestellen|заказывать еду|Ich habe keine Lust zu kochen, lass uns Essen bestellen.|Мне не хочется готовить, давай закажем еду.
+die Fertigpizza|готовая (замороженная) пицца|Eine Fertigpizza ist schnell gemacht.|Готовая пицца делается быстро.
+die Tiefkühlkost|замороженные продукты|Tiefkühlkost ist oft praktisch.|Замороженные продукты часто удобны.
+der Fleischkonsum|потребление мяса|Der Fleischkonsum in Deutschland sinkt.|Потребление мяса в Германии снижается.
+der Fleischersatz|заменитель мяса|Als Fleischersatz nehme ich Tofu.|Как заменитель мяса я использую тофу.
+der Flexitarier|флекситарианец (ест мясо редко)|Als Flexitarier esse ich nur selten Fleisch.|Как флекситарианец я ем мясо редко.
+der Veganer|веган|Er ist seit zwei Jahren Veganer.|Он веган уже два года.
+die Veganerin|веганка|Meine Schwester ist Veganerin.|Моя сестра веганка.
+der Tofu|тофу|Der Tofu schmeckt mit Sojasoße am besten.|Тофу вкуснее всего с соевым соусом.
+die Linsen|чечевица (мн. ч.)|Aus Linsen kann man eine leckere Suppe kochen.|Из чечевицы можно сварить вкусный суп.
+die Kichererbsen|нут (мн. ч.)|Hummus macht man aus Kichererbsen.|Хумус делают из нута.
+die Haferflocken|овсяные хлопья (мн. ч.)|Zum Frühstück esse ich Haferflocken mit Obst.|На завтрак я ем овсянку с фруктами.
+das Vollkornmehl|цельнозерновая мука|Ich backe Brot mit Vollkornmehl.|Я пеку хлеб из цельнозерновой муки.
+die Rohkost|сырые овощи и фрукты|Zum Abendessen gibt es Rohkost mit Dip.|На ужин — сырые овощи с соусом.
+der Smoothie|смузи|Morgens trinke ich einen grünen Smoothie.|По утрам я пью зелёный смузи.
+der Energydrink|энергетический напиток|Energydrinks enthalten viel Zucker.|Энергетики содержат много сахара.
+` },
+{ lang: 'de', id: 'de-b1-x-label', level: 'B1', emoji: '🏷️', title: 'Lebensmittel: Etikett und Herkunft', desc: 'Что написано на упаковке: состав, аллергены, срок годности, эко-знаки.', cards: `
+der Inhaltsstoff|ингредиент, компонент|Welche Inhaltsstoffe sind in dem Produkt?|Какие компоненты есть в продукте?
+die Zutatenliste|список ингредиентов|Auf der Zutatenliste steht viel Zucker.|В составе указано много сахара.
+die Nährwerttabelle|таблица пищевой ценности|Die Nährwerttabelle ist auf der Rückseite.|Таблица пищевой ценности на обороте.
+die Nährstoffe|питательные вещества (мн. ч.)|Gemüse hat viele wichtige Nährstoffe.|В овощах много важных питательных веществ.
+der Zuckergehalt|содержание сахара|Der Zuckergehalt von Cola ist sehr hoch.|Содержание сахара в коле очень высокое.
+der Fettgehalt|жирность|Diese Milch hat einen Fettgehalt von 1,5 Prozent.|Жирность этого молока 1,5 процента.
+kalorienarm|низкокалорийный|Gurken sind sehr kalorienarm.|Огурцы очень низкокалорийные.
+fettarm|нежирный, с низким содержанием жира|Ich kaufe fettarmen Joghurt.|Я покупаю нежирный йогурт.
+zuckerfrei|без сахара|Der Kaugummi ist zuckerfrei.|Жвачка без сахара.
+laktosefrei|безлактозный|Gibt es hier laktosefreie Milch?|Здесь есть безлактозное молоко?
+der Süßstoff|подсластитель|Statt Zucker nimmt er Süßstoff.|Вместо сахара он кладёт подсластитель.
+das Gluten|глютен|Sie verträgt kein Gluten.|Она не переносит глютен.
+allergisch gegen|с аллергией на|Ich bin allergisch gegen Erdnüsse.|У меня аллергия на арахис.
+die Lebensmittelallergie|пищевая аллергия|Immer mehr Kinder haben eine Lebensmittelallergie.|Всё больше детей страдают пищевой аллергией.
+die Nussallergie|аллергия на орехи|Wegen seiner Nussallergie liest er jedes Etikett.|Из-за аллергии на орехи он читает каждую этикетку.
+die Konservierungsstoffe|консерванты (мн. ч.)|Das Brot ist ohne Konservierungsstoffe.|Хлеб без консервантов.
+das Haltbarkeitsdatum|срок годности|Das Haltbarkeitsdatum ist schon abgelaufen.|Срок годности уже истёк.
+die Haltbarkeit|срок хранения|Die Haltbarkeit von frischer Milch ist kurz.|Срок хранения свежего молока короткий.
+verderben|портиться|Im Sommer verdirbt Fleisch schnell.|Летом мясо быстро портится.
+tiefgekühlt|замороженный|Tiefgekühltes Gemüse ist auch gesund.|Замороженные овощи тоже полезны.
+die Kühlkette|холодовая цепь|Die Kühlkette darf nicht unterbrochen werden.|Холодовую цепь нельзя прерывать.
+das Bio-Siegel|знак органической продукции|Achte auf das Bio-Siegel!|Обращай внимание на эко-знак!
+das Gütesiegel|знак качества|Das Produkt hat ein Gütesiegel.|У продукта есть знак качества.
+das Herkunftsland|страна происхождения|Das Herkunftsland der Tomaten ist Spanien.|Страна происхождения помидоров — Испания.
+regional|местный, региональный|Ich kaufe gern regionale Produkte.|Я люблю покупать местные продукты.
+saisonal|сезонный|Saisonales Obst schmeckt besser.|Сезонные фрукты вкуснее.
+das Freilandei|яйцо от кур свободного выгула|Wir kaufen nur Freilandeier.|Мы покупаем только яйца от кур свободного выгула.
+fair gehandelt|произведённый по принципам честной торговли|Dieser Kaffee ist fair gehandelt.|Этот кофе произведён по принципам честной торговли.
+der Biomarkt|магазин органических продуктов|Im Biomarkt ist alles etwas teurer.|В эко-магазине всё немного дороже.
+unverpackt|без упаковки|Hier kann man Nudeln unverpackt kaufen.|Здесь можно купить макароны без упаковки.
+der Unverpacktladen|магазин без упаковки|Im Unverpacktladen bringt man eigene Gläser mit.|В магазин без упаковки приносят свои банки.
+die Lebensmittelverschwendung|выбрасывание продуктов|Gegen Lebensmittelverschwendung kann jeder etwas tun.|Против выбрасывания продуктов каждый может что-то сделать.
+Reste verwerten|использовать остатки (еды)|Aus altem Brot mache ich Knödel, so verwerte ich Reste.|Из чёрствого хлеба я делаю кнедлики — так использую остатки.
+` },
+{ lang: 'de', id: 'de-b1-x-nightlife', level: 'B1', emoji: '🍻', title: 'Kneipe, Bar und Club', desc: 'Выходим вечером: бар, клуб, концерт и дорога домой; «einen ausgeben» — угостить (выпивкой).', cards: `
+das Nachtleben|ночная жизнь|Berlin ist für sein Nachtleben bekannt.|Берлин известен своей ночной жизнью.
+die Stammkneipe|любимый бар (куда ходят постоянно)|Freitags gehen wir in unsere Stammkneipe.|По пятницам мы ходим в наш любимый бар.
+auf ein Bier gehen|сходить выпить пива|Wollen wir nach der Arbeit auf ein Bier gehen?|Сходим после работы выпить пива?
+das Feierabendbier|пиво после работы|Ein Feierabendbier auf dem Balkon ist herrlich.|Пиво после работы на балконе — это чудесно.
+das Bier vom Fass|разливное пиво|Ich nehme ein Bier vom Fass.|Мне разливное пиво.
+der Cocktail|коктейль|Der Cocktail ist mir zu süß.|Этот коктейль для меня слишком сладкий.
+der Barkeeper|бармен|Der Barkeeper mixt einen Mojito.|Бармен смешивает мохито.
+einen ausgeben|угостить (выпивкой)|Heute gebe ich einen aus!|Сегодня я угощаю!
+die Rechnung teilen|делить счёт|Wollen wir die Rechnung teilen?|Разделим счёт?
+der Absacker|последний стаканчик (на посошок)|Noch einen Absacker, dann gehen wir.|Ещё по последней, и уходим.
+die Kneipentour|поход по барам|Zum Geburtstag machen wir eine Kneipentour.|На день рождения мы устроим поход по барам.
+das Kneipenquiz|викторина в баре|Beim Kneipenquiz haben wir den zweiten Platz gemacht.|На барной викторине мы заняли второе место.
+der Biergarten|пивной сад|Im Sommer sitzen wir gern im Biergarten.|Летом мы любим сидеть в пивном саду.
+draußen sitzen|сидеть на улице (на террасе)|Es ist warm, lass uns draußen sitzen.|Тепло, давай сядем на улице.
+die Live-Musik|живая музыка|Am Samstag gibt es Live-Musik.|В субботу будет живая музыка.
+die Musikrichtung|музыкальное направление|Welche Musikrichtung magst du?|Какое музыкальное направление тебе нравится?
+der Vorverkauf|предварительная продажа билетов|Im Vorverkauf sind die Karten günstiger.|В предварительной продаже билеты дешевле.
+der Eintritt frei|вход свободный|Vor 22 Uhr ist der Eintritt frei.|До 22 часов вход свободный.
+der Mindestverzehr|минимальный заказ (депозит)|In der Bar gibt es einen Mindestverzehr von 20 Euro.|В баре минимальный заказ 20 евро.
+der Türsteher|охранник на входе (фейсконтроль)|Der Türsteher hat uns nicht reingelassen.|Охранник нас не пустил.
+feiern gehen|пойти тусоваться|Am Samstag gehen wir feiern.|В субботу мы идём тусоваться.
+tanzen gehen|пойти на танцы|Hast du Lust, tanzen zu gehen?|Хочешь пойти потанцевать?
+durchfeiern|праздновать всю ночь|Wir haben bis sechs Uhr morgens durchgefeiert.|Мы гуляли до шести утра.
+die Feierlaune|праздничное настроение|Alle sind heute in Feierlaune.|Сегодня у всех праздничное настроение.
+die Partystimmung|атмосфера вечеринки|Die Partystimmung war super.|Атмосфера на вечеринке была супер.
+der Partymuffel|тот, кто не любит вечеринки|Mein Freund ist ein echter Partymuffel.|Мой друг терпеть не может вечеринки.
+beschwipst|навеселе, слегка пьяный|Nach zwei Gläsern Sekt war sie beschwipst.|После двух бокалов игристого она была навеселе.
+der Kater|похмелье|Am Sonntag hatte ich einen schlimmen Kater.|В воскресенье у меня было ужасное похмелье.
+die Sperrstunde|время закрытия (заведений)|Um zwei Uhr ist Sperrstunde.|В два часа заведения закрываются.
+die letzte Bahn|последняя электричка (поезд метро)|Wir müssen uns beeilen, sonst verpassen wir die letzte Bahn.|Надо спешить, иначе пропустим последний поезд.
+der Heimweg|дорога домой|Auf dem Heimweg haben wir noch Döner gegessen.|По дороге домой мы ещё съели дёнер.
+` },
+{ lang: 'de', id: 'de-b1-x-quarter', level: 'B1', emoji: '🏘️', title: 'Leben im Viertel', desc: 'Свой район: магазинчики, парки, парковка, соседи и правила тишины; der Kiez — район (особенно в Берлине).', cards: `
+der Kiez|район, квартал (разг., Берлин)|In unserem Kiez kennt jeder jeden.|В нашем районе все друг друга знают.
+die Wohnlage|расположение жилья|Die Wohnung hat eine ruhige Wohnlage.|Квартира в тихом месте.
+zentral gelegen|в центре, удобно расположенный|Das Haus ist zentral gelegen.|Дом расположен в центре.
+die Anbindung|транспортная доступность|Die Anbindung an die Innenstadt ist gut.|До центра удобно добираться.
+die Einkaufsmöglichkeiten|возможности для покупок, магазины рядом (мн. ч.)|Es gibt viele Einkaufsmöglichkeiten in der Nähe.|Рядом много магазинов.
+der Lebensmittelladen|продуктовый магазин|Der kleine Lebensmittelladen hat bis zehn Uhr auf.|Маленький продуктовый открыт до десяти.
+der Späti|круглосуточный магазинчик (разг.)|Ich hole schnell noch etwas vom Späti.|Я быстро сбегаю в магазинчик.
+der Imbiss|закусочная|Am Imbiss gibt es Currywurst.|В закусочной есть карривурст.
+die Dönerbude|ларёк с дёнером|Die Dönerbude an der Ecke ist sehr beliebt.|Ларёк с дёнером на углу очень популярен.
+die Seitenstraße|переулок, боковая улица|Wir wohnen in einer ruhigen Seitenstraße.|Мы живём в тихом переулке.
+die Spielstraße|жилая зона (где дети могут играть)|In der Spielstraße fährt man Schrittgeschwindigkeit.|В жилой зоне едут со скоростью пешехода.
+der Bolzplatz|площадка для игры в мяч|Die Jungs spielen auf dem Bolzplatz Fußball.|Мальчишки играют в футбол на площадке.
+die Parkbank|скамейка в парке|Wir sitzen auf einer Parkbank in der Sonne.|Мы сидим на скамейке в парке на солнце.
+die Hundewiese|площадка для выгула собак|Auf der Hundewiese dürfen Hunde frei laufen.|На собачьей площадке собаки могут бегать без поводка.
+der Hundebesitzer|владелец собаки|Viele Hundebesitzer treffen sich im Park.|Многие владельцы собак встречаются в парке.
+der Hundekot|собачьи экскременты|Bitte entfernen Sie den Hundekot!|Пожалуйста, убирайте за собакой!
+die Parkplatzsuche|поиск места для парковки|Die Parkplatzsuche dauert hier ewig.|Поиск парковки здесь длится вечность.
+die Anwohner|жители (улицы, района) (мн. ч.)|Die Anwohner beschweren sich über den Lärm.|Жители жалуются на шум.
+der Anwohnerparkausweis|парковочное разрешение для жильцов|Ohne Anwohnerparkausweis darf man hier nicht parken.|Без разрешения для жильцов здесь парковаться нельзя.
+das Carsharing|каршеринг|Wir haben kein Auto, wir nutzen Carsharing.|У нас нет машины, мы пользуемся каршерингом.
+der E-Scooter|электросамокат|Überall stehen E-Scooter auf dem Gehweg.|Везде на тротуаре стоят электросамокаты.
+der Leihroller|прокатный самокат|Mit dem Leihroller bin ich schnell am Bahnhof.|На прокатном самокате я быстро доеду до вокзала.
+der Altkleidercontainer|контейнер для старой одежды|Die alten Schuhe kommen in den Altkleidercontainer.|Старую обувь кладём в контейнер для одежды.
+der Hofflohmarkt|блошиный рынок во дворах|Beim Hofflohmarkt verkaufen alle Nachbarn alte Sachen.|На дворовом блошином рынке все соседи продают старые вещи.
+das Schwarze Brett|доска объявлений|Am Schwarzen Brett hängt eine Anzeige.|На доске объявлений висит объявление.
+der Aushang|объявление (вывешенное)|Laut Aushang wird morgen das Wasser abgestellt.|Согласно объявлению, завтра отключат воду.
+der Gemeinschaftsgarten|общий сад (огород соседей)|Im Gemeinschaftsgarten pflanzen wir Tomaten.|В общем саду мы сажаем помидоры.
+das Stadtteilzentrum|районный центр (досуга)|Im Stadtteilzentrum gibt es Kurse für Senioren.|В районном центре есть курсы для пожилых.
+die Hausgemeinschaft|жильцы дома, соседское сообщество|Unsere Hausgemeinschaft ist sehr nett.|Жильцы нашего дома очень милые.
+ein Paket annehmen|принять посылку (за соседа)|Kannst du ein Paket für mich annehmen?|Можешь принять за меня посылку?
+die Mittagsruhe|тихий час (время тишины днём)|Von 13 bis 15 Uhr ist Mittagsruhe.|С 13 до 15 часов — время тишины.
+die Ruhestörung|нарушение тишины|Wegen Ruhestörung kam die Polizei.|Из-за нарушения тишины приехала полиция.
+das Nachbarschaftsfest|соседский праздник|Beim Nachbarschaftsfest bringt jeder etwas zu essen mit.|На соседский праздник каждый приносит что-то поесть.
+das Straßenfest|уличный праздник|Am Wochenende ist in unserer Straße ein Straßenfest.|На выходных на нашей улице уличный праздник.
+` },
+{ lang: 'de', id: 'de-b1-x-worktime', level: 'B1', emoji: '⏰', title: 'Arbeitszeit und Urlaub', desc: 'Рабочее время, смены, отпуск и больничный; der Brückentag — рабочий день между праздником и выходными.', cards: `
+die Kernarbeitszeit|обязательное присутственное время|Die Kernarbeitszeit ist von zehn bis drei.|Обязательное время присутствия — с десяти до трёх.
+die Vertrauensarbeitszeit|свободный график (без учёта часов)|Bei uns gibt es Vertrauensarbeitszeit.|У нас свободный график без учёта часов.
+die Zeiterfassung|учёт рабочего времени|Die Zeiterfassung läuft über eine App.|Учёт рабочего времени ведётся через приложение.
+das Arbeitszeitkonto|счёт рабочего времени|Auf meinem Arbeitszeitkonto habe ich zwanzig Plusstunden.|На моём счёте рабочего времени двадцать лишних часов.
+die Mehrarbeit|сверхурочная работа|Die Mehrarbeit wird extra bezahlt.|Сверхурочная работа оплачивается отдельно.
+die Viertagewoche|четырёхдневная рабочая неделя|Die Firma testet die Viertagewoche.|Фирма тестирует четырёхдневную неделю.
+der Dienstplan|график дежурств, рабочий график|Der neue Dienstplan hängt im Flur.|Новый график висит в коридоре.
+der Schichtplan|график смен|Laut Schichtplan arbeite ich am Sonntag.|По графику смен я работаю в воскресенье.
+die Spätschicht|вечерняя смена|Diese Woche habe ich Spätschicht.|На этой неделе у меня вечерняя смена.
+der Wochenenddienst|дежурство на выходных|Im Krankenhaus gibt es Wochenenddienst.|В больнице есть дежурства на выходных.
+die Rufbereitschaft|дежурство на телефоне (по вызову)|Am Wochenende hat sie Rufbereitschaft.|На выходных она дежурит по вызову.
+die Teambesprechung|совещание команды|Jeden Montag haben wir eine Teambesprechung.|Каждый понедельник у нас совещание команды.
+eingearbeitet werden|проходить введение в должность|Die neue Kollegin wird gerade eingearbeitet.|Новую коллегу сейчас вводят в курс дела.
+der erste Arbeitstag|первый рабочий день|An meinem ersten Arbeitstag war ich sehr nervös.|В мой первый рабочий день я очень нервничал.
+der letzte Arbeitstag|последний рабочий день|Freitag ist ihr letzter Arbeitstag vor der Rente.|Пятница — её последний рабочий день перед пенсией.
+die Kaffeepause|перерыв на кофе|In der Kaffeepause reden wir über das Wochenende.|В перерыве на кофе мы говорим о выходных.
+die Raucherpause|перекур|Er macht ständig Raucherpausen.|Он постоянно устраивает перекуры.
+der Arbeitsweg|дорога на работу|Mein Arbeitsweg dauert eine Stunde.|Дорога на работу занимает час.
+die Fahrtzeit|время в пути|Die Fahrtzeit mit dem Zug ist kürzer.|На поезде время в пути короче.
+die Vertretung|замена, заместитель|Wer ist deine Vertretung im Urlaub?|Кто тебя замещает в отпуске?
+die Urlaubsvertretung|замещение на время отпуска|Ich mache die Urlaubsvertretung für meinen Kollegen.|Я замещаю коллегу на время отпуска.
+die Urlaubsplanung|планирование отпусков|Die Urlaubsplanung für den Sommer beginnt im Januar.|Планирование летних отпусков начинается в январе.
+Urlaub beantragen|подать заявление на отпуск|Ich habe zwei Wochen Urlaub beantragt.|Я подал заявление на две недели отпуска.
+der Resturlaub|неиспользованный отпуск|Den Resturlaub muss ich bis März nehmen.|Оставшийся отпуск мне нужно взять до марта.
+der Brückentag|день-«мостик» (между праздником и выходными)|Am Brückentag nehme ich frei.|В день-«мостик» я беру выходной.
+der Betriebsurlaub|общий отпуск на предприятии|Im August ist bei uns Betriebsurlaub.|В августе у нас общий отпуск на предприятии.
+sich freinehmen|брать отгул|Ich nehme mir morgen frei.|Завтра я беру отгул.
+der freie Tag|выходной день|Mittwoch ist mein freier Tag.|Среда — мой выходной.
+der gelbe Schein|больничный лист (разг.)|Ab dem dritten Tag brauchst du den gelben Schein.|С третьего дня тебе нужен больничный.
+die Betriebsfeier|корпоратив|Auf der Betriebsfeier hat der Chef getanzt.|На корпоративе начальник танцевал.
+die Weihnachtsfeier|рождественский праздник (корпоратив)|Die Weihnachtsfeier ist dieses Jahr in einem Restaurant.|Рождественский корпоратив в этом году в ресторане.
+` },
+{ lang: 'de', id: 'de-b1-x-relax', level: 'B1', emoji: '🧖', title: 'Entspannung und Wellness', desc: 'Отдых от стресса: сауна, ванна, медитация и короткий отпуск; abschalten — отключиться (от забот).', cards: `
+gestresst|в стрессе|Ich bin total gestresst.|Я в полном стрессе.
+die Auszeit|перерыв, тайм-аут|Ich brauche dringend eine Auszeit.|Мне срочно нужен перерыв.
+die Ruhe genießen|наслаждаться тишиной|Auf dem Land genießen wir die Ruhe.|За городом мы наслаждаемся тишиной.
+erholsam|восстанавливающий силы, хороший (об отдыхе)|Das Wochenende war sehr erholsam.|Выходные прошли прекрасно, я отдохнул.
+ausschlafen|выспаться|Am Sonntag kann ich ausschlafen.|В воскресенье я могу выспаться.
+das Nickerchen|короткий сон|Nach dem Essen mache ich ein Nickerchen.|После еды я ненадолго вздремну.
+die Hängematte|гамак|Er liegt in der Hängematte im Garten.|Он лежит в гамаке в саду.
+tief durchatmen|глубоко вдохнуть|Bevor du antwortest, atme tief durch.|Прежде чем ответить, глубоко вдохни.
+die Atemübung|дыхательное упражнение|Atemübungen helfen gegen Stress.|Дыхательные упражнения помогают от стресса.
+meditieren|медитировать|Jeden Morgen meditiere ich zehn Minuten.|Каждое утро я медитирую десять минут.
+die Meditation|медитация|Die Meditation hilft mir beim Einschlafen.|Медитация помогает мне засыпать.
+ein Bad nehmen|принять ванну|Am Abend nehme ich ein heißes Bad.|Вечером я принимаю горячую ванну.
+das Schaumbad|пенная ванна|Ein Schaumbad entspannt sehr.|Пенная ванна очень расслабляет.
+die Duftkerze|ароматическая свеча|Im Bad brennt eine Duftkerze.|В ванной горит ароматическая свеча.
+die Wärmflasche|грелка|Mit einer Wärmflasche schlafe ich besser.|С грелкой я сплю лучше.
+die Gesichtscreme|крем для лица|Diese Gesichtscreme ist für trockene Haut.|Этот крем для лица для сухой кожи.
+das Massageöl|массажное масло|Das Massageöl riecht nach Lavendel.|Массажное масло пахнет лавандой.
+saunieren|ходить в сауну, париться|Im Winter sauniere ich jede Woche.|Зимой я хожу в сауну каждую неделю.
+der Saunagang|заход в сауну|Nach drei Saunagängen bin ich ganz entspannt.|После трёх заходов в сауну я полностью расслаблен.
+das Dampfbad|паровая баня|Das Dampfbad ist gut für die Atemwege.|Паровая баня полезна для дыхательных путей.
+der Ruheraum|комната отдыха|Im Ruheraum muss man leise sein.|В комнате отдыха нужно соблюдать тишину.
+der Whirlpool|джакузи|Das Hotel hat einen Whirlpool auf dem Dach.|В отеле есть джакузи на крыше.
+das Thermalbad|термальные купальни|Im Thermalbad ist das Wasser 36 Grad warm.|В термальных купальнях вода 36 градусов.
+das Wellnesshotel|спа-отель|Wir haben ein Wochenende im Wellnesshotel gebucht.|Мы забронировали выходные в спа-отеле.
+der Wellnessurlaub|спа-отпуск|Zum Geburtstag schenke ich ihr einen Wellnessurlaub.|На день рождения я дарю ей спа-отпуск.
+der Kurzurlaub|короткий отпуск|Über Ostern machen wir einen Kurzurlaub an der Ostsee.|На Пасху мы съездим ненадолго на Балтику.
+der Kurort|курорт (лечебный)|Baden-Baden ist ein berühmter Kurort.|Баден-Баден — знаменитый курорт.
+zur Kur fahren|ехать на лечение в санаторий|Nach der Operation fährt sie zur Kur.|После операции она едет в санаторий.
+` },
+);
+/* de-b1-16.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b1-y-doctor', level: 'B1', emoji: '🩺', title: 'In der Arztpraxis', desc: 'Визит к врачу в Германии: запись, направление, обследование и справки; запомните: «die Gesundheitskarte» нужно предъявлять при каждом визите.', cards: `
+die Sprechzeiten|часы приёма (мн. ч.)|Die Sprechzeiten stehen an der Tür.|Часы приёма написаны на двери.
+die offene Sprechstunde|приём без записи|Am Montag gibt es eine offene Sprechstunde.|В понедельник есть приём без записи.
+die Akutsprechstunde|приём для срочных случаев|Mit Fieber gehen Sie am besten in die Akutsprechstunde.|С температурой лучше всего идти на срочный приём.
+der Hörtest|проверка слуха|Beim HNO-Arzt habe ich einen Hörtest gemacht.|У лора я прошёл проверку слуха.
+die Gesundheitskarte|карточка медицинского страхования|Bitte legen Sie Ihre Gesundheitskarte vor.|Пожалуйста, предъявите вашу страховую карточку.
+die Arzthelferin|медсестра в приёмной, помощница врача|Die Arzthelferin gibt mir einen neuen Termin.|Помощница врача назначает мне новую дату.
+der Fragebogen|анкета, опросный лист|Füllen Sie bitte zuerst diesen Fragebogen aus.|Пожалуйста, сначала заполните эту анкету.
+die Vorerkrankung|ранее перенесённое заболевание|Haben Sie Vorerkrankungen?|У вас есть хронические или перенесённые заболевания?
+die Krankengeschichte|история болезни, анамнез|Der Arzt fragt nach meiner Krankengeschichte.|Врач спрашивает о моей истории болезни.
+sich untersuchen lassen|пройти обследование|Du solltest dich mal gründlich untersuchen lassen.|Тебе стоит пройти тщательное обследование.
+tief einatmen|глубоко вдохнуть|Bitte tief einatmen und die Luft anhalten.|Пожалуйста, глубоко вдохните и задержите дыхание.
+ausatmen|выдыхать|Und jetzt langsam ausatmen.|А теперь медленно выдохните.
+sich frei machen|раздеться (для осмотра)|Machen Sie bitte den Oberkörper frei.|Пожалуйста, разденьтесь до пояса.
+den Blutdruck messen|измерить давление|Die Schwester misst meinen Blutdruck.|Медсестра измеряет мне давление.
+die Blutprobe|проба крови, анализ крови|Für die Blutprobe müssen Sie nüchtern kommen.|На анализ крови нужно прийти натощак.
+das Blutbild|анализ крови (результат)|Ihr Blutbild ist in Ordnung.|Ваш анализ крови в порядке.
+der Ultraschall|УЗИ, ультразвук|Der Arzt macht einen Ultraschall vom Bauch.|Врач делает УЗИ живота.
+das Ergebnis abwarten|дождаться результата|Wir müssen das Ergebnis abwarten.|Нам нужно дождаться результата.
+die Kontrolluntersuchung|контрольное обследование|In drei Monaten ist die nächste Kontrolluntersuchung.|Через три месяца следующее контрольное обследование.
+der Check-up|профилактический осмотр, чекап|Ab 35 kann man alle drei Jahre einen Check-up machen.|С 35 лет можно раз в три года проходить чекап.
+die Nachuntersuchung|повторное обследование|Nach der Operation kommen Sie zur Nachuntersuchung.|После операции вы придёте на повторное обследование.
+chronisch krank|хронически больной|Chronisch kranke Patienten kommen jedes Quartal.|Хронически больные пациенты приходят каждый квартал.
+das Attest|медицинская справка|Für die Schule brauche ich ein Attest.|Для школы мне нужна справка от врача.
+die Arbeitsunfähigkeitsbescheinigung|больничный лист (справка о нетрудоспособности)|Die Arbeitsunfähigkeitsbescheinigung bekommt der Arbeitgeber elektronisch.|Работодатель получает больничный лист в электронном виде.
+der Bereitschaftsdienst|дежурная врачебная служба|Am Wochenende ruft man den ärztlichen Bereitschaftsdienst an.|В выходные звонят в дежурную врачебную службу.
+sich impfen lassen|сделать прививку|Ich lasse mich jedes Jahr gegen Grippe impfen.|Я каждый год делаю прививку от гриппа.
+der Impfpass|прививочный паспорт|Bringen Sie bitte Ihren Impfpass mit.|Пожалуйста, возьмите с собой прививочный паспорт.
+der Hautarzt|дерматолог|Wegen des Ausschlags gehe ich zum Hautarzt.|Из-за сыпи я иду к дерматологу.
+der Frauenarzt|гинеколог|Sie hat morgen einen Termin beim Frauenarzt.|У неё завтра приём у гинеколога.
+der Orthopäde|ортопед|Mit Rückenschmerzen schickt mich der Hausarzt zum Orthopäden.|С болями в спине терапевт отправляет меня к ортопеду.
+der HNO-Arzt|лор, отоларинголог|Der HNO-Arzt hat sich meine Ohren angesehen.|Лор осмотрел мои уши.
+der Kieferorthopäde|ортодонт|Der Kieferorthopäde hat meiner Tochter eine Spange verordnet.|Ортодонт назначил моей дочери брекеты.
+die Sehstärke|острота зрения, диоптрии|Meine Sehstärke hat sich verschlechtert.|Моё зрение ухудшилось.
+die Terminvergabe|запись на приём|Die Terminvergabe erfolgt nur telefonisch.|Запись на приём только по телефону.
+` },
+{ lang: 'de', id: 'de-b1-y-pharmacy', level: 'B1', emoji: '💊', title: 'In der Apotheke', desc: 'Лекарства и их приём: рецепт, дозировка, побочные эффекты; «rezeptfrei» — без рецепта, «verschreibungspflichtig» — только по рецепту.', cards: `
+verschreibungspflichtig|отпускаемый по рецепту|Antibiotika sind verschreibungspflichtig.|Антибиотики отпускаются только по рецепту.
+apothekenpflichtig|продаваемый только в аптеке|Das Mittel ist nicht verschreibungspflichtig, aber apothekenpflichtig.|Средство продаётся без рецепта, но только в аптеке.
+das Kassenrezept|рецепт по больничной кассе|Mit dem Kassenrezept zahlen Sie nur fünf Euro dazu.|По рецепту больничной кассы вы доплачиваете только пять евро.
+das Privatrezept|частный рецепт (оплачивается самостоятельно)|Ein Privatrezept müssen Sie selbst bezahlen.|Частный рецепт вам придётся оплатить самому.
+die Zuzahlung leisten|делать доплату|Kinder müssen keine Zuzahlung leisten.|Детям не нужно делать доплату.
+ein Mittel gegen Husten|средство от кашля|Haben Sie ein Mittel gegen Husten für Kinder?|У вас есть средство от кашля для детей?
+die Schmerztablette|обезболивающая таблетка|Ich nehme nur selten eine Schmerztablette.|Я редко принимаю обезболивающую таблетку.
+die Brausetablette|шипучая таблетка|Die Brausetablette löst man in Wasser auf.|Шипучую таблетку растворяют в воде.
+das Zäpfchen|свеча (лекарственная)|Für das Baby gibt es Fieberzäpfchen.|Для младенца есть жаропонижающие свечи.
+der Sirup|сироп|Der Sirup schmeckt nach Kirschen.|Сироп со вкусом вишни.
+der Schwangerschaftstest|тест на беременность|Den Schwangerschaftstest gibt es in jeder Apotheke.|Тест на беременность есть в любой аптеке.
+die Ohrentropfen|ушные капли (мн. ч.)|Die Ohrentropfen sollten Sie vorher anwärmen.|Ушные капли лучше сначала подогреть.
+die Wundsalbe|заживляющая мазь|Tragen Sie die Wundsalbe zweimal täglich auf.|Наносите заживляющую мазь два раза в день.
+der Inhalator|ингалятор|Mein Sohn hat Asthma und braucht einen Inhalator.|У моего сына астма, и ему нужен ингалятор.
+der Hustenlöser|отхаркивающее средство|Der Hustenlöser hilft, den Schleim zu lösen.|Отхаркивающее средство помогает отделению мокроты.
+die Tagesdosis|суточная доза|Überschreiten Sie nicht die Tagesdosis.|Не превышайте суточную дозу.
+die Einnahme|приём (лекарства)|Die Einnahme erfolgt am besten nach dem Essen.|Принимать лучше всего после еды.
+kühl lagern|хранить в прохладном месте|Das Medikament bitte kühl lagern.|Пожалуйста, храните лекарство в прохладном месте.
+der Beipackzettel|листок-вкладыш, инструкция к лекарству|Lesen Sie vor der Einnahme den Beipackzettel.|Перед приёмом прочитайте инструкцию.
+der Wirkstoff|действующее вещество|Beide Tabletten haben denselben Wirkstoff.|У обеих таблеток одно и то же действующее вещество.
+das Generikum|дженерик, аналог (лекарства)|Das Generikum ist viel billiger als das Original.|Дженерик намного дешевле оригинала.
+das Verfallsdatum|срок годности|Das Verfallsdatum ist schon abgelaufen.|Срок годности уже истёк.
+vertragen|переносить (лекарство, еду)|Ich vertrage dieses Medikament nicht gut.|Я плохо переношу это лекарство.
+nicht kombinieren|не сочетать|Diese Tabletten darf man nicht mit Alkohol kombinieren.|Эти таблетки нельзя сочетать с алкоголем.
+die Hausapotheke|домашняя аптечка|In jede Hausapotheke gehört ein Fieberthermometer.|В каждой домашней аптечке должен быть градусник.
+die Reiseapotheke|дорожная аптечка|Hast du die Reiseapotheke eingepackt?|Ты положил дорожную аптечку?
+das Fieberthermometer|градусник|Das Fieberthermometer zeigt 38,5 Grad.|Градусник показывает 38,5.
+der Erste-Hilfe-Kasten|аптечка первой помощи|Der Erste-Hilfe-Kasten hängt in der Küche.|Аптечка первой помощи висит на кухне.
+desinfizieren|дезинфицировать|Zuerst muss man die Wunde desinfizieren.|Сначала нужно продезинфицировать рану.
+das Halsbonbon|леденец от боли в горле|Gegen Halsschmerzen lutsche ich Halsbonbons.|От боли в горле я сосу леденцы.
+das Schlafmittel|снотворное|Schlafmittel sollte man nicht lange nehmen.|Снотворное не стоит принимать долго.
+das Beruhigungsmittel|успокоительное|Vor dem Flug nimmt sie ein leichtes Beruhigungsmittel.|Перед полётом она принимает лёгкое успокоительное.
+die Notapotheke|дежурная аптека|Nachts hat nur die Notapotheke geöffnet.|Ночью открыта только дежурная аптека.
+die Mundspülung|ополаскиватель для рта|Nach dem Zähneputzen benutze ich eine Mundspülung.|После чистки зубов я пользуюсь ополаскивателем.
+` },
+{ lang: 'de', id: 'de-b1-y-bank', level: 'B1', emoji: '🏦', title: 'Bank und Konto', desc: 'Банковские дела: счёт, переводы, карты и онлайн-банкинг; «abheben» — снимать деньги, «einzahlen» — вносить.', cards: `
+die Kontoeröffnung|открытие счёта|Für die Kontoeröffnung brauchen Sie Ihren Pass.|Для открытия счёта вам нужен паспорт.
+der Kontoinhaber|владелец счёта|Nur der Kontoinhaber darf Geld abheben.|Снимать деньги может только владелец счёта.
+das Gemeinschaftskonto|совместный счёт|Mein Mann und ich haben ein Gemeinschaftskonto.|У нас с мужем совместный счёт.
+ein Konto kündigen|закрыть счёт|Ich möchte mein altes Konto kündigen.|Я хочу закрыть свой старый счёт.
+die Kontoführung|ведение счёта|Die Kontoführung ist bei dieser Bank kostenlos.|Ведение счёта в этом банке бесплатное.
+die Bankleitzahl|банковский код (BLZ)|Heute braucht man statt der Bankleitzahl die IBAN.|Сегодня вместо банковского кода нужен IBAN.
+die Bankfiliale|отделение банка|Die Bankfiliale in unserem Dorf hat geschlossen.|Отделение банка в нашей деревне закрылось.
+die Sparkasse|сберегательная касса, «Шпаркассе»|Ich habe mein Konto bei der Sparkasse.|У меня счёт в Шпаркассе.
+die Direktbank|онлайн-банк (без отделений)|Eine Direktbank hat keine Filialen.|У онлайн-банка нет отделений.
+der Bankberater|банковский консультант|Der Bankberater erklärt mir die Kredite.|Банковский консультант объясняет мне виды кредитов.
+Geld einzahlen|вносить деньги на счёт|Am Automaten kann man auch Geld einzahlen.|В банкомате можно также вносить деньги.
+die Einzahlung|взнос, внесение денег|Die Einzahlung ist sofort auf dem Konto.|Внесённые деньги сразу появляются на счёте.
+Geld überweisen|переводить деньги|Ich überweise dir das Geld morgen.|Я переведу тебе деньги завтра.
+das Überweisungsformular|бланк перевода|Das Überweisungsformular liegt am Schalter.|Бланк перевода лежит у окошка.
+der Verwendungszweck|назначение платежа|Schreiben Sie die Rechnungsnummer in den Verwendungszweck.|Укажите номер счёта в назначении платежа.
+die Echtzeitüberweisung|мгновенный перевод|Mit einer Echtzeitüberweisung ist das Geld in Sekunden da.|При мгновенном переводе деньги приходят за секунды.
+das Lastschriftverfahren|оплата прямым дебетом|Die Miete zahle ich per Lastschriftverfahren.|Аренду я оплачиваю прямым списанием.
+die Abbuchung|списание (со счёта)|Auf dem Kontoauszug sehe ich eine falsche Abbuchung.|В выписке я вижу ошибочное списание.
+gutschreiben|зачислять (на счёт)|Der Betrag wird Ihnen morgen gutgeschrieben.|Сумма будет зачислена вам завтра.
+die Gutschrift|зачисление (на счёт)|Die Gutschrift für die Rücksendung ist angekommen.|Деньги за возврат пришли.
+der Kontoauszugsdrucker|аппарат для печати выписок|Der Kontoauszugsdrucker ist leider kaputt.|Аппарат для печати выписок, к сожалению, сломан.
+die EC-Karte|дебетовая карта (EC-Karte)|Kann ich hier mit EC-Karte zahlen?|Здесь можно расплатиться дебетовой картой?
+die Bankkarte|банковская карта|Die neue Bankkarte kommt per Post.|Новая банковская карта приходит по почте.
+die PIN|PIN-код|Geben Sie Ihre PIN niemals weiter.|Никогда никому не сообщайте свой PIN-код.
+kontaktlos bezahlen|оплачивать бесконтактно|Bis 50 Euro kann man kontaktlos bezahlen.|До 50 евро можно платить бесконтактно.
+die Karte sperren lassen|заблокировать карту|Ich habe mein Portemonnaie verloren und muss die Karte sperren lassen.|Я потерял кошелёк и должен заблокировать карту.
+die Sperrhotline|горячая линия для блокировки карт|Die Sperrhotline ist rund um die Uhr erreichbar.|Горячая линия блокировки работает круглосуточно.
+die TAN|одноразовый код подтверждения (TAN)|Für jede Überweisung brauchen Sie eine TAN.|Для каждого перевода вам нужен код подтверждения.
+der Dispo|овердрафт (разг.)|Ich bin schon wieder im Dispo.|Я опять ушёл в минус по счёту.
+das Konto überziehen|превысить остаток на счёте, уйти в минус|Wer das Konto überzieht, zahlt hohe Zinsen.|Кто уходит в минус по счёту, платит высокие проценты.
+der Zinssatz|процентная ставка|Der Zinssatz für den Kredit liegt bei sechs Prozent.|Процентная ставка по кредиту — шесть процентов.
+Geld anlegen|вкладывать деньги, инвестировать|Wie kann man Geld sicher anlegen?|Как можно надёжно вложить деньги?
+` },
+{ lang: 'de', id: 'de-b1-y-post', level: 'B1', emoji: '📮', title: 'Post und Pakete', desc: 'Отправка писем и посылок, доставка и возврат; «frankieren» — наклеить марку, оплатить отправку.', cards: `
+die Postfiliale|почтовое отделение|Die nächste Postfiliale ist im Supermarkt.|Ближайшее почтовое отделение находится в супермаркете.
+frankieren|франкировать, наклеить марку|Ist der Brief schon frankiert?|На письмо уже наклеена марка?
+ausreichend frankiert|с достаточной оплатой пересылки|Der Brief war nicht ausreichend frankiert.|На письме было недостаточно марок.
+das Porto|почтовый сбор, стоимость пересылки|Das Porto für einen Brief ist wieder teurer geworden.|Стоимость пересылки письма снова выросла.
+die Postsendung|почтовое отправление|Diese Postsendung muss persönlich übergeben werden.|Это отправление нужно вручить лично.
+die Anschrift|адрес (почтовый)|Bitte schreiben Sie die Anschrift deutlich.|Пожалуйста, пишите адрес разборчиво.
+per Einschreiben|заказным письмом|Die Kündigung schicke ich per Einschreiben.|Заявление о расторжении я отправлю заказным письмом.
+der Eilbrief|срочное письмо|Ein Eilbrief kommt noch am selben Tag an.|Срочное письмо приходит в тот же день.
+die Luftpost|авиапочта|Mit Luftpost dauert es nur eine Woche.|Авиапочтой это займёт всего неделю.
+einwerfen|бросить (в почтовый ящик)|Kannst du den Brief auf dem Weg einwerfen?|Можешь по дороге бросить письмо в ящик?
+den Briefkasten leeren|вынимать почту из ящика|Der Briefkasten wird um 17 Uhr geleert.|Почтовый ящик опорожняют в 17 часов.
+das Postfach|абонентский ящик, почтовый ящик (электронный)|Sie hat ein Postfach bei der Post gemietet.|Она арендовала абонентский ящик на почте.
+verschicken|отправлять, рассылать|Wir verschicken die Einladungen nächste Woche.|Мы разошлём приглашения на следующей неделе.
+versenden|отправлять, пересылать|Das Paket wird morgen versendet.|Посылку отправят завтра.
+der Versand|отправка, доставка|Der Versand ist ab 30 Euro kostenlos.|Доставка бесплатна от 30 евро.
+die Paketmarke|наклейка для оплаты посылки|Die Paketmarke kann man online kaufen.|Наклейку для посылки можно купить онлайн.
+verpacken|упаковывать|Das Geschirr muss man gut verpacken.|Посуду нужно хорошо упаковать.
+die Luftpolsterfolie|пузырчатая плёнка|Wickle die Vase in Luftpolsterfolie.|Заверни вазу в пузырчатую плёнку.
+die Sendungsnummer|номер отправления, трек-номер|Mit der Sendungsnummer kann ich das Paket verfolgen.|По трек-номеру я могу отслеживать посылку.
+zustellen|доставлять (почту)|Das Paket konnte nicht zugestellt werden.|Посылку не удалось доставить.
+der Zusteller|почтальон, курьер|Der Zusteller hat geklingelt, aber ich war nicht da.|Курьер звонил, но меня не было дома.
+die Wunschzustellung|доставка в выбранное время или место|Bei der Wunschzustellung wählen Sie einen Tag aus.|При доставке по желанию вы выбираете день.
+der Ablageort|место, где оставить посылку|Als Ablageort habe ich die Garage angegeben.|Местом, куда оставить посылку, я указал гараж.
+beim Nachbarn abgeben|оставить у соседа|Der Bote hat das Paket beim Nachbarn abgegeben.|Курьер оставил посылку у соседа.
+der Abholschein|извещение для получения|Mit dem Abholschein gehe ich zur Filiale.|С извещением я иду в отделение.
+die Abholung|получение, забор (посылки)|Die Abholung ist ab morgen 10 Uhr möglich.|Забрать можно с завтрашнего дня с 10 часов.
+nicht zustellbar|невозможно доставить|Der Brief kam zurück: Empfänger nicht zustellbar.|Письмо вернулось: адресат не найден.
+die Lieferadresse|адрес доставки|Bitte prüfen Sie Ihre Lieferadresse.|Пожалуйста, проверьте адрес доставки.
+der Rücksendeschein|бланк возврата|Der Rücksendeschein liegt dem Paket bei.|Бланк возврата вложен в посылку.
+die Zollerklärung|таможенная декларация|Für Pakete außerhalb der EU braucht man eine Zollerklärung.|Для посылок за пределы ЕС нужна таможенная декларация.
+das Paketzentrum|сортировочный центр посылок|Das Paket liegt seit zwei Tagen im Paketzentrum.|Посылка уже два дня лежит в сортировочном центре.
+nachsenden|пересылать (на новый адрес)|Die Post sendet meine Briefe ein Jahr lang nach.|Почта год пересылает мои письма на новый адрес.
+` },
+{ lang: 'de', id: 'de-b1-y-mobile', level: 'B1', emoji: '📱', title: 'Handy und Internetanschluss', desc: 'Мобильный тариф, связь и проблемы с интернетом; «das Funkloch» — место, где нет связи.', cards: `
+der Handyvertrag|договор мобильной связи|Mein Handyvertrag läuft im März aus.|Мой договор мобильной связи заканчивается в марте.
+die Prepaidkarte|предоплаченная SIM-карта|Für den Urlaub kaufe ich eine Prepaidkarte.|Для отпуска я покупаю предоплаченную SIM-карту.
+die SIM-Karte|SIM-карта|Die neue SIM-Karte muss man erst aktivieren.|Новую SIM-карту сначала нужно активировать.
+das Guthaben|остаток на счёте, баланс|Ich habe kein Guthaben mehr auf dem Handy.|У меня на телефоне закончились деньги.
+das Guthaben aufladen|пополнить баланс|Das Guthaben kann man im Supermarkt aufladen.|Пополнить баланс можно в супермаркете.
+das Datenvolumen|объём мобильного трафика|Mein Datenvolumen ist schon nach zwei Wochen verbraucht.|Мой трафик закончился уже через две недели.
+die Flatrate|безлимитный тариф|Mit der Flatrate telefoniere ich ohne Extrakosten.|С безлимитным тарифом я звоню без доплат.
+der Mobilfunkanbieter|оператор мобильной связи|Ich will den Mobilfunkanbieter wechseln.|Я хочу сменить оператора мобильной связи.
+die Rufnummernmitnahme|сохранение номера при смене оператора|Dank der Rufnummernmitnahme behalte ich meine alte Nummer.|Благодаря переносу номера я сохраняю старый номер.
+die Rufnummer|номер телефона|Ihre Rufnummer wird nicht angezeigt.|Ваш номер не отображается.
+die Roaminggebühren|плата за роуминг (мн. ч.)|In der EU gibt es keine Roaminggebühren mehr.|В ЕС больше нет платы за роуминг.
+der Netzempfang|приём сигнала сети|Im Keller ist der Netzempfang schlecht.|В подвале плохой приём сети.
+kein Netz haben|не иметь связи|Ich kann dich nicht anrufen, ich habe kein Netz.|Не могу тебе позвонить, у меня нет связи.
+das Funkloch|зона без покрытия|Im Zug fahren wir oft durch ein Funkloch.|В поезде мы часто проезжаем зону без связи.
+der Akku ist leer|аккумулятор сел|Sorry, mein Akku war leer.|Извини, у меня сел телефон.
+laden|заряжать|Ich muss mein Handy über Nacht laden.|Мне нужно зарядить телефон за ночь.
+der Router|роутер|Starten Sie bitte den Router neu.|Пожалуйста, перезагрузите роутер.
+das WLAN-Passwort|пароль от Wi-Fi|Wie ist das WLAN-Passwort?|Какой пароль от Wi-Fi?
+der Internetanschluss|подключение к интернету|In der neuen Wohnung haben wir noch keinen Internetanschluss.|В новой квартире у нас ещё нет интернета.
+die Verbindung bricht ab|связь обрывается|Beim Videoanruf bricht ständig die Verbindung ab.|Во время видеозвонка постоянно обрывается связь.
+der Videoanruf|видеозвонок|Am Sonntag mache ich einen Videoanruf mit meinen Eltern.|В воскресенье я созваниваюсь по видео с родителями.
+das Telefonat|телефонный разговор|Das Telefonat hat eine Stunde gedauert.|Телефонный разговор длился час.
+eine Nachricht hinterlassen|оставить сообщение|Bitte hinterlassen Sie eine Nachricht nach dem Signalton.|Пожалуйста, оставьте сообщение после сигнала.
+erreichbar|доступный (для связи)|Ich bin ab 18 Uhr wieder erreichbar.|Я снова буду на связи после 18 часов.
+unerreichbar|недоступный|Seit gestern ist er unerreichbar.|Со вчерашнего дня он недоступен.
+lautlos|беззвучный, без звука|Im Kino stelle ich das Handy auf lautlos.|В кино я ставлю телефон на беззвучный режим.
+stumm schalten|выключить звук, замьютить|Schalte bitte dein Mikrofon stumm.|Пожалуйста, выключи свой микрофон.
+der Klingelton|рингтон|Dein Klingelton ist ziemlich laut.|Твой рингтон довольно громкий.
+das Display|экран, дисплей|Das Display ist bei Sonne schwer zu lesen.|На солнце экран трудно читать.
+die Displayfolie|защитная плёнка для экрана|Zum Glück hatte ich eine Displayfolie drauf.|К счастью, у меня была защитная плёнка.
+die Handyhülle|чехол для телефона|Sie hat eine rosa Handyhülle.|У неё розовый чехол для телефона.
+` },
+{ lang: 'de', id: 'de-b1-y-office', level: 'B1', emoji: '🏛️', title: 'Behördengänge', desc: 'Походы по ведомствам: регистрация, заявления, справки и решения; «der Bescheid» — официальное решение, а «Widerspruch einlegen» — обжаловать его.', cards: `
+ummelden|перерегистрировать (адрес, машину)|Nach dem Umzug muss ich mich ummelden.|После переезда мне нужно перерегистрироваться.
+sich abmelden|сняться с регистрации|Vor der Ausreise muss man sich abmelden.|Перед выездом из страны нужно сняться с учёта.
+die Abmeldung|снятие с регистрации|Die Abmeldung können Sie auch per Post schicken.|Заявление о снятии с учёта можно отправить и по почте.
+der Einkommensnachweis|справка о доходах|Für das Wohngeld brauchen Sie einen Einkommensnachweis.|Для жилищного пособия вам нужна справка о доходах.
+der Hauptwohnsitz|основное место жительства|Mein Hauptwohnsitz ist in Leipzig.|Моё основное место жительства — Лейпциг.
+der Nebenwohnsitz|второе место жительства|Als Studentin hatte sie einen Nebenwohnsitz in Köln.|Студенткой она была зарегистрирована дополнительно в Кёльне.
+die Wohnungsgeberbestätigung|справка от арендодателя о заселении|Für die Anmeldung brauchen Sie eine Wohnungsgeberbestätigung.|Для регистрации вам нужна справка от арендодателя.
+die Meldebehörde|паспортно-регистрационная служба|Die Meldebehörde schickt Ihnen die Bestätigung.|Регистрационная служба пришлёт вам подтверждение.
+der Termin online buchen|записаться онлайн|Beim Bürgeramt muss man den Termin online buchen.|В бюргерамт нужно записываться онлайн.
+die Wartemarke|талончик очереди|Ziehen Sie bitte eine Wartemarke.|Пожалуйста, возьмите талончик.
+das Antragsformular|бланк заявления|Das Antragsformular finden Sie auf unserer Webseite.|Бланк заявления вы найдёте на нашем сайте.
+nachreichen|донести, предоставить позже (документы)|Die fehlenden Unterlagen kann ich nächste Woche nachreichen.|Недостающие документы я могу донести на следующей неделе.
+der Einbürgerungstest|тест на получение гражданства|Den Einbürgerungstest hat sie ohne Fehler bestanden.|Тест на гражданство она сдала без ошибок.
+die Heiratsurkunde|свидетельство о браке|Bringen Sie bitte die Heiratsurkunde mit.|Пожалуйста, принесите свидетельство о браке.
+das Passfoto|фотография на паспорт|Das Passfoto darf nicht älter als sechs Monate sein.|Фото на паспорт должно быть не старше шести месяцев.
+der Fingerabdruck|отпечаток пальца|Für den neuen Pass nimmt man Ihren Fingerabdruck.|Для нового паспорта у вас снимут отпечатки пальцев.
+die Bearbeitung|рассмотрение, обработка (заявления)|Die Bearbeitung dauert etwa vier Wochen.|Рассмотрение занимает около четырёх недель.
+abholbereit|готовый к выдаче|Ihr Ausweis ist jetzt abholbereit.|Ваше удостоверение готово к выдаче.
+der Abholtermin|дата и время получения|Für die Abholung brauchen Sie keinen Abholtermin.|Для получения не нужно записываться.
+genehmigt|одобренный, утверждённый|Mein Antrag wurde genehmigt.|Моё заявление одобрили.
+abgelehnt|отклонённый|Leider wurde der Antrag abgelehnt.|К сожалению, заявление отклонили.
+der Ablehnungsbescheid|решение об отказе|Gegen den Ablehnungsbescheid kann man Widerspruch einlegen.|Решение об отказе можно обжаловать.
+Widerspruch einlegen|подать возражение, обжаловать|Sie haben einen Monat Zeit, Widerspruch einzulegen.|У вас есть месяц, чтобы подать возражение.
+das Sozialamt|отдел социального обеспечения|Das Sozialamt hilft Menschen ohne Einkommen.|Социальная служба помогает людям без дохода.
+gebührenpflichtig|платный (о услуге ведомства)|Die Ausstellung eines Reisepasses ist gebührenpflichtig.|Оформление загранпаспорта платное.
+gebührenfrei|бесплатный, без пошлины|Die Anmeldung ist gebührenfrei.|Регистрация бесплатная.
+stempeln|ставить печать|Die Beamtin stempelt das Formular.|Служащая ставит печать на бланк.
+der Aufenthaltstitel|вид на жительство|Ihr Aufenthaltstitel muss verlängert werden.|Ваш вид на жительство нужно продлить.
+die Arbeitserlaubnis|разрешение на работу|Ohne Arbeitserlaubnis darf er nicht arbeiten.|Без разрешения на работу он не имеет права работать.
+die Steueridentifikationsnummer|налоговый идентификационный номер|Ihre Steueridentifikationsnummer bekommen Sie per Post.|Свой налоговый номер вы получите по почте.
+das Jobcenter|центр занятости (выдача пособий)|Er hat einen Termin beim Jobcenter.|У него встреча в центре занятости.
+die Arbeitsagentur|агентство по труду|Die Arbeitsagentur hilft bei der Jobsuche.|Агентство по труду помогает в поиске работы.
+das Wohngeld|пособие на жильё|Mit wenig Einkommen kann man Wohngeld beantragen.|При низком доходе можно подать заявление на жилищное пособие.
+der Zuschuss|субсидия, дотация|Die Stadt zahlt einen Zuschuss für das Fahrrad.|Город выплачивает субсидию на велосипед.
+` },
+);
+/* de-b1-17.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b1-y-travelfix', level: 'B1', emoji: '🧳', title: 'Ärger auf Reisen', desc: 'Когда в поездке что-то пошло не так: опоздания, отмены, потери и компенсации; «umbuchen» — переоформить билет на другую дату.', cards: `
+verspätet|опоздавший, с опозданием|Der Zug ist 40 Minuten verspätet.|Поезд опаздывает на 40 минут.
+sich verzögern|задерживаться|Der Abflug verzögert sich um zwei Stunden.|Вылет задерживается на два часа.
+der Ausfall|отмена (рейса, поезда)|Wegen des Ausfalls mussten wir mit dem Bus fahren.|Из-за отмены нам пришлось ехать на автобусе.
+der Zug fällt aus|поезд отменён|Der Zug nach Berlin fällt heute aus.|Поезд в Берлин сегодня отменён.
+den Anschluss verpassen|опоздать на пересадку|Wegen der Verspätung habe ich den Anschluss verpasst.|Из-за опоздания я пропустил пересадку.
+der Anschlusszug|поезд для пересадки, стыковочный поезд|Der Anschlusszug wartet leider nicht.|Стыковочный поезд, к сожалению, не ждёт.
+der Ersatzzug|заменяющий поезд|Ein Ersatzzug fährt in einer Stunde.|Заменяющий поезд отправится через час.
+der Ersatzbus|заменяющий автобус|Zwischen Hamm und Dortmund fahren Ersatzbusse.|Между Хаммом и Дортмундом ходят заменяющие автобусы.
+die Ansage|объявление (по громкой связи)|Ich habe die Ansage am Bahnsteig nicht verstanden.|Я не понял объявление на перроне.
+annulliert|аннулированный, отменённый|Unser Flug wurde annulliert.|Наш рейс отменили.
+gestrichen|отменённый, вычеркнутый|Alle Flüge nach London sind heute gestrichen.|Все рейсы в Лондон сегодня отменены.
+überbucht|с овербукингом, перепроданный|Der Flug war überbucht, und wir bekamen keinen Platz.|Рейс был перепродан, и нам не досталось мест.
+festsitzen|застрять (где-либо)|Wegen des Schnees sitzen wir am Flughafen fest.|Из-за снега мы застряли в аэропорту.
+gestrandet|застрявший (в пути)|Tausende Reisende waren in Frankfurt gestrandet.|Тысячи путешественников застряли во Франкфурте.
+die Fahrgastrechte|права пассажиров (мн. ч.)|Informieren Sie sich über Ihre Fahrgastrechte.|Узнайте о своих правах пассажира.
+die Entschädigung|компенсация, возмещение|Ab einer Stunde Verspätung gibt es eine Entschädigung.|При опоздании от часа положена компенсация.
+umbuchen|переоформить (бронь, билет)|Können wir den Flug auf Freitag umbuchen?|Можно перенести рейс на пятницу?
+die Umbuchung|переоформление брони|Die Umbuchung kostet 50 Euro.|Переоформление стоит 50 евро.
+der Gepäckverlust|потеря багажа|Den Gepäckverlust müssen Sie sofort am Schalter melden.|О потере багажа нужно сразу сообщить у стойки.
+die Gepäckermittlung|служба розыска багажа|Die Gepäckermittlung ist neben dem Ausgang.|Служба розыска багажа находится рядом с выходом.
+die Beschädigung|повреждение|Der Koffer zeigt eine Beschädigung am Griff.|У чемодана повреждена ручка.
+die Fundsache|найденная вещь|Fundsachen werden drei Monate aufbewahrt.|Найденные вещи хранятся три месяца.
+gestohlen|украденный|Mir wurde im Zug das Handy gestohlen.|У меня в поезде украли телефон.
+die Anzeige erstatten|подать заявление в полицию|Nach dem Diebstahl habe ich Anzeige erstattet.|После кражи я подал заявление в полицию.
+der Ersatzpass|временный паспорт, паспорт взамен утерянного|Das Konsulat stellt Ihnen einen Ersatzpass aus.|Консульство выдаст вам временный паспорт.
+die Kreditkarte sperren|заблокировать кредитную карту|Zuerst musst du die Kreditkarte sperren.|Сначала тебе нужно заблокировать кредитку.
+die Reisekrankenversicherung|медицинская страховка для поездок|Ohne Reisekrankenversicherung kann ein Arztbesuch teuer werden.|Без медицинской страховки визит к врачу может дорого обойтись.
+sich verfahren|заблудиться (на машине)|Ohne Navi haben wir uns total verfahren.|Без навигатора мы совсем заблудились.
+der Umweg|объезд, крюк|Wegen der Baustelle mussten wir einen Umweg fahren.|Из-за стройки нам пришлось ехать в объезд.
+der Reiseleiter|гид, руководитель группы|Der Reiseleiter hat uns im Hotel geholfen.|Руководитель группы помог нам в отеле.
+der Preisnachlass|скидка, снижение цены|Wegen des Lärms bekamen wir einen Preisnachlass.|Из-за шума нам дали скидку.
+die Abzocke|обдираловка, развод (разг.)|Zehn Euro für ein Wasser ist echte Abzocke!|Десять евро за воду — настоящая обдираловка!
+der Touristenpreis|цена для туристов (завышенная)|Hier zahlt man leider Touristenpreise.|Здесь, к сожалению, платят туристические цены.
+die Lebensmittelvergiftung|пищевое отравление|Nach dem Fischessen hatte er eine Lebensmittelvergiftung.|После рыбы у него было пищевое отравление.
+` },
+{ lang: 'de', id: 'de-b1-y-hotel', level: 'B1', emoji: '🛎️', title: 'Hotel und Unterkunft', desc: 'Проживание в отеле, хостеле и апартаментах: номера, услуги, правила; «belegt» — все номера заняты.', cards: `
+das Dreibettzimmer|трёхместный номер|Wir haben ein Dreibettzimmer mit Balkon.|У нас трёхместный номер с балконом.
+die Unterbringung|размещение|Die Unterbringung erfolgt in Doppelzimmern.|Размещение в двухместных номерах.
+das Hotelzimmer|гостиничный номер|Das Hotelzimmer war klein, aber sauber.|Номер был маленький, но чистый.
+das Mehrbettzimmer|многоместный номер|In der Jugendherberge schlafen wir im Mehrbettzimmer.|В хостеле мы спим в многоместной комнате.
+das Familienzimmer|семейный номер|Für uns vier nehmen wir ein Familienzimmer.|Для нас четверых мы берём семейный номер.
+die Suite|люкс, сьют|Zum Hochzeitstag haben sie eine Suite gebucht.|На годовщину свадьбы они забронировали люкс.
+das Nichtraucherzimmer|номер для некурящих|Alle Zimmer sind Nichtraucherzimmer.|Все номера для некурящих.
+die Zimmernummer|номер комнаты|Wie ist Ihre Zimmernummer?|Какой у вас номер комнаты?
+die Buchungsbestätigung|подтверждение бронирования|Die Buchungsbestätigung habe ich per E-Mail bekommen.|Подтверждение брони я получил по электронной почте.
+der Check-in|регистрация, заселение|Der Check-in ist ab 15 Uhr möglich.|Заселение возможно с 15 часов.
+der späte Check-out|поздний выезд|Kann ich einen späten Check-out bekommen?|Можно мне поздний выезд?
+die Empfangshalle|холл, вестибюль|Wir treffen uns um acht in der Empfangshalle.|Встречаемся в восемь в холле.
+der Portier|портье, швейцар|Der Portier hat uns ein Taxi gerufen.|Портье вызвал нам такси.
+die Gepäckaufbewahrung|камера хранения|Die Koffer können Sie in der Gepäckaufbewahrung lassen.|Чемоданы можно оставить в камере хранения.
+der Frühstücksraum|зал для завтрака|Der Frühstücksraum ist im ersten Stock.|Зал для завтрака на втором этаже.
+die Frühstückszeit|время завтрака|Die Frühstückszeit endet um zehn Uhr.|Завтрак заканчивается в десять часов.
+der Fahrstuhl|лифт|Der Fahrstuhl ist leider außer Betrieb.|Лифт, к сожалению, не работает.
+die Zimmerreinigung|уборка номера|Die Zimmerreinigung kommt jeden Vormittag.|Уборка номера проходит каждое утро.
+das Zimmermädchen|горничная|Das Zimmermädchen hat frische Handtücher gebracht.|Горничная принесла свежие полотенца.
+das Badetuch|банное полотенце|Am Pool bekommt man ein Badetuch.|У бассейна выдают банное полотенце.
+der Bademantel|халат (банный)|Im Spa-Hotel liegt ein Bademantel im Zimmer.|В спа-отеле в номере лежит халат.
+das Zustellbett|дополнительная кровать|Für unseren Sohn brauchen wir ein Zustellbett.|Для нашего сына нужна дополнительная кровать.
+die Zimmerkarte|ключ-карта от номера|Die Zimmerkarte funktioniert nicht mehr.|Ключ-карта от номера больше не работает.
+die Nachtruhe|ночной покой, тихий час ночью|Ab 22 Uhr gilt Nachtruhe.|С 22 часов действует режим тишины.
+der Hotelgast|постоялец отеля|Der Parkplatz ist nur für Hotelgäste.|Парковка только для постояльцев отеля.
+die Hotelbar|бар отеля|Abends haben wir noch etwas in der Hotelbar getrunken.|Вечером мы ещё выпили в баре отеля.
+das Gästehaus|гостевой дом|Das kleine Gästehaus liegt direkt am See.|Маленький гостевой дом находится прямо у озера.
+die Endreinigung|финальная уборка (при выезде)|Die Endreinigung kostet bei der Ferienwohnung extra.|Финальная уборка в апартаментах оплачивается отдельно.
+ruhig gelegen|в тихом месте|Das Hotel ist ruhig gelegen, aber nah am Zentrum.|Отель расположен в тихом месте, но близко к центру.
+belegt|занятый (о номерах)|Leider sind alle Zimmer belegt.|К сожалению, все номера заняты.
+die Hotelkategorie|категория отеля|Die Hotelkategorie erkennt man an den Sternen.|Категорию отеля узнают по звёздам.
+das Fünf-Sterne-Hotel|пятизвёздочный отель|In einem Fünf-Sterne-Hotel war ich noch nie.|Я никогда не был в пятизвёздочном отеле.
+` },
+{ lang: 'de', id: 'de-b1-y-contract', level: 'B1', emoji: '📝', title: 'Verträge und Versicherungen', desc: 'Договоры, тарифы и страховки: сроки, расторжение, платежи; «das Kleingedruckte» читайте всегда — а здесь слова для этого.', cards: `
+einen Vertrag abschließen|заключить договор|Wir haben einen neuen Stromvertrag abgeschlossen.|Мы заключили новый договор на электричество.
+der Vertragsabschluss|заключение договора|Bei Vertragsabschluss bekommen Sie ein Handy gratis.|При заключении договора вы получите телефон бесплатно.
+der Vertragspartner|сторона договора, контрагент|Beide Vertragspartner müssen unterschreiben.|Обе стороны договора должны подписать.
+die Vertragsbedingungen|условия договора (мн. ч.)|Lesen Sie die Vertragsbedingungen genau.|Внимательно прочитайте условия договора.
+die Geschäftsbedingungen|условия предоставления услуг (мн. ч.)|Die Geschäftsbedingungen sind sehr lang.|Условия предоставления услуг очень длинные.
+die Vertragsdauer|срок действия договора|Die Vertragsdauer beträgt zwei Jahre.|Срок действия договора — два года.
+die Mindestlaufzeit|минимальный срок договора|Der Tarif hat keine Mindestlaufzeit.|У тарифа нет минимального срока.
+sich automatisch verlängern|продлеваться автоматически|Wenn Sie nicht kündigen, verlängert sich der Vertrag automatisch.|Если вы не расторгнете договор, он продлится автоматически.
+schriftlich kündigen|расторгнуть письменно|Sie müssen schriftlich kündigen.|Вы должны расторгнуть договор письменно.
+die Kündigungsbestätigung|подтверждение расторжения|Ich warte noch auf die Kündigungsbestätigung.|Я всё ещё жду подтверждения расторжения.
+das Sonderkündigungsrecht|право досрочного расторжения|Bei einer Preiserhöhung haben Sie ein Sonderkündigungsrecht.|При повышении цены у вас есть право досрочного расторжения.
+der Widerruf|отзыв, отказ (от договора)|Der Widerruf ist innerhalb von 14 Tagen möglich.|Отказаться от договора можно в течение 14 дней.
+kündbar|расторжимый|Der Vertrag ist monatlich kündbar.|Договор можно расторгнуть ежемесячно.
+die Vertragsstrafe|неустойка, штраф по договору|Bei früher Kündigung droht eine Vertragsstrafe.|При досрочном расторжении грозит неустойка.
+der Neukunde|новый клиент|Neukunden bekommen drei Monate gratis.|Новые клиенты получают три месяца бесплатно.
+der Anbieterwechsel|смена поставщика|Ein Anbieterwechsel spart oft viel Geld.|Смена поставщика часто экономит много денег.
+die Wechselprämie|бонус за переход (к другому поставщику)|Die Wechselprämie wird nach einem Jahr ausgezahlt.|Бонус за переход выплачивается через год.
+die Grundgebühr|абонентская плата|Die Grundgebühr beträgt zehn Euro im Monat.|Абонентская плата — десять евро в месяц.
+die Jahresgebühr|годовая плата|Die Kreditkarte hat keine Jahresgebühr.|У кредитной карты нет годовой платы.
+die Zahlungsweise|способ оплаты|Als Zahlungsweise wähle ich monatlich.|Как способ оплаты я выбираю ежемесячный.
+die Bankverbindung|банковские реквизиты|Bitte teilen Sie uns Ihre neue Bankverbindung mit.|Пожалуйста, сообщите нам ваши новые реквизиты.
+die Einzugsermächtigung|разрешение на автоматическое списание|Mit der Einzugsermächtigung bucht die Firma den Beitrag ab.|С разрешением на списание фирма снимает взнос сама.
+der Bestandskunde|постоянный (существующий) клиент|Bestandskunden bekommen oft schlechtere Angebote als Neukunden.|Существующие клиенты часто получают худшие предложения, чем новые.
+mahnen|напоминать о долге, присылать напоминание|Die Firma hat mich schon zweimal gemahnt.|Фирма уже дважды присылала мне напоминание об оплате.
+die Kundennummer|номер клиента|Bitte nennen Sie Ihre Kundennummer.|Пожалуйста, назовите свой номер клиента.
+die Warteschleife|режим ожидания (на линии)|Ich hänge seit 20 Minuten in der Warteschleife.|Я уже 20 минут вишу на линии.
+versichert|застрахованный|Ist das Fahrrad gegen Diebstahl versichert?|Велосипед застрахован от кражи?
+die Versicherungspolice|страховой полис|Die Versicherungspolice liegt im Ordner.|Страховой полис лежит в папке.
+der Versicherungsfall|страховой случай|Ein Wasserschaden ist ein Versicherungsfall.|Затопление — это страховой случай.
+einen Schaden melden|заявить о страховом случае|Den Schaden müssen Sie innerhalb einer Woche melden.|О повреждении нужно сообщить в течение недели.
+die Schadenshöhe|размер ущерба|Ein Gutachter schätzt die Schadenshöhe.|Эксперт оценивает размер ущерба.
+den Schaden ersetzen|возместить ущерб|Die Versicherung ersetzt den Schaden komplett.|Страховая полностью возмещает ущерб.
+Anspruch haben auf|иметь право на|Sie haben Anspruch auf eine Erstattung.|Вы имеете право на возмещение.
+der Versicherungsvertreter|страховой агент|Der Versicherungsvertreter hat mich gut beraten.|Страховой агент хорошо меня проконсультировал.
+` },
+{ lang: 'de', id: 'de-b1-y-workrights', level: 'B1', emoji: '⚖️', title: 'Rechte im Job', desc: 'Рабочее время, отпуск, зарплата и увольнение; «brutto» — до вычетов, «netto» — на руки.', cards: `
+die Arbeitszeit|рабочее время|Meine Arbeitszeit ist von acht bis halb fünf.|Моё рабочее время — с восьми до половины пятого.
+in Teilzeit arbeiten|работать неполный день|Seit der Geburt arbeitet sie in Teilzeit.|После рождения ребёнка она работает неполный день.
+Überstunden abbauen|отгуливать переработку|Am Freitag baue ich Überstunden ab.|В пятницу я отгуливаю переработку.
+die Nachtschicht|ночная смена|Krankenschwestern arbeiten oft in der Nachtschicht.|Медсёстры часто работают в ночную смену.
+die Frühschicht|утренняя смена|Die Frühschicht beginnt um sechs Uhr.|Утренняя смена начинается в шесть часов.
+der Schichtdienst|сменная работа|Im Schichtdienst ist das Familienleben schwierig.|При сменной работе семейная жизнь непроста.
+stempeln gehen|отмечаться (на проходной)|Vergiss nicht, stempeln zu gehen.|Не забудь отметиться.
+die Pausenregelung|правила перерывов|Die Pausenregelung steht im Arbeitsvertrag.|Правила перерывов прописаны в трудовом договоре.
+im Homeoffice arbeiten|работать из дома|Zweimal pro Woche arbeite ich im Homeoffice.|Дважды в неделю я работаю из дома.
+der Urlaubsanspruch|право на отпуск|Der Urlaubsanspruch beträgt 30 Tage im Jahr.|Право на отпуск — 30 дней в году.
+die Urlaubstage|дни отпуска (мн. ч.)|Ich habe noch fünf Urlaubstage übrig.|У меня осталось ещё пять дней отпуска.
+der Urlaubsantrag|заявление на отпуск|Der Chef hat meinen Urlaubsantrag unterschrieben.|Начальник подписал моё заявление на отпуск.
+der Sonderurlaub|дополнительный отпуск (по особому поводу)|Zur Hochzeit bekommt man einen Tag Sonderurlaub.|На свадьбу дают один день дополнительного отпуска.
+der Bildungsurlaub|учебный отпуск|Im Bildungsurlaub mache ich einen Sprachkurs.|В учебном отпуске я прохожу языковой курс.
+das Nettogehalt|зарплата на руки|Mein Nettogehalt liegt bei 2300 Euro.|Моя зарплата на руки около 2300 евро.
+die Lohnabrechnung|расчётный листок|Auf der Lohnabrechnung stehen alle Abzüge.|В расчётном листке указаны все вычеты.
+das Urlaubsgeld|отпускные (доплата)|Im Juni bekommen wir Urlaubsgeld.|В июне мы получаем отпускные.
+die Stechuhr|табельные часы, система учёта времени|Morgens halte ich meine Karte an die Stechuhr.|Утром я прикладываю карту к системе учёта времени.
+die Vergütung|вознаграждение, оплата|Die Vergütung richtet sich nach dem Tarifvertrag.|Оплата определяется тарифным соглашением.
+die Lohnfortzahlung|сохранение зарплаты (во время болезни)|Bei Krankheit gibt es sechs Wochen Lohnfortzahlung.|При болезни зарплата сохраняется шесть недель.
+die Krankmeldung abgeben|сдать больничный|Die Krankmeldung müssen Sie am dritten Tag abgeben.|Больничный нужно сдать на третий день.
+die Sozialversicherung|социальное страхование|Die Sozialversicherung umfasst Kranken-, Renten- und Arbeitslosenversicherung.|Социальное страхование включает медицинское, пенсионное и страхование по безработице.
+der Mutterschutz|декретный отпуск (охрана материнства)|Im Mutterschutz darf sie nicht arbeiten.|Во время декретного отпуска ей нельзя работать.
+der Arbeitsunfall|несчастный случай на работе|Einen Arbeitsunfall muss man sofort melden.|О несчастном случае на работе нужно сообщить сразу.
+die Betriebsversammlung|собрание коллектива|Auf der Betriebsversammlung ging es um die neuen Arbeitszeiten.|На собрании коллектива речь шла о новом графике.
+abmahnen|сделать официальное предупреждение (работнику)|Er wurde wegen Unpünktlichkeit abgemahnt.|Ему вынесли предупреждение за непунктуальность.
+der Kündigungsschutz|защита от увольнения|Nach der Probezeit gilt der Kündigungsschutz.|После испытательного срока действует защита от увольнения.
+die Kündigung erhalten|получить уведомление об увольнении|Letzte Woche hat er die Kündigung erhalten.|На прошлой неделе он получил уведомление об увольнении.
+die Entlassung|увольнение|Die Firma plant keine Entlassungen.|Фирма не планирует увольнений.
+die Kündigungsschutzklage|иск о незаконном увольнении|Er hat eine Kündigungsschutzklage eingereicht.|Он подал иск о незаконном увольнении.
+freiberuflich|внештатный, фриланс|Sie arbeitet freiberuflich als Übersetzerin.|Она работает переводчицей на фрилансе.
+der Selbstständige|индивидуальный предприниматель, самозанятый|Selbstständige müssen sich selbst versichern.|Самозанятые должны страховаться сами.
+die Zeitarbeit|временная работа через агентство|Über die Zeitarbeit hat er eine feste Stelle gefunden.|Через агентство временной работы он нашёл постоянное место.
+` },
+{ lang: 'de', id: 'de-b1-y-moving', level: 'B1', emoji: '📦', title: 'Umzug und Einzug', desc: 'Переезд от упаковки коробок до новоселья и счётчиков; «der Sperrmüll» — крупногабаритный мусор.', cards: `
+das Umzugsunternehmen|компания по переездам|Wir haben ein Umzugsunternehmen beauftragt.|Мы наняли компанию по переездам.
+die Möbelpacker|грузчики (мн. ч.)|Die Möbelpacker kommen um sieben Uhr.|Грузчики придут в семь часов.
+der Transporter|фургон, микроавтобус|In den Transporter passt das ganze Sofa.|В фургон целиком помещается диван.
+einen Transporter mieten|арендовать фургон|Für den Umzug mieten wir einen Transporter.|Для переезда мы арендуем фургон.
+die Halteverbotszone|зона запрета остановки (временная)|Vor dem Haus haben wir eine Halteverbotszone beantragt.|Перед домом мы оформили временный запрет на парковку.
+der Umzugstag|день переезда|Am Umzugstag hat es den ganzen Tag geregnet.|В день переезда весь день шёл дождь.
+mithelfen|помогать, участвовать в помощи|Drei Freunde haben beim Umzug mitgeholfen.|Трое друзей помогали при переезде.
+die Möbel aufbauen|собирать мебель|Die Möbel aufzubauen hat zwei Tage gedauert.|Сборка мебели заняла два дня.
+der Sperrmüll|крупногабаритный мусор|Das alte Sofa stellen wir zum Sperrmüll.|Старый диван мы выставим как крупногабаритный мусор.
+die Wohnungsübergabe|передача квартиры|Bei der Wohnungsübergabe prüft der Vermieter alle Räume.|При передаче квартиры арендодатель осматривает все комнаты.
+das Übergabeprotokoll|акт приёма-передачи|Im Übergabeprotokoll stehen alle Schäden.|В акте передачи указаны все повреждения.
+die Schlüssel abgeben|сдать ключи|Bis Freitag muss ich die Schlüssel abgeben.|До пятницы я должен сдать ключи.
+der Vormieter|предыдущий арендатор|Der Vormieter hat die Küche dagelassen.|Предыдущий жилец оставил кухню.
+die Ablöse|отступные (за мебель, кухню)|Für die Küche verlangt er 800 Euro Ablöse.|За кухню он просит 800 евро отступных.
+der Zählerstand|показания счётчика|Notieren Sie beim Einzug den Zählerstand.|При въезде запишите показания счётчика.
+der Stromanbieter|поставщик электроэнергии|Ich muss mich beim Stromanbieter anmelden.|Мне нужно зарегистрироваться у поставщика электроэнергии.
+den Strom anmelden|подключить электричество на своё имя|Hast du schon den Strom angemeldet?|Ты уже оформил электричество?
+der Gaszähler|газовый счётчик|Der Gaszähler ist im Keller.|Газовый счётчик в подвале.
+die Nebenkostenabrechnung|расчёт коммунальных платежей|Laut Nebenkostenabrechnung müssen wir nachzahlen.|Согласно расчёту коммунальных платежей нам нужно доплатить.
+der Kellerraum|кладовка в подвале|Zur Wohnung gehört ein kleiner Kellerraum.|К квартире относится небольшая кладовка в подвале.
+die neue Adresse|новый адрес|Ich schicke dir meine neue Adresse per SMS.|Я пришлю тебе свой новый адрес эсэмэской.
+einweihen|отпраздновать новоселье, открыть (торжественно)|Am Samstag weihen wir die neue Wohnung ein.|В субботу мы празднуем новоселье.
+der Neuanfang|новое начало|Der Umzug nach Hamburg war ein echter Neuanfang.|Переезд в Гамбург стал настоящим новым началом.
+die Kisten schleppen|таскать коробки|Den ganzen Tag haben wir Kisten geschleppt.|Весь день мы таскали коробки.
+die Kartons beschriften|подписывать коробки|Beschrifte die Kartons, dann findest du alles schneller.|Подпиши коробки — тогда всё быстрее найдёшь.
+den Schrank abbauen|разобрать шкаф|Den Schrank müssen wir vor dem Umzug abbauen.|Шкаф нужно разобрать перед переездом.
+das Möbelstück|предмет мебели|Jedes Möbelstück hat eine Nummer bekommen.|Каждому предмету мебели присвоили номер.
+anschrauben|привинчивать, прикручивать|Das Regal muss man an die Wand anschrauben.|Стеллаж нужно прикрутить к стене.
+dübeln|сверлить и ставить дюбели|In Altbauwänden ist Dübeln manchmal schwierig.|В стенах старых домов ставить дюбели иногда сложно.
+die Lampe aufhängen|повесить лампу|Kannst du mir helfen, die Lampe aufzuhängen?|Можешь помочь мне повесить лампу?
+die Adressänderung|смена адреса|Die Adressänderung schicke ich auch an die Bank.|Об изменении адреса я сообщу и в банк.
+der Briefkastenschlüssel|ключ от почтового ящика|Der Briefkastenschlüssel hängt am Schlüsselbund.|Ключ от почтового ящика висит на связке.
+` },
+{ lang: 'de', id: 'de-b1-y-cleaning', level: 'B1', emoji: '🧽', title: 'Großputz und Wäschepflege', desc: 'Генеральная уборка, чистящие средства и уход за одеждой; «einlaufen» — сесть после стирки.', cards: `
+der Frühjahrsputz|весенняя генеральная уборка|Am Wochenende machen wir Frühjahrsputz.|На выходных мы устраиваем генеральную уборку.
+den Boden wischen|мыть пол|Am Samstag wische ich den Boden.|В субботу я мою пол.
+ausfegen|подмести, вымести|Kannst du bitte den Flur ausfegen?|Можешь, пожалуйста, подмести прихожую?
+der Staubwedel|метёлка для пыли|Mit dem Staubwedel komme ich auch oben auf den Schrank.|Метёлкой я достаю и до верха шкафа.
+die Fenster putzen|мыть окна|Im Frühling putzen wir die Fenster.|Весной мы моем окна.
+das Fensterleder|замша для окон|Mit dem Fensterleder gibt es keine Streifen.|С замшей не остаётся разводов.
+der Glasreiniger|средство для стёкол|Der Glasreiniger riecht nach Zitrone.|Средство для стёкол пахнет лимоном.
+der Badreiniger|средство для ванной|Der Badreiniger entfernt auch Kalk.|Средство для ванной удаляет и известковый налёт.
+der Kalk|известь, известковый налёт|Unser Wasser hat viel Kalk.|В нашей воде много извести.
+entkalken|удалять накипь|Die Kaffeemaschine muss man regelmäßig entkalken.|Кофемашину нужно регулярно очищать от накипи.
+die Fugen|швы между плиткой (мн. ч.)|Die Fugen im Bad sind ganz dunkel.|Швы между плиткой в ванной совсем тёмные.
+schimmelig|заплесневелый|In der Ecke ist die Wand schimmelig.|В углу стена покрылась плесенью.
+polieren|полировать|Vor dem Fest polieren wir das Silber.|Перед праздником мы полируем серебро.
+den Backofen reinigen|чистить духовку|Den Backofen zu reinigen ist harte Arbeit.|Чистить духовку — тяжёлая работа.
+den Kühlschrank abtauen|разморозить холодильник|Einmal im Jahr tauen wir den Kühlschrank ab.|Раз в год мы размораживаем холодильник.
+die Spülmaschine einräumen|загружать посудомойку|Kannst du bitte die Spülmaschine einräumen?|Можешь, пожалуйста, загрузить посудомойку?
+die Spülmaschine ausräumen|разгружать посудомойку|Die Kinder räumen jeden Morgen die Spülmaschine aus.|Дети каждое утро разгружают посудомойку.
+der Müllbeutel|мешок для мусора|Wir brauchen neue Müllbeutel.|Нам нужны новые мешки для мусора.
+die Reinigungskraft|уборщица, работник клининга|Im Büro putzt abends eine Reinigungskraft.|В офисе по вечерам убирает уборщица.
+die Putzfrau|уборщица (разг.)|Unsere Putzfrau kommt jeden Freitag.|Наша уборщица приходит каждую пятницу.
+der Fleck|пятно|Der Rotweinfleck geht nicht raus.|Пятно от красного вина не отходит.
+der Fleckentferner|пятновыводитель|Versuch es mal mit Fleckentferner.|Попробуй пятновыводитель.
+die Pflegehinweise|указания по уходу на этикетке (мн. ч.)|Lies die Pflegehinweise auf dem Etikett.|Прочитай указания по уходу на этикетке.
+die Kochwäsche|стирка при 90 градусах|Handtücher kommen bei mir in die Kochwäsche.|Полотенца я стираю при 90 градусах.
+der Waschgang|цикл стирки|Ein Waschgang dauert fast zwei Stunden.|Один цикл стирки длится почти два часа.
+auf links drehen|вывернуть наизнанку|Jeans sollte man vor dem Waschen auf links drehen.|Джинсы перед стиркой лучше вывернуть наизнанку.
+einlaufen|садиться (о ткани)|Der Wollpullover ist beim Waschen eingelaufen.|Шерстяной свитер сел при стирке.
+die Wäsche aufhängen|развешивать бельё|Im Sommer hänge ich die Wäsche draußen auf.|Летом я развешиваю бельё на улице.
+der Fusselroller|ролик для одежды|Mit dem Fusselroller entferne ich die Katzenhaare.|Роликом я убираю кошачью шерсть.
+` },
+);
+/* de-b1-18.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b1-y-emergency', level: 'B1', emoji: '🚑', title: 'Unfall und Erste Hilfe', desc: 'Несчастный случай: вызов помощи, травмы и первая помощь; в Германии экстренный номер — 112.', cards: `
+den Notruf wählen|позвонить в экстренную службу|Wählen Sie sofort den Notruf 112!|Немедленно звоните по номеру 112!
+die Notrufnummer|номер экстренной службы|Die Notrufnummer für die Polizei ist 110.|Номер экстренного вызова полиции — 110.
+die Polizei rufen|вызвать полицию|Nach dem Unfall haben wir die Polizei gerufen.|После аварии мы вызвали полицию.
+um Hilfe rufen|звать на помощь|Das Kind hat laut um Hilfe gerufen.|Ребёнок громко звал на помощь.
+der Verkehrsunfall|дорожно-транспортное происшествие|Bei dem Verkehrsunfall wurde niemand verletzt.|В ДТП никто не пострадал.
+verunglücken|попасть в аварию, пострадать при несчастном случае|Mein Onkel ist mit dem Motorrad verunglückt.|Мой дядя попал в аварию на мотоцикле.
+die Unfallstelle|место аварии|Die Polizei hat die Unfallstelle abgesperrt.|Полиция оцепила место аварии.
+absichern|обезопасить, оградить|Zuerst muss man die Unfallstelle absichern.|Сначала нужно оградить место аварии.
+eine Rettungsgasse bilden|освободить коридор для спасателей|Im Stau muss man eine Rettungsgasse bilden.|В пробке нужно освободить коридор для спасательных машин.
+der Rettungshubschrauber|вертолёт скорой помощи|Der Verletzte wurde mit dem Rettungshubschrauber geflogen.|Пострадавшего доставили вертолётом скорой помощи.
+der Unfallbericht|протокол аварии|Die Polizei schreibt einen Unfallbericht.|Полиция составляет протокол аварии.
+der Ersthelfer|человек, оказывающий первую помощь|Der Ersthelfer hat dem Mann das Leben gerettet.|Человек, оказавший первую помощь, спас мужчине жизнь.
+Erste Hilfe leisten|оказывать первую помощь|Jeder Autofahrer muss Erste Hilfe leisten können.|Каждый водитель должен уметь оказать первую помощь.
+schwer verletzt|тяжело раненый|Zwei Personen wurden schwer verletzt.|Два человека получили тяжёлые травмы.
+leicht verletzt|легко раненый|Der Fahrer ist nur leicht verletzt.|Водитель получил лишь лёгкие травмы.
+das Bewusstsein verlieren|потерять сознание|Nach dem Sturz hat sie kurz das Bewusstsein verloren.|После падения она ненадолго потеряла сознание.
+in Ohnmacht fallen|упасть в обморок|Bei der Hitze ist ein Mann in Ohnmacht gefallen.|В жару один мужчина упал в обморок.
+die Unfallursache|причина аварии|Die Unfallursache ist noch unklar.|Причина аварии пока неясна.
+zu sich kommen|прийти в себя|Langsam kam er wieder zu sich.|Постепенно он пришёл в себя.
+zusammenbrechen|упасть без сил, потерять сознание|Der Läufer ist kurz vor dem Ziel zusammengebrochen.|Бегун упал без сил перед самым финишем.
+keine Luft bekommen|задыхаться, не мочь вздохнуть|Hilfe, er bekommt keine Luft!|Помогите, он не может дышать!
+beatmen|делать искусственное дыхание|Der Notarzt musste das Kind beatmen.|Врачу скорой пришлось делать ребёнку искусственное дыхание.
+die Herzmassage|непрямой массаж сердца|Bis der Notarzt kam, machte sie eine Herzmassage.|До прибытия скорой она делала массаж сердца.
+die Blutung|кровотечение|Drücken Sie fest auf die Wunde, um die Blutung zu stoppen.|Сильно прижмите рану, чтобы остановить кровотечение.
+die Platzwunde|рваная рана|Er hat eine Platzwunde am Kopf.|У него рваная рана на голове.
+genäht werden|зашивать (рану)|Die Wunde muss genäht werden.|Рану нужно зашить.
+sich das Bein brechen|сломать ногу|Beim Skifahren hat er sich das Bein gebrochen.|Катаясь на лыжах, он сломал ногу.
+gebrochen|сломанный|Der Arm ist nicht gebrochen, nur geprellt.|Рука не сломана, только ушиблена.
+einen Gips bekommen|получить гипс|Ich habe für sechs Wochen einen Gips bekommen.|Мне наложили гипс на шесть недель.
+die Krücken|костыли (мн. ч.)|Mit den Krücken komme ich kaum die Treppe hoch.|На костылях я едва поднимаюсь по лестнице.
+sich den Fuß verstauchen|подвернуть ногу|Beim Joggen habe ich mir den Fuß verstaucht.|На пробежке я подвернул ногу.
+sich verbrennen|обжечься|Ich habe mich am heißen Topf verbrannt.|Я обжёгся о горячую кастрюлю.
+unter Schock stehen|быть в шоке|Der Fahrer stand unter Schock.|Водитель был в шоке.
+die Vergiftung|отравление|Bei Verdacht auf Vergiftung rufen Sie den Giftnotruf an.|При подозрении на отравление звоните в токсикологическую службу.
+` },
+{ lang: 'de', id: 'de-b1-y-party', level: 'B1', emoji: '🎉', title: 'Partys und Feiern', desc: 'Организуем праздник: гости, тосты, костюмы и настроение; «eine Party schmeißen» — разговорное «закатить вечеринку».', cards: `
+die Geburtstagsfeier|празднование дня рождения|Zur Geburtstagsfeier kamen dreißig Gäste.|На день рождения пришли тридцать гостей.
+das Geburtstagskind|именинник|Das Geburtstagskind darf sich ein Lied wünschen.|Именинник может заказать песню.
+der runde Geburtstag|круглая дата, юбилей|Zum runden Geburtstag schenken wir ihr eine Reise.|На юбилей мы дарим ей путешествие.
+das Partyspiel|игра для вечеринки|Später haben wir noch ein lustiges Partyspiel gespielt.|Позже мы ещё сыграли в весёлую игру.
+eine Party schmeißen|закатить вечеринку (разг.)|Nach den Prüfungen schmeißen wir eine Party.|После экзаменов мы закатим вечеринку.
+die Hausparty|домашняя вечеринка|Bei der Hausparty war es ziemlich laut.|На домашней вечеринке было довольно шумно.
+die Feier ausrichten|устраивать праздник|Die Eltern richten die Feier im Garten aus.|Родители устраивают праздник в саду.
+die Gästeliste|список гостей|Steht Anna schon auf der Gästeliste?|Анна уже в списке гостей?
+die Einladungskarte|пригласительная открытка|Die Einladungskarten haben wir selbst gebastelt.|Пригласительные мы сделали сами.
+um Rückmeldung bitten|просить подтвердить участие|Wir bitten um Rückmeldung bis zum 10. Mai.|Просим подтвердить участие до 10 мая.
+pünktlich erscheinen|прийти вовремя|Bitte erscheint pünktlich, es ist eine Überraschung!|Пожалуйста, приходите вовремя, это сюрприз!
+das Motto|тема, девиз (праздника)|Das Motto der Party ist «die Achtziger».|Тема вечеринки — «восьмидесятые».
+die Mottoparty|тематическая вечеринка|Zur Mottoparty kommen alle verkleidet.|На тематическую вечеринку все приходят в костюмах.
+die Verkleidung|маскарадный костюм, переодевание|Seine Verkleidung als Pirat war super.|Его пиратский костюм был классным.
+die Sitzordnung|рассадка гостей|Die Sitzordnung hat lange gedauert.|Рассадка гостей заняла много времени.
+festlich|праздничный, торжественный|Der Tisch war festlich gedeckt.|Стол был празднично накрыт.
+die Feierlichkeit|торжество|Die Feierlichkeiten dauerten das ganze Wochenende.|Торжества длились все выходные.
+die Tischrede|застольная речь|Der Vater hielt eine lustige Tischrede.|Отец произнёс весёлую застольную речь.
+der Trinkspruch|тост|Auf wen bringen wir den nächsten Trinkspruch aus?|За кого поднимем следующий тост?
+auf jemanden anstoßen|выпить за кого-то, чокнуться|Lasst uns auf das Brautpaar anstoßen!|Давайте выпьем за молодожёнов!
+der Glückwunsch|поздравление|Vielen Dank für eure Glückwünsche!|Большое спасибо за ваши поздравления!
+die Kerzen ausblasen|задуть свечи|Jetzt musst du die Kerzen ausblasen!|Теперь ты должен задуть свечи!
+die Girlande|гирлянда|Über der Tür hängt eine bunte Girlande.|Над дверью висит пёстрая гирлянда.
+das Fingerfood|закуски, фуршетная еда|Statt Abendessen gibt es Fingerfood.|Вместо ужина будут закуски.
+die Häppchen|канапе, маленькие закуски (мн. ч.)|Auf dem Tisch standen leckere Häppchen.|На столе стояли вкусные канапе.
+die Tischdeko|украшение стола|Die Tischdeko passt perfekt zum Motto.|Украшение стола идеально подходит к теме.
+gute Stimmung|хорошее настроение, атмосфера|Auf der Feier war richtig gute Stimmung.|На празднике была отличная атмосфера.
+die Tanzfläche|танцпол|Um Mitternacht war die Tanzfläche voll.|В полночь танцпол был полон.
+der DJ|диджей|Der DJ hat die ganze Nacht aufgelegt.|Диджей ставил музыку всю ночь.
+die Musik aufdrehen|сделать музыку громче|Dreh die Musik auf, das ist mein Lied!|Сделай погромче, это моя песня!
+das Grillfest|праздник с барбекю|Im Juli gibt es ein Grillfest im Hof.|В июле во дворе будет праздник с барбекю.
+das Firmenjubiläum|юбилей фирмы|Zum Firmenjubiläum gab es ein großes Fest.|В честь юбилея фирмы был большой праздник.
+die Feier fällt aus|праздник отменяется|Wegen des Regens fällt die Feier aus.|Из-за дождя праздник отменяется.
+` },
+{ lang: 'de', id: 'de-b1-y-social', level: 'B1', emoji: '📲', title: 'Soziale Medien', desc: 'Жизнь в соцсетях: публикации, комментарии, чаты и приватность; многие слова — англицизмы с немецкими артиклями: der Account, das Selfie.', cards: `
+die sozialen Medien|социальные сети (мн. ч.)|Jugendliche verbringen viel Zeit in den sozialen Medien.|Подростки проводят много времени в соцсетях.
+der Account|аккаунт|Ich habe meinen alten Account gelöscht.|Я удалил свой старый аккаунт.
+der Nutzername|имя пользователя, ник|Mein Nutzername ist leider schon vergeben.|Моё имя пользователя, к сожалению, уже занято.
+das Profilbild|аватар, фото профиля|Sie hat ein neues Profilbild hochgeladen.|Она загрузила новое фото профиля.
+das Passwort ändern|сменить пароль|Du solltest regelmäßig dein Passwort ändern.|Тебе стоит регулярно менять пароль.
+der Status|статус|In seinem Status steht: «Bin im Urlaub».|В его статусе написано: «Я в отпуске».
+das Video hochladen|загрузить видео|Er lädt jeden Freitag ein neues Video hoch.|Каждую пятницу он загружает новое видео.
+das Selfie|селфи|Vor dem Eiffelturm haben wir ein Selfie gemacht.|Мы сделали селфи на фоне Эйфелевой башни.
+der Like|лайк|Das Foto hat über tausend Likes bekommen.|Фото набрало больше тысячи лайков.
+kommentieren|комментировать|Sie kommentiert jeden meiner Beiträge.|Она комментирует каждый мой пост.
+der Hashtag|хештег|Unter dem Hashtag findet man tausende Fotos.|По этому хештегу можно найти тысячи фото.
+verlinken|ставить ссылку, упоминать|Kannst du mich auf dem Foto verlinken?|Можешь отметить меня на фото?
+markieren|отмечать (на фото)|Er hat alle Freunde auf dem Bild markiert.|Он отметил всех друзей на снимке.
+der Screenshot|скриншот|Ich schicke dir einen Screenshot von der Nachricht.|Я пришлю тебе скриншот сообщения.
+die Direktnachricht|личное сообщение|Schreib mir doch eine Direktnachricht.|Напиши мне в личку.
+der Gruppenchat|групповой чат|Im Gruppenchat der Klasse gibt es hundert Nachrichten am Tag.|В классном чате сто сообщений в день.
+chatten|переписываться в чате|Wir haben bis Mitternacht gechattet.|Мы переписывались до полуночи.
+der Messenger|мессенджер|Welchen Messenger benutzt du?|Каким мессенджером ты пользуешься?
+die Lesebestätigung|отметка о прочтении|Ich habe die Lesebestätigung ausgeschaltet.|Я отключил отметки о прочтении.
+die Push-Nachricht|push-уведомление|Die vielen Push-Nachrichten nerven mich.|Множество push-уведомлений меня раздражает.
+online sein|быть онлайн|Er ist fast den ganzen Tag online.|Он почти весь день онлайн.
+offline|офлайн, не в сети|Am Wochenende bleibe ich offline.|На выходных я остаюсь офлайн.
+die Community|сообщество|Die Community hilft sich gegenseitig.|Сообщество помогает друг другу.
+die Influencerin|инфлюенсерка, блогер|Die Influencerin hat zwei Millionen Follower.|У этой блогерши два миллиона подписчиков.
+gesponsert|спонсорский, рекламный|Dieser Beitrag ist gesponsert.|Этот пост рекламный.
+der Troll|тролль (в интернете)|Auf Trolle sollte man nicht antworten.|Троллям лучше не отвечать.
+die Hassrede|язык вражды, хейт|Gegen Hassrede im Netz gibt es neue Gesetze.|Против языка вражды в сети есть новые законы.
+blockieren|заблокировать|Ich habe den Typen einfach blockiert.|Я просто заблокировала этого типа.
+persönliche Daten|личные данные|Gib keine persönlichen Daten preis!|Не раскрывай личные данные!
+die Privatsphäre-Einstellungen|настройки конфиденциальности (мн. ч.)|Überprüf mal deine Privatsphäre-Einstellungen.|Проверь-ка свои настройки конфиденциальности.
+die Handysucht|зависимость от смартфона|Gegen Handysucht hilft ein handyfreier Abend.|От зависимости от телефона помогает вечер без телефона.
+das Fake|фейк, подделка|Das Profil ist ein Fake.|Этот профиль — фейк.
+` },
+{ lang: 'de', id: 'de-b1-y-consumer', level: 'B1', emoji: '🏷️', title: 'Clever einkaufen', desc: 'Потребитель и реклама: скидки, качество, бренды и возврат; «sich etwas leisten können» — позволить себе что-то.', cards: `
+im Angebot|по акции|Butter ist diese Woche im Angebot.|Масло на этой неделе по акции.
+die Rabattaktion|акция со скидкой|Die Rabattaktion gilt nur bis Samstag.|Акция действует только до субботы.
+der Mengenrabatt|скидка за количество|Ab zehn Stück gibt es Mengenrabatt.|От десяти штук скидка за количество.
+herabgesetzt|уценённый|Alle Wintermäntel sind herabgesetzt.|Все зимние пальто уценены.
+das Preisschild|ценник|Auf dem Preisschild steht ein anderer Preis.|На ценнике указана другая цена.
+ein Schnäppchen machen|сделать выгодную покупку|Im Schlussverkauf habe ich ein Schnäppchen gemacht.|На распродаже я сделал выгодную покупку.
+den Gutschein einlösen|воспользоваться купоном|Kann ich den Gutschein auch online einlösen?|Можно воспользоваться купоном и онлайн?
+Punkte sammeln|копить баллы|Mit der Kundenkarte sammle ich Punkte.|С картой клиента я коплю баллы.
+das Treueprogramm|программа лояльности|Das Treueprogramm lohnt sich kaum.|Программа лояльности почти невыгодна.
+Preise vergleichen|сравнивать цены|Vor dem Kauf vergleiche ich immer die Preise.|Перед покупкой я всегда сравниваю цены.
+der Preisvergleich|сравнение цен|Ein Preisvergleich im Internet spart Geld.|Сравнение цен в интернете экономит деньги.
+überteuert|завышенный в цене|Die Getränke im Kino sind völlig überteuert.|Напитки в кинотеатре слишком дорогие.
+den Preis herunterhandeln|сбить цену|Auf dem Flohmarkt habe ich den Preis heruntergehandelt.|На блошином рынке я сбил цену.
+die Qualität|качество|Die Qualität ist ihren Preis wert.|Качество стоит своих денег.
+hochwertig|высококачественный|Die Jacke ist teuer, aber hochwertig.|Куртка дорогая, но качественная.
+minderwertig|низкого качества|Das ist minderwertiges Material.|Это материал низкого качества.
+das Markenprodukt|брендовый товар|Markenprodukte sind oft nicht besser.|Брендовые товары часто не лучше.
+das No-Name-Produkt|товар без бренда|Das No-Name-Produkt schmeckt genauso gut.|Товар без бренда такой же вкусный.
+die Eigenmarke|собственная марка (магазина)|Die Eigenmarke des Supermarkts ist billiger.|Собственная марка супермаркета дешевле.
+das Lockangebot|приманка, заманчивое предложение|Das ist nur ein Lockangebot, das Produkt ist schon weg.|Это лишь приманка, товара уже нет.
+der Verkaufstrick|уловка продавцов|Süßigkeiten an der Kasse sind ein bekannter Verkaufstrick.|Сладости у кассы — известная уловка продавцов.
+der Fehlkauf|неудачная покупка|Die teuren Schuhe waren ein Fehlkauf.|Дорогие туфли оказались неудачной покупкой.
+spontan kaufen|покупать спонтанно|Ich kaufe oft spontan Dinge, die ich nicht brauche.|Я часто спонтанно покупаю ненужные вещи.
+sich nichts leisten können|ничего не мочь себе позволить|Am Monatsende kann ich mir nichts mehr leisten.|В конце месяца я уже ничего не могу себе позволить.
+die Gratisprobe|бесплатный пробник|In der Drogerie gab es eine Gratisprobe.|В магазине косметики давали бесплатный пробник.
+die Wurfsendung|рекламная рассылка в почтовый ящик|Der Briefkasten ist voll mit Wurfsendungen.|Почтовый ящик полон рекламы.
+der Werbeprospekt|рекламный проспект|Im Werbeprospekt stehen die Angebote der Woche.|В рекламном проспекте предложения недели.
+die Broschüre|брошюра|Nehmen Sie gern eine Broschüre mit.|Возьмите, пожалуйста, брошюру.
+konsumieren|потреблять|Wir konsumieren mehr, als wir brauchen.|Мы потребляем больше, чем нам нужно.
+die Konsumgesellschaft|общество потребления|Der Film kritisiert die Konsumgesellschaft.|Фильм критикует общество потребления.
+nachhaltig einkaufen|делать покупки экологично|Nachhaltig einkaufen heißt auch: weniger kaufen.|Покупать экологично — значит ещё и покупать меньше.
+die Mehrwegflasche|многоразовая бутылка (возвратная)|Mehrwegflaschen werden bis zu 50 Mal benutzt.|Многоразовые бутылки используют до 50 раз.
+die Einwegflasche|одноразовая бутылка|Auf Einwegflaschen gibt es 25 Cent Pfand.|За одноразовые бутылки залог 25 центов.
+das Rückgaberecht|право на возврат|Sie haben 30 Tage Rückgaberecht.|У вас есть право вернуть товар в течение 30 дней.
+` },
+{ lang: 'de', id: 'de-b1-y-bike', level: 'B1', emoji: '🚲', title: 'Mit dem Rad unterwegs', desc: 'Велосипед в городе: дороги, правила, поломки и прокат; «einen Platten haben» — проколоть колесо.', cards: `
+der Fahrradweg|велодорожка|Hier gibt es leider keinen Fahrradweg.|Здесь, к сожалению, нет велодорожки.
+der Schutzstreifen|велополоса на проезжей части|Autos dürfen nicht auf dem Schutzstreifen parken.|Машинам нельзя парковаться на велополосе.
+die Fahrradstraße|велоулица|In der Fahrradstraße haben Radfahrer Vorrang.|На велоулице у велосипедистов приоритет.
+der Radschnellweg|скоростная велотрасса|Der neue Radschnellweg verbindet zwei Städte.|Новая скоростная велотрасса соединяет два города.
+der Fahrradfahrer|велосипедист|Fahrradfahrer müssen an der roten Ampel halten.|Велосипедисты должны останавливаться на красный свет.
+die Radfahrerin|велосипедистка|Die Radfahrerin trägt einen Helm.|Велосипедистка в шлеме.
+Handzeichen geben|подавать знак рукой|Vor dem Abbiegen muss man ein Handzeichen geben.|Перед поворотом нужно подать знак рукой.
+nebeneinander fahren|ехать рядом|Zu zweit dürfen Radfahrer nebeneinander fahren.|Вдвоём велосипедисты могут ехать рядом.
+freihändig fahren|ехать без рук|Freihändig fahren ist verboten.|Ездить без рук запрещено.
+die Fahrradbeleuchtung|освещение велосипеда|Im Winter ist eine gute Fahrradbeleuchtung wichtig.|Зимой важно хорошее освещение на велосипеде.
+das Rücklicht|задний фонарь|Dein Rücklicht ist kaputt.|У тебя сломан задний фонарь.
+die Fahrradklingel|велосипедный звонок|Ohne Fahrradklingel bekommt man ein Bußgeld.|Без звонка на велосипеде можно получить штраф.
+der Ständer|подножка|Der Ständer ist abgebrochen.|Подножка отломилась.
+die Satteltasche|велосипедная сумка (на багажник)|In die Satteltaschen passt der ganze Einkauf.|В велосумки помещаются все покупки.
+die Fahrradpumpe|велосипедный насос|Hast du eine Fahrradpumpe dabei?|У тебя есть с собой насос?
+einen Platten haben|проколоть шину|Mitten im Wald hatte ich einen Platten.|Посреди леса я проколол колесо.
+den Reifen flicken|заклеить камеру|Ich habe gelernt, den Reifen selbst zu flicken.|Я научился сам заклеивать камеру.
+die Kette springt raus|цепь слетает|Bei jedem Schalten springt die Kette raus.|При каждом переключении слетает цепь.
+schalten|переключать передачи|Am Berg musst du früher schalten.|В гору нужно переключаться раньше.
+das Fahrrad schieben|вести велосипед рядом|In der Fußgängerzone muss man das Fahrrad schieben.|В пешеходной зоне нужно вести велосипед рядом.
+umkippen|опрокидываться, падать набок|Der Wind hat mein Fahrrad umgekippt.|Ветер опрокинул мой велосипед.
+der Sturz|падение|Bei dem Sturz hat er sich das Knie verletzt.|При падении он повредил колено.
+der Fahrraddiebstahl|кража велосипеда|Fahrraddiebstahl ist in Großstädten häufig.|Кражи велосипедов в больших городах часты.
+der Fahrradverleih|прокат велосипедов|Am Bahnhof gibt es einen Fahrradverleih.|У вокзала есть прокат велосипедов.
+das Fahrrad mitnehmen|взять велосипед с собой (в транспорт)|Im Regionalzug kann man das Fahrrad mitnehmen.|В региональный поезд можно взять велосипед.
+die Fahrradkarte|билет на провоз велосипеда|Für das Rad brauchen Sie eine Fahrradkarte.|Для велосипеда вам нужен отдельный билет.
+das Dienstrad|служебный велосипед|Über die Firma least sie ein Dienstrad.|Она берёт служебный велосипед в лизинг через фирму.
+das Pedelec|велосипед с электроприводом (педелек)|Mit dem Pedelec fährt meine Oma jeden Tag zum Markt.|На педелеке моя бабушка каждый день ездит на рынок.
+` },
+{ lang: 'de', id: 'de-b1-y-drugstore', level: 'B1', emoji: '🧴', title: 'In der Drogerie', desc: 'Средства гигиены и ухода в магазине вроде dm или Rossmann; «die Drogerie» — не аптека, а магазин косметики и бытовой химии.', cards: `
+die Drogerie|магазин косметики и бытовой химии|In der Drogerie kaufe ich Shampoo und Zahnpasta.|В магазине косметики я покупаю шампунь и зубную пасту.
+die Körperpflege|уход за телом|Für Körperpflege geben Frauen mehr Geld aus.|На уход за телом женщины тратят больше денег.
+die Hautpflege|уход за кожей|Im Winter braucht die Haut mehr Pflege.|Зимой коже нужно больше ухода.
+empfindliche Haut|чувствительная кожа|Diese Creme ist für empfindliche Haut.|Этот крем для чувствительной кожи.
+trockene Haut|сухая кожа|Gegen trockene Haut hilft eine reichhaltige Creme.|От сухости кожи помогает питательный крем.
+fettige Haut|жирная кожа|Bei fettiger Haut sollte man keine Öle benutzen.|При жирной коже не стоит использовать масла.
+das Duschgel|гель для душа|Das Duschgel riecht nach Kokos.|Гель для душа пахнет кокосом.
+die Flüssigseife|жидкое мыло|Die Flüssigseife steht neben dem Waschbecken.|Жидкое мыло стоит возле раковины.
+die Bodylotion|лосьон для тела|Nach dem Duschen benutze ich Bodylotion.|После душа я пользуюсь лосьоном для тела.
+die Handcreme|крем для рук|Im Winter habe ich immer Handcreme dabei.|Зимой у меня всегда с собой крем для рук.
+der Lichtschutzfaktor|фактор защиты от солнца, SPF|Für Kinder nimmt man Lichtschutzfaktor 50.|Для детей берут SPF 50.
+der Sonnenschutz|солнцезащитное средство, защита от солнца|Vergiss den Sonnenschutz nicht!|Не забудь солнцезащитный крем!
+das Deodorant|дезодорант|Dieses Deodorant ist ohne Aluminium.|Этот дезодорант без алюминия.
+die Haarkur|маска для волос|Einmal pro Woche mache ich eine Haarkur.|Раз в неделю я делаю маску для волос.
+der Conditioner|кондиционер для волос|Ohne Conditioner sind meine Haare total verknotet.|Без кондиционера мои волосы совсем путаются.
+die Haarbürste|щётка для волос|Meine Haarbürste ist schon ganz alt.|Моя щётка для волос уже совсем старая.
+der Haargummi|резинка для волос|Hast du mal einen Haargummi für mich?|У тебя не найдётся резинки для волос?
+das Haargel|гель для волос|Er benutzt jeden Morgen Haargel.|Он каждое утро использует гель для волос.
+das Haarspray|лак для волос|Das Haarspray hält den ganzen Tag.|Лак держит весь день.
+die elektrische Zahnbürste|электрическая зубная щётка|Mit der elektrischen Zahnbürste werden die Zähne sauberer.|Электрической щёткой зубы чистятся лучше.
+der Rasierschaum|пена для бритья|Der Rasierschaum ist alle.|Пена для бритья закончилась.
+das Rasierwasser|лосьон после бритья|Das Rasierwasser brennt ein bisschen.|Лосьон после бритья немного щиплет.
+die Nagelfeile|пилочка для ногтей|Die Nagelfeile liegt im Badezimmer.|Пилочка для ногтей лежит в ванной.
+die Nagelschere|маникюрные ножницы|Mit der Nagelschere schneide ich dem Baby die Nägel.|Маникюрными ножницами я стригу ребёнку ногти.
+die Pinzette|пинцет|Mit der Pinzette habe ich den Splitter entfernt.|Пинцетом я вытащил занозу.
+die Schminke|косметика, грим|Ohne Schminke sieht sie ganz anders aus.|Без косметики она выглядит совсем по-другому.
+das Abschminktuch|салфетка для снятия макияжа|Abends benutze ich ein Abschminktuch.|Вечером я пользуюсь салфеткой для снятия макияжа.
+die Gesichtsmaske|маска для лица|Die Gesichtsmaske muss zehn Minuten einwirken.|Маску для лица нужно держать десять минут.
+das Peeling|пилинг, скраб|Ein Peeling macht die Haut weich.|Пилинг делает кожу мягкой.
+das Wattestäbchen|ватная палочка|Wattestäbchen gehören nicht ins Ohr.|Ватные палочки не стоит засовывать в уши.
+das Feuchttuch|влажная салфетка|Für unterwegs habe ich Feuchttücher dabei.|В дорогу я беру влажные салфетки.
+das Taschentuch|носовой платок, бумажная салфетка|Hast du ein Taschentuch für mich?|У тебя есть для меня платочек?
+die Monatsbinde|гигиеническая прокладка|Monatsbinden findest du im Regal ganz hinten.|Прокладки ты найдёшь на полке в самом конце.
+die Hygiene|гигиена|Hygiene ist im Krankenhaus besonders wichtig.|Гигиена особенно важна в больнице.
+` },
+);
+/* de-b1-19.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b1-y-vocational', level: 'B1', emoji: '🛠️', title: 'Ausbildung und Weiterbildung', desc: 'Профессиональное обучение в Германии: дуальная система, экзамены, повышение квалификации; «der Azubi» — разговорное от «der Auszubildende».', cards: `
+die Lehre|обучение профессии, ученичество|Nach der Schule hat sie eine Lehre als Bäckerin gemacht.|После школы она выучилась на пекаря.
+die Berufsausbildung|профессиональное обучение|Eine Berufsausbildung dauert meistens drei Jahre.|Профессиональное обучение обычно длится три года.
+das duale System|дуальная система обучения|Im dualen System lernt man im Betrieb und in der Berufsschule.|В дуальной системе учатся на предприятии и в профессиональной школе.
+der Azubi|ученик на производстве (разг.)|Unser Azubi ist im zweiten Lehrjahr.|Наш ученик на втором году обучения.
+der Lehrling|ученик, подмастерье|Der Lehrling hilft dem Meister in der Werkstatt.|Ученик помогает мастеру в мастерской.
+das Lehrjahr|год обучения (профессии)|Im ersten Lehrjahr verdient man noch wenig.|На первом году обучения ещё мало зарабатывают.
+die Ausbildungsstelle|место для профессионального обучения|Er hat eine Ausbildungsstelle bei der Bahn gefunden.|Он нашёл место для обучения на железной дороге.
+der Ausbildungsbetrieb|обучающее предприятие|Der Ausbildungsbetrieb übernimmt fast alle Azubis.|Обучающее предприятие берёт на работу почти всех учеников.
+der Ausbilder|наставник, инструктор на производстве|Mein Ausbilder erklärt alles sehr geduldig.|Мой наставник всё объясняет очень терпеливо.
+die Ausbildungsvergütung|оплата во время обучения|Die Ausbildungsvergütung steigt jedes Jahr.|Оплата во время обучения растёт каждый год.
+der Berufsschüler|учащийся профессиональной школы|Berufsschüler haben zwei Tage pro Woche Unterricht.|Учащиеся профшколы два дня в неделю ходят на занятия.
+das Pflichtpraktikum|обязательная практика|Im Studium muss ich ein Pflichtpraktikum machen.|Во время учёбы мне нужно пройти обязательную практику.
+die Abschlussprüfung|выпускной экзамен|Die Abschlussprüfung ist im Juni.|Выпускной экзамен в июне.
+die Gesellenprüfung|экзамен на звание подмастерья|Nach der Gesellenprüfung darf er als Tischler arbeiten.|После экзамена на подмастерья он может работать столяром.
+die Meisterprüfung|экзамен на звание мастера|Mit der Meisterprüfung kann man einen eigenen Betrieb eröffnen.|Сдав экзамен на мастера, можно открыть своё дело.
+das Handwerk|ремесло|Das Handwerk sucht dringend Nachwuchs.|Ремеслу срочно нужна молодая смена.
+der Berufsabschluss|профессиональная квалификация, диплом|Ohne Berufsabschluss verdient man weniger.|Без профессионального диплома зарабатывают меньше.
+die Berufswahl|выбор профессии|Die Berufswahl fällt vielen Jugendlichen schwer.|Многим подросткам трудно выбрать профессию.
+die Berufsberatung|профориентация|Bei der Berufsberatung hat man mir viele Tipps gegeben.|На профориентации мне дали много советов.
+der Traumberuf|профессия мечты|Tierärztin war schon immer ihr Traumberuf.|Ветеринар всегда был её профессией мечты.
+der Berufseinstieg|начало карьеры, вход в профессию|Der Berufseinstieg war für mich nicht leicht.|Начало карьеры далось мне нелегко.
+der Berufsanfänger|начинающий специалист|Berufsanfänger verdienen in dieser Branche wenig.|Начинающие специалисты в этой отрасли зарабатывают мало.
+der Quereinstieg|переход в профессию из другой области|Ein Quereinstieg in die IT ist heute möglich.|Сегодня возможно прийти в IT из другой сферы.
+sich weiterbilden|повышать квалификацию|Wer sich weiterbildet, hat bessere Chancen.|У тех, кто повышает квалификацию, больше шансов.
+der Lehrgang|учебный курс|Sie macht einen Lehrgang zur Buchhalterin.|Она проходит курс бухгалтера.
+die Schulung|обучение, тренинг (для сотрудников)|Für die neue Software gibt es eine Schulung.|По новой программе проводится обучение.
+die Abendschule|вечерняя школа|In der Abendschule hat er sein Abitur nachgeholt.|В вечерней школе он получил аттестат.
+das Fernstudium|заочное обучение|Neben dem Job macht sie ein Fernstudium.|Параллельно с работой она учится заочно.
+qualifiziert|квалифицированный|Wir suchen qualifizierte Mitarbeiter.|Мы ищем квалифицированных сотрудников.
+die Kompetenz|компетенция|Teamfähigkeit ist eine wichtige Kompetenz.|Умение работать в команде — важная компетенция.
+die Fertigkeit|навык, умение|Für den Beruf braucht man handwerkliche Fertigkeiten.|Для этой профессии нужны ремесленные навыки.
+der Ausbildungsplatz|место профессионального обучения|Viele Ausbildungsplätze bleiben unbesetzt.|Многие места для обучения остаются незанятыми.
+` },
+{ lang: 'de', id: 'de-b1-y-verbs7', level: 'B1', emoji: '🔁', title: 'Verben B1 (7): mit Präposition und Gefühl', desc: 'Глаголы уровня B1, многие с постоянным предлогом: rechnen mit, hoffen auf, stammen aus — учите вместе с предлогом.', cards: `
+achten auf|обращать внимание на, следить за|Achte bitte auf die Kinder.|Пожалуйста, присмотри за детьми.
+auskommen mit|ладить с, обходиться|Mit meinem Chef komme ich gut aus.|С начальником я хорошо лажу.
+bitten um|просить о|Darf ich Sie um einen Gefallen bitten?|Можно попросить вас об одолжении?
+glauben an|верить в|Ich glaube an dich!|Я в тебя верю!
+hoffen auf|надеяться на|Wir hoffen auf besseres Wetter.|Мы надеемся на хорошую погоду.
+rechnen mit|рассчитывать на, ожидать|Mit so viel Regen hatten wir nicht gerechnet.|Столько дождя мы не ожидали.
+stammen aus|происходить из|Das Rezept stammt aus Bayern.|Рецепт родом из Баварии.
+ankündigen|объявлять, анонсировать|Die Firma hat neue Stellen angekündigt.|Фирма объявила о новых вакансиях.
+benachrichtigen|уведомлять, извещать|Wir benachrichtigen Sie, wenn die Ware da ist.|Мы известим вас, когда товар поступит.
+borgen|одалживать, брать взаймы|Kannst du mir dein Fahrrad borgen?|Можешь одолжить мне свой велосипед?
+drohen|угрожать|Er drohte, die Polizei zu rufen.|Он пригрозил вызвать полицию.
+einfallen|приходить в голову|Mir fällt sein Name nicht ein.|Не могу вспомнить его имя.
+festhalten|держать, удерживать|Halt dich gut fest!|Держись крепче!
+fliehen|бежать, спасаться бегством|Die Familie ist vor dem Krieg geflohen.|Семья бежала от войны.
+fürchten|бояться, опасаться|Ich fürchte, wir kommen zu spät.|Боюсь, мы опоздаем.
+garantieren|гарантировать|Wir garantieren Lieferung innerhalb von zwei Tagen.|Мы гарантируем доставку в течение двух дней.
+riskieren|рисковать|Er hat viel riskiert und gewonnen.|Он многим рискнул и выиграл.
+schweigen|молчать|Zu diesem Thema schweigt die Regierung.|На эту тему правительство молчит.
+sich sorgen|волноваться, беспокоиться|Meine Mutter sorgt sich immer um mich.|Мама всегда за меня беспокоится.
+spüren|чувствовать, ощущать|Ich spüre, dass etwas nicht stimmt.|Я чувствую, что что-то не так.
+staunen|удивляться, изумляться|Die Kinder staunten über den Zauberer.|Дети изумлялись фокуснику.
+versäumen|пропускать, упускать|Ich habe den Termin leider versäumt.|Я, к сожалению, пропустил приём.
+vorhaben|планировать, намереваться|Was hast du am Wochenende vor?|Что ты планируешь на выходные?
+zweifeln|сомневаться|Ich zweifle daran, dass er die Wahrheit sagt.|Я сомневаюсь, что он говорит правду.
+abwarten|подождать, выждать|Warten wir ab, was passiert.|Подождём, что будет.
+durchhalten|выдержать, продержаться|Noch eine Woche, dann haben wir Ferien. Halte durch!|Ещё неделя — и каникулы. Держись!
+ertragen|выносить, терпеть|Ich kann diesen Lärm nicht mehr ertragen.|Я больше не могу выносить этот шум.
+jammern|ныть, жаловаться|Hör auf zu jammern und fang an!|Хватит ныть, начинай!
+klarkommen|справляться (разг.)|Kommst du mit der neuen Software klar?|Ты справляешься с новой программой?
+eingreifen|вмешиваться|Die Polizei musste eingreifen.|Полиции пришлось вмешаться.
+anfassen|трогать, прикасаться|Bitte nichts anfassen!|Пожалуйста, ничего не трогайте!
+beschuldigen|обвинять|Man beschuldigt ihn des Diebstahls.|Его обвиняют в краже.
+belohnen|вознаграждать|Nach der Prüfung belohne ich mich mit einem Eis.|После экзамена я вознагражу себя мороженым.
+sich blamieren|опозориться|Ich habe mich beim Vortrag total blamiert.|Я совсем опозорился на докладе.
+` },
+{ lang: 'de', id: 'de-b1-y-verbs8', level: 'B1', emoji: '⚙️', title: 'Verben B1 (8): organisieren und handeln', desc: 'Глаголы для работы и общественной жизни: veranstalten, beauftragen, verwalten; многие неотделяемы (be-, ver-, er-).', cards: `
+veranstalten|устраивать, проводить (мероприятие)|Die Stadt veranstaltet jedes Jahr ein Weinfest.|Город каждый год проводит праздник вина.
+stattfinden|состояться, проходить|Das Konzert findet im Park statt.|Концерт пройдёт в парке.
+beauftragen|поручать|Der Chef hat mich mit dem Projekt beauftragt.|Начальник поручил мне этот проект.
+verwalten|управлять, вести (дела)|Sie verwaltet das Geld des Vereins.|Она ведёт финансы клуба.
+überwachen|контролировать, наблюдать|Kameras überwachen den Parkplatz.|Камеры следят за парковкой.
+herstellen|производить, изготавливать|Die Firma stellt Möbel her.|Фирма производит мебель.
+reduzieren|сокращать, снижать|Wir müssen die Kosten reduzieren.|Нам нужно сократить расходы.
+fortsetzen|продолжать|Nach der Pause setzen wir die Sitzung fort.|После перерыва мы продолжим заседание.
+unternehmen|предпринимать|Am Wochenende wollen wir etwas zusammen unternehmen.|На выходных мы хотим куда-нибудь сходить вместе.
+mitmachen|участвовать|Machst du beim Wettbewerb mit?|Ты участвуешь в конкурсе?
+sich beteiligen|принимать участие|Viele Nachbarn haben sich an der Aktion beteiligt.|Многие соседи приняли участие в акции.
+zusammenarbeiten|сотрудничать, работать вместе|Wir arbeiten seit Jahren gut zusammen.|Мы уже много лет хорошо сотрудничаем.
+sich abwechseln|чередоваться, сменять друг друга|Beim Fahren wechseln wir uns ab.|За рулём мы сменяем друг друга.
+aufteilen|делить, распределять|Wir teilen die Kosten unter uns auf.|Мы делим расходы между собой.
+einbeziehen|вовлекать, учитывать|Wir sollten die Kinder in die Entscheidung einbeziehen.|Нам стоит вовлечь детей в это решение.
+verpflichten|обязывать|Der Vertrag verpflichtet uns zur Zahlung.|Договор обязывает нас заплатить.
+beibringen|учить, обучать (кого-то чему-то)|Mein Opa hat mir das Schwimmen beigebracht.|Дедушка научил меня плавать.
+nachsehen|посмотреть, проверить|Ich sehe mal nach, ob noch Milch da ist.|Сейчас посмотрю, есть ли ещё молоко.
+erraten|отгадать, угадать|Du errätst nie, wen ich getroffen habe!|Ни за что не угадаешь, кого я встретил!
+sich ausdenken|придумывать|Die Kinder haben sich eine Geschichte ausgedacht.|Дети придумали историю.
+ausrechnen|вычислять, подсчитывать|Rechne mal aus, wie viel das kostet.|Посчитай-ка, сколько это стоит.
+aussprechen|произносить|Wie spricht man dieses Wort aus?|Как произносится это слово?
+anregen|побуждать, стимулировать|Das Buch regt zum Nachdenken an.|Книга заставляет задуматься.
+begrenzen|ограничивать|Die Teilnehmerzahl ist auf zwanzig begrenzt.|Число участников ограничено двадцатью.
+befreien|освобождать|Die Feuerwehr befreite den Fahrer aus dem Auto.|Пожарные вытащили водителя из машины.
+beschädigen|повреждать|Der Sturm hat viele Dächer beschädigt.|Буря повредила много крыш.
+dulden|терпеть, допускать|Gewalt dulden wir an unserer Schule nicht.|Насилия в нашей школе мы не допускаем.
+einsehen|понимать, признавать|Er sieht seinen Fehler nicht ein.|Он не признаёт своей ошибки.
+berühren|касаться; трогать (эмоционально)|Der Film hat mich tief berührt.|Фильм глубоко меня тронул.
+verzweifeln|отчаиваться|Verzweifle nicht, wir finden eine Lösung!|Не отчаивайся, мы найдём решение!
+sich verstecken|прятаться|Die Katze versteckt sich unter dem Bett.|Кошка прячется под кроватью.
+zurückhalten|сдерживать, удерживать|Sie konnte die Tränen nicht zurückhalten.|Она не смогла сдержать слёз.
+widmen|посвящать|Er widmet seine Freizeit der Musik.|Он посвящает свободное время музыке.
+quälen|мучить|Der Gedanke quält mich schon lange.|Эта мысль мучает меня уже давно.
+` },
+{ lang: 'de', id: 'de-b1-y-adj6', level: 'B1', emoji: '🎨', title: 'Adjektive B1 (6): Menschen und Stimmungen', desc: 'Прилагательные для описания людей и их состояния; «gespannt sein auf» — с нетерпением ждать.', cards: `
+ängstlich|боязливый, пугливый|Unser Hund ist sehr ängstlich.|Наша собака очень пугливая.
+aufmerksam|внимательный|Die Schüler hören aufmerksam zu.|Ученики внимательно слушают.
+entschlossen|решительный|Sie war fest entschlossen, das Studium zu beenden.|Она была твёрдо намерена закончить учёбу.
+erfreut|обрадованный|Wir sind sehr erfreut über Ihren Besuch.|Мы очень рады вашему визиту.
+gespannt|в напряжённом ожидании|Ich bin gespannt, wie der Film endet.|Мне интересно, чем кончится фильм.
+temperamentvoll|темпераментный|Unsere spanische Kollegin ist sehr temperamentvoll.|Наша испанская коллега очень темпераментная.
+fröhlich|весёлый, радостный|Die Kinder sangen fröhliche Lieder.|Дети пели весёлые песни.
+tapfer|храбрый, мужественный|Beim Arzt war der Kleine sehr tapfer.|У врача малыш был очень храбрым.
+überzeugt|убеждённый|Ich bin überzeugt, dass du es schaffst.|Я убеждён, что ты справишься.
+verärgert|рассерженный, раздосадованный|Die Kunden waren über die Verspätung verärgert.|Клиенты были раздосадованы задержкой.
+gebildet|образованный|Er ist ein sehr gebildeter Mensch.|Он очень образованный человек.
+geschickt|ловкий, умелый|Sie ist handwerklich sehr geschickt.|Она очень умелая в ручной работе.
+fähig|способный|Er ist zu allem fähig.|Он способен на всё.
+erwachsen|взрослый|Unsere Kinder sind schon erwachsen.|Наши дети уже взрослые.
+betrunken|пьяный|Er ist betrunken Auto gefahren.|Он сел за руль пьяным.
+wach|бодрствующий, не спящий|Um drei Uhr nachts war ich noch wach.|В три часа ночи я ещё не спал.
+ausgeschlafen|выспавшийся|Heute bin ich endlich mal ausgeschlafen.|Сегодня я наконец-то выспался.
+entspannt|расслабленный, спокойный|Im Urlaub bin ich viel entspannter.|В отпуске я гораздо спокойнее.
+beschäftigt|занятой|Tut mir leid, ich bin gerade sehr beschäftigt.|Извини, я сейчас очень занят.
+hektisch|суетливый, лихорадочный|Vor Weihnachten ist es im Büro sehr hektisch.|Перед Рождеством в офисе царит суета.
+stressig|напряжённый, полный стресса|Die Woche war ziemlich stressig.|Неделя была довольно напряжённой.
+zerstreut|рассеянный|Unser Professor ist ein bisschen zerstreut.|Наш профессор немного рассеянный.
+gesprächig|разговорчивый|Heute bist du aber gesprächig!|Какой ты сегодня разговорчивый!
+kontaktfreudig|общительный|Für den Job sollte man kontaktfreudig sein.|Для этой работы нужно быть общительным.
+liebevoll|ласковый, любящий|Sie kümmert sich liebevoll um ihre Großmutter.|Она с любовью заботится о бабушке.
+verständnisvoll|понимающий|Mein Chef war sehr verständnisvoll.|Мой начальник отнёсся с большим пониманием.
+verwöhnt|избалованный|Das Kind ist total verwöhnt.|Ребёнок совершенно избалован.
+unzuverlässig|ненадёжный|Der Handwerker war leider unzuverlässig.|Мастер, к сожалению, оказался ненадёжным.
+unpünktlich|непунктуальный|Er ist immer unpünktlich.|Он всегда опаздывает.
+nervig|надоедливый, раздражающий|Die Werbung im Radio ist echt nervig.|Реклама по радио действительно раздражает.
+mürrisch|угрюмый, ворчливый|Morgens ist mein Mann immer mürrisch.|По утрам мой муж всегда ворчливый.
+anwesend|присутствующий|Alle Mitglieder waren anwesend.|Все участники присутствовали.
+abwesend|отсутствующий|Der Chef ist heute abwesend.|Начальник сегодня отсутствует.
+` },
+{ lang: 'de', id: 'de-b1-y-adj7', level: 'B1', emoji: '📏', title: 'Adjektive B1 (7): Dinge und Sachverhalte', desc: 'Прилагательные для оценки ситуаций и фактов: üblich, gerecht, kurzfristig; многие употребляются и как наречия.', cards: `
+allgemein|общий|Das ist eine allgemeine Regel.|Это общее правило.
+alltäglich|повседневный, обыденный|Staus sind hier etwas Alltägliches.|Пробки здесь — обычное дело.
+üblich|обычный, принятый|In Deutschland ist es üblich, pünktlich zu sein.|В Германии принято быть пунктуальным.
+unterschiedlich|различный, разный|Die Meinungen sind sehr unterschiedlich.|Мнения очень разные.
+gegenseitig|взаимный|Wir helfen uns gegenseitig.|Мы помогаем друг другу.
+gerecht|справедливый|Das ist nicht gerecht!|Это несправедливо!
+gering|незначительный, небольшой|Das Risiko ist gering.|Риск невелик.
+begrenzt|ограниченный|Die Plätze sind begrenzt.|Количество мест ограничено.
+geheim|тайный, секретный|Das Treffen war geheim.|Встреча была тайной.
+konkret|конкретный|Haben Sie einen konkreten Vorschlag?|У вас есть конкретное предложение?
+bewusst|сознательный, осознанный|Ich ernähre mich bewusst.|Я осознанно отношусь к питанию.
+kurzfristig|краткосрочный, в последний момент|Der Termin wurde kurzfristig abgesagt.|Встречу отменили в последний момент.
+langfristig|долгосрочный|Langfristig wollen wir ein Haus kaufen.|В долгосрочной перспективе мы хотим купить дом.
+verständlich|понятный|Seine Reaktion ist verständlich.|Его реакция понятна.
+furchtbar|ужасный|Das Wetter war furchtbar.|Погода была ужасной.
+unheimlich|жуткий; невероятно (разг.)|Im dunklen Wald ist es unheimlich.|В тёмном лесу жутковато.
+fließend|беглый (о речи); текущий|Sie spricht fließend Deutsch.|Она бегло говорит по-немецки.
+erstklassig|первоклассный|Das Essen war erstklassig.|Еда была первоклассной.
+gelungen|удачный|Die Feier war rundum gelungen.|Праздник удался на славу.
+einmalig|единственный в своём роде, неповторимый|Das war eine einmalige Chance.|Это был уникальный шанс.
+absolut|абсолютный, совершенно|Das ist absolut unmöglich.|Это совершенно невозможно.
+dreckig|грязный|Deine Schuhe sind ganz dreckig.|Твои ботинки совсем грязные.
+übertrieben|преувеличенный, чрезмерный|Die Reaktion war völlig übertrieben.|Реакция была совершенно чрезмерной.
+benachbart|соседний|Im benachbarten Dorf gibt es einen Bäcker.|В соседней деревне есть пекарня.
+befreundet|дружественный, в дружбе|Wir sind mit den Nachbarn befreundet.|Мы дружим с соседями.
+betroffen|затронутый, пострадавший|Viele Familien sind von der Krise betroffen.|Кризис затронул многие семьи.
+eigenständig|самостоятельный|Die Kinder sollen eigenständig arbeiten.|Дети должны работать самостоятельно.
+leistungsfähig|производительный, работоспособный|Der neue Computer ist sehr leistungsfähig.|Новый компьютер очень мощный.
+mäßig|умеренный; посредственный|Das Essen war nur mäßig.|Еда была так себе.
+fremdsprachig|иноязычный|Wir haben viele fremdsprachige Bücher.|У нас много книг на иностранных языках.
+intensiv|интенсивный|Der Kurs ist sehr intensiv.|Курс очень интенсивный.
+zweifelhaft|сомнительный|Der Erfolg ist zweifelhaft.|Успех сомнителен.
+` },
+{ lang: 'de', id: 'de-b1-y-adverbs', level: 'B1', emoji: '⏱️', title: 'Adverbien B1: wann, wie oft, wie', desc: 'Наречия и выражения времени, частоты и способа; «mittlerweile» — тем временем, уже; «früher oder später» — рано или поздно.', cards: `
+mittlerweile|тем временем, к этому времени|Mittlerweile wohne ich schon fünf Jahre hier.|Я уже пять лет здесь живу.
+anschließend|затем, после этого|Wir essen und gehen anschließend ins Kino.|Мы поедим, а потом пойдём в кино.
+hinterher|потом, после|Hinterher ist man immer klüger.|Задним умом все крепки.
+irgendwann|когда-нибудь|Irgendwann fahre ich nach Japan.|Когда-нибудь я поеду в Японию.
+jederzeit|в любое время|Sie können mich jederzeit anrufen.|Вы можете звонить мне в любое время.
+kürzlich|недавно|Ich habe ihn kürzlich im Supermarkt getroffen.|Я недавно встретил его в супермаркете.
+vorerst|пока, на первое время|Vorerst bleibe ich bei meinen Eltern.|Пока я остаюсь у родителей.
+bis jetzt|до сих пор, пока что|Bis jetzt läuft alles gut.|Пока всё идёт хорошо.
+von nun an|отныне, с этих пор|Von nun an fahre ich mit dem Rad zur Arbeit.|Отныне я езжу на работу на велосипеде.
+heutzutage|в наше время|Heutzutage hat jeder ein Smartphone.|В наше время у всех есть смартфон.
+früher oder später|рано или поздно|Früher oder später findet er es heraus.|Рано или поздно он это выяснит.
+mit der Zeit|со временем|Mit der Zeit gewöhnst du dich daran.|Со временем ты привыкнешь.
+tagsüber|днём, в течение дня|Tagsüber ist die Wohnung leer.|Днём квартира пустует.
+zugleich|одновременно, в то же время|Sie ist Mutter und zugleich Chefin.|Она мать и одновременно начальница.
+wochenlang|неделями|Es hat wochenlang geregnet.|Неделями шёл дождь.
+jahrelang|годами|Sie haben jahrelang in Spanien gelebt.|Они годами жили в Испании.
+dauernd|постоянно|Das Telefon klingelt dauernd.|Телефон постоянно звонит.
+stets|всегда, неизменно|Er ist stets freundlich.|Он неизменно приветлив.
+mehrmals|несколько раз|Ich habe mehrmals angerufen.|Я звонил несколько раз.
+jedes Mal|каждый раз|Jedes Mal vergisst er seinen Schlüssel.|Каждый раз он забывает ключ.
+diesmal|на этот раз|Diesmal klappt es bestimmt.|На этот раз точно получится.
+nie wieder|никогда больше|Ich fahre nie wieder mit dieser Airline.|Я больше никогда не полечу этой авиакомпанией.
+nur noch|только ещё, осталось только|Wir haben nur noch zehn Minuten.|У нас осталось всего десять минут.
+beinahe|почти, чуть не|Ich hätte beinahe den Zug verpasst.|Я чуть не опоздал на поезд.
+völlig|совершенно, полностью|Ich bin völlig erschöpft.|Я совершенно измотан.
+lediglich|лишь, только|Es fehlt lediglich eine Unterschrift.|Не хватает лишь подписи.
+eher|скорее; раньше|Ich bleibe eher zu Hause.|Я, пожалуй, останусь дома.
+wenigstens|по крайней мере, хотя бы|Ruf wenigstens an, wenn du später kommst.|Хотя бы позвони, если придёшь позже.
+glücklicherweise|к счастью|Glücklicherweise wurde niemand verletzt.|К счастью, никто не пострадал.
+möglicherweise|возможно|Möglicherweise regnet es morgen.|Возможно, завтра будет дождь.
+sicherlich|наверняка, конечно|Das hat sie sicherlich nicht so gemeint.|Наверняка она не это имела в виду.
+keinesfalls|ни в коем случае|Das dürfen Sie keinesfalls vergessen.|Об этом ни в коем случае нельзя забывать.
+nebenbei|попутно, между делом|Nebenbei arbeitet er als Kellner.|Между делом он подрабатывает официантом.
+sozusagen|так сказать|Er ist sozusagen der Chef der Familie.|Он, так сказать, глава семьи.
+` },
+{ lang: 'de', id: 'de-b1-y-nouns7', level: 'B1', emoji: '💭', title: 'Nomen B1 (7): Alltag und Charakter', desc: 'Абстрактные существительные уровня B1: черты характера, ожидания, решения; многие образованы от прилагательных на -heit/-keit.', cards: `
+die Abwechslung|разнообразие, смена обстановки|Ein Ausflug ist eine schöne Abwechslung.|Поездка — приятное разнообразие.
+die Alternative|альтернатива|Gibt es eine Alternative zum Auto?|Есть ли альтернатива машине?
+die Änderung|изменение|Es gibt eine Änderung im Fahrplan.|В расписании есть изменение.
+die Angelegenheit|дело, вопрос|Das ist eine private Angelegenheit.|Это личное дело.
+die Anstrengung|усилие, напряжение|Mit etwas Anstrengung schaffst du das.|Приложив немного усилий, ты справишься.
+der Appetit|аппетит|Guten Appetit!|Приятного аппетита!
+die Aufmerksamkeit|внимание|Vielen Dank für Ihre Aufmerksamkeit.|Большое спасибо за внимание.
+die Ordnungsliebe|любовь к порядку|Seine Ordnungsliebe geht mir manchmal auf die Nerven.|Его любовь к порядку иногда действует мне на нервы.
+die Auswahl|выбор, ассортимент|Der Laden hat eine große Auswahl an Käse.|В магазине большой выбор сыров.
+die Entschuldigung|извинение; оправдание|Ich schulde dir eine Entschuldigung.|Я должен перед тобой извиниться.
+die Erwartung|ожидание|Der Film hat meine Erwartungen erfüllt.|Фильм оправдал мои ожидания.
+das Geheimnis|тайна, секрет|Kannst du ein Geheimnis bewahren?|Ты умеешь хранить секреты?
+die Genehmigung|разрешение|Für das Fest braucht man eine Genehmigung.|Для праздника нужно разрешение.
+der Humor|юмор|Er hat einen tollen Humor.|У него отличное чувство юмора.
+die Aktion|акция, мероприятие|Die Aktion war ein großer Erfolg.|Акция имела большой успех.
+der Nutzen|польза|Welchen Nutzen hat das?|Какая от этого польза?
+das Prinzip|принцип|Aus Prinzip leihe ich kein Geld.|Из принципа я не даю денег в долг.
+der Ratschlag|совет|Danke für deinen Ratschlag.|Спасибо за совет.
+die Reihenfolge|порядок, очерёдность|Bitte in alphabetischer Reihenfolge.|Пожалуйста, в алфавитном порядке.
+der Schritt|шаг|Das ist ein wichtiger Schritt.|Это важный шаг.
+die Zuverlässigkeit|надёжность|Zuverlässigkeit ist im Job das Wichtigste.|Надёжность в работе — самое важное.
+die Hilfsbereitschaft|готовность помочь|Ihre Hilfsbereitschaft hat uns sehr gefreut.|Ваша готовность помочь нас очень порадовала.
+die Unterstützung|поддержка|Danke für eure Unterstützung!|Спасибо за вашу поддержку!
+der Wille|воля|Wo ein Wille ist, ist auch ein Weg.|Где есть желание, там есть и путь.
+der Schreck|испуг|Du hast mir einen großen Schreck eingejagt!|Ты меня здорово напугал!
+der Hass|ненависть|Hass ist keine Lösung.|Ненависть — не выход.
+die Selbstständigkeit|самостоятельность|Die Kinder lernen hier Selbstständigkeit.|Здесь дети учатся самостоятельности.
+die Großzügigkeit|щедрость|Vielen Dank für Ihre Großzügigkeit.|Большое спасибо за вашу щедрость.
+der Fleiß|прилежание, усердие|Ohne Fleiß kein Preis.|Без труда не вытащишь и рыбку из пруда.
+die Faulheit|лень|Das war reine Faulheit.|Это была чистая лень.
+die Klugheit|ум, благоразумие|Mit Klugheit löst man viele Probleme.|Благоразумием можно решить многие проблемы.
+die Dummheit|глупость|Das war eine große Dummheit von mir.|Это была большая глупость с моей стороны.
 ` },
 );
 /* de-b2-1.js */
@@ -7384,6 +9088,2038 @@ glänzend|блестящий|Der Lack ist glänzend.|Лак блестящий.
 rostig|ржавый|Das alte Fahrrad ist rostig.|Старый велосипед ржавый.
 ` },
 );
+/* de-b2-19.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-x-meetings', level: 'B2', emoji: '📋', title: 'Besprechungen und Projekte', desc: 'Рабочие совещания, планирование проектов и сроки: лексика офисной коммуникации.', cards: `
+der Tagesordnungspunkt|пункт повестки дня|Diesen Tagesordnungspunkt verschieben wir auf Montag.|Этот пункт повестки мы перенесём на понедельник.
+das Protokoll führen|вести протокол|Wer führt heute das Protokoll?|Кто сегодня ведёт протокол?
+die Teilnehmerliste|список участников|Bitte tragen Sie sich in die Teilnehmerliste ein.|Пожалуйста, впишите себя в список участников.
+die Sitzungsleitung|председательство на заседании|Die Sitzungsleitung übernimmt heute Frau Klein.|Сегодня заседание ведёт госпожа Кляйн.
+moderieren|вести, модерировать (обсуждение)|Wer moderiert die Diskussion?|Кто ведёт дискуссию?
+das Stehmeeting|короткое совещание стоя, планёрка|Jeden Morgen gibt es ein kurzes Stehmeeting.|Каждое утро проходит короткая планёрка.
+die Beschlussvorlage|проект решения|Die Beschlussvorlage wurde vorab verschickt.|Проект решения разослали заранее.
+beschlussfähig|правомочный (принимать решения)|Mit nur vier Mitgliedern sind wir nicht beschlussfähig.|Всего с четырьмя членами у нас нет кворума.
+das Handout|раздаточный материал|Das Handout fasst die wichtigsten Punkte zusammen.|Раздаточный материал резюмирует главные пункты.
+der Statusbericht|отчёт о состоянии дел|Jeden Freitag schicke ich einen Statusbericht.|Каждую пятницу я отправляю отчёт о ходе работ.
+die Frist einhalten|соблюдать срок|Wir müssen die Frist unbedingt einhalten.|Мы обязательно должны соблюсти срок.
+der Abgabetermin|срок сдачи|Der Abgabetermin für den Bericht ist Freitag.|Срок сдачи отчёта — пятница.
+die Deadline|крайний срок, дедлайн|Die Deadline ist leider nicht verhandelbar.|Дедлайн, к сожалению, не обсуждается.
+der Puffer|запас (времени, денег)|Plane immer einen zeitlichen Puffer ein.|Всегда закладывай запас по времени.
+die Projektphase|этап проекта|In der zweiten Projektphase wird getestet.|На втором этапе проекта проводится тестирование.
+die Projektleitung|руководство проектом|Sie hat die Projektleitung übernommen.|Она взяла на себя руководство проектом.
+der Projektabschluss|завершение проекта|Zum Projektabschluss gibt es ein Essen.|По случаю завершения проекта будет ужин.
+die Machbarkeitsstudie|технико-экономическое обоснование|Eine Machbarkeitsstudie soll die Kosten klären.|Технико-экономическое обоснование должно прояснить затраты.
+der Auftraggeber|заказчик|Der Auftraggeber wünscht einige Änderungen.|Заказчик хочет внести некоторые изменения.
+das Lastenheft|техническое задание (от заказчика)|Im Lastenheft stehen alle Anforderungen.|В техническом задании указаны все требования.
+die Anforderung|требование|Die Software erfüllt nicht alle Anforderungen.|Программа выполняет не все требования.
+die Aufgabenverteilung|распределение задач|Die Aufgabenverteilung ist noch nicht klar.|Распределение задач пока не ясно.
+die Ressourcenplanung|планирование ресурсов|Bei der Ressourcenplanung wurde der Urlaub vergessen.|При планировании ресурсов забыли про отпуска.
+die Präsentationsfolie|слайд презентации|Auf der dritten Präsentationsfolie fehlt eine Zahl.|На третьем слайде не хватает цифры.
+sich zuschalten|подключаться (к звонку)|Herr Braun schaltet sich aus Hamburg zu.|Господин Браун подключается из Гамбурга.
+das Zwischenergebnis|промежуточный результат|Wir stellen heute die Zwischenergebnisse vor.|Сегодня мы представляем промежуточные результаты.
+die Verzögerung|задержка|Durch die Verzögerung steigen die Kosten.|Из-за задержки растут расходы.
+im Verzug sein|отставать от графика|Wir sind mit dem Projekt zwei Wochen im Verzug.|Мы отстаём с проектом на две недели.
+priorisieren|расставлять приоритеты|Wir müssen die Aufgaben neu priorisieren.|Нам нужно заново расставить приоритеты задач.
+der Arbeitsauftrag|рабочее задание|Jeder bekommt einen klaren Arbeitsauftrag.|Каждый получает чёткое рабочее задание.
+vertagen|откладывать (заседание)|Die Sitzung wird auf nächste Woche vertagt.|Заседание переносится на следующую неделю.
+der Folgetermin|следующая встреча|Lassen Sie uns gleich einen Folgetermin vereinbaren.|Давайте сразу договоримся о следующей встрече.
+der Wortbeitrag|выступление, реплика|Vielen Dank für Ihren Wortbeitrag.|Спасибо за ваше выступление.
+das Fazit ziehen|подводить итог|Zum Schluss ziehen wir ein Fazit.|В конце мы подведём итог.
+` },
+{ lang: 'de', id: 'de-b2-x-career', level: 'B2', emoji: '📈', title: 'Berufsleben: Aufstieg und Wechsel', desc: 'Карьерный рост, смена работы, формы занятости и условия труда.', cards: `
+die Aufstiegschance|шанс на продвижение|In kleinen Firmen gibt es weniger Aufstiegschancen.|В маленьких фирмах меньше шансов на продвижение.
+die Karriereleiter|карьерная лестница|Er ist auf der Karriereleiter schnell nach oben geklettert.|Он быстро поднялся по карьерной лестнице.
+die Laufbahn|карьера, жизненный путь|Sie hat eine Laufbahn im öffentlichen Dienst eingeschlagen.|Она выбрала карьеру на государственной службе.
+die Führungsposition|руководящая должность|Frauen sind in Führungspositionen noch unterrepräsentiert.|Женщины всё ещё недостаточно представлены на руководящих должностях.
+flache Hierarchien|плоская иерархия (мн. ч.)|Das Start-up wirbt mit flachen Hierarchien.|Стартап привлекает сотрудников плоской иерархией.
+der Untergebene|подчинённый|Er behandelt seine Untergebenen fair.|Он справедливо обращается с подчинёнными.
+der Berufseinsteiger|начинающий специалист|Für Berufseinsteiger gibt es ein Traineeprogramm.|Для начинающих специалистов есть программа стажировки.
+der Werkstudent|студент, работающий по специальности|Als Werkstudent arbeitet er zwanzig Stunden pro Woche.|Как работающий студент он трудится двадцать часов в неделю.
+der Berufswechsel|смена профессии|Mit vierzig wagte sie einen Berufswechsel.|В сорок лет она решилась сменить профессию.
+umschulen|переучиваться, переквалифицироваться|Er hat zum Altenpfleger umgeschult.|Он переквалифицировался в сиделку для пожилых.
+die Zusatzqualifikation|дополнительная квалификация|Eine Zusatzqualifikation verbessert Ihre Chancen.|Дополнительная квалификация повысит ваши шансы.
+die Initiativbewerbung|инициативное резюме (без вакансии)|Ich habe eine Initiativbewerbung geschickt.|Я отправил резюме по собственной инициативе.
+die Stellenausschreibung|объявление о вакансии|Die Stellenausschreibung endet am 30. Mai.|Приём заявок на вакансию заканчивается 30 мая.
+das Jobangebot|предложение о работе|Sie hat zwei Jobangebote gleichzeitig bekommen.|Она получила сразу два предложения о работе.
+abwerben|переманивать (сотрудника)|Die Konkurrenz hat unseren besten Programmierer abgeworben.|Конкуренты переманили нашего лучшего программиста.
+der Headhunter|кадровый охотник, хедхантер|Ein Headhunter hat ihn angerufen.|Ему позвонил хедхантер.
+einarbeiten|вводить в должность, обучать новичка|Frau Weber arbeitet die neue Kollegin ein.|Госпожа Вебер вводит новую коллегу в курс дела.
+der Mentor|наставник|Mein Mentor hat mir viel beigebracht.|Мой наставник многому меня научил.
+die Festanstellung|постоянная работа (по найму)|Nach dem Praktikum bekam sie eine Festanstellung.|После стажировки она получила постоянное место.
+die Teilzeitstelle|работа на неполный день|Mit Kindern ist eine Teilzeitstelle praktisch.|С детьми работа на неполный день удобна.
+die Leiharbeit|заёмный труд (через агентство)|Viele Lagerarbeiter sind in Leiharbeit beschäftigt.|Многие складские рабочие заняты через кадровые агентства.
+der Nebenjob|подработка|Neben dem Studium hat er einen Nebenjob im Café.|Помимо учёбы он подрабатывает в кафе.
+das Gehaltsgespräch|разговор о зарплате|Bereite dich gut auf das Gehaltsgespräch vor.|Хорошо подготовься к разговору о зарплате.
+die Gehaltsgruppe|тарифная группа, разряд оплаты|In welcher Gehaltsgruppe sind Sie eingestuft?|В какую тарифную группу вас определили?
+das Weihnachtsgeld|рождественская премия|Im November gibt es Weihnachtsgeld.|В ноябре выплачивают рождественскую премию.
+das Bruttogehalt|зарплата до вычета налогов|Das Bruttogehalt liegt bei 4000 Euro.|Зарплата до вычета налогов — около 4000 евро.
+die Zusatzleistung|дополнительная льгота|Zu den Zusatzleistungen gehört ein Jobticket.|К дополнительным льготам относится проездной.
+der Dienstwagen|служебный автомобиль|Als Vertriebsleiter hat er einen Dienstwagen.|Как руководитель продаж он имеет служебную машину.
+das Sabbatical|длительный (творческий) отпуск|Nach zehn Jahren gönnt sie sich ein Sabbatical.|Через десять лет она позволила себе длительный отпуск.
+fristlos|без предупреждения, немедленно|Er wurde fristlos entlassen.|Его уволили без предупреждения.
+das Kündigungsschreiben|заявление об увольнении|Das Kündigungsschreiben muss unterschrieben sein.|Заявление об увольнении должно быть подписано.
+der Aufhebungsvertrag|соглашение о расторжении договора|Man bot ihr einen Aufhebungsvertrag an.|Ей предложили соглашение о расторжении трудового договора.
+die Betriebszugehörigkeit|стаж работы на предприятии|Nach 25 Jahren Betriebszugehörigkeit gab es eine Feier.|По случаю 25 лет работы на предприятии устроили праздник.
+die Altersteilzeit|частичная занятость перед пенсией|Mit 60 ist er in Altersteilzeit gegangen.|В 60 лет он перешёл на частичную занятость перед пенсией.
+in den Ruhestand gehen|уходить на пенсию|Sie geht nächstes Jahr in den Ruhestand.|В следующем году она уходит на пенсию.
+` },
+{ lang: 'de', id: 'de-b2-x-carpentry', level: 'B2', emoji: '🪚', title: 'Tischlerei und Holz', desc: 'Столярное дело: породы дерева, инструменты и обработка древесины.', cards: `
+der Tischler|столяр|Der Tischler baut uns eine Einbauküche.|Столяр делает нам встроенную кухню.
+die Tischlerei|столярная мастерская|Er macht eine Lehre in einer Tischlerei.|Он учится в столярной мастерской.
+der Gesellenbrief|свидетельство подмастерья|Nach drei Jahren Lehre bekam er den Gesellenbrief.|После трёх лет обучения он получил свидетельство подмастерья.
+das Gesellenstück|выпускная работа подмастерья|Ihr Gesellenstück ist ein Schrank aus Kirschholz.|Её выпускная работа — шкаф из вишни.
+die Hobelbank|столярный верстак|An der Hobelbank ist eine Zwinge befestigt.|На верстаке закреплены тиски.
+hobeln|строгать|Er hobelt das Brett, bis es passt.|Он строгает доску, пока она не подойдёт.
+die Feile|напильник|Die Ecke kann man mit der Feile abrunden.|Угол можно скруглить напильником.
+die Raspel|рашпиль|Für grobe Arbeiten nimmt man eine Raspel.|Для грубой работы берут рашпиль.
+schleifen|шлифовать|Vor dem Lackieren muss man das Holz schleifen.|Перед лакировкой дерево нужно отшлифовать.
+der Fuchsschwanz|ножовка|Mit dem Fuchsschwanz sägt man Bretter ab.|Ножовкой отпиливают доски.
+die Stichsäge|электролобзик|Mit der Stichsäge sägt man Kurven.|Электролобзиком выпиливают кривые линии.
+die Kreissäge|циркулярная пила|Die Kreissäge ist laut und gefährlich.|Циркулярная пила громкая и опасная.
+die Gehrung|скос под углом (на ус)|Die Leisten werden auf Gehrung geschnitten.|Планки режут на ус.
+die Oberfräse|ручной фрезер|Mit der Oberfräse fräst er eine Nut.|Фрезером он прорезает паз.
+fräsen|фрезеровать|Die Kanten werden rund gefräst.|Кромки фрезеруют закруглёнными.
+anreißen|размечать|Zuerst reißt man die Schnittlinie mit dem Bleistift an.|Сначала карандашом размечают линию реза.
+die Schraubzwinge|струбцина|Halte die Bretter mit einer Schraubzwinge fest.|Зафиксируй доски струбциной.
+der Holzleim|столярный клей|Der Holzleim muss über Nacht trocknen.|Столярный клей должен сохнуть всю ночь.
+leimen|склеивать|Die Teile werden zusammengeleimt.|Детали склеивают вместе.
+die Maserung|текстура древесины|Eiche hat eine schöne Maserung.|У дуба красивая текстура.
+das Astloch|сучок, отверстие от сучка|Das Brett hat ein Astloch.|В доске дырка от сучка.
+der Holzwurm|древоточец|Im alten Stuhl ist der Holzwurm.|В старом стуле завёлся древоточец.
+die Sperrholzplatte|лист фанеры|Die Rückwand ist aus einer Sperrholzplatte.|Задняя стенка сделана из листа фанеры.
+die Spanplatte|ДСП|Billige Möbel bestehen oft aus Spanplatten.|Дешёвая мебель часто из ДСП.
+das Hartholz|твёрдая древесина|Buche ist ein Hartholz.|Бук — твёрдая порода дерева.
+das Weichholz|мягкая древесина|Kiefer gehört zum Weichholz.|Сосна относится к мягким породам.
+massiv|массивный, из цельного дерева|Der Schrank ist aus massivem Holz.|Шкаф из цельного дерева.
+die Beize|морилка|Mit dunkler Beize wirkt das Holz älter.|С тёмной морилкой дерево выглядит старше.
+lackieren|лакировать|Die Tür wird zweimal lackiert.|Дверь лакируют дважды.
+das Furnier|шпон|Der Tisch hat ein Furnier aus Nussbaum.|У стола шпон из ореха.
+das Scharnier|петля (дверная, мебельная)|Das Scharnier der Schranktür quietscht.|Петля дверцы шкафа скрипит.
+der Splitter|заноза, щепка|Ich habe mir einen Splitter eingezogen.|Я занозил руку.
+das Sägemehl|опилки|Überall in der Werkstatt liegt Sägemehl.|Повсюду в мастерской опилки.
+der Span|стружка|Beim Hobeln fallen lange Späne.|При строгании падает длинная стружка.
+drechseln|точить на токарном станке (по дереву)|Mein Großvater drechselt Schalen aus Holz.|Мой дедушка вытачивает деревянные чаши.
+` },
+{ lang: 'de', id: 'de-b2-x-installer', level: 'B2', emoji: '🔧', title: 'Sanitär, Heizung, Elektrik', desc: 'Сантехник и электрик в доме: трубы, отопление, проводка и неисправности.', cards: `
+der Installateur|монтажник (сантехники, отопления)|Für die neue Heizung kommt ein Installateur.|Для нового отопления придёт монтажник.
+der Rohrbruch|прорыв трубы|Nach dem Rohrbruch stand der Keller unter Wasser.|После прорыва трубы подвал затопило.
+der Wasserschaden|ущерб от протечки|Die Versicherung zahlt den Wasserschaden.|Страховка оплачивает ущерб от протечки.
+verstopft|засорённый|Der Abfluss ist schon wieder verstopft.|Сток опять засорён.
+der Abfluss|сток, слив|Haare verstopfen den Abfluss.|Волосы засоряют слив.
+der Abflussreiniger|средство для прочистки труб|Der Abflussreiniger ist ätzend.|Средство для прочистки труб едкое.
+die Saugglocke|вантуз|Mit der Saugglocke bekommst du das Waschbecken frei.|Вантузом ты прочистишь раковину.
+die Rohrzange|трубный ключ|Gib mir mal die Rohrzange.|Дай мне трубный ключ.
+der Siphon|сифон|Im Siphon hat sich Schmutz gesammelt.|В сифоне скопилась грязь.
+der Spülkasten|сливной бачок|Der Spülkasten läuft ständig nach.|Из сливного бачка постоянно течёт вода.
+der Haupthahn|главный вентиль|Dreh zuerst den Haupthahn zu!|Сначала перекрой главный вентиль!
+die Armatur|смеситель, арматура|Wir haben eine neue Armatur im Bad.|У нас в ванной новый смеситель.
+der Wasserzähler|счётчик воды|Der Wasserzähler wird einmal im Jahr abgelesen.|Показания счётчика воды снимают раз в год.
+der Boiler|бойлер, водонагреватель|Der Boiler braucht lange, bis das Wasser warm ist.|Бойлеру нужно долго греть воду.
+die Gastherme|газовый котёл|Die Gastherme hängt in der Küche.|Газовый котёл висит на кухне.
+der Heizkörper|радиатор отопления|Der Heizkörper wird nicht richtig warm.|Радиатор плохо греет.
+entlüften|спускать воздух (из батареи)|Im Herbst muss man die Heizkörper entlüften.|Осенью нужно спускать воздух из батарей.
+der Thermostat|термостат|Stell den Thermostat auf drei.|Поставь термостат на тройку.
+die Fußbodenheizung|тёплый пол|Im Bad haben wir eine Fußbodenheizung.|В ванной у нас тёплый пол.
+die Leitung verlegen|прокладывать провод|Die Leitungen werden unter Putz verlegt.|Провода прокладывают под штукатуркой.
+der Sicherungskasten|электрощиток|Der Sicherungskasten ist im Flur.|Электрощиток находится в коридоре.
+die Sicherung fliegt raus|выбивает пробки|Wenn ich föhne, fliegt die Sicherung raus.|Когда я сушу волосы, выбивает пробки.
+der FI-Schalter|УЗО, дифференциальный автомат|Der FI-Schalter schützt vor Stromschlägen.|УЗО защищает от удара током.
+der Kurzschluss|короткое замыкание|Ein Kurzschluss hat den Brand ausgelöst.|Короткое замыкание вызвало пожар.
+der Stromschlag|удар током|Vorsicht, du kannst einen Stromschlag bekommen!|Осторожно, тебя может ударить током!
+der Stromzähler|электросчётчик|Der Stromzähler hängt im Keller.|Электросчётчик висит в подвале.
+der Draht|провод, проволока|Der Draht ist zu dünn.|Проволока слишком тонкая.
+die Fassung|патрон (лампы)|Die Glühbirne sitzt locker in der Fassung.|Лампочка неплотно сидит в патроне.
+die Mehrfachsteckdose|удлинитель-тройник, сетевой фильтр|Schließ nicht zu viele Geräte an die Mehrfachsteckdose an.|Не подключай слишком много приборов к тройнику.
+das Verlängerungskabel|удлинитель|Das Verlängerungskabel ist zu kurz.|Удлинитель слишком короткий.
+erden|заземлять|Die Waschmaschine muss geerdet sein.|Стиральная машина должна быть заземлена.
+der Spannungsprüfer|индикаторная отвёртка|Prüf mit dem Spannungsprüfer, ob Strom fließt.|Проверь индикаторной отвёрткой, есть ли ток.
+die Lüsterklemme|клеммная колодка|Die Drähte werden mit einer Lüsterklemme verbunden.|Провода соединяют клеммной колодкой.
+isolieren|изолировать|Die Kabel sind gut isoliert.|Кабели хорошо изолированы.
+die Wartung|техобслуживание|Die Heizung braucht jedes Jahr eine Wartung.|Отоплению нужно ежегодное техобслуживание.
+` },
+{ lang: 'de', id: 'de-b2-x-garage', level: 'B2', emoji: '🚗', title: 'Autotechnik und Reparatur', desc: 'Устройство и ремонт автомобиля: двигатель, ходовая часть, кузов и техосмотр.', cards: `
+die Kfz-Werkstatt|автомастерская|Ich bringe das Auto morgen in die Kfz-Werkstatt.|Завтра я отвезу машину в автомастерскую.
+die Hauptuntersuchung|техосмотр (TÜV)|Das Auto muss zur Hauptuntersuchung.|Машине нужно пройти техосмотр.
+das Motoröl|моторное масло|Welches Motoröl braucht dein Wagen?|Какое моторное масло нужно твоей машине?
+der Ölstand|уровень масла|Kontrollier vor langen Fahrten den Ölstand.|Перед долгими поездками проверяй уровень масла.
+der Messstab|щуп (для масла)|Zieh den Messstab heraus und wisch ihn ab.|Вытащи щуп и протри его.
+der Luftfilter|воздушный фильтр|Der Luftfilter ist völlig verdreckt.|Воздушный фильтр совсем забит грязью.
+der Zahnriemen|ремень ГРМ|Der Zahnriemen muss nach 100 000 Kilometern gewechselt werden.|Ремень ГРМ нужно менять после 100 000 километров.
+der Keilriemen|клиновой ремень|Der Keilriemen quietscht beim Anlassen.|Ремень визжит при запуске.
+der Kolben|поршень|Im Motor bewegen sich die Kolben auf und ab.|В двигателе поршни движутся вверх и вниз.
+die Zündkerze|свеча зажигания|Eine Zündkerze ist defekt.|Одна свеча зажигания неисправна.
+der Motorschaden|поломка двигателя|Ein Motorschaden ist teuer.|Поломка двигателя обходится дорого.
+der Katalysator|катализатор|Der Katalysator reinigt die Abgase.|Катализатор очищает выхлопные газы.
+der Kühler|радиатор (охлаждения)|Der Kühler verliert Wasser.|Радиатор теряет воду.
+das Kühlwasser|охлаждающая жидкость|Prüf vor der Fahrt das Kühlwasser.|Перед поездкой проверь охлаждающую жидкость.
+die Batterie ist leer|аккумулятор сел|Im Winter ist oft die Batterie leer.|Зимой часто садится аккумулятор.
+das Starthilfekabel|провода для прикуривания|Hast du ein Starthilfekabel dabei?|У тебя есть с собой провода для прикуривания?
+die Lichtmaschine|генератор|Die Lichtmaschine lädt die Batterie nicht mehr.|Генератор больше не заряжает аккумулятор.
+die Servolenkung|гидроусилитель руля|Ohne Servolenkung lässt sich das Lenkrad schwer drehen.|Без гидроусилителя руль поворачивается тяжело.
+das Fahrwerk|ходовая часть|Das Fahrwerk ist tiefergelegt.|Подвеска занижена.
+der Stoßdämpfer|амортизатор|Die Stoßdämpfer sind verschlissen.|Амортизаторы изношены.
+die Achse|ось|Die Hinterachse ist beschädigt.|Задняя ось повреждена.
+der Bremsbelag|тормозная колодка|Die Bremsbeläge sind abgefahren.|Тормозные колодки изношены.
+die Bremsscheibe|тормозной диск|Vorne müssen die Bremsscheiben erneuert werden.|Спереди нужно заменить тормозные диски.
+der Reifendruck|давление в шинах|Kontrollier regelmäßig den Reifendruck.|Регулярно проверяй давление в шинах.
+die Felge|колёсный диск|Die Felge hat einen Kratzer.|На диске царапина.
+der Wagenheber|домкрат|Der Wagenheber liegt im Kofferraum.|Домкрат лежит в багажнике.
+die Karosserie|кузов|Die Karosserie ist an mehreren Stellen verrostet.|Кузов в нескольких местах проржавел.
+rosten|ржаветь|Alte Autos rosten vor allem an den Radkästen.|Старые машины ржавеют прежде всего на колёсных арках.
+die Stoßstange|бампер|Beim Einparken habe ich die Stoßstange verbeult.|При парковке я помял бампер.
+der Kotflügel|крыло (автомобиля)|Der linke Kotflügel muss neu lackiert werden.|Левое крыло нужно перекрасить.
+das Abblendlicht|ближний свет|Im Tunnel schaltet man das Abblendlicht ein.|В туннеле включают ближний свет.
+das Fernlicht|дальний свет|Mach das Fernlicht aus, da kommt ein Auto!|Выключи дальний свет, едет машина!
+die Anhängerkupplung|фаркоп|Für den Wohnwagen brauchen wir eine Anhängerkupplung.|Для автодома нам нужен фаркоп.
+der Kilometerstand|пробег (по одометру)|Der Kilometerstand liegt bei 120 000.|Пробег — 120 000 километров.
+der Unfallschaden|повреждение после аварии|Der Unfallschaden wird von der Versicherung bezahlt.|Повреждение после аварии оплатит страховка.
+` },
+{ lang: 'de', id: 'de-b2-x-bicycle', level: 'B2', emoji: '🚲', title: 'Fahrradtechnik', desc: 'Детали велосипеда, типы великов и мелкий ремонт.', cards: `
+der Fahrradrahmen|рама велосипеда|Der Fahrradrahmen ist aus Aluminium.|Рама велосипеда из алюминия.
+die Fahrradkette|велосипедная цепь|Die Fahrradkette ist abgesprungen.|Цепь слетела.
+ölen|смазывать маслом|Du solltest die Kette mal ölen.|Тебе стоит смазать цепь.
+das Ritzel|задняя звёздочка|Am Hinterrad sind elf Ritzel.|На заднем колесе одиннадцать звёздочек.
+das Kettenblatt|передняя звёздочка|Das Kettenblatt ist stark abgenutzt.|Передняя звёздочка сильно изношена.
+der Kettenschutz|защита цепи|Der Kettenschutz schützt die Hose vor Öl.|Защита цепи бережёт брюки от масла.
+die Nabe|втулка|Die Nabe am Vorderrad läuft nicht rund.|Втулка переднего колеса вращается неровно.
+die Speiche|спица|Am Hinterrad ist eine Speiche gebrochen.|На заднем колесе сломалась спица.
+die Felgenbremse|ободной тормоз|Ältere Räder haben Felgenbremsen.|У старых велосипедов ободные тормоза.
+die Scheibenbremse|дисковый тормоз|Scheibenbremsen funktionieren auch bei Nässe gut.|Дисковые тормоза хорошо работают и в сырость.
+der Bremszug|тормозной тросик|Der Bremszug ist gerissen.|Тормозной тросик порвался.
+der Schaltzug|трос переключателя|Man muss den Schaltzug nachspannen.|Нужно подтянуть трос переключателя.
+der Schlauch|камера (шины)|Ich habe den Schlauch schon geflickt.|Я уже заклеил камеру.
+das Flickzeug|ремкомплект для камер|Ich habe immer Flickzeug dabei.|У меня всегда с собой ремкомплект.
+das Ventil|ниппель, клапан|Das Ventil ist undicht.|Ниппель пропускает воздух.
+der Fahrradkorb|корзина велосипеда|Im Fahrradkorb liegen die Einkäufe.|В корзине лежат покупки.
+das Schutzblech|крыло, щиток|Ohne Schutzblech wird man bei Regen nass.|Без крыльев в дождь промокаешь.
+der Dynamo|динамо-машина|Das Licht läuft über einen Dynamo.|Фара работает от динамо.
+der Rückstrahler|катафот|Rückstrahler sind in Deutschland Pflicht.|Катафоты в Германии обязательны.
+der Fahrradhelm|велошлем|Kinder sollten immer einen Fahrradhelm tragen.|Детям всегда стоит носить велошлем.
+der Fahrradanhänger|велоприцеп|Im Fahrradanhänger schläft das Baby.|В велоприцепе спит малыш.
+das Rennrad|шоссейный велосипед|Mit dem Rennrad schafft er 100 Kilometer am Tag.|На шоссейнике он проезжает 100 километров в день.
+das Trekkingrad|туристический велосипед|Für lange Touren ist ein Trekkingrad ideal.|Для длинных поездок идеален туристический велосипед.
+das Klapprad|складной велосипед|Das Klapprad kann man in den Zug mitnehmen.|Складной велосипед можно взять в поезд.
+das Mountainbike|горный велосипед|Am Wochenende fahren wir Mountainbike.|По выходным мы катаемся на горных велосипедах.
+absteigen|слезать (с велосипеда)|Auf der Brücke müssen Radfahrer absteigen.|На мосту велосипедисты должны спешиться.
+in die Pedale treten|крутить педали|Am Berg musste ich kräftig in die Pedale treten.|В гору мне пришлось сильно крутить педали.
+die Radtour|велопоход|Wir machen eine Radtour an der Donau.|Мы совершаем велопоход вдоль Дуная.
+der Fahrradkurier|велокурьер|Ein Fahrradkurier bringt die Dokumente.|Велокурьер доставит документы.
+der Drahtesel|велосипед (шутл., «железный осёл»)|Mein alter Drahtesel fährt immer noch.|Мой старый велик всё ещё ездит.
+` },
+);
+/* de-b2-20.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-x-anatomy', level: 'B2', emoji: '🫀', title: 'Der Körper von innen', desc: 'Анатомия: внутренние органы, кости, сосуды и органы чувств.', cards: `
+die Milz|селезёнка|Die Milz liegt links im Oberbauch.|Селезёнка находится слева в верхней части живота.
+die Bauchspeicheldrüse|поджелудочная железа|Die Bauchspeicheldrüse produziert Insulin.|Поджелудочная железа вырабатывает инсулин.
+die Gallenblase|желчный пузырь|Ihm wurde die Gallenblase entfernt.|Ему удалили желчный пузырь.
+der Dünndarm|тонкая кишка|Im Dünndarm werden die Nährstoffe aufgenommen.|В тонкой кишке усваиваются питательные вещества.
+der Dickdarm|толстая кишка|Ab fünfzig wird eine Dickdarmspiegelung empfohlen.|После пятидесяти рекомендуют обследование толстой кишки.
+der Blinddarm|аппендикс, слепая кишка|Sie wurde am Blinddarm operiert.|Ей удалили аппендикс.
+die Speiseröhre|пищевод|Die Speiseröhre verbindet Mund und Magen.|Пищевод соединяет рот и желудок.
+die Luftröhre|трахея|Ein Stück Apfel ist ihm in die Luftröhre geraten.|Кусочек яблока попал ему в трахею.
+die Bronchien|бронхи (мн. ч.)|Bei Asthma sind die Bronchien verengt.|При астме бронхи сужены.
+das Zwerchfell|диафрагма|Beim Singen atmet man mit dem Zwerchfell.|При пении дышат диафрагмой.
+die Schilddrüse|щитовидная железа|Ihre Schilddrüse arbeitet zu langsam.|Её щитовидная железа работает слишком медленно.
+der Kehlkopf|гортань|Der Kehlkopf ist entzündet.|Гортань воспалена.
+die Stimmbänder|голосовые связки (мн. ч.)|Nach dem Konzert waren seine Stimmbänder überlastet.|После концерта его голосовые связки были перегружены.
+der Gaumen|нёбо|Ich habe mir am heißen Tee den Gaumen verbrannt.|Я обжёг нёбо горячим чаем.
+die Mandeln|миндалины (мн. ч.)|Als Kind wurden ihm die Mandeln herausgenommen.|В детстве ему удалили миндалины.
+der Nerv|нерв|Der Zahnarzt hat den Nerv getroffen.|Стоматолог задел нерв.
+der Wirbel|позвонок|Er hat sich einen Wirbel gebrochen.|Он сломал позвонок.
+das Schulterblatt|лопатка|Ich habe Schmerzen zwischen den Schulterblättern.|У меня боль между лопатками.
+das Schlüsselbein|ключица|Beim Sturz vom Fahrrad brach das Schlüsselbein.|При падении с велосипеда сломалась ключица.
+die Rippe|ребро|Er hat sich eine Rippe geprellt.|Он ушиб ребро.
+das Becken|таз (анат.)|Das Becken trägt den Oberkörper.|Таз поддерживает верхнюю часть тела.
+der Oberschenkel|бедро|Der Oberschenkelknochen ist der längste Knochen.|Бедренная кость — самая длинная кость.
+das Schienbein|голень, большеберцовая кость|Er hat mir gegen das Schienbein getreten.|Он пнул меня по голени.
+die Kniescheibe|коленная чашечка|Die Kniescheibe ist herausgesprungen.|Коленная чашечка выскочила.
+die Kniekehle|подколенная ямка|In der Kniekehle juckt es.|Под коленом чешется.
+die Achsel|подмышка|Das Fieber wird unter der Achsel gemessen.|Температуру измеряют под мышкой.
+der Fußballen|подушечка стопы|Beim Laufen schmerzt der Fußballen.|При беге болит подушечка стопы.
+die Achillessehne|ахиллово сухожилие|Der Fußballer hat sich die Achillessehne gerissen.|Футболист порвал ахиллово сухожилие.
+der Knorpel|хрящ|Im Knie ist der Knorpel abgenutzt.|В колене стёрся хрящ.
+die Arterie|артерия|Die Arterien transportieren das Blut vom Herzen weg.|Артерии несут кровь от сердца.
+die Vene|вена|Die Schwester nimmt Blut aus der Vene.|Медсестра берёт кровь из вены.
+die Schlagader|артерия (крупная)|Das Messer verfehlte knapp die Schlagader.|Нож чуть не задел артерию.
+das Trommelfell|барабанная перепонка|Bei der Explosion platzte ihm das Trommelfell.|При взрыве у него лопнула барабанная перепонка.
+die Netzhaut|сетчатка|Der Augenarzt untersucht die Netzhaut.|Окулист осматривает сетчатку.
+die Pupille|зрачок|Im Dunkeln werden die Pupillen größer.|В темноте зрачки расширяются.
+die Pore|пора|Die Creme verstopft die Poren nicht.|Крем не забивает поры.
+` },
+{ lang: 'de', id: 'de-b2-x-ailments', level: 'B2', emoji: '🤒', title: 'Beschwerden und Diagnosen', desc: 'Жалобы врачу: симптомы, частые воспаления, травмы и аллергии.', cards: `
+das Sodbrennen|изжога|Nach fettem Essen bekomme ich Sodbrennen.|После жирной еды у меня изжога.
+der Brechreiz|позыв к рвоте|Der Geruch löste bei ihr einen Brechreiz aus.|Запах вызвал у неё тошноту.
+die Verstopfung|запор|Ballaststoffe helfen gegen Verstopfung.|Клетчатка помогает от запора.
+kurzatmig|страдающий одышкой|Beim Treppensteigen werde ich schnell kurzatmig.|Поднимаясь по лестнице, я быстро начинаю задыхаться.
+der Juckreiz|зуд|Die Salbe lindert den Juckreiz.|Мазь облегчает зуд.
+die Schwellung|отёк, припухлость|Kühlen hilft gegen die Schwellung.|Холод помогает от отёка.
+entzündet|воспалённый|Die Wunde ist entzündet.|Рана воспалилась.
+der Eiter|гной|Aus der Wunde kommt Eiter.|Из раны выделяется гной.
+der Bluterguss|синяк, гематома|Nach dem Sturz hatte sie einen großen Bluterguss.|После падения у неё был большой синяк.
+die Verstauchung|растяжение (связок)|Es ist zum Glück nur eine Verstauchung.|К счастью, это всего лишь растяжение.
+der Krampf|судорога|In der Nacht hatte ich einen Krampf im Bein.|Ночью у меня свело ногу.
+der Wadenkrampf|судорога в икре|Magnesium hilft bei Wadenkrämpfen.|Магний помогает при судорогах в икрах.
+der Hexenschuss|прострел (в пояснице)|Beim Heben der Kiste bekam er einen Hexenschuss.|Поднимая ящик, он заработал прострел.
+die Migräne|мигрень|Bei Migräne liegt sie im dunklen Zimmer.|При мигрени она лежит в тёмной комнате.
+der Tinnitus|шум в ушах|Nach dem Konzert hatte er einen Tinnitus.|После концерта у него звенело в ушах.
+der Schüttelfrost|озноб|Mit Fieber kam der Schüttelfrost.|Вместе с температурой пришёл озноб.
+heiser|охрипший|Vom vielen Reden bin ich heiser.|Я охрип от долгих разговоров.
+die Heiserkeit|хрипота|Gegen Heiserkeit hilft Salbeitee.|От хрипоты помогает шалфейный чай.
+der Reizhusten|сухой кашель|Der Reizhusten lässt mich nicht schlafen.|Сухой кашель не даёт мне спать.
+die Mittelohrentzündung|отит|Kinder bekommen oft eine Mittelohrentzündung.|У детей часто бывает отит.
+die Nasennebenhöhlenentzündung|гайморит, синусит|Die Nasennebenhöhlenentzündung dauert schon zwei Wochen.|Синусит длится уже две недели.
+die Mandelentzündung|ангина, тонзиллит|Mit einer Mandelentzündung kann man kaum schlucken.|При ангине почти невозможно глотать.
+die Bindehautentzündung|конъюнктивит|Die Bindehautentzündung ist ansteckend.|Конъюнктивит заразен.
+die Blasenentzündung|цистит|Bei einer Blasenentzündung soll man viel trinken.|При цистите нужно много пить.
+das Asthma|астма|Sie hat seit ihrer Kindheit Asthma.|У неё астма с детства.
+der Heuschnupfen|сенная лихорадка, поллиноз|Im Frühling leidet er unter Heuschnupfen.|Весной он страдает от поллиноза.
+die Laktoseintoleranz|непереносимость лактозы|Wegen ihrer Laktoseintoleranz trinkt sie Hafermilch.|Из-за непереносимости лактозы она пьёт овсяное молоко.
+der Hormonhaushalt|гормональный баланс|Stress bringt den Hormonhaushalt durcheinander.|Стресс нарушает гормональный баланс.
+der Hausbesuch|визит врача на дом|Der Arzt macht heute noch einen Hausbesuch.|Врач сегодня ещё сделает визит на дом.
+die Betäubung|анестезия, обезболивание|Unter örtlicher Betäubung spürt man nichts.|Под местной анестезией ничего не чувствуешь.
+abtasten|прощупывать, пальпировать|Der Arzt tastet den Bauch ab.|Врач прощупывает живот.
+abhören|прослушивать|Die Ärztin hört die Lunge ab.|Врач прослушивает лёгкие.
+` },
+{ lang: 'de', id: 'de-b2-x-teeth-eyes', level: 'B2', emoji: '🦷', title: 'Zähne, Augen, Ohren', desc: 'У стоматолога, окулиста и ЛОРа: лечение зубов, зрение и слух.', cards: `
+das Zahnfleisch|десна|Beim Putzen blutet mein Zahnfleisch.|При чистке у меня кровоточат дёсны.
+die Karies|кариес|Zucker fördert Karies.|Сахар способствует кариесу.
+der Zahnstein|зубной камень|Der Zahnstein wird bei der Kontrolle entfernt.|Зубной камень удаляют при осмотре.
+die Zahnreinigung|профессиональная чистка зубов|Ich gehe zweimal im Jahr zur Zahnreinigung.|Я хожу на профессиональную чистку два раза в год.
+die Zahnseide|зубная нить|Benutze abends Zahnseide.|Пользуйся зубной нитью по вечерам.
+die Füllung|пломба|Die alte Füllung ist herausgefallen.|Старая пломба выпала.
+die Plombe|пломба (разг.)|Ich brauche eine neue Plombe.|Мне нужна новая пломба.
+die Wurzelbehandlung|лечение корневого канала|Eine Wurzelbehandlung dauert oft länger.|Лечение каналов часто длится дольше.
+der Weisheitszahn|зуб мудрости|Der Weisheitszahn muss gezogen werden.|Зуб мудрости нужно удалить.
+einen Zahn ziehen|удалять зуб|Der Zahnarzt hat mir gestern einen Zahn gezogen.|Вчера стоматолог удалил мне зуб.
+das Implantat|имплантат|Statt einer Brücke bekommt sie ein Implantat.|Вместо моста ей ставят имплантат.
+der Zahnersatz|зубной протез|Zahnersatz ist in Deutschland teuer.|Зубные протезы в Германии дорогие.
+die Zahnspange|брекеты, пластинка|Viele Jugendliche tragen eine Zahnspange.|Многие подростки носят брекеты.
+das Kiefergelenk|височно-нижнечелюстной сустав|Nachts knirsche ich, und das Kiefergelenk tut weh.|Ночью я скриплю зубами, и болит челюстной сустав.
+mit den Zähnen knirschen|скрипеть зубами|Bei Stress knirscht er nachts mit den Zähnen.|При стрессе он ночью скрипит зубами.
+betäuben|обезболивать|Vor dem Bohren wird der Zahn betäubt.|Перед сверлением зуб обезболивают.
+kurzsichtig|близорукий|Weil sie kurzsichtig ist, sieht sie die Tafel ohne Brille nicht.|Из-за близорукости она не видит доску без очков.
+die Dioptrie|диоптрия|Ich habe minus drei Dioptrien.|У меня минус три диоптрии.
+der Sehtest|проверка зрения|Für den Führerschein braucht man einen Sehtest.|Для прав нужна проверка зрения.
+die Sehschärfe|острота зрения|Die Sehschärfe hat nachgelassen.|Острота зрения снизилась.
+der Optiker|оптик, салон оптики|Beim Optiker suche ich ein neues Brillengestell aus.|В оптике я выбираю новую оправу.
+das Brillengestell|оправа очков|Das Brillengestell ist aus Titan.|Оправа из титана.
+die Gleitsichtbrille|прогрессивные очки|Mit der Gleitsichtbrille kann man nah und fern sehen.|В прогрессивных очках видно и вблизи, и вдали.
+der graue Star|катаракта|Der graue Star wird operiert.|Катаракту оперируют.
+der grüne Star|глаукома|Beim grünen Star ist der Augeninnendruck erhöht.|При глаукоме повышено внутриглазное давление.
+der Augeninnendruck|внутриглазное давление|Ab vierzig sollte man den Augeninnendruck messen lassen.|После сорока стоит измерять внутриглазное давление.
+das Augenlid|веко|Mein Augenlid zuckt seit Tagen.|У меня уже несколько дней дёргается веко.
+die Augentropfen|глазные капли (мн. ч.)|Die Augentropfen brennen ein bisschen.|Глазные капли немного щиплют.
+schwerhörig|слабослышащий, тугоухий|Mein Opa ist etwas schwerhörig.|Мой дедушка немного туговат на ухо.
+das Hörgerät|слуховой аппарат|Mit dem Hörgerät versteht sie wieder alles.|Со слуховым аппаратом она снова всё понимает.
+der Hals-Nasen-Ohren-Arzt|ЛОР-врач|Wegen der Ohrenschmerzen gehe ich zum Hals-Nasen-Ohren-Arzt.|Из-за боли в ушах я иду к ЛОРу.
+das Ohrenschmalz|ушная сера|Zu viel Ohrenschmalz kann das Hören stören.|Избыток серы может мешать слуху.
+` },
+{ lang: 'de', id: 'de-b2-x-baking', level: 'B2', emoji: '🥐', title: 'Backen', desc: 'Выпечка: виды теста, формы, ингредиенты и приёмы работы с тестом.', cards: `
+der Hefeteig|дрожжевое тесто|Der Hefeteig muss eine Stunde gehen.|Дрожжевое тесто должно подходить час.
+der Mürbeteig|песочное тесто|Für die Tarte braucht man einen Mürbeteig.|Для тарта нужно песочное тесто.
+der Blätterteig|слоёное тесто|Blätterteig kaufe ich meistens fertig.|Слоёное тесто я обычно покупаю готовым.
+der Rührteig|бисквитное тесто на масле, взбитое тесто|Marmorkuchen ist aus Rührteig.|Мраморный кекс делается из взбитого теста.
+der Biskuitteig|бисквитное тесто|Für die Torte backe ich einen Biskuitteig.|Для торта я пеку бисквит.
+der Sauerteig|закваска|Echtes Roggenbrot wird mit Sauerteig gebacken.|Настоящий ржаной хлеб пекут на закваске.
+das Backpulver|разрыхлитель|Ein Päckchen Backpulver reicht für einen Kuchen.|Пакетика разрыхлителя хватает на один пирог.
+das Natron|пищевая сода|Natron lässt den Teig aufgehen.|Сода помогает тесту подняться.
+die Speisestärke|крахмал|Mit Speisestärke wird die Soße dicker.|С крахмалом соус становится гуще.
+der Puderzucker|сахарная пудра|Zum Schluss bestäubt man den Kuchen mit Puderzucker.|В конце пирог посыпают сахарной пудрой.
+der Vanillezucker|ванильный сахар|In den Teig kommt ein Päckchen Vanillezucker.|В тесто кладут пакетик ванильного сахара.
+die Kuvertüre|кондитерский шоколад, глазурь|Die Kuvertüre wird im Wasserbad geschmolzen.|Шоколадную глазурь растапливают на водяной бане.
+der Zuckerguss|сахарная глазурь|Die Plätzchen bekommen einen bunten Zuckerguss.|Печенье покрывают цветной глазурью.
+die Glasur|глазурь|Die Glasur muss erst fest werden.|Глазурь должна сначала застыть.
+die Springform|разъёмная форма|Fette die Springform gut ein.|Хорошо смажь разъёмную форму.
+die Kastenform|прямоугольная форма для кекса|Das Bananenbrot backe ich in der Kastenform.|Банановый хлеб я пеку в прямоугольной форме.
+die Gugelhupfform|форма для кекса с отверстием|Oma hat noch eine alte Gugelhupfform aus Keramik.|У бабушки ещё есть старая керамическая форма для кекса.
+das Backpapier|пергамент для выпечки|Leg das Blech mit Backpapier aus.|Застели противень пергаментом.
+einfetten|смазывать жиром|Die Form wird mit Butter eingefettet.|Форму смазывают маслом.
+bestäuben|посыпать (тонким слоем)|Bestäube die Arbeitsfläche mit Mehl.|Посыпь рабочую поверхность мукой.
+das Mehlsieb|сито для муки|Siebe das Mehl durch das Mehlsieb.|Просей муку через сито.
+der Teigschaber|лопатка для теста|Mit dem Teigschaber bekommt man die Schüssel sauber.|Лопаткой для теста можно дочиста выскрести миску.
+das Rührgerät|миксер|Das Rührgerät ist zu laut.|Миксер слишком громкий.
+die Küchenmaschine|кухонный комбайн|Die Küchenmaschine knetet den Teig.|Кухонный комбайн месит тесто.
+das Eigelb|желток|Trenne das Eigelb vom Eiweiß.|Отдели желток от белка.
+der Eischnee|взбитые белки|Den Eischnee hebt man vorsichtig unter.|Взбитые белки аккуратно вмешивают.
+steif schlagen|взбивать до крепкой пены|Schlag die Sahne steif.|Взбей сливки до крепкой пены.
+unterheben|аккуратно вмешивать|Die Beeren werden zum Schluss untergehoben.|Ягоды в конце аккуратно вмешивают.
+gehen lassen|давать подойти (тесту)|Lass den Teig an einem warmen Ort gehen.|Дай тесту подойти в тёплом месте.
+die Stäbchenprobe|проверка готовности шпажкой|Mach die Stäbchenprobe, bevor du den Kuchen herausnimmst.|Проверь готовность шпажкой, прежде чем вынимать пирог.
+die Umluft|конвекция (режим духовки)|Bei Umluft reichen 160 Grad.|При конвекции хватает 160 градусов.
+die Kruste|корочка|Das Brot hat eine knusprige Kruste.|У хлеба хрустящая корочка.
+der Streusel|штрейзель, посыпка из крошки|Auf den Apfelkuchen kommen Streusel.|Яблочный пирог посыпают крошкой.
+die Buttercreme|масляный крем|Die Torte ist mit Buttercreme gefüllt.|Торт с масляным кремом.
+die Sahnetorte|торт со сливками|Zum Geburtstag gibt es eine Sahnetorte.|На день рождения будет сливочный торт.
+` },
+{ lang: 'de', id: 'de-b2-x-spices', level: 'B2', emoji: '🌿', title: 'Gewürze, Kräuter, Vorräte', desc: 'Пряности, травы, соусы и домашние заготовки.', cards: `
+der Kümmel|тмин|Ins Sauerkraut gehört Kümmel.|В квашеную капусту кладут тмин.
+der Majoran|майоран|Majoran passt gut zu Kartoffelsuppe.|Майоран хорошо подходит к картофельному супу.
+der Thymian|тимьян, чабрец|Das Lamm wird mit Thymian gewürzt.|Баранину приправляют тимьяном.
+der Rosmarin|розмарин|Ofenkartoffeln mit Rosmarin schmecken toll.|Печёный картофель с розмарином очень вкусный.
+das Lorbeerblatt|лавровый лист|Nimm das Lorbeerblatt vor dem Servieren heraus.|Перед подачей вынь лавровый лист.
+die Muskatnuss|мускатный орех|Etwas Muskatnuss verfeinert das Püree.|Немного мускатного ореха улучшает пюре.
+der Zimt|корица|Zimt riecht nach Weihnachten.|Корица пахнет Рождеством.
+die Nelke|гвоздика (пряность)|Für den Glühwein braucht man Nelken.|Для глинтвейна нужна гвоздика.
+der Kardamom|кардамон|Kardamom ist ein typisches Gewürz in Skandinavien.|Кардамон — типичная пряность в Скандинавии.
+der Ingwer|имбирь|Ingwertee hilft bei Erkältung.|Имбирный чай помогает при простуде.
+die Kurkuma|куркума|Kurkuma färbt den Reis gelb.|Куркума окрашивает рис в жёлтый цвет.
+das Paprikapulver|молотая паприка|Für das Gulasch braucht man viel Paprikapulver.|Для гуляша нужно много молотой паприки.
+der Schnittlauch|шнитт-лук|Schnittlauch passt gut auf Rührei.|Шнитт-лук хорошо подходит к омлету.
+der Estragon|эстрагон, тархун|Estragon gehört in die Sauce béarnaise.|Эстрагон добавляют в соус беарнез.
+das Basilikum|базилик|Frisches Basilikum duftet herrlich.|Свежий базилик чудесно пахнет.
+der Koriander|кинза, кориандр|Manche Menschen mögen Koriander überhaupt nicht.|Некоторые люди совсем не любят кинзу.
+der Essig|уксус|Der Salat braucht noch einen Schuss Essig.|В салат нужно ещё немного уксуса.
+das Rapsöl|рапсовое масло|Zum Braten nehme ich Rapsöl.|Для жарки я беру рапсовое масло.
+das Olivenöl|оливковое масло|Ein gutes Olivenöl ist nicht billig.|Хорошее оливковое масло недешёвое.
+die Brühe|бульон|Koch das Gemüse in der Brühe.|Свари овощи в бульоне.
+der Fond|фонд, крепкий бульон (для соусов)|Aus den Knochen kocht der Koch einen Fond.|Из костей повар варит крепкий бульон.
+die Mehlschwitze|мучная заправка (ру)|Die Soße wird mit einer Mehlschwitze gebunden.|Соус загущают мучной заправкой.
+binden|загущать (соус)|Die Suppe wird mit Sahne gebunden.|Суп загущают сливками.
+andicken|загущать|Mit Speisestärke kann man die Soße andicken.|Крахмалом можно загустить соус.
+nachwürzen|досаливать, доприправлять|Jeder kann am Tisch nachwürzen.|Каждый может доприправить за столом.
+die Marinade|маринад|Das Fleisch liegt über Nacht in der Marinade.|Мясо всю ночь лежит в маринаде.
+pökeln|солить (мясо в рассоле)|Kassler ist gepökeltes Schweinefleisch.|Касслер — это засоленная свинина.
+räuchern|коптить|Der Fischer räuchert die Forellen selbst.|Рыбак сам коптит форель.
+das Einmachglas|банка для консервирования|Die Marmelade kommt in Einmachgläser.|Варенье разливают по банкам.
+die Vorratskammer|кладовая|In der Vorratskammer stehen Kartoffeln und Äpfel.|В кладовой стоят картофель и яблоки.
+die Gewürzmischung|смесь пряностей|Die Gewürzmischung für Lebkuchen ist fertig gekauft.|Смесь пряностей для пряников куплена готовой.
+die Pfefferkörner|перец горошком (мн. ч.)|Für die Brühe brauchst du ein paar Pfefferkörner.|Для бульона тебе нужно несколько горошин перца.
+die Gewürzgurke|маринованный огурчик|Zur Brotzeit gibt es Gewürzgurken.|К перекусу подают маринованные огурцы.
+` },
+{ lang: 'de', id: 'de-b2-x-sewing', level: 'B2', emoji: '🧵', title: 'Nähen und Handarbeit', desc: 'Шитьё, вязание и вышивка: инструменты, приёмы и ремонт одежды.', cards: `
+das Garn|нитки, пряжа|Ich brauche schwarzes Garn.|Мне нужны чёрные нитки.
+die Stecknadel|булавка|Steck den Stoff mit Stecknadeln fest.|Сколи ткань булавками.
+die Stoffschere|портновские ножницы|Mit der Stoffschere schneidet man kein Papier.|Портновскими ножницами не режут бумагу.
+die Schneiderkreide|портновский мел|Die Linie zeichnet man mit Schneiderkreide vor.|Линию намечают портновским мелом.
+das Schnittmuster|выкройка|Das Schnittmuster gibt es zum Herunterladen.|Выкройку можно скачать.
+zuschneiden|кроить|Zuerst wird der Stoff zugeschnitten.|Сначала ткань раскраивают.
+heften|намётывать|Die Naht wird erst geheftet, dann genäht.|Шов сначала намётывают, потом прошивают.
+säumen|подрубать|Die Vorhänge müssen noch gesäumt werden.|Шторы ещё нужно подрубить.
+auftrennen|распарывать|Ich muss die Naht wieder auftrennen.|Мне придётся распороть шов.
+der Nahttrenner|вспарыватель|Mit dem Nahttrenner geht das schnell.|Вспарывателем это делается быстро.
+annähen|пришивать|Kannst du mir den Knopf annähen?|Пришьёшь мне пуговицу?
+einnähen|вшивать|Der Reißverschluss wird eingenäht.|Молнию вшивают.
+abnähen|делать вытачку|Die Bluse wird an der Taille abgenäht.|На блузке делают вытачки по талии.
+kürzen|укорачивать|Die Hose muss um zwei Zentimeter gekürzt werden.|Брюки нужно укоротить на два сантиметра.
+enger machen|ушивать|Kann man das Kleid etwas enger machen?|Можно немного ушить платье?
+die Änderungsschneiderei|ателье по подгонке одежды|Die Änderungsschneiderei kürzt die Ärmel.|Ателье укорачивает рукава.
+der Druckknopf|кнопка (застёжка)|Die Jacke hat Druckknöpfe statt Knöpfe.|На куртке кнопки вместо пуговиц.
+der Klettverschluss|липучка|Kinderschuhe mit Klettverschluss sind praktisch.|Детская обувь на липучках удобна.
+der Flicken|заплатка|Auf dem Knie ist ein Flicken.|На колене заплатка.
+stopfen|штопать|Früher hat man Socken gestopft.|Раньше носки штопали.
+das Wollknäuel|клубок шерсти|Die Katze spielt mit dem Wollknäuel.|Кошка играет с клубком шерсти.
+die Stricknadel|спица|Sie strickt mit dicken Stricknadeln.|Она вяжет толстыми спицами.
+die Masche|петля (в вязании)|Mir ist eine Masche heruntergefallen.|У меня спустилась петля.
+die Häkelnadel|крючок для вязания|Mit der Häkelnadel macht sie Topflappen.|Крючком она вяжет прихватки.
+die Stickerei|вышивка|Die Tischdecke hat eine schöne Stickerei.|На скатерти красивая вышивка.
+der Kreuzstich|вышивка крестиком|Das Bild ist im Kreuzstich gestickt.|Картина вышита крестиком.
+der Stoffrest|остаток ткани, лоскут|Aus Stoffresten näht sie Taschen.|Из лоскутов она шьёт сумки.
+das Bügelbrett|гладильная доска|Stell das Bügelbrett auf.|Поставь гладильную доску.
+die Schneiderei|ателье, портновская мастерская|Er hat eine kleine Schneiderei in der Altstadt.|У него маленькое ателье в старом городе.
+` },
+);
+/* de-b2-21.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-x-football', level: 'B2', emoji: '⚽', title: 'Fußball', desc: 'Футбол: позиции, правила, стандарты и турнирная таблица.', cards: `
+der Anstoß|начальный удар (с центра поля)|Der Anstoß ist um 15:30 Uhr.|Начало матча в 15:30.
+der Abstoß|удар от ворот|Der Torwart führt den Abstoß aus.|Вратарь выполняет удар от ворот.
+der Eckstoß|угловой удар|Nach dem Eckstoß fiel das 1:0.|После углового был забит первый гол.
+der Freistoß|штрафной удар|Er verwandelte den Freistoß direkt.|Он забил прямо со штрафного.
+das Elfmeterschießen|серия пенальти|Das Spiel wurde im Elfmeterschießen entschieden.|Матч решился в серии пенальти.
+der Strafraum|штрафная площадь|Im Strafraum wurde er gefoult.|В штрафной против него нарушили правила.
+der Mittelkreis|центральный круг|Der Ball liegt im Mittelkreis.|Мяч лежит в центральном круге.
+das Abseits|офсайд, вне игры|Das Tor zählt nicht, es war Abseits.|Гол не засчитан, был офсайд.
+die Abseitsfalle|ловушка офсайда|Die Abwehr stellte eine Abseitsfalle.|Защита поставила офсайдную ловушку.
+die Flanke|навес, фланговая подача|Nach einer Flanke von rechts köpfte er ein.|После навеса справа он забил головой.
+flanken|делать навес|Er flankt den Ball in den Strafraum.|Он навешивает мяч в штрафную.
+der Kopfball|удар головой|Sein Kopfball landete an der Latte.|Его удар головой пришёлся в перекладину.
+köpfen|бить головой|Er köpfte den Ball ins Tor.|Он головой отправил мяч в ворота.
+das Eigentor|автогол|Ein unglückliches Eigentor entschied das Spiel.|Неудачный автогол решил исход матча.
+der Ausgleich|сравнивание счёта|In der letzten Minute fiel der Ausgleich.|На последней минуте счёт сравняли.
+die Nachspielzeit|компенсированное время|Der Schiedsrichter gab vier Minuten Nachspielzeit.|Судья добавил четыре минуты.
+der Linienrichter|боковой судья|Der Linienrichter hob die Fahne.|Боковой судья поднял флаг.
+der Videobeweis|видеоповтор (VAR)|Nach dem Videobeweis gab es Elfmeter.|После видеоповтора назначили пенальти.
+die Gelbe Karte|жёлтая карточка|Für das Foul sah er die Gelbe Karte.|За фол он получил жёлтую карточку.
+die Rote Karte|красная карточка|Nach der Roten Karte spielte das Team zu zehnt.|После красной карточки команда играла вдесятером.
+foulen|нарушать правила (против игрока)|Er wurde kurz vor dem Tor gefoult.|На нём сфолили прямо перед воротами.
+der Torwart|вратарь|Der Torwart hielt den Elfmeter.|Вратарь отбил пенальти.
+der Stürmer|нападающий|Der Stürmer hat schon zwanzig Tore geschossen.|Нападающий уже забил двадцать голов.
+das Mittelfeld|полузащита, середина поля|Im Mittelfeld fehlt die Kreativität.|В полузащите не хватает креатива.
+die Abwehr|защита|Die Abwehr stand heute sehr sicher.|Защита сегодня играла очень надёжно.
+der Konter|контратака|Nach einem schnellen Konter fiel das 2:0.|После быстрой контратаки забили второй гол.
+der Doppelpass|«стенка» (комбинация)|Mit einem Doppelpass spielten sie sich durch.|С помощью «стенки» они прошли защиту.
+dribbeln|вести мяч, обводить|Er dribbelt an drei Gegnern vorbei.|Он обводит трёх соперников.
+der Pfosten|штанга|Der Schuss ging an den Pfosten.|Удар пришёлся в штангу.
+die Latte|перекладина|Der Ball knallte an die Latte.|Мяч ударился в перекладину.
+die Ersatzbank|скамейка запасных|Der Star saß heute nur auf der Ersatzbank.|Звезда сегодня сидела только на скамейке.
+einwechseln|выпускать на замену|In der 70. Minute wurde er eingewechselt.|На 70-й минуте его выпустили на замену.
+der Tabellenführer|лидер турнирной таблицы|Bayern ist wieder Tabellenführer.|«Бавария» снова лидирует в таблице.
+die Fankurve|фанатский сектор|Die Fankurve sang das ganze Spiel lang.|Фанатский сектор пел весь матч.
+der Hattrick|хет-трик|Mit einem Hattrick wurde er zum Helden.|Благодаря хет-трику он стал героем.
+` },
+{ lang: 'de', id: 'de-b2-x-watersport', level: 'B2', emoji: '🏊', title: 'Schwimmen und Wassersport', desc: 'Плавание, ныряние, парусный спорт и гребля.', cards: `
+kraulen|плавать кролем|Sie krault zwei Kilometer am Stück.|Она проплывает кролем два километра без остановки.
+das Brustschwimmen|плавание брассом|Beim Brustschwimmen bleibt der Kopf oft über Wasser.|При плавании брассом голова часто остаётся над водой.
+das Rückenschwimmen|плавание на спине|Rückenschwimmen ist gut für die Haltung.|Плавание на спине полезно для осанки.
+der Startblock|стартовая тумба|Die Schwimmer stehen auf dem Startblock.|Пловцы стоят на стартовых тумбах.
+der Kopfsprung|прыжок головой вперёд|Mit einem Kopfsprung springt er ins Becken.|Он прыгает в бассейн головой вперёд.
+das Sprungbrett|трамплин (в бассейне)|Das Sprungbrett ist drei Meter hoch.|Трамплин высотой три метра.
+die Arschbombe|прыжок «бомбочкой» (разг.)|Die Kinder machen Arschbomben vom Beckenrand.|Дети прыгают «бомбочкой» с бортика.
+der Freischwimmer|значок умеющего плавать|Für den Freischwimmer muss man 15 Minuten schwimmen.|Для значка нужно плыть 15 минут.
+die Schwimmweste|спасательный жилет|Im Boot trägt jeder eine Schwimmweste.|В лодке все носят спасательный жилет.
+das Tauchen|дайвинг, ныряние|Im Urlaub probiere ich das Tauchen aus.|В отпуске я попробую дайвинг.
+die Taucherbrille|маска для ныряния|Mit der Taucherbrille sieht man die Fische.|В маске видно рыбок.
+der Schnorchel|трубка для ныряния|Ohne Schnorchel muss ich ständig auftauchen.|Без трубки мне приходится постоянно выныривать.
+die Flossen|ласты (мн. ч.)|Mit Flossen schwimmt man viel schneller.|В ластах плывёшь гораздо быстрее.
+der Neoprenanzug|гидрокостюм|Im kalten Wasser braucht man einen Neoprenanzug.|В холодной воде нужен гидрокостюм.
+das Segeln|парусный спорт|Segeln lernt man am besten auf einem See.|Ходить под парусом лучше всего учиться на озере.
+der Segler|яхтсмен|Die Segler warten auf mehr Wind.|Яхтсмены ждут ветра посильнее.
+das Kajak|каяк|Wir fahren mit dem Kajak die Lahn hinunter.|Мы сплавляемся на каяке вниз по Лану.
+paddeln|грести (веслом)|Wir paddeln ans andere Ufer.|Мы гребём к другому берегу.
+das Paddel|весло (байдарочное)|Mir ist das Paddel ins Wasser gefallen.|У меня весло упало в воду.
+rudern|грести (вёслами)|Er rudert jeden Morgen auf dem Main.|Он каждое утро занимается греблей на Майне.
+das Ruderboot|гребная лодка|Am See kann man Ruderboote mieten.|На озере можно взять напрокат лодку.
+das Surfbrett|доска для сёрфинга|Das Surfbrett passt nicht ins Auto.|Доска для сёрфинга не помещается в машину.
+das Windsurfen|виндсёрфинг|Am Gardasee ist Windsurfen sehr beliebt.|На озере Гарда очень популярен виндсёрфинг.
+der Rettungsring|спасательный круг|Am Steg hängt ein Rettungsring.|На мостках висит спасательный круг.
+die Schwimmbahn|дорожка для плавания|Die schnellen Schwimmer haben eine eigene Schwimmbahn.|У быстрых пловцов отдельная дорожка.
+das Schmetterlingsschwimmen|плавание баттерфляем|Schmetterlingsschwimmen kostet sehr viel Kraft.|Плавание баттерфляем требует очень много сил.
+der Wasserball|водное поло; надувной мяч|Im Verein spielt er Wasserball.|В клубе он играет в водное поло.
+das Stand-up-Paddling|сапсёрфинг|Stand-up-Paddling ist auf ruhigen Seen beliebt.|Сапсёрфинг популярен на спокойных озёрах.
+der Bootssteg|лодочный причал, мостки|Am Bootssteg liegen drei Kajaks.|У мостков лежат три каяка.
+der Beckenrand|бортик бассейна|Am Beckenrand darf man nicht rennen.|Вдоль бортика бегать нельзя.
+` },
+{ lang: 'de', id: 'de-b2-x-wintersport', level: 'B2', emoji: '⛷️', title: 'Wintersport', desc: 'Лыжи, сноуборд, коньки и санки: дисциплины и снаряжение.', cards: `
+der Abfahrtslauf|скоростной спуск|Der Abfahrtslauf ist die schnellste Disziplin.|Скоростной спуск — самая быстрая дисциплина.
+der Slalom|слалом|Im Slalom fährt man um Stangen herum.|В слаломе объезжают древки.
+der Riesenslalom|гигантский слалом|Sie gewann Gold im Riesenslalom.|Она выиграла золото в гигантском слаломе.
+das Skispringen|прыжки с трамплина|Das Skispringen an Neujahr ist Tradition.|Прыжки с трамплина на Новый год — традиция.
+die Sprungschanze|лыжный трамплин|Von der Sprungschanze springen sie über 130 Meter.|С трамплина они прыгают дальше 130 метров.
+der Langlauf|лыжные гонки, беговые лыжи|Langlauf ist ein gutes Ausdauertraining.|Беговые лыжи — хорошая тренировка выносливости.
+die Loipe|лыжня|Die Loipe ist frisch gespurt.|Лыжня только что проложена.
+das Biathlon|биатлон|Beim Biathlon muss man laufen und schießen.|В биатлоне нужно бежать и стрелять.
+der Sessellift|кресельный подъёмник|Mit dem Sessellift fahren wir auf den Gipfel.|На кресельном подъёмнике мы поднимаемся на вершину.
+die Gondel|кабина канатной дороги|In der Gondel ist Platz für acht Personen.|В кабине есть место для восьми человек.
+der Skipass|ски-пасс|Der Skipass für eine Woche kostet 300 Euro.|Ски-пасс на неделю стоит 300 евро.
+die Skibrille|горнолыжная маска|Ohne Skibrille blendet der Schnee.|Без маски снег слепит.
+die Skischule|горнолыжная школа|Die Kinder gehen morgens in die Skischule.|По утрам дети ходят в горнолыжную школу.
+die Skihütte|горная хижина (на склоне)|Mittags essen wir in der Skihütte.|В обед мы едим в хижине на склоне.
+der Après-Ski|развлечения после катания|Beim Après-Ski wird laut gefeiert.|На афтепати после катания шумно празднуют.
+der Pulverschnee|пушистый снег, пухляк|Heute gibt es perfekten Pulverschnee.|Сегодня идеальный пушистый снег.
+der Kunstschnee|искусственный снег|Ohne Kunstschnee wäre die Piste grün.|Без искусственного снега склон был бы зелёным.
+das Rodeln|катание на санках|Rodeln macht Kindern und Erwachsenen Spaß.|Катание на санках радует и детей, и взрослых.
+die Rodelbahn|санная трасса|Die Rodelbahn ist drei Kilometer lang.|Санная трасса длиной три километра.
+der Bob|бобслей|Der Bob erreicht über 130 km/h.|Боб разгоняется свыше 130 км/ч.
+das Eishockey|хоккей на льду|In Kanada ist Eishockey Nationalsport.|В Канаде хоккей — национальный спорт.
+der Puck|шайба|Der Puck flog ins Netz.|Шайба влетела в сетку.
+der Schläger|клюшка; ракетка|Beim Eishockey ist sein Schläger zerbrochen.|Во время хоккея у него сломалась клюшка.
+der Eiskunstlauf|фигурное катание|Im Eiskunstlauf zählt auch der Ausdruck.|В фигурном катании важна и выразительность.
+der Schlittschuh|конёк|Meine Schlittschuhe müssen geschliffen werden.|Мои коньки нужно наточить.
+die Eisbahn|каток|Im Winter wird auf dem Marktplatz eine Eisbahn aufgebaut.|Зимой на рыночной площади заливают каток.
+der Skistock|лыжная палка|Ich habe einen Skistock im Lift verloren.|Я потерял лыжную палку на подъёмнике.
+die Skibindung|лыжное крепление|Die Skibindung ist zu fest eingestellt.|Крепление настроено слишком туго.
+die Schneekette|цепь противоскольжения|Auf dem Pass sind Schneeketten Pflicht.|На перевале обязательны цепи.
+die Schneekanone|снежная пушка|Nachts laufen die Schneekanonen.|Ночью работают снежные пушки.
+der Tiefschnee|глубокий снег, целина|Im Tiefschnee fahren nur Profis.|По целине катаются только профи.
+` },
+{ lang: 'de', id: 'de-b2-x-gym', level: 'B2', emoji: '🏋️', title: 'Im Fitnessstudio', desc: 'Тренажёрный зал: упражнения, снаряды, мышцы и режим тренировок.', cards: `
+die Kurzhantel|гантель|Mit zwei Kurzhanteln trainiert sie die Arme.|С двумя гантелями она тренирует руки.
+die Langhantel|штанга|Die Langhantel wiegt allein zwanzig Kilo.|Сам гриф штанги весит двадцать килограммов.
+das Gewicht stemmen|поднимать вес|Er stemmt jeden Tag schwere Gewichte.|Каждый день он поднимает большие веса.
+das Bankdrücken|жим лёжа|Beim Bankdrücken braucht man einen Partner.|При жиме лёжа нужен напарник.
+der Klimmzug|подтягивание|Ich schaffe nur drei Klimmzüge.|Я могу подтянуться только три раза.
+die Liegestütze|отжимание|Jeden Morgen mache ich zwanzig Liegestütze.|Каждое утро я делаю двадцать отжиманий.
+der Unterarmstütz|планка|Halte den Unterarmstütz eine Minute.|Держи планку одну минуту.
+der Sit-up|скручивание, подъём туловища|Sit-ups trainieren die Bauchmuskeln.|Скручивания тренируют мышцы пресса.
+die Bauchmuskeln|мышцы пресса (мн. ч.)|Für starke Bauchmuskeln braucht man Geduld.|Для сильного пресса нужно терпение.
+der Bizeps|бицепс|Er zeigt stolz seinen Bizeps.|Он гордо показывает бицепс.
+der Trizeps|трицепс|Diese Übung ist für den Trizeps.|Это упражнение на трицепс.
+die Muskulatur|мускулатура|Die Rückenmuskulatur ist zu schwach.|Мышцы спины слишком слабые.
+der Muskelaufbau|наращивание мышц|Für den Muskelaufbau braucht man Eiweiß.|Для наращивания мышц нужен белок.
+der Eiweißshake|протеиновый коктейль|Nach dem Training trinkt er einen Eiweißshake.|После тренировки он пьёт протеиновый коктейль.
+der Proteinriegel|протеиновый батончик|Proteinriegel sind oft voller Zucker.|Протеиновые батончики часто полны сахара.
+der Crosstrainer|эллиптический тренажёр|Zehn Minuten auf dem Crosstrainer zum Aufwärmen.|Десять минут на эллипсе для разминки.
+das Rudergerät|гребной тренажёр|Das Rudergerät trainiert den ganzen Körper.|Гребной тренажёр тренирует всё тело.
+das Ergometer|велотренажёр, эргометр|Beim Arzt musste ich auf dem Ergometer treten.|У врача мне пришлось крутить педали эргометра.
+das Zirkeltraining|круговая тренировка|Beim Zirkeltraining wechselt man alle 40 Sekunden die Station.|При круговой тренировке каждые 40 секунд меняют станцию.
+dehnen|растягивать|Nach dem Laufen solltest du die Beine dehnen.|После бега стоит растянуть ноги.
+das Dehnen|растяжка|Dehnen beugt Verletzungen vor.|Растяжка предотвращает травмы.
+der Muskelfaserriss|надрыв мышечных волокон|Wegen eines Muskelfaserrisses fällt er drei Wochen aus.|Из-за надрыва мышцы он выбывает на три недели.
+der Trainingsplan|план тренировок|Der Trainer hat mir einen Trainingsplan erstellt.|Тренер составил мне план тренировок.
+der Trainingspartner|партнёр по тренировкам|Mit einem Trainingspartner bleibt man motivierter.|С партнёром по тренировкам больше мотивации.
+der Personal Trainer|персональный тренер|Ihr Personal Trainer kommt zweimal pro Woche.|Её персональный тренер приходит два раза в неделю.
+die Yogamatte|коврик для йоги|Roll die Yogamatte nach dem Kurs wieder ein.|После занятия сверни коврик.
+das Pilates|пилатес|Pilates stärkt die Körpermitte.|Пилатес укрепляет мышцы кора.
+der Spinningkurs|занятие сайклом|Der Spinningkurs ist immer ausgebucht.|Занятия сайклом всегда полностью заняты.
+der Kalorienverbrauch|расход калорий|Der Kalorienverbrauch beim Schwimmen ist hoch.|Расход калорий при плавании высокий.
+der Fitnesstracker|фитнес-браслет|Der Fitnesstracker zählt meine Schritte.|Фитнес-браслет считает мои шаги.
+die Pulsuhr|пульсометр|Laut Pulsuhr lag mein Puls bei 160.|По пульсометру мой пульс был 160.
+der Spind|шкафчик (в раздевалке)|Der Schlüssel für den Spind hängt am Armband.|Ключ от шкафчика на браслете.
+die Umkleide|раздевалка|Die Duschen sind neben der Umkleide.|Душевые рядом с раздевалкой.
+` },
+{ lang: 'de', id: 'de-b2-x-photo', level: 'B2', emoji: '📷', title: 'Fotografie', desc: 'Фотография: камера, объективы, экспозиция и обработка снимков.', cards: `
+die Spiegelreflexkamera|зеркальный фотоаппарат|Mit der Spiegelreflexkamera habe ich angefangen.|Я начинал с зеркального фотоаппарата.
+die Systemkamera|беззеркальная камера|Die Systemkamera ist leichter als meine alte.|Беззеркальная камера легче моей старой.
+das Objektiv|объектив|Das Objektiv ist teurer als die Kamera.|Объектив дороже камеры.
+das Weitwinkelobjektiv|широкоугольный объектив|Für Architektur nehme ich ein Weitwinkelobjektiv.|Для архитектуры я беру широкоугольный объектив.
+das Teleobjektiv|телеобъектив|Mit dem Teleobjektiv fotografiert er Vögel.|Телеобъективом он снимает птиц.
+die Brennweite|фокусное расстояние|Welche Brennweite eignet sich für Porträts?|Какое фокусное расстояние подходит для портретов?
+die Blende|диафрагма|Bei offener Blende wird der Hintergrund unscharf.|При открытой диафрагме фон размывается.
+die Belichtungszeit|выдержка|Bei Nacht braucht man eine lange Belichtungszeit.|Ночью нужна длинная выдержка.
+die Belichtung|экспозиция|Die Belichtung stimmt nicht ganz.|Экспозиция не совсем верная.
+überbelichtet|пересвеченный|Der Himmel ist auf dem Foto überbelichtet.|Небо на фото пересвечено.
+unterbelichtet|недосвеченный, тёмный|Die Innenaufnahmen sind unterbelichtet.|Снимки в помещении недосвечены.
+das Stativ|штатив|Für Sternfotos braucht man ein Stativ.|Для съёмки звёзд нужен штатив.
+der Auslöser|кнопка спуска затвора|Drück den Auslöser halb durch, dann stellt die Kamera scharf.|Нажми кнопку спуска наполовину, и камера сфокусируется.
+scharf stellen|наводить резкость|Die Kamera stellt automatisch scharf.|Камера автоматически наводит резкость.
+der Autofokus|автофокус|Der Autofokus ist bei wenig Licht langsam.|Автофокус медленный при слабом освещении.
+unscharf|нерезкий, размытый|Leider ist das Gesicht unscharf.|К сожалению, лицо размыто.
+verwackelt|смазанный (от дрожания)|Ohne Stativ sind die Bilder verwackelt.|Без штатива снимки смазаны.
+die Schärfentiefe|глубина резкости|Eine geringe Schärfentiefe wirkt professionell.|Малая глубина резкости выглядит профессионально.
+der Bildausschnitt|кадр, кадрирование|Wähl den Bildausschnitt sorgfältig.|Тщательно выбирай кадр.
+die Landschaftsaufnahme|пейзажный снимок|Seine Landschaftsaufnahmen hängen in einer Galerie.|Его пейзажные снимки висят в галерее.
+der Schnappschuss|случайный снимок|Der beste Schnappschuss entstand ganz spontan.|Лучший снимок получился совершенно спонтанно.
+die Speicherkarte|карта памяти|Die Speicherkarte ist voll.|Карта памяти заполнена.
+die Auflösung|разрешение|Für den Druck braucht man eine hohe Auflösung.|Для печати нужно высокое разрешение.
+das Megapixel|мегапиксель|Die Kamera hat 24 Megapixel.|У камеры 24 мегапикселя.
+die Bildbearbeitung|обработка изображений|Bildbearbeitung kostet mich mehr Zeit als das Fotografieren.|Обработка снимков отнимает у меня больше времени, чем съёмка.
+retuschieren|ретушировать|Auf dem Titelbild wurde alles retuschiert.|На обложке всё отретушировано.
+das Schwarz-Weiß-Foto|чёрно-белая фотография|Das Schwarz-Weiß-Foto wirkt sehr stimmungsvoll.|Чёрно-белое фото очень атмосферное.
+die Dunkelkammer|фотолаборатория, тёмная комната|In der Dunkelkammer entwickelt er seine Filme.|В тёмной комнате он проявляет плёнки.
+einen Film entwickeln|проявлять плёнку|Heute lässt kaum jemand einen Film entwickeln.|Сегодня мало кто отдаёт плёнку в проявку.
+das Negativ|негатив|Die alten Negative liegen in einer Kiste.|Старые негативы лежат в коробке.
+der Abzug|отпечаток (фото)|Ich hätte gern zwei Abzüge von diesem Bild.|Мне бы два отпечатка этого снимка.
+der Bilderrahmen|рамка для фото|Das Foto kommt in einen silbernen Bilderrahmen.|Фото поместят в серебряную рамку.
+` },
+{ lang: 'de', id: 'de-b2-x-games', level: 'B2', emoji: '♟️', title: 'Spiele und Freizeitbeschäftigungen', desc: 'Настольные и карточные игры, шахматы и необычные хобби.', cards: `
+der Spieleabend|вечер настольных игр|Freitags machen wir einen Spieleabend.|По пятницам мы устраиваем вечер настольных игр.
+das Spielbrett|игровое поле|Das Spielbrett wird in der Mitte aufgeklappt.|Игровое поле раскладывают посередине.
+die Spielregel|правило игры|Lies erst mal die Spielregeln durch.|Сначала прочитай правила игры.
+der Spielzug|ход (в игре)|Das war ein kluger Spielzug.|Это был умный ход.
+aussetzen|пропускать ход|Wer auf das rote Feld kommt, muss einmal aussetzen.|Кто попадает на красное поле, пропускает ход.
+mogeln|жульничать (в игре)|Mein Bruder mogelt immer beim Kartenspielen.|Мой брат всегда жульничает в карты.
+austeilen|раздавать (карты)|Wer teilt die Karten aus?|Кто раздаёт карты?
+eine Karte ziehen|тянуть карту|Wenn du nicht kannst, musst du eine Karte ziehen.|Если не можешь сходить, тяни карту.
+der Trumpf|козырь|Herz ist Trumpf.|Червы — козыри.
+der Joker|джокер|Der Joker ersetzt jede Karte.|Джокер заменяет любую карту.
+der Skat|скат (карточная игра)|Skat ist das beliebteste Kartenspiel in Deutschland.|Скат — самая популярная карточная игра в Германии.
+die Skatrunde|компания для игры в скат|Opa trifft sich jeden Donnerstag mit seiner Skatrunde.|Дедушка каждый четверг встречается со своей компанией по скату.
+das Schachbrett|шахматная доска|Das Schachbrett hat 64 Felder.|На шахматной доске 64 клетки.
+die Dame|ферзь; дама (в картах)|Die Dame ist die stärkste Figur.|Ферзь — самая сильная фигура.
+der Läufer|слон (в шахматах)|Der Läufer zieht nur diagonal.|Слон ходит только по диагонали.
+der Springer|конь (в шахматах)|Der Springer kann über andere Figuren springen.|Конь может перепрыгивать через другие фигуры.
+die Rochade|рокировка|Mit der Rochade bringt man den König in Sicherheit.|Рокировкой короля уводят в безопасное место.
+schachmatt|мат (в шахматах)|Nach zwanzig Zügen war er schachmatt.|Через двадцать ходов ему поставили мат.
+das Patt|пат|Das Spiel endete mit einem Patt.|Партия закончилась патом.
+das Remis|ничья (в шахматах)|Die beiden Großmeister einigten sich auf Remis.|Оба гроссмейстера согласились на ничью.
+die Eröffnung|дебют (в шахматах); открытие|Er kennt alle wichtigen Eröffnungen.|Он знает все важные дебюты.
+das Sudoku|судоку|In der Bahn löse ich Sudokus.|В поезде я решаю судоку.
+das Escape-Spiel|квест-игра (выбраться из комнаты)|Im Escape-Spiel hatten wir eine Stunde Zeit.|В квесте у нас был час.
+der Zeitvertreib|времяпрепровождение|Kreuzworträtsel sind sein liebster Zeitvertreib.|Кроссворды — его любимое времяпрепровождение.
+der Sammler|коллекционер|Der Sammler zahlte viel für die alte Münze.|Коллекционер заплатил много за старую монету.
+der Bausatz|набор для сборки (модели)|Aus dem Bausatz baut er ein Flugzeugmodell.|Из набора он собирает модель самолёта.
+das Angeln|рыбалка (удочкой)|Angeln entspannt ihn.|Рыбалка его успокаивает.
+der Angelschein|разрешение на рыбалку|In Deutschland braucht man einen Angelschein.|В Германии нужно разрешение на рыбалку.
+die Imkerei|пчеловодство; пасека|Die Imkerei ist sein Hobby seit zwanzig Jahren.|Пчеловодство — его хобби уже двадцать лет.
+das Töpfern|гончарное дело|Im Töpferkurs lernt sie das Töpfern.|На курсах она учится гончарному делу.
+die Töpferscheibe|гончарный круг|An der Töpferscheibe braucht man Geduld.|За гончарным кругом нужно терпение.
+glasieren|глазуровать|Die Tassen werden nach dem Brennen glasiert.|Чашки глазуруют после обжига.
+das Origami|оригами|Aus Papier faltet sie Origami-Kraniche.|Из бумаги она складывает журавликов-оригами.
+die Kalligrafie|каллиграфия|Kalligrafie erfordert eine ruhige Hand.|Каллиграфия требует твёрдой руки.
+` },
+);
+/* de-b2-22.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-x-chemlab', level: 'B2', emoji: '🧪', title: 'Chemie im Labor', desc: 'Химия: лабораторная посуда, вещества, реакции и агрегатные состояния.', cards: `
+das Reagenzglas|пробирка|Gib zwei Tropfen in das Reagenzglas.|Добавь две капли в пробирку.
+der Erlenmeyerkolben|колба Эрленмейера|Die Lösung wird im Erlenmeyerkolben erhitzt.|Раствор нагревают в колбе Эрленмейера.
+der Bunsenbrenner|бунзеновская горелка|Mach den Bunsenbrenner vorsichtig an.|Осторожно зажги горелку.
+die Pipette|пипетка|Mit der Pipette misst man kleine Mengen ab.|Пипеткой отмеряют малые количества.
+die Petrischale|чашка Петри|In der Petrischale wachsen Bakterien.|В чашке Петри растут бактерии.
+der Messzylinder|мерный цилиндр|Fülle 50 Milliliter in den Messzylinder.|Налей 50 миллилитров в мерный цилиндр.
+die Schutzbrille|защитные очки|Im Labor ist eine Schutzbrille Pflicht.|В лаборатории защитные очки обязательны.
+der Laborkittel|лабораторный халат|Sie hängt den Laborkittel an den Haken.|Она вешает лабораторный халат на крючок.
+die Lauge|щёлочь (раствор)|Natronlauge ist eine starke Lauge.|Едкий натр — сильная щёлочь.
+der pH-Wert|водородный показатель, pH|Der pH-Wert von Wasser liegt bei sieben.|pH воды около семи.
+neutralisieren|нейтрализовать|Eine Base neutralisiert die Säure.|Основание нейтрализует кислоту.
+löslich|растворимый|Zucker ist in Wasser löslich.|Сахар растворим в воде.
+unlöslich|нерастворимый|Öl ist in Wasser unlöslich.|Масло нерастворимо в воде.
+das Gemisch|смесь|Luft ist ein Gemisch aus Gasen.|Воздух — смесь газов.
+filtrieren|фильтровать|Das Gemisch wird filtriert.|Смесь фильтруют.
+destillieren|перегонять, дистиллировать|Aus Wein kann man Alkohol destillieren.|Из вина можно перегнать спирт.
+verdünnen|разбавлять|Die Säure muss mit Wasser verdünnt werden.|Кислоту нужно разбавить водой.
+die Reaktion|реакция|Bei der Reaktion entsteht Wärme.|При реакции выделяется тепло.
+reagieren|реагировать (хим.)|Natrium reagiert heftig mit Wasser.|Натрий бурно реагирует с водой.
+oxidieren|окисляться|Eisen oxidiert an der Luft.|Железо окисляется на воздухе.
+verdunsten|испаряться (медленно)|Das Wasser in der Schale ist verdunstet.|Вода в чаше испарилась.
+kondensieren|конденсироваться|Der Dampf kondensiert am kalten Fenster.|Пар конденсируется на холодном окне.
+gefrieren|замерзать|Wasser gefriert bei null Grad.|Вода замерзает при нуле градусов.
+der Schmelzpunkt|температура плавления|Der Schmelzpunkt von Eisen liegt bei 1538 Grad.|Температура плавления железа — 1538 градусов.
+gasförmig|газообразный|Bei 100 Grad wird Wasser gasförmig.|При 100 градусах вода становится газообразной.
+flüssig|жидкий|Quecksilber ist bei Zimmertemperatur flüssig.|Ртуть жидкая при комнатной температуре.
+die Formel|формула|Die Formel für Wasser ist H2O.|Формула воды — H2O.
+der Kohlenstoff|углерод|Diamanten bestehen aus reinem Kohlenstoff.|Алмазы состоят из чистого углерода.
+der Schwefel|сера|Schwefel riecht nach faulen Eiern.|Сера пахнет тухлыми яйцами.
+das Chlor|хлор|Im Schwimmbad riecht es nach Chlor.|В бассейне пахнет хлоркой.
+das Quecksilber|ртуть|Alte Thermometer enthalten Quecksilber.|Старые термометры содержат ртуть.
+das Blei|свинец|Blei ist ein giftiges Schwermetall.|Свинец — ядовитый тяжёлый металл.
+das Zink|цинк|Messing ist aus Kupfer und Zink.|Латунь состоит из меди и цинка.
+die Legierung|сплав|Bronze ist eine Legierung.|Бронза — это сплав.
+` },
+{ lang: 'de', id: 'de-b2-x-physics', level: 'B2', emoji: '🧲', title: 'Physik im Alltag', desc: 'Физика: силы, электричество, волны, оптика и измерения.', cards: `
+die Beschleunigung|ускорение|Das Auto hat eine starke Beschleunigung.|У машины сильное ускорение.
+die Fliehkraft|центробежная сила|In der Kurve spürt man die Fliehkraft.|На повороте чувствуешь центробежную силу.
+der Auftrieb|подъёмная (выталкивающая) сила|Durch den Auftrieb schwimmt das Holz.|Благодаря выталкивающей силе дерево плавает.
+die Dichte|плотность|Eis hat eine geringere Dichte als Wasser.|У льда плотность меньше, чем у воды.
+der Druck|давление|Unter Wasser steigt der Druck.|Под водой давление растёт.
+das Vakuum|вакуум|Im Vakuum gibt es keinen Schall.|В вакууме нет звука.
+der Hebel|рычаг|Mit einem langen Hebel hebt man schwere Steine.|Длинным рычагом поднимают тяжёлые камни.
+der Flaschenzug|полиспаст, блок|Mit dem Flaschenzug zieht er das Klavier hoch.|С помощью блока он поднимает пианино.
+das Pendel|маятник|Das Pendel der Uhr schwingt hin und her.|Маятник часов качается туда-сюда.
+die Schwingung|колебание|Die Brücke geriet in Schwingung.|Мост начал раскачиваться.
+die Frequenz|частота|Der Sender hat eine neue Frequenz.|У радиостанции новая частота.
+der Schall|звук (физ.)|Schall breitet sich in Luft langsamer aus als in Wasser.|Звук распространяется в воздухе медленнее, чем в воде.
+die Schallgeschwindigkeit|скорость звука|Das Flugzeug fliegt schneller als die Schallgeschwindigkeit.|Самолёт летит быстрее скорости звука.
+die Wärmeleitung|теплопроводность|Metall hat eine gute Wärmeleitung.|У металла хорошая теплопроводность.
+die Wärmeausdehnung|тепловое расширение|Wegen der Wärmeausdehnung haben Schienen Lücken.|Из-за теплового расширения у рельсов есть зазоры.
+der Magnet|магнит|Der Magnet hält den Zettel am Kühlschrank.|Магнит держит записку на холодильнике.
+das Magnetfeld|магнитное поле|Die Erde hat ein Magnetfeld.|У Земли есть магнитное поле.
+abstoßen|отталкивать|Gleiche Pole stoßen sich ab.|Одноимённые полюса отталкиваются.
+die Elektrizität|электричество|Elektrizität wird in Kraftwerken erzeugt.|Электричество вырабатывают на электростанциях.
+die Stromstärke|сила тока|Die Stromstärke misst man in Ampere.|Силу тока измеряют в амперах.
+das Volt|вольт|Eine Batterie hat oft 1,5 Volt.|У батарейки часто 1,5 вольта.
+das Ampere|ампер|Die Sicherung ist für 16 Ampere ausgelegt.|Предохранитель рассчитан на 16 ампер.
+der Halbleiter|полупроводник|Silizium ist ein wichtiger Halbleiter.|Кремний — важный полупроводник.
+radioaktiv|радиоактивный|Uran ist radioaktiv.|Уран радиоактивен.
+das Prisma|призма|Ein Prisma zerlegt Licht in Farben.|Призма раскладывает свет на цвета.
+die Brechung|преломление|Durch die Brechung wirkt der Löffel im Glas geknickt.|Из-за преломления ложка в стакане кажется сломанной.
+die Spiegelung|отражение|Die Spiegelung im See ist wunderschön.|Отражение в озере чудесное.
+reflektieren|отражать|Schnee reflektiert das Sonnenlicht.|Снег отражает солнечный свет.
+die Linse|линза|Die Linse bündelt das Licht.|Линза собирает свет.
+die Lupe|лупа|Mit der Lupe liest Opa die Zeitung.|Дедушка читает газету с лупой.
+die Einheit|единица (измерения)|Die Einheit der Kraft ist Newton.|Единица силы — ньютон.
+die Genauigkeit|точность|Die Waage misst mit großer Genauigkeit.|Весы измеряют с большой точностью.
+der Messfehler|погрешность измерения|Das Ergebnis liegt innerhalb des Messfehlers.|Результат в пределах погрешности.
+` },
+{ lang: 'de', id: 'de-b2-x-hardware', level: 'B2', emoji: '🖥️', title: 'Computer und Zubehör', desc: 'Устройство компьютера, периферия, клавиатура и обслуживание техники.', cards: `
+die Hauptplatine|материнская плата|Die Hauptplatine ist defekt.|Материнская плата неисправна.
+das Gehäuse|корпус|Im Gehäuse sammelt sich viel Staub.|В корпусе собирается много пыли.
+das Netzteil|блок питания|Das Netzteil macht komische Geräusche.|Блок питания издаёт странные звуки.
+der Lüfter|вентилятор (компьютера)|Der Lüfter läuft ständig auf Hochtouren.|Вентилятор постоянно работает на полную.
+die Wärmeleitpaste|термопаста|Beim Prozessor muss man neue Wärmeleitpaste auftragen.|На процессор нужно нанести новую термопасту.
+die Grafikkarte|видеокарта|Für Spiele braucht man eine gute Grafikkarte.|Для игр нужна хорошая видеокарта.
+übertakten|разгонять (процессор)|Er hat seinen Prozessor übertaktet.|Он разогнал свой процессор.
+der Steckplatz|слот (разъём)|Es gibt noch einen freien Steckplatz für den Speicher.|Есть ещё свободный слот для памяти.
+die Festplatte|жёсткий диск|Die Festplatte ist fast voll.|Жёсткий диск почти заполнен.
+die externe Festplatte|внешний жёсткий диск|Die Fotos sichere ich auf einer externen Festplatte.|Фото я сохраняю на внешний диск.
+die SSD|твердотельный накопитель, SSD|Mit einer SSD startet der Rechner viel schneller.|С SSD компьютер загружается гораздо быстрее.
+der Speicherplatz|место на диске|Mir fehlt Speicherplatz auf dem Handy.|Мне не хватает места на телефоне.
+die Datensicherung|резервное копирование|Mach regelmäßig eine Datensicherung!|Регулярно делай резервные копии!
+der USB-Stick|флешка|Die Präsentation ist auf dem USB-Stick.|Презентация на флешке.
+der Kartenleser|кардридер|Der Laptop hat keinen Kartenleser.|У ноутбука нет кардридера.
+die Docking-Station|док-станция|Im Büro steckt sie den Laptop in die Docking-Station.|В офисе она ставит ноутбук в док-станцию.
+der Monitor|монитор|Ich arbeite mit zwei Monitoren.|Я работаю с двумя мониторами.
+die Webcam|веб-камера|Die Webcam ist abgeklebt.|Веб-камера заклеена.
+das Headset|гарнитура|Mit dem Headset telefoniere ich im Homeoffice.|С гарнитурой я звоню из дома.
+der Kopfhörerausgang|разъём для наушников|Das neue Handy hat keinen Kopfhörerausgang.|У нового телефона нет разъёма для наушников.
+das Touchpad|тачпад|Das Touchpad reagiert nicht mehr.|Тачпад больше не реагирует.
+die Maustaste|кнопка мыши|Drück die rechte Maustaste.|Нажми правую кнопку мыши.
+das Mauspad|коврик для мыши|Auf dem Mauspad ist ein Foto von meinem Hund.|На коврике для мыши фото моей собаки.
+der Scanner|сканер|Leg das Dokument auf den Scanner.|Положи документ на сканер.
+die Druckerpatrone|картридж для принтера|Die Druckerpatronen sind teurer als der Drucker.|Картриджи дороже самого принтера.
+der Toner|тонер|Der Toner ist leer, der Ausdruck ist blass.|Тонер закончился, распечатка бледная.
+die Steckdosenleiste|удлинитель с розетками|Alle Geräte hängen an einer Steckdosenleiste.|Все приборы подключены к одному удлинителю.
+der Treiber|драйвер|Installier zuerst den neuen Treiber.|Сначала установи новый драйвер.
+hochfahren|загружать, включать (компьютер)|Der Rechner fährt sehr langsam hoch.|Компьютер очень медленно загружается.
+herunterfahren|выключать (компьютер)|Fahr den Computer abends immer herunter.|Всегда выключай компьютер вечером.
+der Ruhezustand|спящий режим (гибернация)|Der Laptop geht nach zehn Minuten in den Ruhezustand.|Ноутбук через десять минут уходит в спящий режим.
+die Tastenkombination|сочетание клавиш|Mit dieser Tastenkombination kopiert man Text.|Этим сочетанием клавиш копируют текст.
+die Eingabetaste|клавиша Enter|Bestätige mit der Eingabetaste.|Подтверди клавишей Enter.
+die Leertaste|пробел (клавиша)|Die Leertaste klemmt.|Клавиша пробела заедает.
+die Umschalttaste|клавиша Shift|Für Großbuchstaben hältst du die Umschalttaste gedrückt.|Для заглавных букв держи нажатой клавишу Shift.
+` },
+{ lang: 'de', id: 'de-b2-x-weather', level: 'B2', emoji: '🌦️', title: 'Wetter genau beschreiben', desc: 'Прогноз погоды: осадки, ветер, облака, фронты и метеорология.', cards: `
+die Wettervorhersage|прогноз погоды|Laut Wettervorhersage wird es morgen sonnig.|По прогнозу завтра будет солнечно.
+der Wetterdienst|метеослужба|Der Deutsche Wetterdienst warnt vor Sturm.|Немецкая метеослужба предупреждает о шторме.
+der Meteorologe|метеоролог|Der Meteorologe erklärt die Wetterkarte.|Метеоролог объясняет карту погоды.
+die Wetterstation|метеостанция|Auf der Zugspitze gibt es eine Wetterstation.|На Цугшпитце есть метеостанция.
+das Barometer|барометр|Das Barometer fällt, es gibt Regen.|Барометр падает, будет дождь.
+die Wetterlage|погодная ситуация|Die Wetterlage bleibt stabil.|Погодная ситуация остаётся стабильной.
+das Tiefdruckgebiet|область низкого давления, циклон|Ein Tiefdruckgebiet bringt Regen aus dem Westen.|Циклон приносит дожди с запада.
+die Wetterfront|атмосферный фронт|Eine Wetterfront zieht über das Land.|Над страной проходит атмосферный фронт.
+die Kaltfront|холодный фронт|Mit der Kaltfront kommen Gewitter.|С холодным фронтом приходят грозы.
+die Warmfront|тёплый фронт|Die Warmfront bringt milde Luft.|Тёплый фронт приносит мягкий воздух.
+die Luftfeuchtigkeit|влажность воздуха|Die Luftfeuchtigkeit liegt bei 90 Prozent.|Влажность воздуха — 90 процентов.
+der Taupunkt|точка росы|Unter dem Taupunkt bildet sich Nebel.|Ниже точки росы образуется туман.
+der Niederschlag|осадки|Im Süden ist mit Niederschlag zu rechnen.|На юге ожидаются осадки.
+der Sprühregen|морось|Den ganzen Tag fiel leichter Sprühregen.|Весь день шла лёгкая морось.
+der Dauerregen|затяжной дождь|Nach drei Tagen Dauerregen steigen die Flüsse.|После трёх дней непрерывного дождя реки поднимаются.
+der Landregen|обложной дождь|Ein ruhiger Landregen ist gut für die Felder.|Спокойный обложной дождь полезен для полей.
+der Eisregen|ледяной дождь|Der Eisregen machte die Straßen spiegelglatt.|Ледяной дождь сделал дороги скользкими как зеркало.
+die Quellwolke|кучевое облако|Am Nachmittag bilden sich Quellwolken.|После обеда образуются кучевые облака.
+die Gewitterwolke|грозовая туча|Am Horizont türmen sich Gewitterwolken.|На горизонте громоздятся грозовые тучи.
+sich bewölken|затягиваться облаками|Gegen Abend bewölkt es sich.|К вечеру небо затягивается облаками.
+aufklaren|проясняться|Nach dem Regen klart es auf.|После дождя проясняется.
+die Aufheiterung|прояснение|Im Norden gibt es zeitweise Aufheiterungen.|На севере временами прояснения.
+die Windstärke|сила ветра|An der Küste herrscht Windstärke acht.|На побережье ветер силой восемь баллов.
+die Brise|бриз, лёгкий ветерок|Eine frische Brise weht vom Meer.|С моря дует свежий бриз.
+windstill|безветренный|Heute ist es völlig windstill.|Сегодня совершенно безветренно.
+die Sichtweite|видимость|Bei Nebel beträgt die Sichtweite unter 50 Meter.|В тумане видимость меньше 50 метров.
+diesig|мглистый, пасмурный с дымкой|Es ist diesig, man sieht die Berge nicht.|Стоит мгла, гор не видно.
+nasskalt|сырой и холодный|Im November ist es oft nasskalt.|В ноябре часто сыро и холодно.
+frostig|морозный|Die Nacht war frostig.|Ночь была морозной.
+der Bodenfrost|заморозки на почве|Bodenfrost schadet den jungen Pflanzen.|Заморозки на почве вредят молодым растениям.
+der Kälteeinbruch|резкое похолодание|Ein Kälteeinbruch im Mai ist nicht selten.|Резкое похолодание в мае — не редкость.
+die Temperaturschwankung|перепад температур|In der Wüste gibt es große Temperaturschwankungen.|В пустыне большие перепады температур.
+gefühlte Temperatur|ощущаемая температура|Die gefühlte Temperatur liegt bei minus zehn Grad.|Ощущается как минус десять.
+der Hitzerekord|температурный рекорд|In diesem Sommer wurde ein neuer Hitzerekord gemessen.|Этим летом зафиксировали новый рекорд жары.
+die UV-Strahlung|ультрафиолетовое излучение|Die UV-Strahlung ist im Gebirge besonders stark.|В горах ультрафиолет особенно сильный.
+` },
+{ lang: 'de', id: 'de-b2-x-geology', level: 'B2', emoji: '🪨', title: 'Gestein und Erdgeschichte', desc: 'Геология: горные породы, полезные ископаемые, рельеф и процессы в земной коре.', cards: `
+das Gestein|горная порода|Das Gestein ist Millionen Jahre alt.|Этой породе миллионы лет.
+der Kalkstein|известняк|Die Schwäbische Alb besteht aus Kalkstein.|Швабский Альб состоит из известняка.
+der Sandstein|песчаник|Viele Kirchen sind aus rotem Sandstein gebaut.|Многие церкви построены из красного песчаника.
+der Schiefer|сланец|Die Dächer im Dorf sind aus Schiefer.|Крыши в деревне из сланца.
+der Basalt|базальт|Basalt entsteht aus erkalteter Lava.|Базальт образуется из остывшей лавы.
+das Mineral|минерал|Quarz ist ein häufiges Mineral.|Кварц — распространённый минерал.
+der Kristall|кристалл|In der Höhle glitzern Kristalle.|В пещере блестят кристаллы.
+der Edelstein|драгоценный камень|Der Ring ist mit einem Edelstein besetzt.|Кольцо украшено драгоценным камнем.
+das Edelmetall|драгоценный металл|Gold und Silber sind Edelmetalle.|Золото и серебро — драгоценные металлы.
+das Erz|руда|Im Erzgebirge wurde früher Erz abgebaut.|В Рудных горах раньше добывали руду.
+der Bergbau|горное дело, добыча|Das Ruhrgebiet war vom Bergbau geprägt.|Рурская область была сформирована горным делом.
+das Bergwerk|рудник, шахта|Heute ist das Bergwerk ein Museum.|Сегодня рудник — музей.
+der Steinbruch|каменоломня, карьер|Im alten Steinbruch kann man baden.|В старом карьере можно купаться.
+die Erdplatte|литосферная плита|Die Erdplatten bewegen sich jedes Jahr ein paar Zentimeter.|Литосферные плиты смещаются каждый год на несколько сантиметров.
+die Plattentektonik|тектоника плит|Die Plattentektonik erklärt die Entstehung der Gebirge.|Тектоника плит объясняет образование гор.
+die Lava|лава|Die Lava fließt den Hang hinunter.|Лава стекает по склону.
+die Moräne|морена|Die Hügel sind Moränen aus der Eiszeit.|Эти холмы — морены ледникового периода.
+die Erosion|эрозия|Wind und Wasser verursachen Erosion.|Ветер и вода вызывают эрозию.
+die Verwitterung|выветривание|Durch Verwitterung zerfällt der Fels.|Из-за выветривания скала разрушается.
+die Ablagerung|отложение|Die Ablagerungen am Flussufer sind sehr fruchtbar.|Отложения на берегу реки очень плодородны.
+das Sediment|осадок, осадочная порода|Im See lagern sich Sedimente ab.|В озере откладываются осадки.
+die Bodenschicht|слой почвы|Die oberste Bodenschicht ist nur dünn.|Верхний слой почвы совсем тонкий.
+der Humus|перегной, гумус|Humus macht den Boden fruchtbar.|Гумус делает почву плодородной.
+der Lehm|глина, суглинок|Früher baute man Häuser aus Lehm.|Раньше дома строили из глины.
+der Torf|торф|Im Moor wird kein Torf mehr gestochen.|На болоте больше не добывают торф.
+das Grundwasser|грунтовые воды|Das Grundwasser ist hier sehr sauber.|Грунтовые воды здесь очень чистые.
+die Tropfsteinhöhle|сталактитовая пещера|Die Tropfsteinhöhle ist im Sommer geöffnet.|Сталактитовая пещера открыта летом.
+der Tropfstein|сталактит, сталагмит|Ein Tropfstein wächst nur einen Millimeter in zehn Jahren.|Сталактит растёт всего на миллиметр за десять лет.
+das Fossil|окаменелость, ископаемое|Im Steinbruch fand man ein Fossil.|В каменоломне нашли окаменелость.
+die Versteinerung|окаменелость; окаменение|Die Versteinerung zeigt einen Fisch.|Окаменелость изображает рыбу.
+die Erdgeschichte|история Земли|In der Erdgeschichte gab es mehrere Eiszeiten.|В истории Земли было несколько ледниковых периодов.
+die Gesteinsschicht|пласт породы|An der Steilwand sieht man die Gesteinsschichten.|На отвесной стене видны пласты породы.
+` },
+{ lang: 'de', id: 'de-b2-x-pets', level: 'B2', emoji: '🐕', title: 'Tierhaltung', desc: 'Содержание домашних животных: уход, корм, ветеринар и поведение.', cards: `
+die Tierhaltung|содержание животных|Tierhaltung ist in der Mietwohnung oft eingeschränkt.|Содержание животных в съёмной квартире часто ограничено.
+der Züchter|заводчик|Den Welpen haben wir vom Züchter.|Щенка мы взяли у заводчика.
+die Rasse|порода|Welche Rasse ist dein Hund?|Какой породы твоя собака?
+reinrassig|чистопородный|Reinrassige Katzen sind teuer.|Породистые кошки дорогие.
+der Mischling|помесь, метис|Unser Hund ist ein Mischling aus dem Tierheim.|Наша собака — метис из приюта.
+der Wurf|помёт|Die Hündin hatte einen Wurf mit sechs Welpen.|У суки был помёт из шести щенков.
+trächtig|беременная (о животных)|Die Katze ist trächtig.|Кошка беременна.
+der Tierschutz|защита животных|Der Tierschutz kümmert sich um ausgesetzte Tiere.|Защитники животных заботятся о брошенных зверях.
+die Tierarztpraxis|ветеринарная клиника|Die Tierarztpraxis ist auch am Samstag offen.|Ветклиника открыта и в субботу.
+entwurmen|давать глистогонное|Man sollte die Katze regelmäßig entwurmen.|Кошке нужно регулярно давать глистогонное.
+anleinen|брать на поводок|Im Park müssen Hunde angeleint werden.|В парке собак нужно держать на поводке.
+der Maulkorb|намордник|Große Hunde brauchen in der Bahn einen Maulkorb.|Крупным собакам в поезде нужен намордник.
+die Hundesteuer|налог на собаку|In Deutschland zahlt man Hundesteuer.|В Германии платят налог на собаку.
+der Futternapf|миска для корма|Der Futternapf ist schon wieder leer.|Миска опять пуста.
+das Trockenfutter|сухой корм|Trockenfutter ist praktisch, aber nicht immer gesund.|Сухой корм удобен, но не всегда полезен.
+das Nassfutter|влажный корм|Die Katze frisst nur Nassfutter.|Кошка ест только влажный корм.
+haaren|линять|Im Frühling haart der Hund stark.|Весной собака сильно линяет.
+die Fellpflege|уход за шерстью|Langhaarige Katzen brauchen tägliche Fellpflege.|Длинношёрстным кошкам нужен ежедневный уход за шерстью.
+wedeln|вилять (хвостом)|Der Hund wedelt mit dem Schwanz.|Собака виляет хвостом.
+knurren|рычать|Der Hund knurrt den Briefträger an.|Собака рычит на почтальона.
+fauchen|шипеть (о кошке)|Die Katze faucht, wenn man sie stört.|Кошка шипит, если её потревожить.
+der Freigänger|кошка, гуляющая на улице|Unser Kater ist ein Freigänger.|Наш кот гуляет на улице сам по себе.
+das Terrarium|террариум|Im Terrarium lebt eine Schlange.|В террариуме живёт змея.
+der Auslauf|выгул, место для прогулки|Ein Pferd braucht täglich Auslauf.|Лошади нужен ежедневный выгул.
+der Reitstall|конюшня (конноспортивная)|Sie verbringt jedes Wochenende im Reitstall.|Каждые выходные она проводит на конюшне.
+der Huf|копыто|Der Schmied beschlägt die Hufe.|Кузнец подковывает копыта.
+striegeln|чистить скребницей|Vor dem Reiten wird das Pferd gestriegelt.|Перед ездой лошадь чистят скребницей.
+der Hühnerstall|курятник|Abends schließen wir den Hühnerstall.|Вечером мы закрываем курятник.
+der Tiersitter|человек, присматривающий за животными|Während des Urlaubs kommt ein Tiersitter.|Во время отпуска приходит человек присмотреть за питомцем.
+` },
+);
+/* de-b2-23.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-x-generations', level: 'B2', emoji: '👵', title: 'Generationen und Zusammenleben', desc: 'Поколения, формы семьи и совместной жизни, старение общества.', cards: `
+die Babyboomer|бэби-бумеры (мн. ч.)|Die Babyboomer gehen jetzt in Rente.|Бэби-бумеры сейчас выходят на пенсию.
+die Generation Z|поколение Z|Die Generation Z ist mit dem Smartphone aufgewachsen.|Поколение Z выросло со смартфоном.
+die Großelterngeneration|поколение бабушек и дедушек|Die Großelterngeneration hat den Krieg noch erlebt.|Поколение бабушек и дедушек ещё застало войну.
+der Generationenvertrag|договор поколений (солидарная пенсионная система)|Der Generationenvertrag gerät unter Druck.|Договор поколений оказывается под давлением.
+das Mehrgenerationenhaus|дом для нескольких поколений|Im Mehrgenerationenhaus helfen sich Alt und Jung.|В доме нескольких поколений старые и молодые помогают друг другу.
+die Kleinfamilie|нуклеарная семья|Die Kleinfamilie ist heute die häufigste Familienform.|Нуклеарная семья сегодня — самая частая форма семьи.
+die Wahlfamilie|«избранная семья» (близкие друзья)|Ihre Freunde sind ihre Wahlfamilie.|Её друзья — её избранная семья.
+der Single-Haushalt|домохозяйство из одного человека|In Großstädten gibt es immer mehr Single-Haushalte.|В крупных городах всё больше домохозяйств из одного человека.
+die Kinderlosigkeit|бездетность|Gewollte Kinderlosigkeit ist kein Tabu mehr.|Добровольная бездетность больше не табу.
+der Nesthocker|взрослый, живущий у родителей|Mit 30 ist er immer noch ein Nesthocker.|В 30 он всё ещё живёт у родителей.
+das Hotel Mama|«отель мама» (жизнь у родителей, разг.)|Viele Studenten wohnen gern im Hotel Mama.|Многие студенты охотно живут у мамы.
+die Kinderbetreuung|присмотр за детьми|Ohne Kinderbetreuung kann sie nicht arbeiten.|Без присмотра за детьми она не может работать.
+der Kita-Platz|место в детском саду|Einen Kita-Platz zu finden ist schwierig.|Найти место в детсаду сложно.
+die Ganztagsschule|школа полного дня|In der Ganztagsschule essen die Kinder zu Mittag.|В школе полного дня дети обедают.
+die Enkelbetreuung|присмотр за внуками|Die Enkelbetreuung übernimmt dienstags die Oma.|По вторникам за внуками присматривает бабушка.
+die Doppelbelastung|двойная нагрузка (работа и семья)|Die Doppelbelastung durch Job und Kinder ist enorm.|Двойная нагрузка — работа и дети — огромна.
+die Hausfrau|домохозяйка|Ihre Mutter war Hausfrau.|Её мать была домохозяйкой.
+der Hausmann|домохозяин|Seit der Geburt ist er Hausmann.|После рождения ребёнка он стал домохозяином.
+die Midlife-Crisis|кризис среднего возраста|Mit 45 bekam er eine Midlife-Crisis und kaufte ein Motorrad.|В 45 у него начался кризис среднего возраста, и он купил мотоцикл.
+der Spätzünder|человек, поздно раскрывшийся|Als Spätzünder hat sie erst mit 40 studiert.|Поздно раскрывшись, она пошла учиться только в 40.
+das Rentenalter|пенсионный возраст|Das Rentenalter wird schrittweise erhöht.|Пенсионный возраст постепенно повышают.
+der Lebensabend|старость, закат жизни|Ihren Lebensabend verbringen sie am Meer.|Старость они проводят у моря.
+der Seniorentreff|клуб для пожилых|Im Seniorentreff wird jeden Mittwoch gesungen.|В клубе для пожилых по средам поют.
+das betreute Wohnen|жильё с уходом для пожилых|Meine Oma ist ins betreute Wohnen gezogen.|Моя бабушка переехала в жильё с уходом.
+das Pflegeheim|дом престарелых, дом с уходом|Der Platz im Pflegeheim ist teuer.|Место в доме престарелых дорогое.
+die Vereinsamung|нарастающее одиночество|Die Vereinsamung alter Menschen ist ein großes Problem.|Одиночество пожилых — большая проблема.
+das Jugendzentrum|молодёжный центр|Im Jugendzentrum gibt es eine Band.|В молодёжном центре есть группа.
+das Vereinsleben|жизнь клубов и объединений|Auf dem Land ist das Vereinsleben sehr aktiv.|В сельской местности клубная жизнь очень активна.
+die Freizeitgestaltung|организация досуга|Die Stadt bietet viel für die Freizeitgestaltung.|Город предлагает многое для организации досуга.
+das Zusammenleben|совместная жизнь|Das Zusammenleben in der WG klappt gut.|Совместная жизнь в общей квартире складывается хорошо.
+die Verstädterung|урбанизация|Die Verstädterung schreitet weltweit voran.|Урбанизация продолжается по всему миру.
+die Lebensqualität|качество жизни|Die Lebensqualität in Wien gilt als sehr hoch.|Качество жизни в Вене считается очень высоким.
+die Wegwerfgesellschaft|общество потребления «одноразовых вещей»|In der Wegwerfgesellschaft wird wenig repariert.|В обществе одноразовых вещей мало что чинят.
+der Wertewandel|смена ценностей|Der Wertewandel zeigt sich in der Arbeitswelt.|Смена ценностей проявляется в мире работы.
+die Selbstverwirklichung|самореализация|Für viele zählt heute die Selbstverwirklichung.|Для многих сегодня важна самореализация.
+` },
+{ lang: 'de', id: 'de-b2-x-verbs-plan', level: 'B2', emoji: '🎯', title: 'Verben B2: planen und anpassen', desc: 'Глаголы для планирования, оценки и изменения: полезны в работе и в эссе.', cards: `
+anpeilen|нацеливаться, намечать|Wir peilen einen Umsatz von einer Million an.|Мы нацеливаемся на оборот в миллион.
+einplanen|закладывать в план|Plane für die Fahrt eine Stunde mehr ein.|Заложи на дорогу на час больше.
+einschätzen|оценивать|Ich kann die Lage schwer einschätzen.|Мне трудно оценить ситуацию.
+abschätzen|прикидывать, оценивать|Die Kosten lassen sich noch nicht abschätzen.|Затраты пока нельзя оценить.
+hochrechnen|экстраполировать, делать прогноз|Man hat das Wahlergebnis schon hochgerechnet.|Результат уже спрогнозировали.
+aufrunden|округлять в большую сторону|Wir runden auf zehn Euro auf.|Округлим до десяти евро.
+abrunden|округлять в меньшую сторону; завершать|Ein Dessert rundet das Menü ab.|Десерт завершает меню.
+bedenken|учитывать, принимать во внимание|Bedenke, dass die Geschäfte sonntags geschlossen sind.|Учти, что по воскресеньям магазины закрыты.
+überdenken|пересматривать, обдумывать заново|Wir sollten unsere Strategie überdenken.|Нам стоит пересмотреть стратегию.
+beibehalten|сохранять, оставлять прежним|Die Firma behält das alte Logo bei.|Фирма сохраняет старый логотип.
+umstellen|переводить, перестраивать|Wir stellen auf Ökostrom um.|Мы переходим на экологичную электроэнергию.
+umrüsten|переоборудовать|Der Bus wurde auf Elektroantrieb umgerüstet.|Автобус переоборудовали на электропривод.
+nachrüsten|дооснащать|Ältere Autos kann man mit einem Filter nachrüsten.|Старые машины можно дооснастить фильтром.
+aufrüsten|модернизировать, наращивать|Ich rüste meinen Computer mit mehr Speicher auf.|Я модернизирую компьютер, добавляя память.
+nachjustieren|подрегулировать|Die Bremsen müssen nachjustiert werden.|Тормоза нужно подрегулировать.
+nachbessern|доделывать, исправлять|Der Handwerker muss bei den Fliesen nachbessern.|Мастеру придётся переделать плитку.
+instand setzen|ремонтировать, приводить в порядок|Die alte Mühle wurde liebevoll instand gesetzt.|Старую мельницу с любовью восстановили.
+zuordnen|соотносить, распределять|Ordnen Sie die Begriffe den Bildern zu.|Соотнесите понятия с картинками.
+zusammenhängen|быть связанным|Die beiden Probleme hängen eng zusammen.|Обе проблемы тесно связаны.
+zurückgreifen|прибегать (к чему-л.)|Im Notfall greifen wir auf unsere Ersparnisse zurück.|В крайнем случае мы прибегнем к сбережениям.
+umgehen|обходить (правило, препятствие)|Er versucht, die Vorschriften zu umgehen.|Он пытается обойти предписания.
+verfehlen|не достичь, промахнуться|Wir haben unser Ziel knapp verfehlt.|Мы чуть-чуть не достигли цели.
+entgegenwirken|противодействовать|Sport wirkt dem Stress entgegen.|Спорт противодействует стрессу.
+hemmen|тормозить, сдерживать|Hohe Zinsen hemmen das Wachstum.|Высокие проценты сдерживают рост.
+mildern|смягчать|Die Creme mildert die Rötung.|Крем смягчает покраснение.
+ankurbeln|стимулировать, подстёгивать|Die Rabatte sollen den Verkauf ankurbeln.|Скидки должны подстегнуть продажи.
+überfordern|перегружать, требовать слишком многого|Die neue Aufgabe überfordert ihn.|Новое задание ему не по силам.
+aussortieren|отбирать, отсортировывать|Ich sortiere alte Kleidung aus.|Я отбираю старую одежду.
+ausrangieren|списывать, выбрасывать (старое)|Den alten Fernseher haben wir ausrangiert.|Старый телевизор мы выбросили.
+ausdünnen|прореживать, сокращать|Der Fahrplan wurde am Wochenende ausgedünnt.|Расписание на выходные сократили.
+aufbrauchen|израсходовать до конца|Erst brauchen wir die alte Farbe auf.|Сначала мы израсходуем старую краску.
+` },
+{ lang: 'de', id: 'de-b2-x-verbs-wear', level: 'B2', emoji: '🔩', title: 'Verben B2: Verschleiß und Schäden', desc: 'Глаголы износа и поломок: как ломаются, протекают и стареют вещи.', cards: `
+versagen|отказывать (о технике)|Plötzlich versagten die Bremsen.|Внезапно отказали тормоза.
+durchbrennen|перегорать|Die Glühbirne ist durchgebrannt.|Лампочка перегорела.
+verschleißen|изнашиваться|Die Reifen verschleißen schnell.|Шины быстро изнашиваются.
+ausleiern|растягиваться, разбалтываться|Der Pullover ist vom vielen Waschen ausgeleiert.|Свитер растянулся от частой стирки.
+klemmen|заедать|Die Schublade klemmt.|Ящик заедает.
+verklemmen|заклинивать|Das Papier hat sich im Drucker verklemmt.|Бумагу заклинило в принтере.
+lecken|протекать|Der Tank leckt.|Бак протекает.
+rinnen|струиться, течь|Wasser rinnt die Wand herunter.|Вода струится по стене.
+sickern|просачиваться|Regenwasser sickert durch die Decke.|Дождевая вода просачивается через потолок.
+bröckeln|крошиться, осыпаться|Der Putz bröckelt von der Fassade.|Штукатурка осыпается с фасада.
+abblättern|отслаиваться (о краске)|Die Farbe blättert von der Tür ab.|Краска отслаивается с двери.
+vergilben|желтеть (от времени)|Die alten Briefe sind vergilbt.|Старые письма пожелтели.
+ausbleichen|выцветать|In der Sonne bleichen die Vorhänge aus.|На солнце шторы выцветают.
+verkalken|покрываться накипью|Der Wasserkocher ist verkalkt.|Чайник покрылся накипью.
+anlaufen|запотевать; тускнеть|Das Silber ist angelaufen.|Серебро потускнело.
+schimmeln|плесневеть|Das Brot schimmelt schon.|Хлеб уже плесневеет.
+durchrosten|проржаветь насквозь|Der Auspuff ist durchgerostet.|Выхлопная труба проржавела насквозь.
+zerkratzen|исцарапать|Die Katze hat das Sofa zerkratzt.|Кошка исцарапала диван.
+verbeulen|помять|Beim Umzug wurde der Kühlschrank verbeult.|При переезде помяли холодильник.
+zersplittern|разлетаться вдребезги|Die Scheibe zersplitterte in tausend Stücke.|Стекло разлетелось на тысячу осколков.
+reißen|рваться|Das Seil ist gerissen.|Верёвка порвалась.
+einreißen|надрываться|Die Tüte ist unten eingerissen.|Пакет надорвался снизу.
+ausfransen|обтрёпываться|Die Jeans franst am Saum aus.|Джинсы обтрёпываются по низу.
+sich lockern|ослабевать, расшатываться|Die Schraube hat sich gelockert.|Винт ослаб.
+wackeln|шататься|Der Tisch wackelt.|Стол шатается.
+verrutschen|сползать, съезжать|Der Teppich verrutscht ständig.|Ковёр постоянно съезжает.
+sich verziehen|деформироваться (о дереве)|Die Tür hat sich durch die Feuchtigkeit verzogen.|Дверь повело от влажности.
+absacken|оседать, проседать|Die Terrasse ist an einer Ecke abgesackt.|Терраса просела в одном углу.
+` },
+{ lang: 'de', id: 'de-b2-x-adj-quality', level: 'B2', emoji: '🏷️', title: 'Adjektive B2: Zustand und Qualität', desc: 'Прилагательные для описания вещей: износ, свойства материалов и качество работы.', cards: `
+brüchig|ломкий, хрупкий|Das alte Gummi ist brüchig geworden.|Старая резина стала ломкой.
+porös|пористый|Der Schlauch ist porös und undicht.|Шланг пористый и протекает.
+rissig|потрескавшийся|Im Winter wird meine Haut rissig.|Зимой у меня трескается кожа.
+abgenutzt|изношенный, потёртый|Die Treppenstufen sind stark abgenutzt.|Ступени лестницы сильно стёрты.
+verschlissen|изношенный|Die Kupplung ist völlig verschlissen.|Сцепление полностью изношено.
+wackelig|шаткий|Der Stuhl ist ziemlich wackelig.|Стул довольно шаткий.
+klapprig|дряхлый, расхлябанный|Er fährt ein klappriges altes Auto.|Он ездит на дряхлой старой машине.
+morsch|гнилой, трухлявый|Die Balken sind morsch.|Балки прогнили.
+verblichen|выцветший|Auf dem Schild steht eine verblichene Schrift.|На табличке выцветшая надпись.
+zerknittert|помятый|Das Hemd ist völlig zerknittert.|Рубашка совсем помятая.
+knitterfrei|немнущийся|Für Reisen ist knitterfreie Kleidung praktisch.|Для поездок удобна немнущаяся одежда.
+pflegeleicht|простой в уходе|Kakteen sind pflegeleicht.|Кактусы просты в уходе.
+strapazierfähig|износостойкий|Der Teppich ist sehr strapazierfähig.|Ковёр очень износостойкий.
+hitzebeständig|термостойкий|Die Schüssel ist hitzebeständig.|Миска термостойкая.
+rutschfest|нескользящий|Im Bad liegt eine rutschfeste Matte.|В ванной лежит нескользящий коврик.
+bruchsicher|небьющийся|Für Kinder kaufen wir bruchsicheres Geschirr.|Для детей мы покупаем небьющуюся посуду.
+sperrig|громоздкий|Das Sofa ist zu sperrig für den Aufzug.|Диван слишком громоздкий для лифта.
+klobig|массивный, неуклюжий|Die klobigen Schuhe gefallen mir nicht.|Мне не нравятся эти массивные ботинки.
+langlebig|долговечный|Gute Werkzeuge sind langlebig.|Хорошие инструменты долговечны.
+wartungsarm|не требующий частого обслуживания|Die neue Heizung ist wartungsarm.|Новое отопление почти не требует обслуживания.
+störanfällig|ненадёжный, склонный к сбоям|Das System ist sehr störanfällig.|Система очень подвержена сбоям.
+reparaturbedürftig|требующий ремонта|Das Dach ist reparaturbedürftig.|Крыша требует ремонта.
+funktionstüchtig|исправный, работоспособный|Der alte Plattenspieler ist noch funktionstüchtig.|Старый проигрыватель ещё исправен.
+betriebsbereit|готовый к работе|Die Maschine ist in zehn Minuten betriebsbereit.|Машина будет готова к работе через десять минут.
+einsatzbereit|готовый к применению|Die Feuerwehr ist rund um die Uhr einsatzbereit.|Пожарные готовы к выезду круглосуточно.
+serienmäßig|серийный, в базовой комплектации|Die Klimaanlage ist serienmäßig eingebaut.|Кондиционер входит в базовую комплектацию.
+passgenau|точно подогнанный|Die Möbel sind passgenau für die Nische gebaut.|Мебель сделана точно под нишу.
+lückenlos|без пробелов, полный|Die Unterlagen müssen lückenlos sein.|Документы должны быть полными.
+reibungslos|гладкий, без помех|Der Umzug verlief reibungslos.|Переезд прошёл без проблем.
+zeitaufwendig|требующий много времени|Die Renovierung ist sehr zeitaufwendig.|Ремонт занимает очень много времени.
+preisgünstig|недорогой, выгодный по цене|Im Supermarkt gibt es preisgünstige Alternativen.|В супермаркете есть недорогие альтернативы.
+unkompliziert|несложный, простой|Die Anmeldung ist ganz unkompliziert.|Регистрация совсем несложная.
+fachgerecht|профессиональный, по всем правилам|Die Fenster wurden fachgerecht eingebaut.|Окна установлены по всем правилам.
+fehlerhaft|ошибочный, с дефектом|Die Lieferung war fehlerhaft.|Поставка была с дефектом.
+einwandfrei|безупречный|Das Gerät funktioniert einwandfrei.|Прибор работает безупречно.
+tadellos|безукоризненный|Er spricht tadelloses Deutsch.|Он говорит на безукоризненном немецком.
+` },
+);
+/* de-b2-24.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-y-series', level: 'B2', emoji: '📺', title: 'Serien und Streaming', desc: 'Сериалы, стриминг и телевидение: сезоны, жанры, спойлеры и рекламные паузы.', cards: `
+die Mediathek|медиатека (онлайн-архив телеканала)|Die Sendung ist noch eine Woche in der Mediathek verfügbar.|Передача ещё неделю доступна в медиатеке.
+binge-watchen|смотреть запоем (много серий подряд)|Am Wochenende haben wir die ganze Serie gebinge-watcht.|На выходных мы посмотрели весь сериал запоем.
+die Serienstaffel|сезон сериала|Die neue Serienstaffel startet im Herbst.|Новый сезон сериала стартует осенью.
+der Serienstart|начало показа сериала, премьера сериала|Zum Serienstart schalteten Millionen Menschen ein.|На премьеру сериала включились миллионы людей.
+die Pilotfolge|пилотная серия|Nach der Pilotfolge war ich sofort begeistert.|После пилотной серии я сразу был в восторге.
+das Staffelfinale|финал сезона|Das Staffelfinale endet mit einer großen Überraschung.|Финал сезона заканчивается большим сюрпризом.
+das Finale|финал|Im Finale wird endlich der Täter enthüllt.|В финале наконец раскрывается преступник.
+der Showrunner|шоураннер, главный продюсер сериала|Der Showrunner entscheidet über die Richtung der Handlung.|Шоураннер решает, в каком направлении пойдёт сюжет.
+die Miniserie|мини-сериал|Die Miniserie hat nur sechs Folgen.|В мини-сериале всего шесть серий.
+die Sitcom|ситком, комедийный сериал|In der Sitcom hört man ständig Lacher vom Band.|В ситкоме постоянно слышен закадровый смех.
+die Seifenoper|мыльная опера|Meine Oma schaut jeden Abend ihre Seifenoper.|Моя бабушка каждый вечер смотрит свою мыльную оперу.
+die Telenovela|теленовелла|Die Telenovela läuft schon seit über tausend Folgen.|Теленовелла идёт уже больше тысячи серий.
+der Tatort|«Место преступления» (культовый немецкий детективный сериал); место преступления|Sonntags um Viertel nach acht schaut halb Deutschland den Tatort.|По воскресеньям в 20:15 пол-Германии смотрит «Tatort».
+der Thriller|триллер|Der Thriller war so spannend, dass ich nicht schlafen konnte.|Триллер был таким захватывающим, что я не мог уснуть.
+das Drama|драма|Das Drama erzählt die Geschichte einer zerrissenen Familie.|Драма рассказывает историю разобщённой семьи.
+der Animationsfilm|анимационный фильм|Der Animationsfilm begeistert Kinder und Erwachsene.|Анимационный фильм восхищает детей и взрослых.
+der Trickfilm|мультфильм|Als Kind habe ich jeden Samstag Trickfilme geschaut.|В детстве я каждую субботу смотрел мультфильмы.
+der Cliffhanger|клиффхэнгер, обрыв на самом интересном месте|Jede Folge endet mit einem fiesen Cliffhanger.|Каждая серия обрывается на самом интересном месте.
+die Erstausstrahlung|первый показ (по ТВ)|Die Erstausstrahlung der Serie war 1985.|Первый показ сериала состоялся в 1985 году.
+der Spoiler|спойлер|Bitte keine Spoiler, ich habe die letzte Folge noch nicht gesehen!|Пожалуйста, без спойлеров, я ещё не видел последнюю серию!
+spoilern|спойлерить|Mein Kollege hat mir das Ende gespoilert.|Коллега проспойлерил мне концовку.
+das Bezahlfernsehen|платное телевидение|Die Fußballspiele laufen nur im Bezahlfernsehen.|Футбольные матчи идут только на платном телевидении.
+das Privatfernsehen|частное (коммерческое) телевидение|Im Privatfernsehen gibt es viel mehr Werbung.|На частном телевидении гораздо больше рекламы.
+die Werbeunterbrechung|рекламная пауза|Nach der Werbeunterbrechung geht der Film weiter.|После рекламной паузы фильм продолжится.
+die Watchlist|список «посмотреть позже»|Die Serie steht schon lange auf meiner Watchlist.|Этот сериал давно в моём списке «посмотреть позже».
+der Plot|сюжет|Der Plot ist leider ziemlich vorhersehbar.|Сюжет, к сожалению, довольно предсказуем.
+die Wendung|поворот (сюжета)|Die Geschichte nimmt eine überraschende Wendung.|История принимает неожиданный поворот.
+der Vorspann|вступительные титры, заставка|Den Vorspann überspringe ich immer.|Заставку я всегда пропускаю.
+die Synchronisation|дубляж|Die deutsche Synchronisation ist erstaunlich gut.|Немецкий дубляж на удивление хорош.
+der Darsteller|исполнитель роли, актёр|Die Darsteller sind fast alle Laien.|Почти все исполнители — непрофессионалы.
+die Nebenrolle|второстепенная роль|Sie wurde für ihre Nebenrolle gefeiert.|Её чествовали за роль второго плана.
+die Wiederholung|повтор (передачи)|Im Sommer laufen fast nur Wiederholungen.|Летом показывают почти одни повторы.
+` },
+{ lang: 'de', id: 'de-b2-y-filmmaking', level: 'B2', emoji: '🎬', title: 'Filmproduktion und Festivals', desc: 'Как снимают кино: сценарий, съёмочная площадка, прокат, кассовые сборы и кинофестивали.', cards: `
+der Drehbuchautor|сценарист|Der Drehbuchautor hat drei Jahre an der Geschichte gearbeitet.|Сценарист три года работал над историей.
+der Drehort|место съёмок|Der Drehort war ein kleines Dorf in Thüringen.|Местом съёмок была маленькая деревня в Тюрингии.
+die Verfilmung|экранизация|Die Verfilmung ist besser als der Roman.|Экранизация лучше романа.
+die Regie|режиссура|Wer hat bei diesem Film Regie geführt?|Кто был режиссёром этого фильма?
+das Set|съёмочная площадка|Am Set herrschte eine entspannte Stimmung.|На съёмочной площадке царила непринуждённая атмосфера.
+das Casting|кастинг, подбор актёров|Zum Casting kamen über tausend Bewerber.|На кастинг пришло больше тысячи претендентов.
+die Kameraführung|операторская работа|Die Kameraführung ist ungewöhnlich und sehr ruhig.|Операторская работа необычная и очень спокойная.
+die Nahaufnahme|крупный план|In der Nahaufnahme sieht man ihre Tränen.|На крупном плане видны её слёзы.
+die Spezialeffekte|спецэффекты (мн. ч.)|Die Spezialeffekte wirken heute etwas veraltet.|Спецэффекты сегодня выглядят немного устаревшими.
+der Stuntman|каскадёр|Für die gefährliche Szene kam ein Stuntman zum Einsatz.|Для опасной сцены задействовали каскадёра.
+das Double|дублёр|In den Reitszenen sieht man nur ihr Double.|В сценах верховой езды видно только её дублёршу.
+der Filmemacher|кинематографист, автор фильма|Der junge Filmemacher drehte seinen ersten Film mit dem Handy.|Молодой кинематографист снял свой первый фильм на телефон.
+der Kurzfilm|короткометражный фильм|Ihr Kurzfilm dauert nur zwölf Minuten.|Её короткометражка длится всего двенадцать минут.
+der Blockbuster|блокбастер|Im Sommer kommen die großen Blockbuster ins Kino.|Летом в кино выходят большие блокбастеры.
+der Kassenschlager|кассовый хит|Der Film wurde zum Kassenschlager des Jahres.|Фильм стал кассовым хитом года.
+der Flop|провал|Trotz der Stars war der Film ein Flop.|Несмотря на звёзд, фильм провалился.
+die Kinokasse|касса кинотеатра; кассовые сборы|An der Kinokasse spielte der Film 50 Millionen ein.|В прокате фильм собрал 50 миллионов.
+der Kinostart|выход в кинопрокат|Der Kinostart wurde auf Dezember verschoben.|Выход в прокат перенесли на декабрь.
+die Vorschau|анонс, превью|In der Vorschau sah der Film viel spannender aus.|В анонсе фильм выглядел гораздо интереснее.
+der Soundtrack|саундтрек|Den Soundtrack höre ich auch ohne den Film gern.|Саундтрек я с удовольствием слушаю и без фильма.
+der Filmverleih|кинопрокатная компания, кинопрокат|Ein kleiner Filmverleih bringt den Film in die Kinos.|Небольшая прокатная компания выпускает фильм в кинотеатры.
+die Filmförderung|государственная поддержка кино|Ohne Filmförderung wäre das Projekt nicht möglich gewesen.|Без господдержки кино проект был бы невозможен.
+die Filmhochschule|киношкола, киноинститут|Sie studiert Regie an der Filmhochschule in München.|Она учится режиссуре в киношколе в Мюнхене.
+das Filmfestival|кинофестиваль|Das Filmfestival zeigt Filme aus vierzig Ländern.|Кинофестиваль показывает фильмы из сорока стран.
+der Goldene Bär|«Золотой медведь» (главный приз Берлинале)|Der Film gewann den Goldenen Bären.|Фильм получил «Золотого медведя».
+die Nominierung|номинация|Die Schauspielerin freut sich über ihre erste Nominierung.|Актриса радуется своей первой номинации.
+nominieren|номинировать|Der Film ist für drei Preise nominiert.|Фильм номинирован на три премии.
+auszeichnen|награждать|Die Regisseurin wurde mit einem Preis ausgezeichnet.|Режиссёр была удостоена премии.
+die Filmkritik|кинокритика; рецензия на фильм|Die Filmkritik in der Zeitung war vernichtend.|Рецензия на фильм в газете была разгромной.
+das Programmkino|артхаусный кинотеатр|Im Programmkino laufen Filme in Originalfassung.|В артхаусном кинотеатре фильмы идут в оригинале.
+das Autokino|кинотеатр под открытым небом для автомобилей|Im Sommer gehen wir gern ins Autokino.|Летом мы любим ходить в автокинотеатр.
+die Kinoleinwand|киноэкран|Auf der großen Kinoleinwand wirkt der Film ganz anders.|На большом экране фильм воспринимается совсем иначе.
+` },
+{ lang: 'de', id: 'de-b2-y-museum', level: 'B2', emoji: '🏛️', title: 'Museen und Kunstmarkt', desc: 'Музеи, выставки, реставрация, аукционы и спорные вопросы вроде возврата награбленного искусства.', cards: `
+das Kunstmuseum|художественный музей|Das Kunstmuseum hat montags geschlossen.|Художественный музей по понедельникам закрыт.
+das Heimatmuseum|краеведческий музей|Im Heimatmuseum sieht man, wie die Bauern früher lebten.|В краеведческом музее видно, как раньше жили крестьяне.
+das Freilichtmuseum|музей под открытым небом|Im Freilichtmuseum stehen alte Bauernhäuser aus der ganzen Region.|В музее под открытым небом стоят старые крестьянские дома со всего региона.
+das Technikmuseum|технический музей|Im Technikmuseum dürfen Kinder vieles selbst ausprobieren.|В техническом музее дети могут многое попробовать сами.
+die Kunsthalle|выставочный зал (без собственной коллекции)|Die Kunsthalle zeigt wechselnde Ausstellungen.|В выставочном зале проходят сменные выставки.
+die Dauerausstellung|постоянная экспозиция|Die Dauerausstellung ist kostenlos.|Постоянная экспозиция бесплатная.
+die Wanderausstellung|передвижная выставка|Die Wanderausstellung macht nächsten Monat in Leipzig Station.|Передвижная выставка в следующем месяце остановится в Лейпциге.
+die Retrospektive|ретроспектива|Das Museum widmet dem Maler eine große Retrospektive.|Музей посвящает художнику большую ретроспективу.
+das Exponat|экспонат|Die wertvollsten Exponate liegen hinter Panzerglas.|Самые ценные экспонаты лежат за бронированным стеклом.
+das Artefakt|артефакт|Die Artefakte stammen aus der Bronzezeit.|Артефакты относятся к бронзовому веку.
+das Fundstück|находка (предмет)|Jedes Fundstück wird genau dokumentiert.|Каждая находка тщательно документируется.
+die Ausgrabung|раскопки|Bei der Ausgrabung entdeckte man römische Münzen.|Во время раскопок обнаружили римские монеты.
+die Leihgabe|предмет, предоставленный во временное пользование|Das Bild ist eine Leihgabe aus Paris.|Картина предоставлена на время из Парижа.
+der Leihgeber|владелец, предоставивший экспонат|Der Leihgeber möchte anonym bleiben.|Владелец экспоната пожелал остаться неизвестным.
+die Inventarnummer|инвентарный номер|Jedes Objekt hat eine eigene Inventarnummer.|У каждого предмета свой инвентарный номер.
+der Katalog|каталог|Den Katalog zur Ausstellung kann man im Shop kaufen.|Каталог выставки можно купить в магазине.
+der Museumsführer|экскурсовод; путеводитель по музею|Der Museumsführer erzählte spannende Anekdoten.|Экскурсовод рассказывал увлекательные истории.
+der Museumsshop|музейный магазин|Im Museumsshop habe ich Postkarten gekauft.|В музейном магазине я купил открытки.
+die Museumsnacht|Ночь музеев|Zur Museumsnacht sind alle Häuser bis zwei Uhr geöffnet.|В Ночь музеев все музеи открыты до двух часов.
+die Restaurierung|реставрация|Die Restaurierung des Altars dauerte fünf Jahre.|Реставрация алтаря длилась пять лет.
+der Restaurator|реставратор|Der Restaurator entfernt vorsichtig den alten Firnis.|Реставратор осторожно удаляет старый лак.
+die Moderne|модерн, эпоха модернизма|Das Museum zeigt Werke der klassischen Moderne.|Музей показывает работы классического модернизма.
+die Gegenwartskunst|современное искусство|Gegenwartskunst stößt oft auf Unverständnis.|Современное искусство часто встречает непонимание.
+die zeitgenössische Kunst|современное искусство|Die Biennale ist ein Fest der zeitgenössischen Kunst.|Биеннале — праздник современного искусства.
+der Kunstsammler|коллекционер произведений искусства|Ein reicher Kunstsammler schenkte der Stadt seine Bilder.|Богатый коллекционер подарил городу свои картины.
+der Kunsthändler|арт-дилер, торговец произведениями искусства|Der Kunsthändler schätzte den Wert auf eine Million.|Арт-дилер оценил стоимость в миллион.
+die Auktion|аукцион|Das Gemälde kommt im Mai zur Auktion.|Картина будет выставлена на аукцион в мае.
+versteigern|продавать с аукциона|Der Brief Goethes wurde für 80 000 Euro versteigert.|Письмо Гёте было продано с аукциона за 80 000 евро.
+das Auktionshaus|аукционный дом|Das Auktionshaus prüft die Echtheit jedes Werks.|Аукционный дом проверяет подлинность каждой работы.
+der Kunstraub|кража произведений искусства|Der Kunstraub in Dresden machte weltweit Schlagzeilen.|Кража ценностей в Дрездене попала в заголовки по всему миру.
+die Raubkunst|награбленное искусство (особенно в эпоху нацизма)|Viele Museen erforschen, ob sie Raubkunst besitzen.|Многие музеи выясняют, нет ли у них награбленного искусства.
+die Rückgabe|возврат, реституция|Die Familie fordert die Rückgabe des Bildes.|Семья требует возврата картины.
+` },
+{ lang: 'de', id: 'de-b2-y-books', level: 'B2', emoji: '📚', title: 'Bücher und Verlage', desc: 'Книжный мир: издательство, редактура, тираж, переводы, рецензии и библиотеки.', cards: `
+der Verleger|издатель|Der Verleger glaubte von Anfang an an das Buch.|Издатель с самого начала верил в эту книгу.
+herausgeben|издавать, выпускать|Der Verlag gibt jährlich hundert Titel heraus.|Издательство ежегодно выпускает сто наименований.
+der Herausgeber|издатель, редактор-составитель|Der Herausgeber hat die Briefe gesammelt und kommentiert.|Составитель собрал и прокомментировал письма.
+das Lektorat|редакция (отдел), редактура|Das Manuskript liegt gerade im Lektorat.|Рукопись сейчас в редакции.
+der Lektor|редактор (издательства); лектор (в вузе)|Die Lektorin hat viele Kürzungen vorgeschlagen.|Редактор предложила много сокращений.
+die Neuerscheinung|новинка (книжная)|Im Schaufenster liegen die Neuerscheinungen des Herbstes.|В витрине лежат осенние новинки.
+die Neuauflage|переиздание|Die Neuauflage enthält ein zusätzliches Kapitel.|Переиздание содержит дополнительную главу.
+die gebundene Ausgabe|издание в твёрдом переплёте|Die gebundene Ausgabe ist doppelt so teuer wie das Taschenbuch.|Издание в твёрдом переплёте вдвое дороже карманного.
+der Einband|переплёт, обложка|Der Einband ist aus Leinen.|Переплёт из льняной ткани.
+der Buchtitel|название книги|Der Buchtitel wurde kurz vor dem Druck geändert.|Название книги изменили незадолго до печати.
+die Widmung|посвящение; дарственная надпись|Die Autorin schrieb eine persönliche Widmung ins Buch.|Автор написала в книге личное посвящение.
+das Vorwort|предисловие|Im Vorwort erklärt der Autor seine Absicht.|В предисловии автор объясняет свой замысел.
+das Nachwort|послесловие|Das Nachwort ordnet den Roman historisch ein.|Послесловие помещает роман в исторический контекст.
+das Inhaltsverzeichnis|оглавление|Laut Inhaltsverzeichnis hat das Buch zwölf Kapitel.|Согласно оглавлению, в книге двенадцать глав.
+die Leseprobe|ознакомительный фрагмент|Auf der Website gibt es eine kostenlose Leseprobe.|На сайте есть бесплатный ознакомительный фрагмент.
+die Druckerei|типография|Das Buch ist schon in der Druckerei.|Книга уже в типографии.
+die Bestsellerliste|список бестселлеров|Der Roman steht seit Wochen auf Platz eins der Bestsellerliste.|Роман уже несколько недель на первом месте в списке бестселлеров.
+der Debütroman|дебютный роман|Ihr Debütroman wurde sofort ein Erfolg.|Её дебютный роман сразу стал успешным.
+die Belletristik|художественная литература|Belletristik findet man im ersten Stock.|Художественная литература — на втором этаже.
+der Ratgeber|книга-руководство, справочник с советами|Er hat einen Ratgeber zum Thema Schlaf geschrieben.|Он написал книгу советов о сне.
+die Autobiografie|автобиография|In ihrer Autobiografie erzählt sie offen von ihrer Krankheit.|В своей автобиографии она откровенно рассказывает о болезни.
+die Anthologie|антология, сборник|Die Anthologie versammelt Erzählungen junger Autoren.|Антология объединяет рассказы молодых авторов.
+der Ghostwriter|литературный негр, гострайтер|Die Memoiren des Politikers schrieb ein Ghostwriter.|Мемуары политика написал гострайтер.
+das Urheberrecht|авторское право|Nach siebzig Jahren erlischt das Urheberrecht.|Через семьдесят лет авторское право истекает.
+die Lizenz|лицензия|Der Verlag hat die Lizenz für die deutsche Übersetzung gekauft.|Издательство купило лицензию на немецкий перевод.
+der Übersetzer|переводчик|Der Name des Übersetzers steht auf dem Titelblatt.|Имя переводчика указано на титульном листе.
+der Rezensent|рецензент|Der Rezensent lobt vor allem die Sprache.|Рецензент хвалит прежде всего язык.
+der Lesekreis|читательский клуб|In unserem Lesekreis diskutieren wir jeden Monat ein Buch.|В нашем читательском клубе мы каждый месяц обсуждаем одну книгу.
+der Buchhandel|книжная торговля|Der Buchhandel leidet unter dem Onlinegeschäft.|Книжная торговля страдает от онлайн-продаж.
+die Buchpreisbindung|фиксированная цена на книги|Wegen der Buchpreisbindung kostet das Buch überall gleich viel.|Из-за фиксированной цены книга везде стоит одинаково.
+das Antiquariat|букинистический магазин|Im Antiquariat fand ich eine Erstausgabe von Kafka.|В букинистическом магазине я нашёл первое издание Кафки.
+die Fernleihe|межбиблиотечный абонемент|Das Buch musste ich über die Fernleihe bestellen.|Книгу мне пришлось заказывать по межбиблиотечному абонементу.
+die Leihfrist|срок выдачи (в библиотеке)|Die Leihfrist beträgt vier Wochen.|Срок выдачи — четыре недели.
+` },
+{ lang: 'de', id: 'de-b2-y-heritage', level: 'B2', emoji: '🏰', title: 'Kulturerbe und Erinnerung', desc: 'Памятники, охрана культурного наследия и культура памяти в Германии.', cards: `
+das Kulturerbe|культурное наследие|Die Altstadt gehört zum Kulturerbe der Region.|Старый город относится к культурному наследию региона.
+das Weltkulturerbe|объект всемирного наследия|Der Kölner Dom ist Weltkulturerbe.|Кёльнский собор — объект всемирного наследия.
+das immaterielle Kulturerbe|нематериальное культурное наследие|Auch der Orgelbau zählt zum immateriellen Kulturerbe.|Органостроение тоже относится к нематериальному культурному наследию.
+die UNESCO|ЮНЕСКО|Die UNESCO hat das Wattenmeer in ihre Liste aufgenommen.|ЮНЕСКО внесла Ваттовое море в свой список.
+das Denkmalamt|управление по охране памятников|Für jede Änderung an der Fassade braucht man die Erlaubnis des Denkmalamts.|На любое изменение фасада нужно разрешение управления по охране памятников.
+unter Denkmalschutz stehen|находиться под охраной как памятник|Das alte Bahnhofsgebäude steht unter Denkmalschutz.|Старое здание вокзала находится под охраной государства.
+denkmalgeschützt|охраняемый как памятник|Wir wohnen in einem denkmalgeschützten Haus.|Мы живём в доме, который является памятником архитектуры.
+das Baudenkmal|памятник архитектуры|Die Brücke ist ein bedeutendes Baudenkmal.|Мост — значимый памятник архитектуры.
+das Bodendenkmal|археологический памятник (в земле)|Unter dem Acker liegt ein römisches Bodendenkmal.|Под полем находится римский археологический памятник.
+die Erhaltung|сохранение|Die Erhaltung der Kirche kostet jährlich viel Geld.|Сохранение церкви ежегодно стоит больших денег.
+die Kathedrale|собор|Die Kathedrale wurde im 13. Jahrhundert gebaut.|Собор был построен в XIII веке.
+der Kirchturm|церковная колокольня, башня|Vom Kirchturm hat man einen herrlichen Blick.|С колокольни открывается великолепный вид.
+die Wallfahrtskirche|паломническая церковь|Jedes Jahr pilgern Tausende zur Wallfahrtskirche.|Каждый год тысячи паломников идут к этой церкви.
+der Stadtkern|историческое ядро города|Der mittelalterliche Stadtkern ist autofrei.|Средневековый центр города закрыт для машин.
+das Wahrzeichen|символ (города), визитная карточка|Das Brandenburger Tor ist das Wahrzeichen Berlins.|Бранденбургские ворота — символ Берлина.
+die Ausgrabungsstätte|место раскопок|Die Ausgrabungsstätte ist für Besucher geöffnet.|Место раскопок открыто для посетителей.
+die Archäologie|археология|Die Archäologie hat unser Bild der Germanen verändert.|Археология изменила наше представление о германцах.
+der Archäologe|археолог|Die Archäologen fanden ein gut erhaltenes Skelett.|Археологи нашли хорошо сохранившийся скелет.
+das Museumsdorf|деревня-музей|Im Museumsdorf zeigen Handwerker alte Techniken.|В деревне-музее ремесленники показывают старинные техники.
+überliefern|передавать (из поколения в поколение)|Die Geschichte wurde mündlich überliefert.|История передавалась из уст в уста.
+die Gedenkfeier|траурная церемония, памятное мероприятие|An der Gedenkfeier nahmen auch Überlebende teil.|В памятной церемонии участвовали и выжившие.
+der Denkmalpfleger|специалист по охране памятников|Der Denkmalpfleger prüft jeden Umbau im Stadtkern.|Специалист по охране памятников проверяет каждую перестройку в историческом центре.
+das Mahnmal|мемориал (напоминание о трагедии)|Das Mahnmal erinnert an die Opfer des Krieges.|Мемориал напоминает о жертвах войны.
+das Ehrenmal|памятник павшим|Am Ehrenmal liegen frische Blumen.|У памятника павшим лежат свежие цветы.
+die Gedenktafel|мемориальная доска|Eine Gedenktafel erinnert an den Dichter, der hier lebte.|Мемориальная доска напоминает о поэте, который здесь жил.
+das Gedenken|память, поминовение|Im Gedenken an die Opfer schwiegen alle eine Minute.|В память о жертвах все молчали минуту.
+der Gedenktag|день памяти|Der 27. Januar ist ein Gedenktag für die Opfer des Holocaust.|27 января — день памяти жертв Холокоста.
+der Jahrestag|годовщина|Zum 30. Jahrestag des Mauerfalls gab es ein großes Fest.|К 30-й годовщине падения Стены прошёл большой праздник.
+die Kranzniederlegung|возложение венков|Der Bundespräsident nahm an der Kranzniederlegung teil.|Федеральный президент принял участие в возложении венков.
+die Kulturpolitik|культурная политика|Die Kulturpolitik ist in Deutschland Sache der Länder.|Культурная политика в Германии — дело федеральных земель.
+das Kulturamt|управление культуры|Das Kulturamt organisiert das Stadtfest.|Управление культуры организует городской праздник.
+` },
+{ lang: 'de', id: 'de-b2-y-press', level: 'B2', emoji: '🗞️', title: 'Presse und Redaktion', desc: 'Как устроена пресса: рубрики, редакция, источники, опровержения, бульварные газеты и свобода слова.', cards: `
+die Titelseite|первая полоса, обложка|Das Foto war auf allen Titelseiten.|Это фото было на всех первых полосах.
+der Aufmacher|главный материал номера|Der Aufmacher der heutigen Ausgabe ist die Wahl in Frankreich.|Главный материал сегодняшнего номера — выборы во Франции.
+Schlagzeilen machen|попадать в заголовки, становиться громкой новостью|Der Skandal machte wochenlang Schlagzeilen.|Скандал неделями не сходил с первых полос.
+die Eilmeldung|срочное сообщение, молния|Per Eilmeldung erfuhr ich vom Rücktritt des Ministers.|Из срочного сообщения я узнал об отставке министра.
+die Agenturmeldung|сообщение информагентства|Die Zeitung übernahm die Agenturmeldung fast wörtlich.|Газета почти дословно перепечатала сообщение агентства.
+der Wirtschaftsteil|экономический раздел газеты|Mein Vater liest zuerst den Wirtschaftsteil.|Мой отец сначала читает экономический раздел.
+der Lokalteil|раздел местных новостей|Im Lokalteil steht etwas über unsere Schule.|В разделе местных новостей есть заметка о нашей школе.
+der Kolumnist|колумнист, обозреватель|Der Kolumnist schreibt jede Woche über das Leben in der Stadt.|Колумнист каждую неделю пишет о жизни в городе.
+die Presseschau|обзор прессы|Im Radio gibt es morgens eine Presseschau.|По радио утром идёт обзор прессы.
+die Tageszeitung|ежедневная газета|Immer weniger junge Leute lesen eine Tageszeitung.|Всё меньше молодых людей читают ежедневную газету.
+die Wochenzeitung|еженедельная газета, еженедельник|Die Wochenzeitung erscheint donnerstags.|Еженедельник выходит по четвергам.
+das Nachrichtenmagazin|новостной журнал|Das Nachrichtenmagazin deckte den Skandal auf.|Новостной журнал раскрыл скандал.
+die Regionalzeitung|региональная газета|Die Regionalzeitung hat drei Lokalredaktionen geschlossen.|Региональная газета закрыла три местные редакции.
+die Onlineausgabe|онлайн-версия (издания)|In der Onlineausgabe wurde der Artikel schon korrigiert.|В онлайн-версии статью уже исправили.
+die Paywall|платный доступ, пейволл|Der Artikel ist leider hinter einer Paywall.|Статья, к сожалению, за платным доступом.
+das Volontariat|стажировка в редакции (подготовка журналиста)|Nach dem Studium machte sie ein Volontariat bei einer Zeitung.|После учёбы она прошла стажировку в газете.
+der Auslandskorrespondent|зарубежный корреспондент|Der Auslandskorrespondent berichtet aus Washington.|Зарубежный корреспондент ведёт репортажи из Вашингтона.
+der Pressefotograf|фотокорреспондент|Der Pressefotograf stand stundenlang vor dem Gericht.|Фотокорреспондент часами стоял у здания суда.
+die Pressestelle|пресс-служба|Die Pressestelle der Polizei veröffentlichte eine Mitteilung.|Пресс-служба полиции опубликовала сообщение.
+der Qualitätsjournalismus|качественная журналистика|Qualitätsjournalismus kostet Geld.|Качественная журналистика стоит денег.
+der Investigativjournalismus|журналистские расследования|Investigativjournalismus braucht viel Zeit und Mut.|Журналистские расследования требуют много времени и смелости.
+der Whistleblower|информатор, разоблачитель|Ein Whistleblower spielte der Zeitung die Dokumente zu.|Информатор передал газете документы.
+der Quellenschutz|защита источников|Der Quellenschutz ist für Journalisten heilig.|Защита источников для журналистов священна.
+enthüllen|разоблачать, раскрывать|Die Reporter enthüllten ein Netzwerk von Briefkastenfirmen.|Репортёры раскрыли сеть фирм-однодневок.
+die Zeitungsente|газетная утка|Die Meldung stellte sich als Zeitungsente heraus.|Сообщение оказалось газетной уткой.
+die Richtigstellung|опровержение, исправление|Die Zeitung musste eine Richtigstellung drucken.|Газете пришлось напечатать опровержение.
+die Fake News|фейковые новости (мн. ч.)|Fake News verbreiten sich in sozialen Netzwerken rasend schnell.|Фейковые новости распространяются в соцсетях молниеносно.
+die Meinungsmache|манипулирование общественным мнением|Viele werfen dem Sender Meinungsmache vor.|Многие обвиняют канал в манипулировании мнением.
+die Objektivität|объективность|Absolute Objektivität gibt es im Journalismus nicht.|Абсолютной объективности в журналистике не бывает.
+zensieren|подвергать цензуре|In vielen Ländern werden Zeitungen zensiert.|Во многих странах газеты подвергаются цензуре.
+die Klatschpresse|жёлтая пресса|Die Klatschpresse interessiert sich nur für die Hochzeit der Prinzessin.|Жёлтую прессу интересует только свадьба принцессы.
+das Boulevardblatt|бульварная газета|Das Boulevardblatt druckte peinliche Fotos des Sängers.|Бульварная газета напечатала неловкие фото певца.
+die Medienlandschaft|медиаландшафт, система СМИ|Die Medienlandschaft hat sich durch das Internet stark verändert.|Медиаландшафт сильно изменился из-за интернета.
+die Medienvielfalt|разнообразие СМИ, медиаплюрализм|Medienvielfalt ist wichtig für die Demokratie.|Разнообразие СМИ важно для демократии.
+der Rundfunkbeitrag|сбор за общественное вещание|Jeder Haushalt zahlt den Rundfunkbeitrag.|Каждое домохозяйство платит сбор за общественное вещание.
+` },
+);
+/* de-b2-25.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-y-parties', level: 'B2', emoji: '🗳️', title: 'Parteien und Ideologien', desc: 'Политические партии, их крылья и идеологии — от социализма до либерализма.', cards: `
+die Volkspartei|массовая (народная) партия|Die großen Volksparteien verlieren seit Jahren Mitglieder.|Крупные народные партии годами теряют членов.
+die Splitterpartei|мелкая (маргинальная) партия|Auf dem Stimmzettel standen auch viele Splitterparteien.|В бюллетене было и много мелких партий.
+die Regierungspartei|правящая партия|Die Regierungspartei verteidigte das neue Gesetz.|Правящая партия защищала новый закон.
+die Oppositionspartei|оппозиционная партия|Die Oppositionsparteien kritisieren den Haushalt scharf.|Оппозиционные партии резко критикуют бюджет.
+das Parteiprogramm|программа партии|Im Parteiprogramm steht nichts über Steuersenkungen.|В программе партии ничего нет о снижении налогов.
+der Parteivorsitzende|председатель партии|Der Parteivorsitzende wurde mit 90 Prozent wiedergewählt.|Председатель партии был переизбран с 90 процентами голосов.
+die Parteibasis|рядовые члены партии, партийная база|Die Parteibasis ist mit dem Kompromiss unzufrieden.|Рядовые члены партии недовольны компромиссом.
+das Parteimitglied|член партии|Sie ist seit zwanzig Jahren Parteimitglied.|Она член партии уже двадцать лет.
+der Parteiaustritt|выход из партии|Nach dem Skandal gab es viele Parteiaustritte.|После скандала многие вышли из партии.
+austreten|выходить (из организации)|Er ist aus Protest aus der Partei ausgetreten.|Он в знак протеста вышел из партии.
+der linke Flügel|левое крыло|Der linke Flügel der Partei lehnt den Einsatz ab.|Левое крыло партии выступает против операции.
+die politische Mitte|политический центр|Alle Parteien kämpfen um die politische Mitte.|Все партии борются за политический центр.
+liberal|либеральный|Die Partei vertritt eine liberale Wirtschaftspolitik.|Партия выступает за либеральную экономическую политику.
+sozialdemokratisch|социал-демократический|Die sozialdemokratische Partei ist die älteste in Deutschland.|Социал-демократическая партия — старейшая в Германии.
+rechtsextrem|ультраправый|Der Verfassungsschutz beobachtet rechtsextreme Gruppen.|Служба защиты конституции следит за ультраправыми группами.
+linksextrem|ультралевый|Die linksextreme Szene ist in einigen Städten aktiv.|Ультралевые активны в некоторых городах.
+rechtspopulistisch|правопопулистский|Rechtspopulistische Parteien gewinnen in ganz Europa an Einfluss.|Правопопулистские партии набирают влияние по всей Европе.
+der Populist|популист|Populisten bieten einfache Antworten auf komplizierte Fragen.|Популисты предлагают простые ответы на сложные вопросы.
+die Ideologie|идеология|Er lehnt jede Ideologie ab und denkt pragmatisch.|Он отвергает любую идеологию и мыслит прагматично.
+der Sozialismus|социализм|In der DDR herrschte ein real existierender Sozialismus.|В ГДР существовал так называемый «реальный социализм».
+der Kommunismus|коммунизм|Nach dem Ende des Kommunismus änderte sich Osteuropa grundlegend.|После конца коммунизма Восточная Европа коренным образом изменилась.
+der Kapitalismus|капитализм|Die Bewegung kritisiert den globalen Kapitalismus.|Движение критикует глобальный капитализм.
+der Liberalismus|либерализм|Der Liberalismus betont die Freiheit des Einzelnen.|Либерализм подчёркивает свободу личности.
+der Konservatismus|консерватизм|Der Konservatismus will Bewährtes bewahren.|Консерватизм стремится сохранить проверенное временем.
+der Nationalismus|национализм|Der Nationalismus führte Europa in zwei Weltkriege.|Национализм привёл Европу к двум мировым войнам.
+der Extremismus|экстремизм|Die Regierung startet ein Programm gegen Extremismus.|Правительство запускает программу против экстремизма.
+der Lobbyist|лоббист|Im Parlament sind täglich Hunderte Lobbyisten unterwegs.|В парламенте ежедневно бывают сотни лоббистов.
+der Aktivismus|активизм|Ihr Aktivismus begann in der Schulzeit.|Её активизм начался ещё в школе.
+` },
+{ lang: 'de', id: 'de-b2-y-elections', level: 'B2', emoji: '📊', title: 'Wahlkampf und Wahlabend', desc: 'Выборы: избиратели, бюллетени, кандидаты, опросы и итоги — от убедительной победы до поражения.', cards: `
+wahlberechtigt|имеющий право голоса|In Deutschland ist man ab 18 Jahren wahlberechtigt.|В Германии право голоса есть с 18 лет.
+das Wahlrecht|избирательное право|Frauen erhielten in Deutschland 1918 das Wahlrecht.|Женщины в Германии получили избирательное право в 1918 году.
+die Wahlpflicht|обязательное голосование|In Belgien gibt es eine Wahlpflicht.|В Бельгии голосование обязательно.
+der Erstwähler|впервые голосующий избиратель|Viele Erstwähler haben sich für kleine Parteien entschieden.|Многие впервые голосующие выбрали маленькие партии.
+der Stammwähler|постоянный избиратель (партии)|Die Partei kann sich nicht mehr auf ihre Stammwähler verlassen.|Партия больше не может полагаться на своих постоянных избирателей.
+der Wechselwähler|колеблющийся избиратель|Die Wahl wird von den Wechselwählern entschieden.|Исход выборов решат колеблющиеся избиратели.
+der Nichtwähler|не голосующий (гражданин)|Die größte Gruppe sind wieder die Nichtwähler.|Самая большая группа — снова те, кто не голосует.
+der Wahlzettel|избирательный бюллетень|Den Wahlzettel faltet man vor dem Einwerfen.|Бюллетень перед тем, как опустить, складывают.
+die Wahlurne|избирательная урна|Die Wahlurnen wurden um 18 Uhr versiegelt.|Урны опечатали в 18 часов.
+der Urnengang|голосование, выборы|Der Urnengang verlief ohne Zwischenfälle.|Голосование прошло без инцидентов.
+der Wahlhelfer|член избирательной комиссии, помощник на выборах|Als Wahlhelfer habe ich bis spät in die Nacht Stimmen gezählt.|Как член избирательной комиссии я до поздней ночи считал голоса.
+das Wahlplakat|предвыборный плакат|Überall in der Stadt hängen Wahlplakate.|По всему городу висят предвыборные плакаты.
+die Wahlkampagne|предвыборная кампания|Die Wahlkampagne kostete Millionen.|Предвыборная кампания стоила миллионы.
+das Wahlversprechen|предвыборное обещание|Die Regierung hat kaum ein Wahlversprechen gehalten.|Правительство почти не выполнило предвыборных обещаний.
+der Spitzenkandidat|кандидат, возглавляющий список партии|Die Spitzenkandidatin gab sich siegessicher.|Лидер списка была уверена в победе.
+der Kanzlerkandidat|кандидат в канцлеры|Die Partei stellt erstmals einen eigenen Kanzlerkandidaten auf.|Партия впервые выдвигает своего кандидата в канцлеры.
+das TV-Duell|теледебаты двух кандидатов|Im TV-Duell wirkte der Herausforderer nervös.|На теледебатах претендент выглядел нервным.
+der Amtsinhaber|действующий глава, человек в должности|Der Amtsinhaber tritt nicht noch einmal an.|Действующий глава не будет баллотироваться снова.
+der Herausforderer|претендент, соперник|Der Herausforderer liegt in den Umfragen vorn.|Претендент лидирует в опросах.
+die Sonntagsfrage|опрос «если бы выборы были в воскресенье»|Laut Sonntagsfrage käme die Partei auf 15 Prozent.|Согласно опросу, партия получила бы 15 процентов.
+das Kopf-an-Kopf-Rennen|борьба ноздря в ноздрю|Die Wahl wurde zu einem Kopf-an-Kopf-Rennen.|Выборы превратились в борьбу ноздря в ноздрю.
+das Wahlergebnis|результат выборов|Das vorläufige Wahlergebnis liegt um Mitternacht vor.|Предварительные итоги выборов будут к полуночи.
+der Wahlsieger|победитель выборов|Der Wahlsieger bedankte sich bei seinen Anhängern.|Победитель выборов поблагодарил своих сторонников.
+die Wahlniederlage|поражение на выборах|Nach der Wahlniederlage trat der Vorsitzende zurück.|После поражения на выборах председатель ушёл в отставку.
+die Wahlschlappe|провал на выборах (разг.)|Die Partei erlitt eine schwere Wahlschlappe.|Партия потерпела тяжёлый провал на выборах.
+der Erdrutschsieg|сокрушительная победа|Die Opposition errang einen Erdrutschsieg.|Оппозиция одержала сокрушительную победу.
+der Achtungserfolg|почётный (умеренный) успех|Für die neue Partei waren vier Prozent ein Achtungserfolg.|Для новой партии четыре процента были достойным результатом.
+die Wählerwanderung|перетекание избирателей|Die Grafik zeigt die Wählerwanderung zwischen den Parteien.|График показывает перетекание избирателей между партиями.
+die Stichwahl|второй тур выборов|Da keiner die Mehrheit erreichte, gibt es eine Stichwahl.|Поскольку никто не набрал большинства, будет второй тур.
+die Neuwahl|досрочные (повторные) выборы|Nach dem Bruch der Koalition kommt es zu Neuwahlen.|После распада коалиции будут досрочные выборы.
+der Wahlbetrug|фальсификация выборов|Die Beobachter sprechen von massivem Wahlbetrug.|Наблюдатели говорят о массовых фальсификациях.
+die absolute Mehrheit|абсолютное большинство|Keine Partei hat die absolute Mehrheit erreicht.|Ни одна партия не получила абсолютного большинства.
+die Enthaltung|воздержание (при голосовании)|Das Gesetz wurde bei drei Enthaltungen angenommen.|Закон был принят при трёх воздержавшихся.
+` },
+{ lang: 'de', id: 'de-b2-y-government', level: 'B2', emoji: '🏛️', title: 'Regierung und Macht', desc: 'Формирование правительства, коалиции, присяга, смена власти, федеральный и земельный уровни.', cards: `
+die Regierungsbildung|формирование правительства|Die Regierungsbildung zog sich über Monate hin.|Формирование правительства растянулось на месяцы.
+die Koalitionsverhandlungen|переговоры о коалиции (мн. ч.)|Die Koalitionsverhandlungen sind gescheitert.|Переговоры о коалиции провалились.
+der Koalitionspartner|партнёр по коалиции|Der Koalitionspartner droht mit dem Ausstieg.|Партнёр по коалиции грозит выходом.
+die Regierungskoalition|правящая коалиция|Die Regierungskoalition hat eine knappe Mehrheit.|У правящей коалиции небольшое большинство.
+die Große Koalition|большая коалиция (двух крупнейших партий)|Viele Jahre regierte eine Große Koalition.|Много лет правила большая коалиция.
+die Minderheitsregierung|правительство меньшинства|Eine Minderheitsregierung muss für jedes Gesetz Partner suchen.|Правительству меньшинства приходится искать партнёров для каждого закона.
+die Regierungskrise|правительственный кризис|Der Streit um den Haushalt löste eine Regierungskrise aus.|Спор о бюджете вызвал правительственный кризис.
+der Machtwechsel|смена власти|Nach sechzehn Jahren kam es zum Machtwechsel.|Через шестнадцать лет произошла смена власти.
+an die Macht kommen|прийти к власти|Die Partei kam durch freie Wahlen an die Macht.|Партия пришла к власти в результате свободных выборов.
+an der Macht sein|быть у власти|Der Präsident ist schon seit zwanzig Jahren an der Macht.|Президент уже двадцать лет у власти.
+vereidigen|приводить к присяге|Die neuen Minister wurden im Bundestag vereidigt.|Новых министров привели к присяге в бундестаге.
+der Amtseid|присяга при вступлении в должность|Die Kanzlerin legte den Amtseid ab.|Канцлер принесла присягу.
+die Amtsübergabe|передача полномочий|Bei der Amtsübergabe überreichte der alte Minister einen Blumenstrauß.|При передаче полномочий бывший министр вручил букет цветов.
+der Ministerposten|министерский пост|Die kleine Partei bekommt drei Ministerposten.|Маленькая партия получает три министерских поста.
+die Ressortverteilung|распределение министерств|Über die Ressortverteilung wurde lange gestritten.|О распределении министерств долго спорили.
+die Bundesministerin|федеральный министр (женщина)|Die Bundesministerin für Bildung stellte ihr Programm vor.|Федеральный министр образования представила свою программу.
+das Ministerium|министерство|Das Ministerium hat die Pläne bestätigt.|Министерство подтвердило планы.
+der Regierungssprecher|официальный представитель правительства|Der Regierungssprecher wies die Vorwürfe zurück.|Официальный представитель правительства отверг обвинения.
+der Regierungschef|глава правительства|Die Regierungschefs der EU treffen sich in Brüssel.|Главы правительств ЕС встречаются в Брюсселе.
+der Staatschef|глава государства|Der Staatschef empfing seinen Amtskollegen am Flughafen.|Глава государства встретил коллегу в аэропорту.
+die Bundesregierung|федеральное правительство|Die Bundesregierung plant ein neues Klimapaket.|Федеральное правительство планирует новый климатический пакет.
+die Landesregierung|правительство федеральной земли|Die Landesregierung ist für die Schulen zuständig.|За школы отвечает правительство земли.
+der Landtag|ландтаг (парламент земли)|Der bayerische Landtag sitzt in München.|Баварский ландтаг заседает в Мюнхене.
+der Ministerpräsident|премьер-министр федеральной земли|Der Ministerpräsident von Sachsen besuchte die Fabrik.|Премьер-министр Саксонии посетил завод.
+der Oppositionsführer|лидер оппозиции|Der Oppositionsführer forderte den Rücktritt der Ministerin.|Лидер оппозиции потребовал отставки министра.
+das Regierungsprogramm|программа правительства|Das Regierungsprogramm sieht mehr Geld für Schulen vor.|Программа правительства предусматривает больше денег для школ.
+die Wahlperiode|срок полномочий (парламента), созыв|Die Wahlperiode des Bundestages dauert vier Jahre.|Срок полномочий бундестага — четыре года.
+das Verfassungsgericht|конституционный суд|Das Verfassungsgericht hat das Gesetz gekippt.|Конституционный суд отменил закон.
+das Volksbegehren|народная законодательная инициатива|Für das Volksbegehren wurden eine Million Unterschriften gesammelt.|Для народной инициативы собрали миллион подписей.
+das Referendum|референдум|In einem Referendum stimmten die Bürger gegen den Plan.|На референдуме граждане проголосовали против плана.
+die Innenpolitik|внутренняя политика|Der Minister will sich stärker auf die Innenpolitik konzentrieren.|Министр хочет больше сосредоточиться на внутренней политике.
+` },
+{ lang: 'de', id: 'de-b2-y-protest', level: 'B2', emoji: '📣', title: 'Demonstrationen und Protest', desc: 'Мирный протест: демонстрации, митинги, бойкоты, забастовки, лозунги и свобода собраний.', cards: `
+demonstrieren|демонстрировать, выходить на демонстрацию|Tausende demonstrierten für mehr Klimaschutz.|Тысячи вышли на демонстрацию за защиту климата.
+der Demonstrant|демонстрант|Die Demonstranten zogen zum Rathaus.|Демонстранты направились к ратуше.
+die Demo|демо, демонстрация (разг.)|Kommst du am Samstag mit auf die Demo?|Пойдёшь в субботу со мной на демонстрацию?
+die Großdemonstration|массовая демонстрация|Zur Großdemonstration kamen über 100 000 Menschen.|На массовую демонстрацию пришло более 100 000 человек.
+die Gegendemonstration|контрдемонстрация|Gegen den Aufmarsch gab es eine Gegendemonstration.|Против шествия прошла контрдемонстрация.
+die Kundgebung|митинг|Die Kundgebung beginnt um zwölf auf dem Marktplatz.|Митинг начинается в двенадцать на рыночной площади.
+der Protestmarsch|марш протеста|Der Protestmarsch führte quer durch die Innenstadt.|Марш протеста прошёл через весь центр города.
+der Protestzug|колонна протестующих|Der Protestzug war mehrere Kilometer lang.|Колонна протестующих растянулась на несколько километров.
+die Mahnwache|пикет (молчаливая акция памяти или протеста)|Vor der Botschaft hielten sie eine Mahnwache ab.|Перед посольством они провели молчаливый пикет.
+die Menschenkette|живая цепь|Eine Menschenkette verband die beiden Städte.|Живая цепь соединила два города.
+die Sitzblockade|сидячая блокада|Mit einer Sitzblockade versperrten sie die Zufahrt.|Сидячей блокадой они перекрыли подъезд.
+der Sitzstreik|сидячая забастовка|Die Studenten traten in einen Sitzstreik.|Студенты начали сидячую забастовку.
+der Hungerstreik|голодовка|Der Gefangene befindet sich seit zwei Wochen im Hungerstreik.|Заключённый уже две недели держит голодовку.
+der Generalstreik|всеобщая забастовка|Die Gewerkschaften riefen zum Generalstreik auf.|Профсоюзы призвали ко всеобщей забастовке.
+der Boykott|бойкот|Der Boykott traf das Unternehmen hart.|Бойкот сильно ударил по компании.
+boykottieren|бойкотировать|Viele Kunden boykottieren die Marke.|Многие покупатели бойкотируют эту марку.
+die Unterschriftensammlung|сбор подписей|Die Unterschriftensammlung läuft noch bis Ende Mai.|Сбор подписей продлится до конца мая.
+der Aktivist|активист|Die Aktivisten ketteten sich an den Zaun.|Активисты приковали себя к забору.
+der zivile Ungehorsam|гражданское неповиновение|Sie rechtfertigen ihre Aktionen als zivilen Ungehorsam.|Свои акции они оправдывают как гражданское неповиновение.
+das Transparent|транспарант|Auf dem Transparent stand: Keine Atomkraft!|На транспаранте было написано: «Нет атомной энергии!»
+das Megafon|мегафон|Mit dem Megafon heizte sie die Menge an.|С помощью мегафона она заводила толпу.
+der Sprechchor|скандирование хором|In Sprechchören forderten sie den Rücktritt des Bürgermeisters.|Хором они требовали отставки мэра.
+skandieren|скандировать|Die Menge skandierte: Wir sind das Volk!|Толпа скандировала: «Мы — народ!»
+der Aufruf|призыв, воззвание|Dem Aufruf folgten Tausende.|На призыв откликнулись тысячи.
+aufrufen|призывать|Die Organisatoren rufen zu friedlichem Protest auf.|Организаторы призывают к мирному протесту.
+anmelden|заявлять, регистрировать (мероприятие)|Die Demonstration war ordnungsgemäß angemeldet.|Демонстрация была заявлена по всем правилам.
+die Versammlungsfreiheit|свобода собраний|Die Versammlungsfreiheit ist im Grundgesetz garantiert.|Свобода собраний гарантирована Основным законом.
+friedlich|мирный|Der Protest blieb den ganzen Tag friedlich.|Протест весь день оставался мирным.
+gewaltfrei|ненасильственный|Gandhi setzte auf gewaltfreien Widerstand.|Ганди делал ставку на ненасильственное сопротивление.
+gewaltsam|насильственный, силой|Die Polizei löste die Versammlung gewaltsam auf.|Полиция силой разогнала собрание.
+der Unmut|недовольство, раздражение|Der Unmut über die Mietpreise wächst.|Недовольство ценами на аренду растёт.
+` },
+{ lang: 'de', id: 'de-b2-y-unrest', level: 'B2', emoji: '🚔', title: 'Unruhen und Umsturz', desc: 'Когда протест выходит из-под контроля: беспорядки, полиция, захваты зданий, мятежи и перевороты.', cards: `
+die Ausschreitungen|беспорядки, бесчинства (мн. ч.)|Nach dem Spiel kam es zu Ausschreitungen.|После матча начались беспорядки.
+der Krawall|беспорядки, погром; шум|Bei den Krawallen wurden Autos angezündet.|Во время беспорядков поджигали машины.
+randalieren|буянить, хулиганить|Betrunkene Fans randalierten am Bahnhof.|Пьяные болельщики буянили на вокзале.
+die Plünderung|мародёрство, разграбление|Nach dem Stromausfall gab es Plünderungen.|После отключения электричества началось мародёрство.
+der Aufruhr|волнения, смута, бунт|Die Nachricht versetzte die ganze Stadt in Aufruhr.|Новость взбудоражила весь город.
+die Unruhen|беспорядки, волнения (мн. ч.)|Die Unruhen dauerten mehrere Nächte.|Беспорядки продолжались несколько ночей.
+der Aufstand|восстание|Der Aufstand vom 17. Juni 1953 wurde niedergeschlagen.|Восстание 17 июня 1953 года было подавлено.
+die Revolte|бунт, мятеж|Die Revolte der Jugend erschütterte das Land.|Бунт молодёжи потряс страну.
+der Umsturz|переворот, свержение|Die Gruppe plante einen gewaltsamen Umsturz.|Группа планировала насильственный переворот.
+der Putsch|путч, военный переворот|Nach dem Putsch übernahm das Militär die Macht.|После путча власть захватили военные.
+die Machtübernahme|захват (приход) власти|Die Machtübernahme verlief ohne Blutvergießen.|Захват власти прошёл без кровопролития.
+die Staatskrise|государственный кризис|Das Land steckt in einer tiefen Staatskrise.|Страна в глубоком государственном кризисе.
+der Ausnahmezustand|чрезвычайное положение|Die Regierung verhängte den Ausnahmezustand.|Правительство ввело чрезвычайное положение.
+der Krisenherd|очаг кризиса, горячая точка|Die Region gilt als gefährlicher Krisenherd.|Регион считается опасной горячей точкой.
+der Konflikt|конфликт|Der Konflikt droht sich auszuweiten.|Конфликт грозит разрастись.
+die Spannungen|напряжённость (мн. ч.)|Zwischen den Nachbarländern wachsen die Spannungen.|Между соседними странами растёт напряжённость.
+die Drohung|угроза|Die Regierung ließ sich von den Drohungen nicht einschüchtern.|Правительство не поддалось на угрозы.
+die Blockade|блокада|Die Blockade des Hafens dauerte drei Wochen.|Блокада порта продолжалась три недели.
+der Polizeieinsatz|полицейская операция|Bei dem Polizeieinsatz wurden zwei Beamte verletzt.|В ходе полицейской операции пострадали двое сотрудников.
+die Bereitschaftspolizei|полиция особого назначения (для массовых мероприятий)|Die Bereitschaftspolizei sicherte das Gipfeltreffen.|Полиция особого назначения обеспечивала безопасность саммита.
+der Wasserwerfer|водомёт|Die Polizei setzte Wasserwerfer ein.|Полиция применила водомёты.
+das Tränengas|слезоточивый газ|Die Menge wurde mit Tränengas auseinandergetrieben.|Толпу разогнали слезоточивым газом.
+die Polizeigewalt|полицейское насилие|Videos von Polizeigewalt sorgten für Empörung.|Видео полицейского насилия вызвали возмущение.
+die Festnahme|задержание|Es gab über fünfzig Festnahmen.|Было задержано более пятидесяти человек.
+besetzen|захватывать, занимать|Studenten besetzten das Hauptgebäude der Universität.|Студенты заняли главный корпус университета.
+die Hausbesetzung|самозахват дома|In den Achtzigern gab es in Berlin viele Hausbesetzungen.|В восьмидесятые в Берлине было много самозахватов домов.
+der Hausbesetzer|сквоттер|Die Hausbesetzer weigerten sich, das Gebäude zu verlassen.|Сквоттеры отказались покинуть здание.
+die Räumung|освобождение (здания, территории), выселение|Die Räumung des Camps begann im Morgengrauen.|Освобождение лагеря началось на рассвете.
+räumen|освобождать (помещение), очищать|Die Polizei räumte den Platz.|Полиция очистила площадь.
+` },
+{ lang: 'de', id: 'de-b2-y-diplomacy', level: 'B2', emoji: '🤝', title: 'Diplomatie und Weltpolitik', desc: 'Дипломаты, переговоры, мирные процессы, сверхдержавы и баланс сил в мире.', cards: `
+der Diplomat|дипломат|Der Diplomat wurde ins Außenministerium bestellt.|Дипломата вызвали в министерство иностранных дел.
+diplomatisch|дипломатичный, дипломатический|Sie hat die Frage sehr diplomatisch beantwortet.|Она очень дипломатично ответила на вопрос.
+die Botschafterin|посол (женщина)|Die Botschafterin überreichte ihr Beglaubigungsschreiben.|Посол вручила верительные грамоты.
+der Konsul|консул|Der Konsul half den gestrandeten Touristen.|Консул помог застрявшим туристам.
+der Außenminister|министр иностранных дел|Der Außenminister reist morgen nach Peking.|Министр иностранных дел завтра едет в Пекин.
+der Sondergesandte|специальный посланник|Der Sondergesandte vermittelt zwischen den Kriegsparteien.|Специальный посланник посредничает между воюющими сторонами.
+das diplomatische Korps|дипломатический корпус|Das diplomatische Korps war zum Neujahrsempfang geladen.|Дипломатический корпус был приглашён на новогодний приём.
+die diplomatische Immunität|дипломатический иммунитет|Wegen seiner diplomatischen Immunität konnte er nicht verhaftet werden.|Из-за дипломатического иммунитета его нельзя было арестовать.
+ausweisen|высылать (из страны)|Die Regierung wies vier Diplomaten aus.|Правительство выслало четырёх дипломатов.
+der Staatsgast|почётный государственный гость|Der Staatsgast wurde mit militärischen Ehren empfangen.|Государственного гостя встретили с воинскими почестями.
+der Staatsempfang|государственный приём|Beim Staatsempfang spielte ein Orchester.|На государственном приёме играл оркестр.
+die Gesprächsrunde|раунд переговоров|Die nächste Gesprächsrunde findet in Genf statt.|Следующий раунд переговоров пройдёт в Женеве.
+die Friedensgespräche|мирные переговоры (мн. ч.)|Die Friedensgespräche wurden unterbrochen.|Мирные переговоры были прерваны.
+der Friedensprozess|мирный процесс|Der Friedensprozess ist ins Stocken geraten.|Мирный процесс застопорился.
+das Waffenstillstandsabkommen|соглашение о прекращении огня|Das Waffenstillstandsabkommen trat um Mitternacht in Kraft.|Соглашение о прекращении огня вступило в силу в полночь.
+die Konfliktlösung|урегулирование конфликта|Eine militärische Konfliktlösung lehnt die Ministerin ab.|Военное урегулирование конфликта министр отвергает.
+der Kompromissvorschlag|компромиссное предложение|Beide Seiten prüfen den Kompromissvorschlag.|Обе стороны изучают компромиссное предложение.
+die Krisendiplomatie|кризисная дипломатия|Wochenlange Krisendiplomatie verhinderte einen Krieg.|Недели кризисной дипломатии предотвратили войну.
+deeskalieren|снижать напряжённость, деэскалировать|Alle Seiten sind aufgerufen zu deeskalieren.|Все стороны призвали к деэскалации.
+die Deeskalation|деэскалация|Die UN fordert eine sofortige Deeskalation.|ООН требует немедленной деэскалации.
+die Einmischung|вмешательство|Das Land verbittet sich jede Einmischung in innere Angelegenheiten.|Страна не потерпит никакого вмешательства во внутренние дела.
+die Außenbeziehungen|внешние связи, внешние отношения (мн. ч.)|Die Außenbeziehungen zu den Nachbarn haben sich verbessert.|Отношения с соседями улучшились.
+die zwischenstaatlichen Beziehungen|межгосударственные отношения (мн. ч.)|Die zwischenstaatlichen Beziehungen sind seit Jahren angespannt.|Межгосударственные отношения уже много лет напряжённые.
+das Handelsabkommen|торговое соглашение|Das Handelsabkommen senkt die Zölle auf Autos.|Торговое соглашение снижает пошлины на автомобили.
+die Städtepartnerschaft|партнёрство городов-побратимов|Die Städtepartnerschaft mit Lyon besteht seit 1960.|Побратимские связи с Лионом существуют с 1960 года.
+die NATO|НАТО|Deutschland ist seit 1955 Mitglied der NATO.|Германия — член НАТО с 1955 года.
+die Neutralität|нейтралитет|Die Schweiz ist für ihre Neutralität bekannt.|Швейцария известна своим нейтралитетом.
+neutral|нейтральный|Österreich ist ein neutrales Land.|Австрия — нейтральная страна.
+die Weltmacht|мировая держава|China ist zur Weltmacht aufgestiegen.|Китай стал мировой державой.
+die Supermacht|сверхдержава|Im Kalten Krieg standen sich zwei Supermächte gegenüber.|В холодную войну противостояли две сверхдержавы.
+der Machtblock|блок (держав)|Die Welt war in zwei Machtblöcke geteilt.|Мир был разделён на два блока.
+das Kräfteverhältnis|соотношение сил|Das Kräfteverhältnis in der Region hat sich verschoben.|Соотношение сил в регионе изменилось.
+der Einflussbereich|сфера влияния|Russland betrachtet die Region als seinen Einflussbereich.|Россия считает регион своей сферой влияния.
+geopolitisch|геополитический|Die Pipeline hat eine große geopolitische Bedeutung.|Трубопровод имеет большое геополитическое значение.
+die Weltordnung|мировой порядок|Experten sprechen von einer neuen Weltordnung.|Эксперты говорят о новом мировом порядке.
+` },
+);
+/* de-b2-26.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-y-stocks', level: 'B2', emoji: '📈', title: 'Börse und Wertpapiere', desc: 'Фондовый рынок: акции, индексы, курсы, спекулянты и мелкие инвесторы.', cards: `
+an die Börse gehen|выходить на биржу|Das Start-up will nächstes Jahr an die Börse gehen.|Стартап хочет в следующем году выйти на биржу.
+das Börsenparkett|биржевой зал, биржа|Auf dem Börsenparkett herrschte Panik.|В биржевом зале царила паника.
+der Börsenmakler|биржевой маклер|Der Börsenmakler rät zur Vorsicht.|Биржевой маклер советует быть осторожным.
+der Broker|брокер|Über einen Online-Broker kann man günstig Aktien kaufen.|Через онлайн-брокера можно недорого покупать акции.
+der Börsenkurs|биржевой курс|Der Börsenkurs schwankt stark.|Биржевой курс сильно колеблется.
+der Börsenwert|рыночная стоимость компании|Der Börsenwert des Konzerns hat sich verdoppelt.|Рыночная стоимость концерна удвоилась.
+die Marktkapitalisierung|рыночная капитализация|Nach Marktkapitalisierung ist es das größte Unternehmen Europas.|По рыночной капитализации это крупнейшая компания Европы.
+der Aktienindex|фондовый индекс|Der Aktienindex fiel um drei Prozent.|Фондовый индекс упал на три процента.
+der DAX|DAX (главный немецкий фондовый индекс)|Der DAX schloss heute auf einem neuen Rekord.|Индекс DAX сегодня закрылся на новом рекорде.
+das Wertpapier|ценная бумага|Er hat sein Erbe in Wertpapieren angelegt.|Он вложил наследство в ценные бумаги.
+die Staatsanleihe|государственная облигация|Staatsanleihen gelten als sichere Geldanlage.|Государственные облигации считаются надёжным вложением.
+der Indexfonds|индексный фонд|Ein Indexfonds bildet einfach den Markt nach.|Индексный фонд просто копирует рынок.
+die Aktienoption|опцион на акции|Die Manager erhalten einen Teil ihres Gehalts als Aktienoptionen.|Менеджеры получают часть зарплаты в виде опционов на акции.
+der Leerverkauf|короткая продажа (шорт)|Leerverkäufe wetten auf fallende Kurse.|Короткие продажи — это ставка на падение курсов.
+die Hauptversammlung|общее собрание акционеров|Auf der Hauptversammlung gab es heftige Kritik am Vorstand.|На собрании акционеров правление подверглось резкой критике.
+der Kleinanleger|мелкий (частный) инвестор|Viele Kleinanleger haben ihr Erspartes verloren.|Многие мелкие инвесторы потеряли свои сбережения.
+der Spekulant|спекулянт|Spekulanten treiben den Preis in die Höhe.|Спекулянты взвинчивают цену.
+der Vermögensverwalter|управляющий активами|Ein Vermögensverwalter kümmert sich um ihr Geld.|Её деньгами занимается управляющий активами.
+die Vermögensverwaltung|управление активами|Die Bank bietet auch Vermögensverwaltung an.|Банк также предлагает управление активами.
+der Bitcoin|биткоин|Der Bitcoin hat in einer Woche ein Drittel an Wert verloren.|Биткоин за неделю потерял треть стоимости.
+die Volatilität|волатильность, изменчивость|Die Volatilität der Märkte macht Anleger nervös.|Волатильность рынков нервирует инвесторов.
+volatil|волатильный, нестабильный|Kryptowährungen sind extrem volatil.|Криптовалюты крайне нестабильны.
+risikofreudig|склонный к риску|Risikofreudige Anleger kaufen junge Technologiewerte.|Склонные к риску инвесторы покупают акции молодых технологических компаний.
+diversifizieren|диверсифицировать|Wer sein Geld diversifiziert, verringert das Risiko.|Кто диверсифицирует вложения, снижает риск.
+der Kursgewinn|рост курса, курсовая прибыль|Mit dem Verkauf hat er hohe Kursgewinne erzielt.|Продав акции, он получил большую курсовую прибыль.
+der Kursverlust|падение курса, курсовой убыток|Die Bank meldet massive Kursverluste.|Банк сообщает о серьёзном падении курса.
+der Kurseinbruch|обвал курса|Nach der Gewinnwarnung kam es zum Kurseinbruch.|После предупреждения о снижении прибыли курс обвалился.
+einbrechen|резко падать, обваливаться|Die Aktie brach um zwanzig Prozent ein.|Акция обвалилась на двадцать процентов.
+die Talfahrt|спад, падение (курса)|Die Talfahrt an den Börsen geht weiter.|Падение на биржах продолжается.
+der Börsencrash|биржевой крах|Beim Börsencrash 1929 verloren viele alles.|Во время биржевого краха 1929 года многие потеряли всё.
+der Tiefststand|самый низкий уровень|Der Euro fiel auf einen Tiefststand.|Евро упал до самого низкого уровня.
+der Höchststand|самый высокий уровень, пик|Die Aktie erreichte im Juni ihren Höchststand.|Акция достигла пика в июне.
+das Rekordhoch|рекордный максимум|Der Goldpreis kletterte auf ein Rekordhoch.|Цена золота поднялась до рекордного максимума.
+` },
+{ lang: 'de', id: 'de-b2-y-macro', level: 'B2', emoji: '🏦', title: 'Konjunktur und Geldpolitik', desc: 'Экономика страны: кризисы и подъёмы, центробанк, инфляция, господдержка и концерны.', cards: `
+die Hochkonjunktur|бум, высокая конъюнктура|In der Hochkonjunktur finden fast alle Arbeit.|В период бума почти все находят работу.
+der Abschwung|спад|Die Wirtschaft befindet sich im Abschwung.|Экономика находится в фазе спада.
+der Konjunktureinbruch|резкий экономический спад|Die Pandemie führte zu einem Konjunktureinbruch.|Пандемия привела к резкому экономическому спаду.
+die Wirtschaftsflaute|экономический застой|Wegen der Wirtschaftsflaute wird kaum investiert.|Из-за экономического застоя почти не инвестируют.
+die Wirtschaftskrise|экономический кризис|Die Wirtschaftskrise traf vor allem kleine Betriebe.|Экономический кризис ударил прежде всего по малым предприятиям.
+die Wirtschaftsleistung|экономическая мощь, объём производства|Die Wirtschaftsleistung ist um zwei Prozent gesunken.|Объём экономики сократился на два процента.
+die Wirtschaftsmacht|экономическая держава|Deutschland ist die größte Wirtschaftsmacht Europas.|Германия — крупнейшая экономическая держава Европы.
+das Industrieland|промышленно развитая страна|In Industrieländern sinkt die Zahl der Geburten.|В индустриальных странах рождаемость снижается.
+das Schwellenland|развивающаяся страна с быстрым ростом|Indien gilt als wichtiges Schwellenland.|Индия считается важной страной с формирующимся рынком.
+das Entwicklungsland|развивающаяся страна|Viele Entwicklungsländer sind hoch verschuldet.|Многие развивающиеся страны сильно в долгах.
+das Konjunkturpaket|пакет мер по стимулированию экономики|Die Regierung beschloss ein Konjunkturpaket über 50 Milliarden.|Правительство приняло пакет стимулирующих мер на 50 миллиардов.
+die Staatshilfe|государственная помощь|Die Fluggesellschaft beantragte Staatshilfe.|Авиакомпания запросила господдержку.
+subventionieren|субсидировать|Der Staat subventioniert die Landwirtschaft.|Государство субсидирует сельское хозяйство.
+der Rettungsschirm|стабилизационный фонд, «спасательный зонт»|Griechenland kam unter den Rettungsschirm.|Греция получила помощь из стабилизационного фонда.
+die Finanzkrise|финансовый кризис|Seit der Finanzkrise 2008 sind die Banken strenger reguliert.|После финансового кризиса 2008 года банки регулируются строже.
+die Bankenkrise|банковский кризис|Die Bankenkrise erschütterte das Vertrauen der Sparer.|Банковский кризис подорвал доверие вкладчиков.
+die Bankenaufsicht|банковский надзор|Die Bankenaufsicht prüft die Geschäfte der Bank.|Банковский надзор проверяет операции банка.
+die Finanzaufsicht|финансовый надзор|Die Finanzaufsicht hat den Fall untersucht.|Финансовый надзор расследовал этот случай.
+der Stresstest|стресс-тест|Zwei Banken sind beim Stresstest durchgefallen.|Два банка не прошли стресс-тест.
+die Zentralbank|центральный банк|Die Zentralbank hält die Zinsen niedrig.|Центробанк держит ставки низкими.
+die Geldpolitik|денежно-кредитная политика|Die Geldpolitik soll die Inflation bremsen.|Денежная политика должна сдерживать инфляцию.
+die Inflationsrate|уровень инфляции|Die Inflationsrate lag im Oktober bei vier Prozent.|Уровень инфляции в октябре составил четыре процента.
+die Inflationsangst|страх инфляции|Die Inflationsangst treibt die Menschen zum Goldkauf.|Страх инфляции подталкивает людей покупать золото.
+die Preissteigerung|рост цен|Die Preissteigerung bei Lebensmitteln ist enorm.|Рост цен на продукты огромен.
+die Lohn-Preis-Spirale|спираль «зарплаты — цены»|Ökonomen warnen vor einer Lohn-Preis-Spirale.|Экономисты предупреждают о спирали «зарплаты — цены».
+die Lebenshaltungskosten|стоимость жизни (мн. ч.)|In München sind die Lebenshaltungskosten besonders hoch.|В Мюнхене стоимость жизни особенно высока.
+die Abwertung|девальвация, обесценивание|Die Abwertung der Währung verteuert Importe.|Девальвация валюты удорожает импорт.
+die Aufwertung|ревальвация, повышение курса|Die Aufwertung des Franken schadet den Exporteuren.|Укрепление франка вредит экспортёрам.
+der Mutterkonzern|материнская компания|Der Mutterkonzern sitzt in den USA.|Материнская компания находится в США.
+die Tochtergesellschaft|дочерняя компания|Die Tochtergesellschaft wird verkauft.|Дочернюю компанию продают.
+fusionieren|сливаться (о компаниях)|Die beiden Banken wollen fusionieren.|Два банка хотят слиться.
+der Marktführer|лидер рынка|Das Unternehmen ist Marktführer bei Windrädern.|Компания — лидер рынка ветрогенераторов.
+Insolvenz anmelden|объявить о банкротстве|Die Modekette musste Insolvenz anmelden.|Сети магазинов одежды пришлось объявить о банкротстве.
+die Briefkastenfirma|фирма-однодневка, подставная фирма|Das Geld floss über Briefkastenfirmen ins Ausland.|Деньги уходили за границу через подставные фирмы.
+` },
+{ lang: 'de', id: 'de-b2-y-trade', level: 'B2', emoji: '🚢', title: 'Außenhandel und Zölle', desc: 'Внешняя торговля: экспорт и импорт, пошлины, торговые войны, сырьё и перенос производства.', cards: `
+der Außenhandel|внешняя торговля|Der Außenhandel ist für Deutschland besonders wichtig.|Внешняя торговля особенно важна для Германии.
+der Binnenhandel|внутренняя торговля|Der Binnenhandel hat sich gut entwickelt.|Внутренняя торговля хорошо развивалась.
+exportieren|экспортировать|Deutschland exportiert vor allem Autos und Maschinen.|Германия экспортирует прежде всего автомобили и машины.
+importieren|импортировать|Das Land importiert fast sein gesamtes Öl.|Страна импортирует почти всю нефть.
+der Import|импорт|Der Import von Gas aus Russland ist stark gesunken.|Импорт газа из России сильно сократился.
+die Ausfuhr|вывоз, экспорт|Die Ausfuhr von Waffen ist streng geregelt.|Вывоз оружия строго регламентирован.
+die Einfuhr|ввоз, импорт|Die Einfuhr von Fleisch ist verboten.|Ввоз мяса запрещён.
+das Exportland|страна-экспортёр|China ist das größte Exportland der Welt.|Китай — крупнейшая страна-экспортёр в мире.
+der Exportweltmeister|«чемпион мира по экспорту»|Lange war Deutschland stolz, Exportweltmeister zu sein.|Германия долго гордилась званием чемпиона мира по экспорту.
+der Exporteur|экспортёр|Die Exporteure leiden unter dem starken Euro.|Экспортёры страдают от сильного евро.
+der Importeur|импортёр|Der Importeur verkauft Wein aus Chile.|Импортёр продаёт вино из Чили.
+das Importverbot|запрет на импорт|Die EU verhängte ein Importverbot für Öl.|ЕС ввёл запрет на импорт нефти.
+die Handelsbeziehungen|торговые отношения (мн. ч.)|Die Handelsbeziehungen mit Asien sollen ausgebaut werden.|Торговые отношения с Азией планируют расширять.
+der Handelspartner|торговый партнёр|Frankreich ist einer der wichtigsten Handelspartner.|Франция — один из важнейших торговых партнёров.
+das Freihandelsabkommen|соглашение о свободной торговле|Das Freihandelsabkommen trat 2019 in Kraft.|Соглашение о свободной торговле вступило в силу в 2019 году.
+die Handelsschranke|торговый барьер|Das Abkommen baut Handelsschranken ab.|Соглашение устраняет торговые барьеры.
+der Protektionismus|протекционизм|Ökonomen warnen vor einem neuen Protektionismus.|Экономисты предупреждают о новом протекционизме.
+die Abschottung|изоляция, закрытие рынка|Die Abschottung des Marktes schadet am Ende allen.|Закрытие рынка в итоге вредит всем.
+die Zölle|пошлины (мн. ч.)|Die USA erhöhen die Zölle auf Stahl.|США повышают пошлины на сталь.
+der Strafzoll|карательная пошлина|Als Antwort verhängte die EU Strafzölle.|В ответ ЕС ввёл карательные пошлины.
+der Handelskrieg|торговая война|Ein Handelskrieg kennt nur Verlierer.|В торговой войне бывают только проигравшие.
+der Handelsüberschuss|положительное сальдо торговли, профицит|Der hohe Handelsüberschuss wird international kritisiert.|Высокий торговый профицит критикуют на международном уровне.
+das Handelsdefizit|дефицит торгового баланса|Das Handelsdefizit der USA ist gewachsen.|Дефицит торгового баланса США вырос.
+der Zollbeamte|таможенник|Der Zollbeamte kontrollierte den Lastwagen.|Таможенник проверил грузовик.
+verzollen|оплачивать пошлину, декларировать|Haben Sie etwas zu verzollen?|Вам есть что декларировать?
+zollfrei|беспошлинный|Innerhalb der EU sind Waren zollfrei.|Внутри ЕС товары не облагаются пошлиной.
+die Zollabfertigung|таможенное оформление|Die Zollabfertigung dauerte drei Stunden.|Таможенное оформление заняло три часа.
+der Weltmarkt|мировой рынок|Auf dem Weltmarkt ist der Weizenpreis gestiegen.|На мировом рынке цена пшеницы выросла.
+die Rohstoffe|сырьё (мн. ч.)|Deutschland ist arm an Rohstoffen.|Германия бедна сырьём.
+der Ölpreis|цена на нефть|Der Ölpreis ist auf 90 Dollar gestiegen.|Цена на нефть поднялась до 90 долларов.
+der Absatzmarkt|рынок сбыта|China ist der wichtigste Absatzmarkt für deutsche Autos.|Китай — важнейший рынок сбыта немецких автомобилей.
+der Umsatzeinbruch|резкое падение оборота|Nach den Sanktionen gab es einen Umsatzeinbruch.|После санкций оборот резко упал.
+die Produktionsverlagerung|перенос производства|Die Produktionsverlagerung nach Asien kostet Arbeitsplätze.|Перенос производства в Азию стоит рабочих мест.
+das Billiglohnland|страна с дешёвой рабочей силой|Viele Kleider werden in Billiglohnländern genäht.|Много одежды шьют в странах с дешёвой рабочей силой.
+wettbewerbsfähig|конкурентоспособный|Die Firma muss wettbewerbsfähig bleiben.|Фирма должна оставаться конкурентоспособной.
+` },
+{ lang: 'de', id: 'de-b2-y-debt', level: 'B2', emoji: '💸', title: 'Schulden und Kredite', desc: 'Долги: кредиты, рассрочка, просрочка, коллекторы, судебный пристав и консультация для должников.', cards: `
+sich verschulden|влезать в долги|Für das Haus hat sich die Familie hoch verschuldet.|Ради дома семья сильно влезла в долги.
+verschuldet|в долгах, закредитованный|Viele Studenten sind nach dem Studium verschuldet.|Многие студенты после учёбы оказываются в долгах.
+schuldenfrei|без долгов|Seit diesem Monat sind wir endlich schuldenfrei.|С этого месяца мы наконец без долгов.
+der Schuldenberg|гора долгов|Der Schuldenberg wächst jedes Jahr.|Гора долгов растёт каждый год.
+die Schuldenfalle|долговая ловушка|Mit Ratenkäufen geraten junge Leute schnell in die Schuldenfalle.|Покупая в рассрочку, молодые люди быстро попадают в долговую ловушку.
+die Schuldenkrise|долговой кризис|Die Schuldenkrise bedrohte den Euro.|Долговой кризис угрожал евро.
+die Überschuldung|чрезмерная задолженность|Überschuldung ist oft die Folge von Arbeitslosigkeit.|Чрезмерная задолженность часто следствие безработицы.
+der Schuldner|должник|Der Schuldner kann die Raten nicht mehr bezahlen.|Должник больше не может платить взносы.
+der Gläubiger|кредитор|Die Gläubiger verlangen ihr Geld zurück.|Кредиторы требуют вернуть деньги.
+der Kreditgeber|кредитор, заимодавец|Der Kreditgeber prüft die Einkommensnachweise.|Кредитор проверяет справки о доходах.
+der Kreditnehmer|заёмщик|Der Kreditnehmer haftet mit seinem Vermögen.|Заёмщик отвечает своим имуществом.
+der Ratenkredit|потребительский кредит с погашением частями|Für das Auto hat er einen Ratenkredit aufgenommen.|На машину он взял потребительский кредит.
+die Ratenzahlung|оплата в рассрочку|Der Händler bietet Ratenzahlung ohne Zinsen an.|Продавец предлагает беспроцентную рассрочку.
+in Raten zahlen|платить в рассрочку|Den Fernseher habe ich in Raten gezahlt.|Телевизор я оплатил в рассрочку.
+die Zinslast|бремя процентов|Die Zinslast frisst einen großen Teil des Einkommens.|Выплата процентов съедает большую часть дохода.
+die Kreditwürdigkeit|кредитоспособность|Die Bank zweifelt an seiner Kreditwürdigkeit.|Банк сомневается в его кредитоспособности.
+bürgen|ручаться, быть поручителем|Meine Eltern bürgen für den Kredit.|Мои родители — поручители по кредиту.
+der Bürge|поручитель|Ohne Bürgen bekommt er keine Wohnung.|Без поручителя он не получит квартиру.
+die Zahlungsfrist|срок оплаты|Die Zahlungsfrist beträgt vierzehn Tage.|Срок оплаты — четырнадцать дней.
+der Zahlungsverzug|просрочка платежа|Bei Zahlungsverzug werden Zinsen fällig.|При просрочке платежа начисляются проценты.
+in Verzug geraten|просрочить (платёж)|Er ist mit der Miete in Verzug geraten.|Он просрочил оплату аренды.
+die Mahngebühr|пеня за напоминание о долге|Für jede Mahnung verlangt die Firma fünf Euro Mahngebühr.|За каждое напоминание фирма берёт пять евро сбора.
+der Mahnbescheid|судебный приказ о взыскании долга|Wenn er nicht zahlt, beantragen wir einen Mahnbescheid.|Если он не заплатит, мы подадим на судебный приказ.
+das Inkasso|взыскание долгов|Die Forderung wurde an ein Inkasso übergeben.|Требование передали на взыскание.
+zahlungsunfähig|неплатёжеспособный|Der Betrieb ist zahlungsunfähig.|Предприятие неплатёжеспособно.
+die Privatinsolvenz|банкротство физического лица|Nach der Privatinsolvenz kann man neu anfangen.|После личного банкротства можно начать всё заново.
+die Schuldnerberatung|консультация для должников|Die Schuldnerberatung hilft kostenlos.|Консультация для должников помогает бесплатно.
+die Verbindlichkeiten|обязательства, задолженность (мн. ч.)|Die Firma hat Verbindlichkeiten in Millionenhöhe.|У фирмы задолженность на миллионы.
+der Gerichtsvollzieher|судебный пристав|Der Gerichtsvollzieher stand vor der Tür.|У дверей стоял судебный пристав.
+pfänden|описывать имущество, налагать арест|Ihm wurde ein Teil des Lohns gepfändet.|На часть его зарплаты наложили арест.
+die Pfändung|арест имущества, удержание|Eine Pfändung des Kontos ist möglich.|Возможен арест счёта.
+die Zwangsvollstreckung|принудительное исполнение (взыскание)|Die Bank leitete die Zwangsvollstreckung ein.|Банк начал принудительное взыскание.
+die Zwangsversteigerung|принудительная продажа с торгов|Das Haus kommt zur Zwangsversteigerung.|Дом выставляется на принудительные торги.
+das Pfandhaus|ломбард|Sie brachte ihren Ring ins Pfandhaus.|Она отнесла кольцо в ломбард.
+verpfänden|закладывать (в ломбард)|Er musste seine Uhr verpfänden.|Ему пришлось заложить часы.
+` },
+{ lang: 'de', id: 'de-b2-y-budget', level: 'B2', emoji: '👛', title: 'Haushaltskasse und Sparen', desc: 'Личный бюджет: доходы, накопления, экономия и спонтанные покупки.', cards: `
+die Haushaltskasse|семейный бюджет, общая касса|Das Geld kommt in die Haushaltskasse.|Деньги идут в общую семейную кассу.
+das Haushaltsgeld|деньги на хозяйство|Das Haushaltsgeld reicht kaum bis zum Monatsende.|Денег на хозяйство едва хватает до конца месяца.
+das Haushaltseinkommen|доход домохозяйства|Das durchschnittliche Haushaltseinkommen ist gestiegen.|Средний доход домохозяйства вырос.
+das Nettoeinkommen|чистый доход|Ein Drittel des Nettoeinkommens geht für die Miete drauf.|Треть чистого дохода уходит на аренду.
+das Budget|бюджет|Für den Urlaub haben wir ein Budget von 2000 Euro.|На отпуск у нас бюджет 2000 евро.
+das Monatsbudget|месячный бюджет|Mit einer App behalte ich mein Monatsbudget im Blick.|С помощью приложения я слежу за месячным бюджетом.
+die laufenden Kosten|текущие расходы (мн. ч.)|Die laufenden Kosten für das Auto sind hoch.|Текущие расходы на машину высоки.
+der Kassensturz|подсчёт наличности, ревизия финансов|Am Monatsende machen wir Kassensturz.|В конце месяца мы подсчитываем, сколько осталось.
+auskommen|обходиться, сводить концы с концами|Mit 1200 Euro im Monat kommt sie gut aus.|С 1200 евро в месяц она хорошо обходится.
+der Geldbeutel|кошелёк|Die hohen Preise belasten den Geldbeutel.|Высокие цены бьют по кошельку.
+der Sparer|вкладчик, тот, кто копит|Für Sparer sind niedrige Zinsen schlecht.|Для вкладчиков низкие ставки — это плохо.
+die Sparquote|доля сбережений, норма сбережений|Die Sparquote der Deutschen ist traditionell hoch.|Доля сбережений у немцев традиционно высока.
+sparen auf|копить на|Wir sparen auf ein neues Auto.|Мы копим на новую машину.
+sparen an|экономить на|An der Bildung sollte man nicht sparen.|На образовании не стоит экономить.
+der Spartipp|совет по экономии|Hier sind fünf Spartipps für den Winter.|Вот пять советов по экономии на зиму.
+der Sparplan|план накоплений|Sie zahlt monatlich 50 Euro in einen Sparplan ein.|Она ежемесячно вносит 50 евро в план накоплений.
+das Sparbuch|сберегательная книжка|Zur Geburt bekam das Baby ein Sparbuch.|При рождении малышу подарили сберкнижку.
+der Sparstrumpf|кубышка, заначка|Opa hatte sein Geld im Sparstrumpf.|Дедушка держал деньги в кубышке.
+Geld zurücklegen|откладывать деньги|Jeden Monat lege ich etwas Geld zurück.|Каждый месяц я откладываю немного денег.
+die Rücklage|резерв, сбережения на чёрный день|Für Reparaturen sollte man Rücklagen bilden.|На ремонт стоит создавать резерв.
+das Finanzpolster|финансовая подушка|Ein Finanzpolster gibt Sicherheit.|Финансовая подушка даёт уверенность.
+preisbewusst|экономный, следящий за ценами|Preisbewusste Kunden vergleichen im Internet.|Экономные покупатели сравнивают цены в интернете.
+das Preis-Leistungs-Verhältnis|соотношение цены и качества|Das Hotel hat ein gutes Preis-Leistungs-Verhältnis.|У отеля хорошее соотношение цены и качества.
+knausern|скупиться|Beim Essen knausert er nie.|На еде он никогда не скупится.
+spendabel|щедрый (на угощение)|Heute bin ich spendabel – die Getränke gehen auf mich!|Сегодня я щедрый — напитки за мой счёт!
+sich etwas leisten|позволить себе что-то|Diesen Urlaub können wir uns nicht leisten.|Такой отпуск мы не можем себе позволить.
+sich gönnen|баловать себя, позволить себе|Nach der Prüfung gönne ich mir ein gutes Essen.|После экзамена побалую себя хорошим ужином.
+der Luxus|роскошь|Ein eigenes Auto ist für sie Luxus.|Своя машина для неё — роскошь.
+der Konsumverzicht|отказ от потребления|Konsumverzicht ist gut für die Umwelt.|Отказ от лишнего потребления полезен для окружающей среды.
+die Verschwendung|расточительство|Das ist doch reine Verschwendung!|Это чистое расточительство!
+verprassen|промотать, растранжирить|Er hat sein ganzes Erbe verprasst.|Он промотал всё наследство.
+der Impulskauf|импульсивная покупка|Süßigkeiten an der Kasse verleiten zum Impulskauf.|Сладости у кассы провоцируют импульсивные покупки.
+der Frustkauf|покупка «от расстройства»|Die Tasche war ein Frustkauf nach einem schlechten Tag.|Сумка была покупкой «с горя» после плохого дня.
+die Kaufsucht|шопоголизм|Kaufsucht ist eine ernst zu nehmende Krankheit.|Шопоголизм — серьёзное заболевание.
+` },
+);
+/* de-b2-27.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-y-offices', level: 'B2', emoji: '🗂️', title: 'Behördengänge', desc: 'Походы по ведомствам: регистрация, справки, заверенные копии, пособия и канцелярский язык.', cards: `
+der Behördengang|поход в ведомство|Für die Ummeldung ist ein Behördengang nötig.|Для перерегистрации придётся сходить в ведомство.
+der Amtsweg|официальный (бюрократический) путь|Der Amtsweg ist lang und kompliziert.|Бюрократический путь долгий и сложный.
+der Amtsschimmel|бюрократизм, волокита|Hier wiehert mal wieder der Amtsschimmel!|Тут опять сплошная бюрократическая волокита!
+die zuständige Behörde|компетентный орган, ответственное ведомство|Wenden Sie sich bitte an die zuständige Behörde.|Обратитесь, пожалуйста, в соответствующее ведомство.
+das Einwohnermeldeamt|паспортный стол, отдел регистрации жителей|Beim Einwohnermeldeamt meldet man seinen neuen Wohnsitz an.|В отделе регистрации регистрируют новое место жительства.
+das Melderegister|реестр регистрации жителей|Ihr Name ist nicht im Melderegister eingetragen.|Ваше имя не внесено в реестр жителей.
+die Meldepflicht|обязанность регистрироваться|In Deutschland gilt eine Meldepflicht innerhalb von zwei Wochen.|В Германии нужно зарегистрироваться в течение двух недель.
+meldepflichtig|подлежащий обязательной регистрации (уведомлению)|Masern sind eine meldepflichtige Krankheit.|Корь — болезнь, о которой обязаны сообщать властям.
+die Ummeldung|перерегистрация (по новому адресу)|Für die Ummeldung brauchen Sie die Bestätigung des Vermieters.|Для перерегистрации нужно подтверждение арендодателя.
+die Ausweispflicht|обязанность иметь удостоверение личности|Ab 16 Jahren gilt in Deutschland die Ausweispflicht.|С 16 лет в Германии обязательно иметь удостоверение личности.
+die Personalien|личные данные (мн. ч.)|Die Polizei nahm seine Personalien auf.|Полиция записала его личные данные.
+der Personenstand|гражданское состояние|Änderungen des Personenstands meldet das Standesamt.|Об изменениях гражданского состояния сообщает ЗАГС.
+die Sterbeurkunde|свидетельство о смерти|Für das Erbe braucht man die Sterbeurkunde.|Для наследства нужно свидетельство о смерти.
+das Führungszeugnis|справка о несудимости|Für die Arbeit im Kindergarten braucht man ein Führungszeugnis.|Для работы в детском саду нужна справка о несудимости.
+die Steuer-ID|налоговый идентификационный номер|Ihre Steuer-ID finden Sie auf dem Brief vom Finanzamt.|Ваш налоговый номер указан в письме из налоговой.
+die beglaubigte Kopie|заверенная копия|Bitte legen Sie eine beglaubigte Kopie des Zeugnisses bei.|Пожалуйста, приложите заверенную копию аттестата.
+abstempeln|ставить печать, штамповать|Die Beamtin stempelte das Formular ab.|Чиновница поставила печать на бланк.
+amtlich|официальный|Für das Visum brauche ich eine amtliche Übersetzung.|Для визы мне нужен официальный перевод.
+biometrisch|биометрический|Für den Pass braucht man ein biometrisches Foto.|Для паспорта нужно биометрическое фото.
+die Terminvereinbarung|запись на приём|Eine Terminvereinbarung ist nur online möglich.|Записаться на приём можно только онлайн.
+die Online-Terminbuchung|онлайн-запись|Die Online-Terminbuchung war schon nach Minuten ausgebucht.|Онлайн-запись была заполнена за несколько минут.
+die Widerspruchsfrist|срок подачи возражения|Die Widerspruchsfrist beträgt einen Monat.|Срок для обжалования — один месяц.
+der Bußgeldbescheid|постановление о штрафе|Für das Falschparken kam ein Bußgeldbescheid.|За неправильную парковку пришло постановление о штрафе.
+die Datenschutzerklärung|заявление о защите данных|Bitte lesen Sie die Datenschutzerklärung und unterschreiben Sie.|Прочитайте, пожалуйста, заявление о защите данных и распишитесь.
+die Einwilligung|согласие|Ohne Ihre Einwilligung dürfen wir die Daten nicht weitergeben.|Без вашего согласия мы не можем передавать данные.
+die Antragsfrist|срок подачи заявления|Die Antragsfrist endet am 31. März.|Срок подачи заявлений истекает 31 марта.
+anspruchsberechtigt|имеющий право (на выплату)|Nur Familien mit Kindern sind anspruchsberechtigt.|Право на выплату есть только у семей с детьми.
+die Sozialleistungen|социальные выплаты (мн. ч.)|Er lebt von Sozialleistungen.|Он живёт на социальные выплаты.
+das Jugendamt|ведомство по делам молодёжи (опека)|Das Jugendamt kümmert sich um gefährdete Kinder.|Ведомство по делам молодёжи заботится о детях в опасности.
+das Arbeitsamt|биржа труда (разг., сейчас Agentur für Arbeit)|Früher musste man jede Woche zum Arbeitsamt.|Раньше нужно было каждую неделю ходить на биржу труда.
+der öffentliche Dienst|государственная служба|Im öffentlichen Dienst sind die Stellen sicher.|На госслужбе рабочие места надёжные.
+verbeamtet|имеющий статус чиновника (госслужащего)|Lehrer sind in Bayern meistens verbeamtet.|Учителя в Баварии чаще всего имеют статус госслужащего.
+die Amtssprache|официальный язык|Die Amtssprache in Deutschland ist Deutsch.|Официальный язык в Германии — немецкий.
+die Behördensprache|канцелярский язык|Die Behördensprache ist selbst für Muttersprachler schwer.|Канцелярский язык трудный даже для носителей.
+` },
+{ lang: 'de', id: 'de-b2-y-law', level: 'B2', emoji: '⚖️', title: 'Recht und Gesetz', desc: 'Правовые понятия: законно и незаконно, правовые лазейки, отрасли права, наследство и юридическая консультация.', cards: `
+das Rechtsgebiet|отрасль права|Mietrecht ist ein kompliziertes Rechtsgebiet.|Жилищное право — сложная отрасль.
+das Zivilrecht|гражданское право|Streit um Verträge gehört zum Zivilrecht.|Споры о договорах относятся к гражданскому праву.
+das Strafrecht|уголовное право|Diebstahl ist ein Fall für das Strafrecht.|Кража — дело уголовного права.
+das Mietrecht|жилищное (арендное) право|Das deutsche Mietrecht schützt die Mieter stark.|Немецкое арендное право хорошо защищает арендаторов.
+das Arbeitsrecht|трудовое право|Eine Anwältin für Arbeitsrecht hat mich beraten.|Меня консультировала юрист по трудовому праву.
+das Familienrecht|семейное право|Scheidungen regelt das Familienrecht.|Разводы регулирует семейное право.
+das Erbrecht|наследственное право|Nach dem Erbrecht erben zuerst die Kinder.|По наследственному праву первыми наследуют дети.
+erben|наследовать|Sie hat von ihrer Tante ein Haus geerbt.|Она унаследовала дом от тёти.
+die Erbengemeinschaft|сообщество наследников|Die Erbengemeinschaft kann sich nicht über den Verkauf einigen.|Наследники не могут договориться о продаже.
+die Nachlassverwaltung|управление наследственным имуществом|Ein Anwalt übernimmt die Nachlassverwaltung.|Управление наследством берёт на себя адвокат.
+der Grundbucheintrag|запись в поземельной книге|Erst mit dem Grundbucheintrag gehört Ihnen das Haus.|Только после записи в поземельной книге дом становится вашим.
+notariell|нотариальный|Der Kaufvertrag muss notariell beurkundet werden.|Договор купли-продажи нужно заверить у нотариуса.
+der Paragraf|параграф, статья (закона)|Nach Paragraf 823 muss er Schadenersatz zahlen.|Согласно параграфу 823 он должен возместить ущерб.
+die Satzung|устав|Laut Satzung wählt der Verein jedes Jahr einen Vorstand.|Согласно уставу, клуб каждый год избирает правление.
+legal|законный, легальный|Ist das überhaupt legal?|Это вообще законно?
+rechtmäßig|правомерный, законный|Er ist der rechtmäßige Besitzer des Autos.|Он законный владелец машины.
+rechtswidrig|противоправный|Die Kündigung war rechtswidrig.|Увольнение было незаконным.
+gesetzwidrig|противозаконный|Diese Klausel im Vertrag ist gesetzwidrig.|Этот пункт договора противоречит закону.
+gegen das Gesetz verstoßen|нарушать закон|Die Firma hat gegen das Gesetz verstoßen.|Фирма нарушила закон.
+der Gesetzesverstoß|нарушение закона|Jeder Gesetzesverstoß wird geahndet.|Любое нарушение закона наказывается.
+die Gesetzeslücke|пробел в законодательстве|Die Konzerne nutzen eine Gesetzeslücke.|Концерны используют пробел в законодательстве.
+das Schlupfloch|лазейка|Das neue Gesetz schließt alle Schlupflöcher.|Новый закон закрывает все лазейки.
+die Rechtslage|правовая ситуация|Die Rechtslage ist eindeutig.|Правовая ситуация однозначна.
+der Rechtsanspruch|законное право (требования)|Eltern haben einen Rechtsanspruch auf einen Kitaplatz.|У родителей есть законное право на место в детском саду.
+der Rechtsweg|судебный порядок|Der Rechtsweg ist ausgeschlossen.|Обжалование в судебном порядке исключено.
+die Rechtsberatung|юридическая консультация|Die Verbraucherzentrale bietet eine günstige Rechtsberatung an.|Центр защиты прав потребителей предлагает недорогую юридическую консультацию.
+die Rechtsschutzversicherung|страхование судебных расходов|Zum Glück zahlt die Rechtsschutzversicherung den Anwalt.|К счастью, адвоката оплачивает страховка судебных расходов.
+der Anwaltszwang|обязательное представительство адвокатом|Vor dem Landgericht herrscht Anwaltszwang.|В земельном суде обязательно участие адвоката.
+` },
+{ lang: 'de', id: 'de-b2-y-trial', level: 'B2', emoji: '👨‍⚖️', title: 'Vor Gericht', desc: 'Судебный процесс: инстанции, обвиняемые и защитники, доказательства, приговоры и обжалование.', cards: `
+das Gerichtsverfahren|судебный процесс, разбирательство|Das Gerichtsverfahren zieht sich seit Jahren hin.|Судебное разбирательство тянется уже годы.
+der Rechtsstreit|правовой спор, тяжба|Der Rechtsstreit um das Erbe ist endlich beendet.|Тяжба о наследстве наконец закончилась.
+prozessieren|судиться|Die Nachbarn prozessieren wegen eines Baumes.|Соседи судятся из-за дерева.
+das Amtsgericht|участковый суд (первой инстанции)|Kleine Streitigkeiten verhandelt das Amtsgericht.|Мелкие споры рассматривает участковый суд.
+das Landgericht|земельный суд|Der Fall geht jetzt vor das Landgericht.|Дело теперь передаётся в земельный суд.
+die Instanz|инстанция|In der zweiten Instanz wurde das Urteil aufgehoben.|Во второй инстанции приговор отменили.
+der Gerichtssaal|зал суда|Im Gerichtssaal war es ganz still.|В зале суда стояла полная тишина.
+die Hauptverhandlung|основное судебное заседание|Die Hauptverhandlung beginnt im März.|Основное судебное заседание начнётся в марте.
+die Anklagebank|скамья подсудимых|Drei Manager sitzen auf der Anklagebank.|На скамье подсудимых трое менеджеров.
+der Tatverdacht|подозрение в совершении преступления|Gegen ihn besteht dringender Tatverdacht.|Против него есть серьёзное подозрение.
+der Tatverdächtige|подозреваемый|Der Tatverdächtige wurde in Hamburg festgenommen.|Подозреваемого задержали в Гамбурге.
+der Strafverteidiger|адвокат по уголовным делам, защитник|Sein Strafverteidiger plädiert auf Freispruch.|Его защитник просит оправдательного приговора.
+der Pflichtverteidiger|защитник по назначению суда|Wer sich keinen Anwalt leisten kann, bekommt einen Pflichtverteidiger.|Кто не может позволить себе адвоката, получает защитника по назначению.
+der Schöffe|народный заседатель|Neben den Richtern entscheiden zwei Schöffen.|Помимо судей решают двое народных заседателей.
+die Strafanzeige|заявление о преступлении|Sie hat Strafanzeige gegen ihren Chef erstattet.|Она подала заявление о преступлении на своего начальника.
+die Beweisaufnahme|исследование доказательств|Die Beweisaufnahme ist abgeschlossen.|Исследование доказательств завершено.
+das Beweismittel|доказательство, улика|Das Video gilt als wichtiges Beweismittel.|Видео считается важным доказательством.
+das Indiz|косвенная улика|Es gibt viele Indizien, aber keinen Beweis.|Косвенных улик много, но доказательства нет.
+das Geständnis|признание (вины)|Der Angeklagte legte ein Geständnis ab.|Обвиняемый признал вину.
+die Schuld|вина|Seine Schuld konnte nicht bewiesen werden.|Его вину не удалось доказать.
+die Vorstrafe|судимость|Er hat schon zwei Vorstrafen wegen Diebstahls.|У него уже две судимости за кражу.
+vorbestraft|ранее судимый|Die Angeklagte ist nicht vorbestraft.|Обвиняемая ранее не судима.
+das Strafmaß|мера наказания|Über das Strafmaß entscheidet das Gericht nächste Woche.|О мере наказания суд решит на следующей неделе.
+die Freiheitsstrafe|лишение свободы|Er wurde zu einer Freiheitsstrafe von fünf Jahren verurteilt.|Его приговорили к пяти годам лишения свободы.
+die Bewährungsstrafe|условный срок|Sie kam mit einer Bewährungsstrafe davon.|Она отделалась условным сроком.
+auf Bewährung|условно|Er bekam zwei Jahre auf Bewährung.|Он получил два года условно.
+die Sozialstunden|общественные работы (мн. ч.)|Der Jugendliche muss 80 Sozialstunden leisten.|Подростку придётся отработать 80 часов общественных работ.
+das Schmerzensgeld|компенсация морального вреда|Das Opfer erhält 10 000 Euro Schmerzensgeld.|Пострадавший получит 10 000 евро компенсации.
+freisprechen|оправдывать (в суде)|Der Angeklagte wurde aus Mangel an Beweisen freigesprochen.|Обвиняемого оправдали за недостатком доказательств.
+der Richterspruch|решение суда, приговор|Gegen den Richterspruch kann man Berufung einlegen.|Решение суда можно обжаловать.
+Berufung einlegen|подать апелляцию|Die Staatsanwaltschaft hat Berufung eingelegt.|Прокуратура подала апелляцию.
+das Berufungsverfahren|апелляционное производство|Im Berufungsverfahren wurde die Strafe gemildert.|В апелляционном порядке наказание смягчили.
+die Gerichtskosten|судебные издержки (мн. ч.)|Wer verliert, trägt die Gerichtskosten.|Судебные издержки несёт проигравший.
+die Prozesskostenhilfe|государственная помощь в оплате судебных расходов|Mit geringem Einkommen kann man Prozesskostenhilfe beantragen.|При низком доходе можно запросить помощь в оплате судебных расходов.
+` },
+{ lang: 'de', id: 'de-b2-y-temper', level: 'B2', emoji: '😤', title: 'Launen und Wutausbrüche', desc: 'Настроение и раздражение: как сказать «вспылить», «выпустить пар», «держать себя в руках».', cards: `
+gut gelaunt|в хорошем настроении|Heute ist der Chef auffallend gut gelaunt.|Сегодня шеф в на редкость хорошем настроении.
+schlecht gelaunt|в плохом настроении|Morgens vor dem Kaffee bin ich immer schlecht gelaunt.|По утрам до кофе я всегда не в духе.
+gut drauf sein|быть в хорошем настроении (разг.)|Du bist ja heute gut drauf!|А ты сегодня в ударе!
+mies drauf sein|быть в паршивом настроении (разг.)|Lass ihn in Ruhe, er ist heute mies drauf.|Оставь его в покое, он сегодня не в духе.
+die Gefühlsschwankungen|перепады настроения (мн. ч.)|In der Pubertät hat man oft Gefühlsschwankungen.|В подростковом возрасте часто бывают перепады настроения.
+der Stimmungsumschwung|резкая перемена настроения|Nach dem Tor kam der Stimmungsumschwung im Stadion.|После гола настроение на стадионе резко переменилось.
+gereizt|раздражённый|Sie antwortete ziemlich gereizt.|Она ответила довольно раздражённо.
+die Gereiztheit|раздражённость|Seine Gereiztheit lag an dem Schlafmangel.|Его раздражительность была от недосыпа.
+die Wut im Bauch|злость внутри, клокочущая обида|Mit Wut im Bauch verließ er die Sitzung.|Кипя от злости, он покинул совещание.
+kochen vor Wut|кипеть от злости|Als ich das hörte, habe ich vor Wut gekocht.|Когда я это услышал, я кипел от злости.
+wütend machen|бесить, злить|Seine Arroganz macht mich wütend.|Его высокомерие меня бесит.
+der Wutanfall|приступ ярости|Das Kind bekam im Supermarkt einen Wutanfall.|У ребёнка в супермаркете случилась истерика.
+ausrasten|сорваться, взорваться (разг.)|Wegen einer Kleinigkeit ist er total ausgerastet.|Из-за мелочи он совершенно сорвался.
+an die Decke gehen|взорваться, взбеситься|Wenn mein Vater das erfährt, geht er an die Decke.|Если отец узнает, он взорвётся.
+die Fassung verlieren|потерять самообладание|Bei der Nachricht verlor sie die Fassung.|При этом известии она потеряла самообладание.
+die Fassung bewahren|сохранять самообладание|Trotz der Beleidigung bewahrte er die Fassung.|Несмотря на оскорбление, он сохранил самообладание.
+die Beherrschung verlieren|выйти из себя|Ich habe für einen Moment die Beherrschung verloren.|На мгновение я вышел из себя.
+sich beherrschen|сдерживаться, владеть собой|Ich musste mich beherrschen, um nicht zu lachen.|Мне пришлось сдерживаться, чтобы не рассмеяться.
+die Ruhe bewahren|сохранять спокойствие|Bitte bewahren Sie die Ruhe und verlassen Sie das Gebäude.|Пожалуйста, сохраняйте спокойствие и покиньте здание.
+die Nerven verlieren|не выдержать, потерять нервы|In der letzten Minute verlor der Torwart die Nerven.|На последней минуте вратарь не выдержал.
+die Nerven behalten|не терять самообладания|Im Elfmeterschießen muss man die Nerven behalten.|В серии пенальти нужно сохранять хладнокровие.
+mit den Nerven am Ende sein|быть на пределе (нервов)|Nach drei Wochen Umzug bin ich mit den Nerven am Ende.|После трёх недель переезда я на пределе.
+sich abreagieren|разрядиться, выместить злость|Nach der Arbeit reagiere ich mich beim Joggen ab.|После работы я разряжаюсь на пробежке.
+Dampf ablassen|выпустить пар|Lass ihn ruhig ein bisschen Dampf ablassen.|Пусть он немного выпустит пар.
+frustriert|расстроенный, разочарованный, фрустрированный|Nach der dritten Absage war sie ziemlich frustriert.|После третьего отказа она была довольно расстроена.
+die Frustration|разочарование, фрустрация|Die Frustration im Team wächst.|Недовольство в команде растёт.
+satt haben|быть сытым по горло (чем-либо)|Ich habe dieses ewige Warten satt.|Я сыт по горло этим вечным ожиданием.
+überdrüssig|пресытившийся, уставший (от чего-либо)|Er war der ständigen Diskussionen überdrüssig.|Он устал от постоянных споров.
+beleidigt|обиженный|Sie ist beleidigt, weil wir sie nicht eingeladen haben.|Она обиделась, что мы её не пригласили.
+verbittert|озлобленный, ожесточившийся|Nach der Scheidung wurde er verbittert.|После развода он озлобился.
+schadenfroh|злорадный|Er grinste schadenfroh, als ich hinfiel.|Он злорадно ухмыльнулся, когда я упал.
+aufatmen|вздохнуть с облегчением|Nach der Prüfung konnten alle aufatmen.|После экзамена все смогли вздохнуть с облегчением.
+` },
+{ lang: 'de', id: 'de-b2-y-shock', level: 'B2', emoji: '😨', title: 'Schock, Sorge und Ohnmacht', desc: 'Потрясение, растерянность, тревога, упадок сил и отвращение — тонкие оттенки негативных чувств.', cards: `
+bestürzt|потрясённый, огорчённый|Wir sind bestürzt über den plötzlichen Tod unseres Kollegen.|Мы потрясены внезапной смертью нашего коллеги.
+erschüttert|потрясённый, глубоко взволнованный|Das ganze Land ist erschüttert.|Вся страна потрясена.
+entsetzt|в ужасе|Entsetzt starrte sie auf die Bilder.|В ужасе она смотрела на фотографии.
+das Entsetzen|ужас|Zu meinem Entsetzen war die Tür offen.|К моему ужасу, дверь была открыта.
+verblüfft|ошеломлённый, озадаченный|Die Zuschauer waren von dem Trick verblüfft.|Зрители были ошеломлены фокусом.
+verdutzt|опешивший, озадаченный|Verdutzt sah er mich an.|Он озадаченно посмотрел на меня.
+perplex|ошарашенный, растерянный|Ich war so perplex, dass ich nichts sagen konnte.|Я был так ошарашен, что не мог ничего сказать.
+sprachlos|потерявший дар речи|Bei dem Geschenk war sie sprachlos.|От подарка она потеряла дар речи.
+ratlos|растерянный, не знающий, что делать|Die Ärzte stehen vor einem Rätsel und sind ratlos.|Врачи в недоумении и не знают, что делать.
+hilflos|беспомощный|Ohne Handy fühle ich mich völlig hilflos.|Без телефона я чувствую себя совершенно беспомощным.
+die Hilflosigkeit|беспомощность|Das Gefühl der Hilflosigkeit war schwer zu ertragen.|Чувство беспомощности было тяжело переносить.
+ohnmächtig|бессильный; без сознания|Wir mussten ohnmächtig zusehen, wie das Haus brannte.|Мы бессильно смотрели, как горит дом.
+beklommen|стеснённый, подавленный (тревогой)|Mit beklommenem Herzen betrat er das Krankenhaus.|С тяжёлым сердцем он вошёл в больницу.
+die Beklemmung|тревожное стеснение в груди|Enge Räume lösen bei ihr Beklemmungen aus.|Тесные помещения вызывают у неё чувство удушья.
+mulmig|тревожно, не по себе (разг.)|Mir ist ein bisschen mulmig vor dem Flug.|Перед полётом мне немного не по себе.
+ein mulmiges Gefühl|нехорошее предчувствие|Ich hatte gleich ein mulmiges Gefühl bei der Sache.|У меня сразу было нехорошее предчувствие насчёт этого дела.
+die Unruhe|беспокойство, тревога|Die Nachricht sorgte für große Unruhe.|Новость вызвала сильное беспокойство.
+unruhig|беспокойный, неспокойный|Vor der Operation schlief er sehr unruhig.|Перед операцией он спал очень беспокойно.
+aufgewühlt|взбудораженный, взволнованный|Nach dem Gespräch war ich völlig aufgewühlt.|После разговора я был совершенно взбудоражен.
+der Kloß im Hals|ком в горле|Beim Abschied hatte ich einen Kloß im Hals.|При прощании у меня стоял ком в горле.
+Gänsehaut bekommen|покрыться мурашками|Bei diesem Lied bekomme ich immer Gänsehaut.|От этой песни у меня всегда мурашки.
+niedergeschlagen|подавленный, удручённый|Nach der Niederlage war die Mannschaft niedergeschlagen.|После поражения команда была подавлена.
+bedrückt|угнетённый, удручённый|Du wirkst so bedrückt – was ist los?|Ты выглядишь таким подавленным — что случилось?
+betrübt|опечаленный|Betrübt erzählte sie vom Tod ihres Hundes.|Опечаленная, она рассказала о смерти собаки.
+deprimiert|подавленный, в депрессии|Das graue Wetter macht mich deprimiert.|Серая погода вгоняет меня в тоску.
+lustlos|вялый, без желания|Lustlos stocherte er in seinem Essen.|Он вяло ковырялся в еде.
+die Lustlosigkeit|отсутствие желания, апатия|Lustlosigkeit kann ein Zeichen von Erschöpfung sein.|Отсутствие желания может быть признаком истощения.
+antriebslos|лишённый энергии, без мотивации|Im Winter fühle ich mich oft antriebslos.|Зимой я часто чувствую себя без сил.
+die Antriebslosigkeit|упадок сил, отсутствие мотивации|Antriebslosigkeit ist ein typisches Symptom.|Упадок сил — типичный симптом.
+apathisch|апатичный|Der Patient lag apathisch im Bett.|Пациент апатично лежал в постели.
+die Teilnahmslosigkeit|безучастность|Ihre Teilnahmslosigkeit machte uns Sorgen.|Её безучастность нас беспокоила.
+die Abneigung|неприязнь|Er hat eine tiefe Abneigung gegen Lügen.|У него глубокая неприязнь ко лжи.
+angewidert|испытывающий отвращение|Angewidert wandte sie sich ab.|С отвращением она отвернулась.
+die Verachtung|презрение|Er sah ihn voller Verachtung an.|Он посмотрел на него с презрением.
+` },
+{ lang: 'de', id: 'de-b2-y-nuance', level: 'B2', emoji: '💞', title: 'Gemischte Gefühle', desc: 'Тонкие оттенки чувств: ностальгия, смущение, умиление, восторг и раздвоенность.', cards: `
+die Gefühlslage|эмоциональное состояние|Wie ist deine Gefühlslage nach der Trennung?|Как ты себя чувствуешь после расставания?
+gemischte Gefühle|смешанные чувства (мн. ч.)|Ich sehe dem Umzug mit gemischten Gefühlen entgegen.|Я жду переезда со смешанными чувствами.
+das Gefühlschaos|эмоциональный хаос|Nach dem Kuss war sie in einem totalen Gefühlschaos.|После поцелуя у неё в душе был полный хаос.
+hin- und hergerissen|разрывающийся (между двумя вариантами)|Ich bin hin- und hergerissen zwischen den beiden Angeboten.|Я разрываюсь между двумя предложениями.
+zwiegespalten|раздвоенный, противоречивый|Meine Gefühle sind zwiegespalten.|Мои чувства противоречивы.
+wehmütig|грустно-ностальгический|Wehmütig denkt sie an ihre Kindheit zurück.|С грустью она вспоминает детство.
+melancholisch|меланхоличный|Im Herbst werde ich immer etwas melancholisch.|Осенью я всегда становлюсь немного меланхоличным.
+die Melancholie|меланхолия|Seine Lieder sind voller Melancholie.|Его песни полны меланхолии.
+der Herzschmerz|сердечная боль, страдания от любви|Der Film ist voller Kitsch und Herzschmerz.|Фильм полон кича и сердечных страданий.
+das gebrochene Herz|разбитое сердце|Gegen ein gebrochenes Herz hilft nur Zeit.|От разбитого сердца помогает только время.
+tief getroffen|глубоко задетый|Seine Worte haben mich tief getroffen.|Его слова глубоко меня задели.
+gekränkt sein|быть уязвлённым, обидеться|Er ist gekränkt, weil niemand seinen Geburtstag erwähnt hat.|Он обижен, потому что никто не вспомнил о его дне рождения.
+verlegen|смущённый|Verlegen schaute sie auf den Boden.|Смущённо она смотрела в пол.
+die Peinlichkeit|неловкость, конфуз|Die Peinlichkeit war kaum zu überbieten.|Более неловкую ситуацию трудно представить.
+peinlich berührt|смущённый, неприятно задетый|Alle schwiegen peinlich berührt.|Все смущённо замолчали.
+das Schuldgefühl|чувство вины|Er wird von Schuldgefühlen geplagt.|Его мучает чувство вины.
+das schlechte Gewissen|нечистая совесть, угрызения совести|Ich habe ein schlechtes Gewissen, weil ich nicht angerufen habe.|Меня мучает совесть, что я не позвонил.
+berührt|тронутый|Ich war von ihrer Rede sehr berührt.|Я был очень тронут её речью.
+ergriffen|взволнованный, растроганный|Ergriffen lauschten die Gäste der Musik.|Взволнованные гости слушали музыку.
+bewegt|растроганный, взволнованный|Mit bewegter Stimme dankte sie allen.|Взволнованным голосом она всех поблагодарила.
+zu Tränen gerührt|тронутый до слёз|Die Großmutter war zu Tränen gerührt.|Бабушка была тронута до слёз.
+die Innigkeit|задушевность, глубина чувства|Sie sang mit großer Innigkeit.|Она пела с большой задушевностью.
+die Verbundenheit|близость, привязанность, связь|Zwischen den Geschwistern besteht eine tiefe Verbundenheit.|Между братом и сестрой глубокая связь.
+geborgen|в безопасности, под защитой (о чувстве)|Bei meiner Oma habe ich mich immer geborgen gefühlt.|У бабушки я всегда чувствовал себя защищённым.
+die Bewunderung|восхищение|Ich habe große Bewunderung für ihren Mut.|Я очень восхищаюсь её смелостью.
+die Hochachtung|глубокое уважение|Vor dieser Leistung habe ich die größte Hochachtung.|Перед этим достижением я испытываю глубочайшее уважение.
+die Euphorie|эйфория|Die Euphorie nach dem Sieg hielt tagelang an.|Эйфория после победы длилась несколько дней.
+euphorisch|эйфорический, восторженный|Die Fans feierten euphorisch.|Болельщики праздновали в эйфории.
+überglücklich|безмерно счастливый|Wir sind überglücklich über die Geburt unserer Tochter.|Мы безмерно счастливы рождению дочери.
+die Glückseligkeit|блаженство|Ein Moment reiner Glückseligkeit.|Мгновение чистого блаженства.
+ausgelassen|весёлый, разгулявшийся, беззаботный|Auf der Hochzeit wurde ausgelassen getanzt.|На свадьбе весело и беззаботно танцевали.
+übermütig|озорной, расшалившийся|Die Kinder waren übermütig und sprangen in den Pool.|Дети расшалились и прыгали в бассейн.
+der Übermut|озорство, задор|Aus Übermut ist er zu schnell gefahren.|Из озорства он ехал слишком быстро.
+lebensfroh|жизнерадостный|Sie ist ein lebensfroher Mensch.|Она жизнерадостный человек.
+` },
+);
+/* de-b2-28.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-b2-y-ab', level: 'B2', emoji: '⬇️', title: 'Verben mit ab-', desc: 'Отделяемая приставка ab- часто значит «от-, с-, отказ, завершение»: abhaken, abwimmeln, abstottern.', cards: `
+abarbeiten|отрабатывать, разгребать (дела)|Ich muss erst meine E-Mails abarbeiten.|Сначала мне нужно разгрести почту.
+abbestellen|отменять заказ, отписываться|Ich habe den Newsletter abbestellt.|Я отписался от рассылки.
+abblitzen lassen|отшить, дать от ворот поворот|Sie hat ihn eiskalt abblitzen lassen.|Она холодно его отшила.
+abbremsen|притормаживать|Der Fahrer konnte gerade noch abbremsen.|Водитель едва успел затормозить.
+abdecken|накрывать; покрывать (расходы, тему)|Die Versicherung deckt den Schaden nicht ab.|Страховка не покрывает ущерб.
+abfärben|линять; влиять (на кого-либо)|Seine schlechte Laune färbt auf alle ab.|Его плохое настроение передаётся всем.
+abfertigen|обслуживать, оформлять; отделываться (от кого-либо)|Am Schalter wurden wir unfreundlich abgefertigt.|У окошка нас обслужили неприветливо.
+abfinden|выплачивать компенсацию, откупаться|Die Firma hat die Mitarbeiter großzügig abgefunden.|Фирма выплатила сотрудникам щедрые компенсации.
+sich abgewöhnen|отвыкать (от чего-либо)|Ich habe mir das Rauchen abgewöhnt.|Я бросил курить.
+abhaken|отмечать галочкой; поставить крест, забыть|Das Thema ist für mich abgehakt.|Эта тема для меня закрыта.
+abhalten|проводить (мероприятие); удерживать|Die Versammlung wird im Rathaus abgehalten.|Собрание проводится в ратуше.
+abhängen|тусоваться (разг.); оторваться (от преследователей)|Am Wochenende hängen wir meistens im Park ab.|По выходным мы в основном тусуемся в парке.
+abkühlen|охлаждаться, остывать|Die Stimmung zwischen den beiden ist merklich abgekühlt.|Отношения между ними заметно охладели.
+abkürzen|сокращать, срезать путь|Wenn wir durch den Wald gehen, kürzen wir ab.|Если пойдём через лес, срежем путь.
+ablösen|сменять (кого-либо); отклеивать|Um sechs Uhr löst mich meine Kollegin ab.|В шесть часов меня сменит коллега.
+abnutzen|изнашивать, стирать|Die Treppenstufen sind stark abgenutzt.|Ступени лестницы сильно стёрты.
+abrechnen|рассчитываться; сводить счёты|Am Ende des Monats rechnen wir ab.|В конце месяца мы рассчитываемся.
+absahnen|урвать, снять сливки (разг.)|Bei dem Geschäft hat er ordentlich abgesahnt.|На этой сделке он неплохо нажился.
+abschalten|выключать; отключаться (отдыхать)|Im Urlaub kann ich endlich abschalten.|В отпуске я наконец могу отключиться.
+abschrecken|отпугивать; ополаскивать холодной водой|Die hohen Preise schrecken viele Kunden ab.|Высокие цены отпугивают многих покупателей.
+absegnen|одобрять, давать добро (разг.)|Der Chef muss den Plan noch absegnen.|Шеф ещё должен одобрить план.
+abspeisen|отделываться (отговорками)|Lass dich nicht mit leeren Versprechungen abspeisen!|Не дай отделаться от себя пустыми обещаниями!
+abspringen|спрыгивать; выходить из дела|Kurz vor Vertragsabschluss ist der Investor abgesprungen.|Незадолго до подписания договора инвестор вышел из сделки.
+abstauben|вытирать пыль; прихватить (разг.)|Ich habe auf der Messe ein paar Kugelschreiber abgestaubt.|На выставке я прихватил пару ручек.
+abstottern|выплачивать понемногу (разг.)|Das Auto stottere ich in Raten ab.|Машину я выплачиваю в рассрочку.
+abtauchen|нырять; скрываться, исчезать|Nach dem Skandal ist er für ein paar Monate abgetaucht.|После скандала он на несколько месяцев исчез.
+abwandeln|видоизменять, варьировать|Das Rezept kann man leicht abwandeln.|Рецепт можно легко видоизменить.
+abwehren|отражать, отбивать|Der Torwart wehrte den Schuss ab.|Вратарь отбил удар.
+abwerten|обесценивать, принижать|Er wertet die Arbeit seiner Kollegen ständig ab.|Он постоянно принижает работу коллег.
+abwimmeln|отделываться (от кого-либо), спроваживать|Die Sekretärin hat den Vertreter abgewimmelt.|Секретарь спровадила торгового агента.
+abwinken|отмахиваться|Als ich Hilfe anbot, winkte er nur ab.|Когда я предложил помощь, он лишь отмахнулся.
+` },
+{ lang: 'de', id: 'de-b2-y-auf', level: 'B2', emoji: '⬆️', title: 'Verben mit auf-', desc: 'Приставка auf-: «вверх, открытие, начало, полное использование»: aufholen, aufrütteln, aufbrauchen.', cards: `
+aufarbeiten|прорабатывать, осмысливать (прошлое); разгребать|Die Familie hat ihre Geschichte nie aufgearbeitet.|Семья так и не осмыслила свою историю.
+aufbrechen|взламывать; отправляться в путь|Die Diebe brachen das Auto auf.|Воры взломали машину.
+aufbürden|взваливать (на кого-либо)|Man hat ihm die ganze Verantwortung aufgebürdet.|На него взвалили всю ответственность.
+aufdrängen|навязывать|Ich will mich nicht aufdrängen, aber kann ich helfen?|Не хочу навязываться, но могу я помочь?
+aufeinandertreffen|сталкиваться, встречаться (друг с другом)|Im Finale treffen die beiden Rivalen aufeinander.|В финале встретятся два соперника.
+auffangen|ловить; смягчать (удар), компенсировать|Der Staat soll die Verluste auffangen.|Государство должно компенсировать убытки.
+auffrischen|освежать (знания)|Vor der Reise möchte ich mein Spanisch auffrischen.|Перед поездкой хочу освежить испанский.
+aufheitern|развеселить, приободрить|Der Witz hat sie ein wenig aufgeheitert.|Шутка её немного развеселила.
+aufhetzen|подстрекать, натравливать|Er hetzt die Leute gegen die Regierung auf.|Он натравливает людей на правительство.
+aufholen|наверстать, догонять|Nach der Krankheit muss er viel Stoff aufholen.|После болезни ему нужно наверстать много материала.
+aufkommen|возникать; оплачивать (für)|Für den Schaden muss der Verursacher aufkommen.|За ущерб должен заплатить виновник.
+auflauern|подстерегать|Der Täter hat ihr im Treppenhaus aufgelauert.|Преступник подстерёг её на лестнице.
+auflockern|разрыхлять; разряжать (атмосферу)|Ein kleiner Scherz lockerte die Stimmung auf.|Небольшая шутка разрядила атмосферу.
+auflösen|растворять; распускать, расформировывать|Die Band hat sich nach zehn Jahren aufgelöst.|Группа распалась через десять лет.
+aufmischen|встряхнуть, перевернуть (разг.)|Das Start-up will den Markt aufmischen.|Стартап хочет встряхнуть рынок.
+aufkreuzen|заявиться, нагрянуть (разг.)|Er ist um Mitternacht bei uns aufgekreuzt.|Он заявился к нам в полночь.
+aufopfern|жертвовать (собой)|Sie hat sich für ihre Familie aufgeopfert.|Она пожертвовала собой ради семьи.
+aufpolieren|отполировать; улучшить (имидж)|Die Firma will ihr Image aufpolieren.|Фирма хочет улучшить свой имидж.
+aufrütteln|встряхнуть, растормошить|Der Bericht soll die Öffentlichkeit aufrütteln.|Доклад должен встряхнуть общественность.
+aufsaugen|впитывать|Kinder saugen neues Wissen auf wie ein Schwamm.|Дети впитывают новые знания как губка.
+aufschnappen|подхватить, услышать краем уха|Wo hast du denn dieses Wort aufgeschnappt?|Где ты подхватил это слово?
+aufschrecken|вздрогнуть, вскочить от испуга|Mitten in der Nacht schreckte sie aus dem Schlaf auf.|Посреди ночи она в испуге проснулась.
+aufblitzen|вспыхивать, мелькать|In seinen Augen blitzte Ärger auf.|В его глазах мелькнуло раздражение.
+aufspüren|выслеживать, разыскивать|Der Hund hat die Vermissten aufgespürt.|Собака отыскала пропавших.
+aufstocken|увеличивать, наращивать|Die Regierung stockt das Budget für Bildung auf.|Правительство увеличивает бюджет на образование.
+auftischen|подавать на стол; рассказывать (небылицы)|Er tischte uns eine unglaubliche Geschichte auf.|Он рассказал нам невероятную историю.
+auftreiben|раздобыть|Wo hast du so schnell ein Taxi aufgetrieben?|Где ты так быстро раздобыл такси?
+aufzehren|истощать, поглощать|Die Pflege der Mutter zehrt ihre Kräfte auf.|Уход за матерью истощает её силы.
+aufzwingen|навязывать (силой)|Man kann niemandem seine Meinung aufzwingen.|Никому нельзя навязать своё мнение.
+` },
+{ lang: 'de', id: 'de-b2-y-aus', level: 'B2', emoji: '↗️', title: 'Verben mit aus-', desc: 'Приставка aus-: «из-, вы-, до конца»: ausarbeiten, ausbaden, auskosten, austricksen.', cards: `
+ausarbeiten|разрабатывать|Das Team arbeitet einen neuen Plan aus.|Команда разрабатывает новый план.
+ausbaden|расхлёбывать (чужие ошибки)|Die Fehler der Politiker müssen wir jetzt ausbaden.|Ошибки политиков теперь приходится расхлёбывать нам.
+ausblenden|игнорировать, отключать (мысли); скрывать|Den Lärm blende ich beim Lernen einfach aus.|Шум во время учёбы я просто игнорирую.
+ausbrüten|высиживать; вынашивать (план)|Was brütet ihr da schon wieder aus?|Что вы там опять замышляете?
+ausbuhen|освистать|Das Publikum buhte den Sänger aus.|Публика освистала певца.
+ausdiskutieren|обсудить до конца|Das sollten wir in Ruhe ausdiskutieren.|Это нам стоит спокойно обсудить до конца.
+aushalten|выдерживать, терпеть|Diese Hitze halte ich nicht mehr aus.|Эту жару я больше не выдержу.
+aushebeln|обходить, подрывать (закон, правило)|Mit dem Trick wird das Gesetz ausgehebelt.|Этим трюком обходят закон.
+aushecken|замышлять, придумывать (проделку)|Die Kinder haben einen Streich ausgeheckt.|Дети придумали проделку.
+aushelfen|выручать, подменять|Kannst du mir mit zehn Euro aushelfen?|Можешь выручить меня десятью евро?
+aushöhlen|выдалбливать; подрывать (изнутри)|Die Reform höhlt den Kündigungsschutz aus.|Реформа подрывает защиту от увольнений.
+auskosten|наслаждаться сполна|Wir haben jeden Urlaubstag ausgekostet.|Мы насладились каждым днём отпуска.
+auskundschaften|разведывать|Er hat die Gegend vorher genau ausgekundschaftet.|Он заранее тщательно разведал местность.
+auslasten|загружать (полностью)|Die Fabrik ist nur zur Hälfte ausgelastet.|Завод загружен только наполовину.
+auslaufen|вытекать; истекать (о сроке)|Mein Vertrag läuft Ende des Jahres aus.|Мой договор истекает в конце года.
+sich ausmalen|представлять себе (в красках)|Ich male mir schon aus, wie schön der Urlaub wird.|Я уже представляю себе, каким чудесным будет отпуск.
+ausreizen|выжимать максимум|Die Möglichkeiten sind noch lange nicht ausgereizt.|Возможности ещё далеко не исчерпаны.
+ausrichten|передавать (привет, сообщение); проводить (мероприятие)|Richte deiner Mutter schöne Grüße aus!|Передай маме большой привет!
+ausschlachten|разбирать на запчасти; использовать в своих целях|Die Presse hat den Fall genüsslich ausgeschlachtet.|Пресса со смаком раздула эту историю.
+aussitzen|отсиживаться, пережидать (проблему)|Der Minister versucht, die Krise auszusitzen.|Министр пытается переждать кризис.
+ausspionieren|выведывать, шпионить|Die Firma ließ ihre Konkurrenz ausspionieren.|Фирма шпионила за конкурентами.
+austricksen|перехитрить, обвести вокруг пальца|Der Stürmer trickste zwei Verteidiger aus.|Нападающий обвёл двух защитников.
+austüfteln|кропотливо придумать, разработать|Er hat ein raffiniertes System ausgetüftelt.|Он придумал хитроумную систему.
+auszehren|истощать|Die lange Krankheit hat ihn ausgezehrt.|Долгая болезнь его истощила.
+ausbremsen|притормаживать (кого-либо), мешать продвижению|Die Bürokratie bremst viele Gründer aus.|Бюрократия тормозит многих основателей фирм.
+ausbooten|вытеснить, отстранить (разг.)|Man hat ihn aus dem Vorstand ausgebootet.|Его вытеснили из правления.
+ausquetschen|выжимать; выпытывать (разг.)|Die Kollegen haben mich über den neuen Chef ausgequetscht.|Коллеги выпытали у меня всё о новом шефе.
+aushorchen|выведывать, выспрашивать|Er wollte mich über meine Pläne aushorchen.|Он хотел выведать мои планы.
+ausfragen|расспрашивать (подробно)|Meine Oma fragt mich immer über meine Freundin aus.|Бабушка всегда расспрашивает меня о моей девушке.
+auslachen|высмеивать|In der Schule haben sie ihn wegen seiner Brille ausgelacht.|В школе его высмеивали из-за очков.
+ausmerzen|искоренять, устранять|Alle Fehler wurden ausgemerzt.|Все ошибки были устранены.
+` },
+{ lang: 'de', id: 'de-b2-y-ver', level: 'B2', emoji: '🔄', title: 'Verben mit ver-', desc: 'Неотделяемая приставка ver- часто значит «ошибку, порчу или изменение»: vermasseln, verkorksen, verschlimmbessern.', cards: `
+veranschlagen|оценивать, закладывать (в смету)|Für den Umbau sind drei Monate veranschlagt.|На перестройку заложено три месяца.
+verärgern|рассердить|Mit seiner Bemerkung hat er die Kunden verärgert.|Своим замечанием он рассердил клиентов.
+sich verausgaben|выкладываться полностью, растратить силы|Beim Marathon hat sie sich völlig verausgabt.|На марафоне она полностью выложилась.
+verbannen|изгонять, ссылать|Handys sind aus dem Klassenzimmer verbannt.|Телефоны изгнаны из класса.
+verbittern|ожесточать, отравлять (жизнь)|Die vielen Enttäuschungen haben ihn verbittert.|Многочисленные разочарования его ожесточили.
+verdrehen|перекручивать, искажать|Du verdrehst mir die Worte im Mund!|Ты перевираешь мои слова!
+verfälschen|искажать, фальсифицировать|Die Statistik wurde verfälscht.|Статистику исказили.
+verfeinern|улучшать, утончать (вкус)|Mit etwas Sahne verfeinert man die Soße.|Немного сливок сделает соус изысканнее.
+verfestigen|закреплять, укреплять|Das Vorurteil hat sich verfestigt.|Предрассудок укоренился.
+verheimlichen|скрывать, утаивать|Er hat seine Schulden vor seiner Frau verheimlicht.|Он скрывал свои долги от жены.
+verherrlichen|прославлять, восхвалять|Der Film verherrlicht den Krieg.|Фильм восхваляет войну.
+verinnerlichen|усваивать, принимать внутренне|Die Regeln hat sie längst verinnerlicht.|Правила она давно усвоила.
+verlocken|соблазнять, манить|Das schöne Wetter verlockt zu einem Spaziergang.|Хорошая погода манит на прогулку.
+vermasseln|испортить, провалить (разг.)|Ich habe die Prüfung total vermasselt.|Я полностью провалил экзамен.
+verpatzen|испортить, напортачить|Er hat den Auftritt verpatzt.|Он провалил выступление.
+verkorksen|испортить, загубить (разг.)|Mit dem Streit hat er den ganzen Abend verkorkst.|Этой ссорой он испортил весь вечер.
+verschlimmbessern|ухудшить, пытаясь улучшить|Mit seiner Korrektur hat er den Text verschlimmbessert.|Своей правкой он только ухудшил текст.
+verniedlichen|преуменьшать, приукрашивать|Man sollte das Problem nicht verniedlichen.|Не стоит преуменьшать проблему.
+verunglimpfen|поносить, порочить|Er wurde in den sozialen Medien verunglimpft.|Его поносили в соцсетях.
+verprügeln|избить, отлупить|Der Junge wurde auf dem Schulweg verprügelt.|Мальчика избили по дороге в школу.
+verschleppen|затягивать; похищать|Die Behörde hat das Verfahren jahrelang verschleppt.|Ведомство годами затягивало дело.
+verschweigen|умалчивать, скрывать|Sie hat mir die Wahrheit verschwiegen.|Она скрыла от меня правду.
+versöhnen|мирить|Die Mutter versuchte, die Brüder zu versöhnen.|Мать пыталась помирить братьев.
+verstummen|умолкать|Plötzlich verstummten alle Gespräche.|Вдруг все разговоры смолкли.
+verunsichern|сбивать с толку, вызывать неуверенность|Die widersprüchlichen Nachrichten verunsichern die Bürger.|Противоречивые новости сбивают граждан с толку.
+verzerren|искажать|Das Foto verzerrt die Proportionen.|Фото искажает пропорции.
+verschaukeln|дурачить, водить за нос (разг.)|Du willst mich wohl verschaukeln!|Ты, видно, решил меня одурачить!
+veralbern|разыгрывать, подшучивать|Hör auf, mich zu veralbern!|Перестань меня разыгрывать!
+verdonnern|приговорить, обязать (разг.)|Er wurde zu einer hohen Geldstrafe verdonnert.|Его обязали заплатить крупный штраф.
+verheizen|сжигать как топливо; бездумно использовать людей|Die jungen Mitarbeiter werden in der Firma verheizt.|Молодых сотрудников в фирме выжимают до предела.
+sich verkneifen|сдерживаться, удерживаться (от чего-либо)|Ich konnte mir ein Lächeln nicht verkneifen.|Я не мог сдержать улыбки.
+vergraulen|отпугнуть, отвадить|Mit den hohen Preisen vergrault das Café seine Stammgäste.|Высокими ценами кафе отпугивает постоянных гостей.
+sich verscherzen|испортить отношения, лишиться расположения|Mit dieser Bemerkung hat er es sich mit dem Chef verscherzt.|Этим замечанием он испортил отношения с шефом.
+` },
+{ lang: 'de', id: 'de-b2-y-zer-ent', level: 'B2', emoji: '💥', title: 'Verben mit zer- und ent-', desc: 'zer- = «раз-, на куски» (zerknüllen, zertrümmern); ent- = «удаление, освобождение, раскрытие» (entlarven, entwirren).', cards: `
+zerbröckeln|крошиться, рассыпаться|Die alte Mauer zerbröckelt langsam.|Старая стена медленно рассыпается.
+zerdrücken|раздавить|Ich habe aus Versehen die Tomaten zerdrückt.|Я случайно раздавил помидоры.
+zerfetzen|разорвать в клочья|Der Hund hat die Zeitung zerfetzt.|Собака разорвала газету в клочья.
+zerfleischen|растерзать; грызться (между собой)|Die Partei zerfleischt sich in internen Streitereien.|Партию раздирают внутренние склоки.
+zerknittern|измять|Das Hemd ist im Koffer ganz zerknittert.|Рубашка в чемодане совсем измялась.
+zerknüllen|скомкать|Wütend zerknüllte er den Brief.|В ярости он скомкал письмо.
+zerlegen|разбирать (на части)|Er hat das Fahrrad in seine Einzelteile zerlegt.|Он разобрал велосипед на детали.
+zerplatzen|лопнуть|Der Luftballon ist zerplatzt – und mit ihm unsere Träume.|Шарик лопнул — а с ним и наши мечты.
+zerquetschen|раздавить, расплющить|Die Kiste hat ihm fast den Fuß zerquetscht.|Ящик чуть не раздавил ему ногу.
+zerreden|заболтать (проблему)|Das Thema wurde in endlosen Sitzungen zerredet.|Тему заболтали на бесконечных совещаниях.
+zerrinnen|утекать, таять|Das Geld zerrann ihm zwischen den Fingern.|Деньги утекали у него сквозь пальцы.
+zerrütten|разрушать, расстраивать (здоровье, отношения)|Die Ehe ist völlig zerrüttet.|Брак полностью распался.
+zerschlagen|разбить; разгромить|Die Polizei hat einen Drogenring zerschlagen.|Полиция разгромила наркосеть.
+zersetzen|разлагать|Plastik zersetzt sich erst nach Jahrhunderten.|Пластик разлагается лишь через столетия.
+zerstreuen|рассеивать, развеивать|Ihre Worte zerstreuten meine Zweifel.|Её слова развеяли мои сомнения.
+zertreten|растоптать|Er hat die Blumen zertreten.|Он растоптал цветы.
+zertrümmern|разнести вдребезги|Randalierer zertrümmerten die Schaufenster.|Хулиганы разнесли витрины.
+entblößen|обнажать|Der Hund entblößte seine Zähne.|Собака оскалила зубы.
+entfremden|отчуждать|Durch die Arbeit im Ausland hat er sich seiner Familie entfremdet.|Из-за работы за границей он отдалился от семьи.
+entgleisen|сойти с рельсов; выйти из-под контроля|Der Zug ist entgleist.|Поезд сошёл с рельсов.
+entgleiten|выскальзывать, уходить из-под контроля|Die Situation ist der Polizei völlig entglitten.|Ситуация полностью вышла из-под контроля полиции.
+enthemmen|снимать сдержанность|Alkohol enthemmt.|Алкоголь растормаживает.
+entlocken|выманивать, выведывать|Ich konnte ihm kein Wort entlocken.|Я не смог вытянуть из него ни слова.
+entmachten|лишать власти|Der Diktator wurde entmachtet.|Диктатора лишили власти.
+sich entpuppen als|оказаться (кем-либо, неожиданно)|Der stille Kollege entpuppte sich als großartiger Redner.|Тихий коллега оказался отличным оратором.
+entrümpeln|расчищать (от хлама)|Am Wochenende entrümpeln wir den Keller.|На выходных мы разбираем хлам в подвале.
+entschlüsseln|расшифровывать|Die Forscher haben den Code entschlüsselt.|Исследователи расшифровали код.
+entwaffnen|разоружать; обезоруживать|Ihr Lächeln war entwaffnend.|Её улыбка обезоруживала.
+entwirren|распутывать|Er versuchte, das Kabelknäuel zu entwirren.|Он пытался распутать клубок проводов.
+entwürdigen|унижать (достоинство)|Die Behandlung der Gefangenen war entwürdigend.|Обращение с заключёнными было унизительным.
+entziehen|лишать, отнимать|Ihm wurde der Führerschein entzogen.|У него отобрали водительские права.
+entzünden|зажигать; воспалиться|Die Wunde hat sich entzündet.|Рана воспалилась.
+entzweien|ссорить, разобщать|Das Erbe hat die Geschwister entzweit.|Наследство рассорило братьев и сестёр.
+` },
+{ lang: 'de', id: 'de-b2-y-debate', level: 'B2', emoji: '🗣️', title: 'Diskutieren und Streiten', desc: 'Как вести спор: брать слово, перебивать, уходить от ответа, оставаться корректным.', cards: `
+die Diskussionskultur|культура дискуссии|In der Firma fehlt eine offene Diskussionskultur.|В фирме не хватает открытой культуры дискуссии.
+die Streitkultur|культура спора|Eine gute Streitkultur ist für die Demokratie wichtig.|Хорошая культура спора важна для демократии.
+die Sichtweise|точка зрения, взгляд|Ich kann deine Sichtweise gut verstehen.|Я хорошо понимаю твою точку зрения.
+die Ansicht vertreten|придерживаться мнения|Sie vertritt die Ansicht, dass Schulen mehr Geld brauchen.|Она придерживается мнения, что школам нужно больше денег.
+die Stellungnahme|заявление, позиция (официальная)|Die Firma hat eine Stellungnahme veröffentlicht.|Фирма опубликовала заявление.
+sich zu Wort melden|попросить слова|Am Ende meldete sich eine Zuhörerin zu Wort.|В конце слова попросила одна слушательница.
+zu Wort kommen|получить возможность высказаться|Lass mich doch auch mal zu Wort kommen!|Дай же и мне сказать!
+ins Wort fallen|перебивать|Fall mir bitte nicht ständig ins Wort!|Не перебивай меня, пожалуйста, всё время!
+auf den Punkt bringen|сформулировать суть|Kannst du das bitte kurz auf den Punkt bringen?|Можешь коротко сказать суть?
+nachbohren|допытываться, настойчиво расспрашивать|Die Journalistin bohrte nach, bis der Minister antwortete.|Журналистка допытывалась, пока министр не ответил.
+ausweichend|уклончивый|Auf meine Frage gab er nur eine ausweichende Antwort.|На мой вопрос он ответил лишь уклончиво.
+die Ausrede|отговорка|Das ist doch nur eine faule Ausrede!|Да это просто пустая отговорка!
+an den Haaren herbeigezogen|притянутый за уши|Dieses Argument ist an den Haaren herbeigezogen.|Этот аргумент притянут за уши.
+sachlich bleiben|оставаться корректным, держаться фактов|Bitte lass uns sachlich bleiben.|Давай, пожалуйста, держаться фактов.
+persönlich werden|переходить на личности|Jetzt wirst du aber persönlich!|Ну, теперь ты переходишь на личности!
+die Schuldzuweisung|перекладывание вины|Gegenseitige Schuldzuweisungen helfen niemandem.|Взаимные обвинения никому не помогают.
+sich rechtfertigen|оправдываться|Ich muss mich vor dir nicht rechtfertigen.|Я не обязан перед тобой оправдываться.
+auf stur schalten|упереться, заупрямиться (разг.)|Sobald es um Geld geht, schaltet er auf stur.|Как только речь заходит о деньгах, он упирается.
+klein beigeben|сдаться, уступить|Am Ende musste die Regierung klein beigeben.|В конце концов правительству пришлось уступить.
+recht behalten|оказаться правым|Leider hast du recht behalten.|К сожалению, ты оказался прав.
+den Spieß umdrehen|перевернуть ситуацию, обернуть против самого обвинителя|Statt sich zu verteidigen, drehte sie den Spieß um.|Вместо того чтобы защищаться, она перешла в наступление.
+der Schlichter|третейский посредник, примиритель|Ein Schlichter soll den Tarifstreit lösen.|Посредник должен разрешить тарифный спор.
+skeptisch|скептический|Ich bin bei solchen Versprechungen eher skeptisch.|К таким обещаниям я отношусь скептически.
+rhetorisch|риторический|Das war eine rhetorische Frage.|Это был риторический вопрос.
+eindringlich|настойчивый, убедительный|Der Arzt warnte eindringlich vor den Folgen.|Врач настойчиво предупреждал о последствиях.
+nachdrücklich|настоятельный, решительный|Wir fordern nachdrücklich eine Erklärung.|Мы настоятельно требуем объяснений.
+der Appell|призыв, воззвание|Der Präsident richtete einen Appell an die Bevölkerung.|Президент обратился к населению с призывом.
+appellieren|призывать, взывать|Die Polizei appelliert an die Autofahrer, vorsichtig zu sein.|Полиция призывает водителей быть осторожными.
+` },
+{ lang: 'de', id: 'de-b2-y-persuade', level: 'B2', emoji: '🫶', title: 'Überreden und Trösten', desc: 'Уговорить, переубедить, обвести вокруг пальца — и поддержать, посочувствовать, утешить.', cards: `
+umstimmen|переубедить|Ich konnte meinen Vater nicht umstimmen.|Мне не удалось переубедить отца.
+die Überredungskunst|искусство убеждения, дар уговаривать|Mit viel Überredungskunst hat sie ihn zum Mitkommen gebracht.|С большим искусством она уговорила его пойти с нами.
+an die Vernunft appellieren|взывать к разуму|Ich appelliere an eure Vernunft: Fahrt nicht betrunken!|Взываю к вашему разуму: не садитесь за руль пьяными!
+einreden|внушать, убеждать (в чём-либо)|Rede dir doch nicht ein, dass du hässlich bist!|Не внушай себе, что ты некрасивая!
+jemandem etwas ausreden|отговорить кого-либо от чего-либо|Ich habe ihm die Idee ausgeredet.|Я отговорил его от этой идеи.
+weismachen|морочить голову, уверять в неправде|Das kannst du mir nicht weismachen!|Этому я не поверю, не морочь мне голову!
+um den Finger wickeln|обвести вокруг пальца|Die Kleine wickelt ihren Opa um den Finger.|Малышка вьёт из дедушки верёвки.
+die Schmeichelei|лесть|Mit Schmeicheleien erreichst du bei mir nichts.|Лестью ты от меня ничего не добьёшься.
+manipulieren|манипулировать|Die Werbung manipuliert unsere Wünsche.|Реклама манипулирует нашими желаниями.
+bekehren|обращать (в веру), переубеждать|Er versucht, alle zum Veganismus zu bekehren.|Он пытается всех обратить в веганство.
+gut zureden|уговаривать, ободрять|Nach langem guten Zureden ging das Kind zum Zahnarzt.|После долгих уговоров ребёнок пошёл к зубному.
+Mut machen|подбадривать, вселять смелость|Deine Worte haben mir Mut gemacht.|Твои слова придали мне смелости.
+bestärken|поддерживать, укреплять (в решении)|Meine Freunde haben mich in meiner Entscheidung bestärkt.|Друзья поддержали меня в моём решении.
+beistehen|поддерживать, стоять рядом|In schweren Zeiten hat sie mir beigestanden.|В трудные времена она меня поддерживала.
+der Beistand|поддержка, помощь|Ich danke euch für euren Beistand.|Спасибо вам за поддержку.
+der Trost|утешение|Das ist nur ein schwacher Trost.|Это лишь слабое утешение.
+Trost spenden|утешать, приносить утешение|Die Musik spendete ihr in dieser Zeit Trost.|Музыка утешала её в то время.
+tröstend|утешающий|Er legte ihr tröstend die Hand auf die Schulter.|Он утешающе положил ей руку на плечо.
+mitfühlen|сочувствовать, сопереживать|Ich kann gut mit dir mitfühlen.|Я хорошо понимаю, что ты чувствуешь.
+das Mitgefühl|сочувствие|Wir sprechen Ihnen unser tiefes Mitgefühl aus.|Примите наши глубокие соболезнования.
+mitfühlend|сочувствующий|Sie sah mich mitfühlend an.|Она сочувственно посмотрела на меня.
+die Anteilnahme|участие, соболезнование|Vielen Dank für Ihre Anteilnahme.|Большое спасибо за ваше участие.
+das Einfühlungsvermögen|эмпатия, умение сопереживать|Für den Beruf braucht man viel Einfühlungsvermögen.|Для этой профессии нужно умение сопереживать.
+einfühlsam|чуткий|Der Therapeut ist sehr einfühlsam.|Терапевт очень чуткий.
+empathisch|эмпатичный|Empathische Menschen spüren schnell, wie es anderen geht.|Эмпатичные люди быстро чувствуют, как дела у других.
+die Sympathie|симпатия|Er hat viel Sympathie für die Streikenden.|Он очень симпатизирует бастующим.
+herzlich|сердечный, тёплый|Wir wurden herzlich empfangen.|Нас тепло встретили.
+die Herzlichkeit|сердечность, радушие|Die Herzlichkeit der Gastgeber hat uns beeindruckt.|Радушие хозяев нас впечатлило.
+` },
+);
 /* de-c1-1.js */
 (window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
 { lang: 'de', id: 'de-c1-verbs2', level: 'C1', emoji: '🔧', title: 'Verben C1 (2)', desc: 'Ещё глаголы уровня C1; многие требуют определённого падежа или предлога (sich entziehen + Dat., anknüpfen an + Akk.).', cards: `
@@ -8009,8 +11745,8 @@ jemanden im Regen stehen lassen|бросить в беде|Meine Freunde haben m
 etwas ausbaden müssen|расхлёбывать (чужое)|Jetzt muss ich deine Fehler ausbaden.|Теперь мне приходится расхлёбывать твои ошибки.
 ` },
 { lang: 'de', id: 'de-c1-winged', level: 'C1', emoji: '🪶', title: 'Geflügelte Worte', desc: 'Крылатые выражения из Гёте, Шиллера, Гейне, философов и истории ФРГ — и как их цитируют сегодня.', cards: `
-des Pudels Kern|суть дела, вот в чём штука (Гёте, «Фауст»)|Das also war des Pudels Kern!|Так вот в чём суть!
-Zwei Seelen wohnen, ach, in meiner Brust|две души живут в моей груди (Гёте)|Wenn ich an den Umzug denke, wohnen zwei Seelen in meiner Brust.|Когда я думаю о переезде, во мне борются два чувства.
+Wer immer strebend sich bemüht, den können wir erlösen|кто жил, трудясь и стремясь, того спасти мы можем (Гёте)|Gib nicht auf — wer immer strebend sich bemüht, den können wir erlösen.|Не сдавайся — кто неустанно стремится, тот будет спасён.
+Das Ewig-Weibliche zieht uns hinan|вечная женственность влечёт нас ввысь (Гёте, финал «Фауста»)|Der Film endet mit dem Faust-Zitat: Das Ewig-Weibliche zieht uns hinan.|Фильм заканчивается цитатой из «Фауста»: вечная женственность влечёт нас ввысь.
 Die Botschaft hör ich wohl, allein mir fehlt der Glaube|слышу весть, но веры нет (Гёте)|Er will sich bessern? Die Botschaft hör ich wohl, allein mir fehlt der Glaube.|Он хочет исправиться? Слышу весть, но веры нет.
 Grau, teurer Freund, ist alle Theorie|суха, мой друг, теория везде (Гёте)|Grau, teurer Freund, ist alle Theorie — probier es einfach aus!|Теория, мой друг, суха — просто попробуй!
 Da steh ich nun, ich armer Tor|и вот я здесь, бедный глупец, не умнее, чем был (Гёте)|Nach drei Stunden Recherche dachte ich: Da steh ich nun, ich armer Tor.|После трёх часов поиска я подумал: «И вот я, бедный глупец, не умнее прежнего».
@@ -8018,7 +11754,7 @@ Verweile doch, du bist so schön|остановись, мгновенье, ты 
 Der Worte sind genug gewechselt|довольно слов, пора к делам (Гёте)|Der Worte sind genug gewechselt, jetzt müssen Taten folgen.|Довольно слов, теперь нужны дела.
 der Weisheit letzter Schluss|последнее слово мудрости, лучшее решение (Гёте)|Ist dieser Kompromiss wirklich der Weisheit letzter Schluss?|Неужели этот компромисс — лучшее, что можно придумать?
 Die Axt im Haus erspart den Zimmermann|топор в доме заменяет плотника (Шиллер)|Ich repariere das selbst — die Axt im Haus erspart den Zimmermann.|Починю сам — топор в доме заменяет плотника.
-Der Mohr hat seine Arbeit getan, der Mohr kann gehen|мавр сделал своё дело, мавр может уходить (Шиллер)|Nach dem Projekt wurde er entlassen — der Mohr hat seine Arbeit getan, der Mohr kann gehen.|После проекта его уволили — мавр сделал своё дело, мавр может уходить.
+Die Gedanken sind frei|мысли свободны (народная песня)|Man kann mir vieles verbieten, aber die Gedanken sind frei.|Мне многое можно запретить, но мысли свободны.
 Drum prüfe, wer sich ewig bindet|проверь, прежде чем связать себя навеки (Шиллер)|Drum prüfe, wer sich ewig bindet — wohnt doch erst mal zusammen!|Проверьте, прежде чем связать себя навеки, — поживите сначала вместе!
 Durch diese hohle Gasse muss er kommen|по этой дороге он должен пройти (Шиллер)|Durch diese hohle Gasse muss er kommen — ich warte am Ausgang auf ihn.|Здесь он непременно пройдёт — я жду его у выхода.
 Früh übt sich, was ein Meister werden will|мастерами становятся с детства (Шиллер)|Mit vier spielt er schon Schach — früh übt sich, was ein Meister werden will!|В четыре года он уже играет в шахматы — мастерами становятся с детства!
@@ -8414,6 +12150,188 @@ die Skepsis|скепсис|Gesunde Skepsis ist der Anfang des Philosophierens.|�
 a priori|априори|Mathematische Wahrheiten gelten a priori.|Математические истины верны априори.
 die Ontologie|онтология|Die Ontologie ist die Lehre vom Seienden.|Онтология — учение о сущем.
 die Lebenskunst|искусство жить|Die Stoiker lehrten eine praktische Lebenskunst.|Стоики учили практическому искусству жить.
+` },
+);
+/* de-c1-7.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-c1-psychology2', level: 'C1', emoji: '🧪', title: 'Psychologie C1 (2)', desc: 'Психология развития, социальная и когнитивная психология: память, конформизм, когнитивный диссонанс.', cards: `
+die Entwicklungspsychologie|психология развития|Die Entwicklungspsychologie untersucht die Kindheit.|Психология развития изучает детство.
+die Kognition|познание, когнитивные функции|Ausreichend Schlaf ist wichtig für die Kognition.|Достаточный сон важен для когнитивных функций.
+das Kurzzeitgedächtnis|кратковременная память|Das Kurzzeitgedächtnis speichert nur wenige Informationen.|Кратковременная память хранит лишь немного информации.
+das Langzeitgedächtnis|долговременная память|Wiederholung bringt Wissen ins Langzeitgedächtnis.|Повторение переносит знания в долговременную память.
+die Konditionierung|обусловливание|Pawlow erforschte die klassische Konditionierung.|Павлов исследовал классическое обусловливание.
+der Reiz|раздражитель, стимул; привлекательность|Der Hund reagiert sofort auf den Reiz.|Собака сразу реагирует на раздражитель.
+die intrinsische Motivation|внутренняя мотивация|Intrinsische Motivation hält länger an als Belohnungen.|Внутренняя мотивация держится дольше, чем поощрения.
+die Selbstwirksamkeit|вера в собственные силы, самоэффективность|Kleine Erfolge stärken die Selbstwirksamkeit.|Маленькие успехи укрепляют веру в собственные силы.
+die Bindung|привязанность|Die Bindung zwischen Mutter und Kind ist entscheidend.|Привязанность между матерью и ребёнком имеет решающее значение.
+die Identitätsfindung|поиск себя, становление идентичности|Die Jugend ist eine Phase der Identitätsfindung.|Юность — период поиска себя.
+die Gruppendynamik|групповая динамика|Die Gruppendynamik im Team ist schwierig.|Групповая динамика в команде непростая.
+der Gruppenzwang|давление группы|Viele Jugendliche rauchen aus Gruppenzwang.|Многие подростки курят под давлением сверстников.
+die Konformität|конформизм|Das Experiment zeigt die Macht der Konformität.|Эксперимент показывает силу конформизма.
+die Vorbildfunktion|роль примера для подражания|Eltern haben eine wichtige Vorbildfunktion.|Родители играют важную роль примера для подражания.
+die kognitive Dissonanz|когнитивный диссонанс|Raucher erleben oft kognitive Dissonanz.|Курильщики часто испытывают когнитивный диссонанс.
+der Bestätigungsfehler|предвзятость подтверждения|Wegen des Bestätigungsfehlers suchen wir nur nach passenden Informationen.|Из-за предвзятости подтверждения мы ищем только подходящую информацию.
+die Selbstwahrnehmung|самовосприятие|Ihre Selbstwahrnehmung ist sehr kritisch.|Её самовосприятие очень критично.
+das Selbstbild|представление о себе|Sein Selbstbild ist ziemlich unrealistisch.|Его представление о себе довольно нереалистично.
+das Fremdbild|представление о человеке со стороны других|Selbstbild und Fremdbild weichen oft voneinander ab.|Представление о себе и мнение окружающих часто расходятся.
+die Persönlichkeitsstörung|расстройство личности|Eine Persönlichkeitsstörung ist schwer zu behandeln.|Расстройство личности трудно поддаётся лечению.
+die Phobie|фобия|Sie hat eine Phobie vor Spinnen.|У неё фобия пауков.
+das Unbewusste|бессознательное|Freud betonte die Macht des Unbewussten.|Фрейд подчёркивал власть бессознательного.
+die Psychoanalyse|психоанализ|Sigmund Freud begründete die Psychoanalyse.|Зигмунд Фрейд основал психоанализ.
+die Selbstreflexion|саморефлексия|Selbstreflexion hilft, eigene Fehler zu erkennen.|Саморефлексия помогает распознавать собственные ошибки.
+die Impulskontrolle|контроль импульсов|Kleinkinder haben noch wenig Impulskontrolle.|У маленьких детей ещё слабый контроль импульсов.
+die Frustrationstoleranz|устойчивость к фрустрации|Er hat eine geringe Frustrationstoleranz.|Он плохо переносит неудачи.
+die erlernte Hilflosigkeit|выученная беспомощность|Erlernte Hilflosigkeit führt zu Passivität.|Выученная беспомощность ведёт к пассивности.
+der Placeboeffekt|эффект плацебо|Der Placeboeffekt ist erstaunlich stark.|Эффект плацебо удивительно силён.
+` },
+{ lang: 'de', id: 'de-c1-sociology', level: 'C1', emoji: '👥', title: 'Soziologie', desc: 'Социальные слои, мобильность, семья и культура — базовые понятия социологии.', cards: `
+die Soziologie|социология|Max Weber gilt als einer der Begründer der Soziologie.|Макс Вебер считается одним из основателей социологии.
+die Mittelschicht|средний класс|Die Mittelschicht schrumpft.|Средний класс сокращается.
+die Unterschicht|низшие слои общества|Kinder aus der Unterschicht haben schlechtere Bildungschancen.|У детей из низших слоёв хуже шансы на образование.
+die Oberschicht|высшие слои общества|Die Oberschicht bleibt gern unter sich.|Высшие слои предпочитают держаться обособленно.
+die soziale Mobilität|социальная мобильность|In Deutschland ist die soziale Mobilität relativ gering.|В Германии социальная мобильность сравнительно низкая.
+der soziale Aufstieg|социальный рост, социальный лифт|Bildung ermöglicht sozialen Aufstieg.|Образование открывает путь к социальному росту.
+die Sozialisation|социализация|Die Familie prägt die frühe Sozialisation.|Семья определяет раннюю социализацию.
+die Norm|норма|Gesellschaftliche Normen ändern sich ständig.|Общественные нормы постоянно меняются.
+das Milieu|среда (социальная)|Er wuchs in einem bürgerlichen Milieu auf.|Он вырос в буржуазной среде.
+die Randgruppe|маргинальная группа|Obdachlose gehören zu einer Randgruppe der Gesellschaft.|Бездомные относятся к маргинальной группе общества.
+die Subkultur|субкультура|Punk war eine Subkultur der Siebzigerjahre.|Панк был субкультурой семидесятых.
+die Individualisierung|индивидуализация|Die Individualisierung schwächt traditionelle Bindungen.|Индивидуализация ослабляет традиционные связи.
+die Urbanisierung|урбанизация|Die Urbanisierung schreitet weltweit voran.|Урбанизация продвигается по всему миру.
+der demografische Wandel|демографические изменения|Der demografische Wandel verändert den Arbeitsmarkt.|Демографические изменения меняют рынок труда.
+die Geburtenrate|рождаемость|Die Geburtenrate ist seit Jahren niedrig.|Рождаемость уже много лет низкая.
+die Alleinerziehende|мать-одиночка, одинокая мать|Alleinerziehende brauchen mehr Unterstützung.|Одиноким матерям нужно больше поддержки.
+die Lebensgemeinschaft|совместное проживание, гражданский брак|Sie leben in einer nichtehelichen Lebensgemeinschaft.|Они живут в гражданском браке.
+das Rollenbild|ролевая модель, стереотип роли|Traditionelle Rollenbilder lösen sich auf.|Традиционные ролевые модели размываются.
+die Assimilation|ассимиляция|Integration bedeutet nicht Assimilation.|Интеграция не означает ассимиляцию.
+das Wir-Gefühl|чувство общности|Das Stadtfest stärkt das Wir-Gefühl.|Городской праздник укрепляет чувство общности.
+die Anomie|аномия|Durkheim beschrieb die Anomie als Zustand der Normlosigkeit.|Дюркгейм описал аномию как состояние отсутствия норм.
+die Feldforschung|полевое исследование|Sie betreibt Feldforschung in einem Bergdorf.|Она проводит полевое исследование в горной деревне.
+die Sozialstruktur|социальная структура|Die Sozialstruktur hat sich stark gewandelt.|Социальная структура сильно изменилась.
+die Verelendung|обнищание|Die Verelendung ganzer Stadtviertel ist ein Problem.|Обнищание целых кварталов — серьёзная проблема.
+die Erwerbstätigkeit|занятость, трудовая деятельность|Die Erwerbstätigkeit von Frauen ist gestiegen.|Занятость женщин выросла.
+das Statussymbol|символ статуса|Das Auto ist für viele ein Statussymbol.|Машина для многих — символ статуса.
+der Habitus|габитус|Bourdieu prägte den Begriff des Habitus.|Бурдьё ввёл понятие габитуса.
+die Massengesellschaft|массовое общество|In der Massengesellschaft fühlen sich viele einsam.|В массовом обществе многие чувствуют себя одинокими.
+` },
+{ lang: 'de', id: 'de-c1-economy2', level: 'C1', emoji: '🏭', title: 'Wirtschaft C1 (2)', desc: 'Экономика предприятия и рынков: рентабельность, доля рынка, монополия, структурные изменения.', cards: `
+die Betriebswirtschaft|экономика предприятия, бизнес-администрирование|Sie studiert Betriebswirtschaft in Mannheim.|Она изучает экономику предприятия в Мангейме.
+die Gewinnspanne|маржа, норма прибыли|Im Einzelhandel ist die Gewinnspanne gering.|В рознице маржа невелика.
+die Jahresbilanz|годовой баланс|Die Jahresbilanz fällt positiv aus.|Годовой баланс положительный.
+die Kosten-Nutzen-Analyse|анализ затрат и выгод|Die Kosten-Nutzen-Analyse spricht gegen das Projekt.|Анализ затрат и выгод говорит против проекта.
+die Fixkosten|постоянные издержки (мн. ч.)|Die Fixkosten sind zu hoch.|Постоянные издержки слишком высоки.
+die Rentabilität|рентабельность|Die Rentabilität der Filiale ist fraglich.|Рентабельность филиала под вопросом.
+die Liquidität|ликвидность, платёжеспособность|Die Liquidität des Unternehmens ist gesichert.|Платёжеспособность предприятия обеспечена.
+die Abschreibung|амортизация, списание|Die Abschreibung mindert den Gewinn.|Амортизация уменьшает прибыль.
+das Monopol|монополия|Der Konzern hat praktisch ein Monopol.|У концерна фактически монополия.
+das Kartell|картель|Das Kartellamt verhängte eine Strafe gegen das Kartell.|Антимонопольное ведомство оштрафовало картель.
+die Preisgestaltung|ценообразование|Die Preisgestaltung ist intransparent.|Ценообразование непрозрачно.
+die Gewinnwarnung|предупреждение о снижении прибыли|Nach der Gewinnwarnung fiel die Aktie stark.|После предупреждения о снижении прибыли акция сильно упала.
+die Rationalisierung|рационализация (сокращение затрат)|Durch Rationalisierung gingen viele Stellen verloren.|Из-за рационализации было потеряно много рабочих мест.
+die Auslagerung|вынос производства, аутсорсинг|Die Auslagerung der Produktion nach Asien spart Kosten.|Перенос производства в Азию экономит затраты.
+der Exportüberschuss|положительное сальдо экспорта|Deutschland hat einen hohen Exportüberschuss.|У Германии большое положительное сальдо экспорта.
+die Planwirtschaft|плановая экономика|Die DDR hatte eine Planwirtschaft.|В ГДР была плановая экономика.
+der Konsum|потребление|Der private Konsum stützt die Wirtschaft.|Частное потребление поддерживает экономику.
+die Verbraucherstimmung|потребительские настроения|Die Verbraucherstimmung trübt sich ein.|Потребительские настроения ухудшаются.
+die Wirtschaftsprognose|экономический прогноз|Die Wirtschaftsprognose wurde nach unten korrigiert.|Экономический прогноз понизили.
+der Strukturwandel|структурные изменения|Das Ruhrgebiet erlebt seit Jahrzehnten einen Strukturwandel.|Рурская область уже десятилетия переживает структурные изменения.
+die Schattenwirtschaft|теневая экономика|Die Schattenwirtschaft entzieht dem Staat Steuern.|Теневая экономика лишает государство налогов.
+die Schwarzarbeit|нелегальная работа|Schwarzarbeit ist strafbar.|Нелегальная работа наказуема.
+die Staatsgewalt|государственная власть|Alle Staatsgewalt geht vom Volke aus.|Вся государственная власть исходит от народа.
+die Legislative|законодательная власть|Das Parlament bildet die Legislative.|Парламент — законодательная власть.
+die Exekutive|исполнительная власть|Die Regierung gehört zur Exekutive.|Правительство относится к исполнительной власти.
+die Judikative|судебная власть|Die Judikative ist unabhängig.|Судебная власть независима.
+die Gesetzgebung|законодательство, законотворчество|Die Gesetzgebung liegt beim Parlament.|Законотворчество — прерогатива парламента.
+das Staatsoberhaupt|глава государства|Der Bundespräsident ist das Staatsoberhaupt.|Федеральный президент — глава государства.
+die Kulturhoheit|культурный суверенитет (земель)|Die Schulpolitik fällt unter die Kulturhoheit der Länder.|Школьная политика относится к компетенции земель.
+der Notstand|чрезвычайное положение|Die Regierung rief den Notstand aus.|Правительство объявило чрезвычайное положение.
+die Rechtsordnung|правопорядок, правовая система|Die Rechtsordnung schützt das Eigentum.|Правовая система защищает собственность.
+die Rechtssicherheit|правовая определённость|Unternehmen brauchen Rechtssicherheit.|Предприятиям нужна правовая определённость.
+das Gewaltmonopol|монополия на применение силы|Der Staat hat das Gewaltmonopol.|Монополия на применение силы принадлежит государству.
+die Amtsenthebung|отстранение от должности, импичмент|Die Opposition fordert die Amtsenthebung des Präsidenten.|Оппозиция требует отстранения президента от должности.
+die Immunität|неприкосновенность (депутатская), иммунитет|Die Immunität des Abgeordneten wurde aufgehoben.|С депутата сняли неприкосновенность.
+der Verfassungsschutz|ведомство по защите конституции|Der Verfassungsschutz beobachtet extremistische Gruppen.|Ведомство по защите конституции наблюдает за экстремистскими группами.
+` },
+{ lang: 'de', id: 'de-c1-diplomacy', level: 'C1', emoji: '🤝', title: 'Diplomatie', desc: 'Международные отношения: посольства, соглашения, санкции, ООН и Совет Безопасности.', cards: `
+die Diplomatie|дипломатия|Der Konflikt muss durch Diplomatie gelöst werden.|Конфликт нужно решить дипломатическим путём.
+der Botschafter|посол|Der neue Botschafter überreichte sein Beglaubigungsschreiben.|Новый посол вручил верительные грамоты.
+einbestellen|вызывать (посла в МИД)|Das Außenministerium bestellte den Botschafter ein.|МИД вызвал посла.
+das Konsulat|консульство|Das Visum beantragen Sie beim Konsulat.|Визу нужно запрашивать в консульстве.
+das Außenministerium|министерство иностранных дел|Das Außenministerium warnt vor Reisen in die Region.|МИД предостерегает от поездок в этот регион.
+der Staatsvertrag|межгосударственный договор|Der Staatsvertrag regelt die Grenzfragen.|Межгосударственный договор регулирует пограничные вопросы.
+ratifizieren|ратифицировать|Das Parlament muss das Abkommen noch ratifizieren.|Парламент ещё должен ратифицировать соглашение.
+die Sanktion|санкция|Die EU verhängte neue Sanktionen.|ЕС ввёл новые санкции.
+das Embargo|эмбарго|Das Embargo betrifft Öl und Gas.|Эмбарго касается нефти и газа.
+die Annäherung|сближение|Zwischen den beiden Staaten gibt es eine vorsichtige Annäherung.|Между двумя государствами наметилось осторожное сближение.
+der Verbündete|союзник|Die Verbündeten stimmten ihr Vorgehen ab.|Союзники согласовали свои действия.
+der Staatsbesuch|государственный визит|Der Präsident ist auf Staatsbesuch in Japan.|Президент находится с государственным визитом в Японии.
+die Protestnote|нота протеста|Die Regierung überreichte eine Protestnote.|Правительство вручило ноту протеста.
+die Ausweisung|высылка|Die Ausweisung der Diplomaten verschärft die Krise.|Высылка дипломатов обостряет кризис.
+zur Persona non grata erklären|объявить персоной нон грата|Der Diplomat wurde zur Persona non grata erklärt.|Дипломата объявили персоной нон грата.
+das Völkerrecht|международное право|Der Angriff verstößt gegen das Völkerrecht.|Нападение нарушает международное право.
+die Vereinten Nationen|Организация Объединённых Наций (мн. ч.)|Die Vereinten Nationen wurden 1945 gegründet.|ООН была основана в 1945 году.
+der Sicherheitsrat|Совет Безопасности|Der Sicherheitsrat kommt heute zu einer Sondersitzung zusammen.|Совет Безопасности собирается сегодня на внеочередное заседание.
+die Resolution|резолюция|Die Resolution wurde einstimmig angenommen.|Резолюция принята единогласно.
+die Friedensverhandlungen|мирные переговоры (мн. ч.)|Die Friedensverhandlungen haben in Genf begonnen.|Мирные переговоры начались в Женеве.
+die Delegation|делегация|Die Delegation reiste nach Wien.|Делегация отправилась в Вену.
+die diplomatischen Beziehungen|дипломатические отношения (мн. ч.)|Die beiden Länder nahmen diplomatische Beziehungen auf.|Обе страны установили дипломатические отношения.
+` },
+{ lang: 'de', id: 'de-c1-rhetoric', level: 'C1', emoji: '📣', title: 'Rhetorik und Medien', desc: 'Искусство речи и медийные приёмы: эвфемизм, намёк, фрейминг, пропаганда, опровержение.', cards: `
+die Rhetorik|риторика|Er beherrscht die Kunst der Rhetorik.|Он владеет искусством риторики.
+der Redner|оратор|Der Redner fesselte das Publikum.|Оратор захватил публику.
+die rhetorische Frage|риторический вопрос|Das war eine rhetorische Frage.|Это был риторический вопрос.
+die Übertreibung|преувеличение|Das ist eine maßlose Übertreibung.|Это безмерное преувеличение.
+die Anspielung|намёк|Das war eine Anspielung auf seine Vergangenheit.|Это был намёк на его прошлое.
+der Euphemismus|эвфемизм|„Freisetzung“ ist ein Euphemismus für Entlassung.|«Высвобождение» — эвфемизм для увольнения.
+das Schlagwort|лозунг, модное словечко|Nachhaltigkeit ist längst zum Schlagwort geworden.|«Устойчивость» давно стала модным словечком.
+die Parole|лозунг|Die Demonstranten riefen Parolen.|Демонстранты выкрикивали лозунги.
+die Manipulation|манипуляция|Das ist reine Manipulation.|Это чистая манипуляция.
+die Stimmungsmache|нагнетание настроений|Das ist billige Stimmungsmache.|Это дешёвое нагнетание страстей.
+die Hetze|травля, разжигание ненависти|Hetze im Netz wird strafrechtlich verfolgt.|Разжигание ненависти в Сети преследуется по закону.
+die Demagogie|демагогия|Seine Rede war pure Demagogie.|Его речь была чистой демагогией.
+das Framing|фрейминг (подача информации в нужной рамке)|Durch Framing beeinflussen Medien unsere Wahrnehmung.|С помощью фрейминга СМИ влияют на наше восприятие.
+die Deutungshoheit|монополия на интерпретацию|Es geht um die Deutungshoheit über die Ereignisse.|Речь идёт о монополии на интерпретацию событий.
+das Statement|заявление (публичное)|Die Ministerin gab ein kurzes Statement ab.|Министр сделала короткое заявление.
+der Pressesprecher|пресс-секретарь|Der Pressesprecher beantwortete die Fragen der Journalisten.|Пресс-секретарь ответил на вопросы журналистов.
+dementieren|официально опровергать|Die Regierung dementierte den Bericht.|Правительство опровергло сообщение.
+die Ansprache|обращение, речь|Der Kanzler hielt eine Ansprache an die Nation.|Канцлер выступил с обращением к нации.
+die Laudatio|хвалебная речь (в честь лауреата)|Sie hielt die Laudatio auf den Preisträger.|Она произнесла хвалебную речь в честь лауреата.
+der Zwischenruf|выкрик с места|Seine Rede wurde von Zwischenrufen unterbrochen.|Его речь прерывали выкрики с мест.
+die Schlagfertigkeit|находчивость (в ответах)|Mit ihrer Schlagfertigkeit gewann sie das Publikum.|Своей находчивостью она покорила публику.
+die Überzeugungskraft|сила убеждения|Ihre Überzeugungskraft ist beeindruckend.|Её сила убеждения впечатляет.
+die Wortwahl|выбор слов|Seine Wortwahl war unglücklich.|Он неудачно подобрал слова.
+das Pathos|пафос|Er sprach mit viel Pathos.|Он говорил с большим пафосом.
+die Phrase|фраза; пустая фраза|Das sind doch nur leere Phrasen.|Это же просто пустые фразы.
+` },
+{ lang: 'de', id: 'de-c1-criticism', level: 'C1', emoji: '🖋️', title: 'Literaturwissenschaft', desc: 'Термины анализа текста: подтекст, экспозиция, катарсис, поток сознания, олицетворение.', cards: `
+die Literaturwissenschaft|литературоведение|Sie studiert Literaturwissenschaft in Heidelberg.|Она изучает литературоведение в Гейдельберге.
+die Interpretation|интерпретация, толкование|Die Interpretation des Gedichts ist umstritten.|Толкование стихотворения спорно.
+die Textanalyse|анализ текста|Die Textanalyse beginnt mit dem Inhalt.|Анализ текста начинается с содержания.
+der Kritiker|критик|Die Kritiker lobten den Debütroman.|Критики хвалили дебютный роман.
+der Verriss|разгромная рецензия|Der Film bekam einen gnadenlosen Verriss.|Фильм получил беспощадную разгромную рецензию.
+die Symbolik|символика|Die Symbolik der Farben ist auffällig.|Символика цветов бросается в глаза.
+der Subtext|подтекст|Der Subtext ist wichtiger als der Dialog.|Подтекст важнее самого диалога.
+die Intertextualität|интертекстуальность|Der Roman lebt von Intertextualität.|Роман построен на интертекстуальности.
+das Genre|жанр|Der Krimi ist ein beliebtes Genre.|Детектив — популярный жанр.
+die Erzählzeit|время повествования|Erzählzeit und erzählte Zeit unterscheiden sich stark.|Время повествования и описываемое время сильно различаются.
+die Rückblende|ретроспекция, флешбэк|Der Roman arbeitet mit vielen Rückblenden.|В романе много флешбэков.
+der innere Monolog|внутренний монолог|Der innere Monolog zeigt die Gedanken der Figur.|Внутренний монолог передаёт мысли персонажа.
+der Bewusstseinsstrom|поток сознания|James Joyce nutzte die Technik des Bewusstseinsstroms.|Джеймс Джойс использовал технику потока сознания.
+die Pointe|соль, неожиданная развязка|Die Pointe kommt erst im letzten Satz.|Соль раскрывается только в последнем предложении.
+der Spannungsbogen|драматургическая арка, напряжение сюжета|Der Spannungsbogen bricht in der Mitte ein.|В середине напряжение сюжета проседает.
+die Exposition|экспозиция|Die Exposition stellt die Figuren und den Konflikt vor.|Экспозиция знакомит с персонажами и конфликтом.
+die Peripetie|перипетия, поворот действия|Die Peripetie erfolgt im dritten Akt.|Поворот действия происходит в третьем акте.
+die Katharsis|катарсис|Die Tragödie soll beim Zuschauer eine Katharsis bewirken.|Трагедия должна вызвать у зрителя катарсис.
+der Antiheld|антигерой|Der Antiheld des Romans ist faul und feige.|Антигерой романа ленив и труслив.
+die Figurenkonstellation|расстановка персонажей|Die Figurenkonstellation ist komplex.|Расстановка персонажей сложная.
+die Charakterisierung|характеристика (персонажа)|Schreiben Sie eine Charakterisierung der Hauptfigur.|Напишите характеристику главного героя.
+werkimmanent|имманентный (исходящий из самого текста)|Die werkimmanente Interpretation ignoriert die Biografie des Autors.|Имманентная интерпретация не учитывает биографию автора.
+das Stilmittel|стилистическое средство, приём|Die Alliteration ist ein beliebtes Stilmittel.|Аллитерация — популярный стилистический приём.
+die Personifikation|олицетворение|„Der Wind flüstert“ ist eine Personifikation.|«Ветер шепчет» — олицетворение.
+die Groteske|гротеск|Kafkas Texte tragen Züge der Groteske.|В текстах Кафки есть черты гротеска.
+das Absurde|абсурд, абсурдное|Das Theater des Absurden entstand nach dem Krieg.|Театр абсурда возник после войны.
+die Lesart|прочтение, вариант толкования|Es gibt verschiedene Lesarten des Romans.|Существуют разные прочтения романа.
+die Literaturkritik|литературная критика|Die Literaturkritik ignorierte das Buch lange.|Литературная критика долго игнорировала книгу.
 ` },
 );
 /* de-c1-8.js */
@@ -10080,10 +13998,8 @@ die Vedute|ведута, видовой городской пейзаж|Canalett
 { lang: 'de', id: 'de-c2-stylistics', level: 'C2', emoji: '🖋️', title: 'Stilfiguren und Tropen', desc: 'Термины стилистики и риторики с немецкими примерами из поэзии и речи.', cards: `
 die Metonymie|метонимия|„Das ganze Haus lachte“ ist eine Metonymie.|«Весь дом смеялся» — метонимия.
 die Synekdoche|синекдоха|„Ein Dach über dem Kopf“ ist eine Synekdoche.|«Крыша над головой» — синекдоха.
-die Personifikation|олицетворение|„Die Sonne lacht“ ist eine Personifikation.|«Солнце смеётся» — олицетворение.
 die Hyperbel|гипербола|„Ich habe es dir tausendmal gesagt“ ist eine Hyperbel.|«Я тебе это тысячу раз говорил» — гипербола.
 die Litotes|литота|„Nicht schlecht“ statt „sehr gut“ ist eine Litotes.|«Неплохо» вместо «очень хорошо» — литота.
-der Euphemismus|эвфемизм|„Entschlafen“ ist ein Euphemismus für „sterben“.|«Почить» — эвфемизм для «умереть».
 das Oxymoron|оксюморон|„Bittersüß“ ist ein Oxymoron.|«Горько-сладкий» — оксюморон.
 das Paradoxon|парадокс|„Weniger ist mehr“ ist ein Paradoxon.|«Меньше — значит больше» — парадокс.
 die Antithese|антитеза|Die Antithese stellt Gegensätze schroff gegenüber.|Антитеза резко противопоставляет противоположности.
@@ -10106,8 +14022,6 @@ die Apostrophe|апострофа, риторическое обращение|�
 die Synästhesie|синестезия|„Schreiendes Rot“ ist eine Synästhesie.|«Кричащий красный» — синестезия.
 das Epitheton|эпитет|Das Epitheton „rosenfingrig“ stammt von Homer.|Эпитет «розовоперстая» восходит к Гомеру.
 die Emphase|эмфаза, выразительное усиление|Er sprach mit großer Emphase.|Он говорил с большой эмфазой.
-die Pointe|соль, неожиданная концовка (шутки)|Die Pointe des Witzes kam zu spät.|Соль шутки прозвучала слишком поздно.
-das Stilmittel|стилистическое средство|Bestimme die Stilmittel im Gedicht!|Определи стилистические средства в стихотворении!
 ` },
 { lang: 'de', id: 'de-c2-economy', level: 'C2', emoji: '📈', title: 'Wirtschaftstheorie', desc: 'Понятия экономической теории: предельные величины, провалы рынка, школы и денежная политика.', cards: `
 die Volkswirtschaftslehre|экономическая теория, политэкономия|Er studiert Volkswirtschaftslehre in Köln.|Он изучает экономическую теорию в Кёльне.
@@ -10131,7 +14045,6 @@ der Keynesianismus|кейнсианство|Der Keynesianismus setzt auf staatli
 die soziale Marktwirtschaft|социальное рыночное хозяйство|Ludwig Erhard gilt als Vater der sozialen Marktwirtschaft.|Людвиг Эрхард считается отцом социального рыночного хозяйства.
 der Ordoliberalismus|ордолиберализм|Die Freiburger Schule vertrat den Ordoliberalismus.|Фрайбургская школа отстаивала ордолиберализм.
 das Oligopol|олигополия|Der Mobilfunkmarkt ist ein Oligopol.|Рынок мобильной связи — олигополия.
-das Kartell|картель|Die Firmen bildeten ein verbotenes Kartell.|Фирмы образовали запрещённый картель.
 der Skaleneffekt|эффект масштаба|Große Firmen profitieren von Skaleneffekten.|Крупные фирмы выигрывают от эффекта масштаба.
 die Arbeitsteilung|разделение труда|Die Arbeitsteilung steigert die Produktivität.|Разделение труда повышает производительность.
 der komparative Vorteil|сравнительное преимущество|Ricardo erklärte den Handel durch den komparativen Vorteil.|Рикардо объяснял торговлю сравнительным преимуществом.
@@ -10252,10 +14165,10 @@ die Ribisel|смородина (австр.)|Die Ribiseln sind reif.|Сморо�
 der Feudel|половая тряпка (сев.)|Wisch den Boden mit dem Feudel!|Протри пол тряпкой!
 schnacken|болтать (сев.)|Wir haben noch ein bisschen geschnackt.|Мы ещё немного поболтали.
 grüezi|здравствуйте (швейц.)|Grüezi mitenand!|Здравствуйте все!
+des Pudels Kern|суть дела, вот в чём штука|Das also war des Pudels Kern!|Так вот в чём суть!
 Zwei Seelen wohnen in meiner Brust|Две души живут в моей груди|Zwei Seelen wohnen in meiner Brust: Ich will gehen und bleiben.|Две души живут во мне: хочу и уйти, и остаться.
 Das ist der Weisheit letzter Schluss|Вот мудрости последний вывод|Er hielt den Kompromiss für der Weisheit letzten Schluss.|Он считал компромисс вершиной мудрости.
 Augenblick, verweile doch|Мгновенье, остановись|Am liebsten hätte sie gerufen: Augenblick, verweile doch!|Ей хотелось воскликнуть: мгновенье, остановись!
-Die Gedanken sind frei|Мысли свободны|Man kann mir alles verbieten – die Gedanken sind frei.|Мне можно запретить всё — мысли свободны.
 Die Religion ist das Opium des Volkes|Религия — опиум народа|Marx schrieb: Die Religion ist das Opium des Volkes.|Маркс писал: религия — опиум народа.
 Der Mensch ist, was er isst|Человек есть то, что он ест (Фейербах)|Feuerbach meinte: Der Mensch ist, was er isst.|Фейербах считал: человек есть то, что он ест.
 Blut und Eisen|железом и кровью (Бисмарк)|Bismarck wollte die Einheit durch Blut und Eisen erreichen.|Бисмарк хотел достичь единства железом и кровью.
@@ -10772,15 +14685,12 @@ die Lautmalerei|звукоподражание|„Kuckuck“ ist ein Beispiel f�
 { lang: 'de', id: 'de-c2-diplomacy', level: 'C2', emoji: '🤝', title: 'Diplomatie und Geopolitik', desc: 'Дипломатический протокол, международное право и язык геополитики.', cards: `
 das Beglaubigungsschreiben|верительная грамота|Der Botschafter überreichte sein Beglaubigungsschreiben.|Посол вручил верительную грамоту.
 die Persona non grata|персона нон грата|Der Diplomat wurde zur Persona non grata erklärt.|Дипломата объявили персоной нон грата.
-die Immunität|иммунитет|Diplomaten genießen Immunität.|Дипломаты пользуются иммунитетом.
 das Kommuniqué|коммюнике|Nach dem Gipfel wurde ein Kommuniqué veröffentlicht.|После саммита опубликовали коммюнике.
 die Demarche|демарш|Das Außenministerium unternahm eine Demarche.|МИД предпринял демарш.
-die Protestnote|нота протеста|Die Regierung überreichte eine Protestnote.|Правительство вручило ноту протеста.
 der Gesandte|посланник|Der Gesandte überbrachte eine Botschaft des Königs.|Посланник передал послание короля.
 der Geschäftsträger|поверенный в делах|Der Geschäftsträger vertritt den abwesenden Botschafter.|Поверенный в делах замещает отсутствующего посла.
 die Akkreditierung|аккредитация|Die Akkreditierung der Journalisten dauerte lange.|Аккредитация журналистов затянулась.
 die Pendeldiplomatie|челночная дипломатия|Durch Pendeldiplomatie wurde ein Waffenstillstand erreicht.|Челночной дипломатией удалось добиться перемирия.
-die Annäherung|сближение|Die Annäherung zwischen beiden Staaten kam voran.|Сближение двух государств продвигалось.
 die Entspannungspolitik|политика разрядки|Die Entspannungspolitik veränderte Europa.|Политика разрядки изменила Европу.
 die Realpolitik|реальная политика, прагматизм|Bismarck stand für Realpolitik.|Бисмарк олицетворял реальную политику.
 die Einflusssphäre|сфера влияния|Die Großmächte teilten die Welt in Einflusssphären.|Великие державы поделили мир на сферы влияния.
@@ -10788,13 +14698,9 @@ die Pufferzone|буферная зона|Eine Pufferzone trennt die Gegner.|Пр
 die Hegemonie|гегемония|Die Hegemonie der USA wird infrage gestellt.|Гегемония США ставится под сомнение.
 die Großmacht|великая держава|China ist zur Großmacht aufgestiegen.|Китай стал великой державой.
 der Bündnisfall|случай коллективной обороны|Die NATO rief 2001 den Bündnisfall aus.|В 2001 году НАТО объявило случай коллективной обороны.
-die Sanktion|санкция|Die EU verhängte neue Sanktionen.|ЕС ввёл новые санкции.
-das Embargo|эмбарго|Ein Embargo verbietet Waffenexporte in das Land.|Эмбарго запрещает экспорт оружия в эту страну.
-das Völkerrecht|международное право|Die Annexion verstößt gegen das Völkerrecht.|Аннексия нарушает международное право.
 die Annexion|аннексия|Die Annexion wurde international verurteilt.|Аннексия была осуждена международным сообществом.
 die Nichteinmischung|невмешательство|Das Prinzip der Nichteinmischung ist umstritten.|Принцип невмешательства спорен.
 das Gipfeltreffen|встреча на высшем уровне, саммит|Beim Gipfeltreffen wurde viel versprochen.|На саммите много обещали.
-ratifizieren|ратифицировать|Der Bundestag ratifizierte den Vertrag.|Бундестаг ратифицировал договор.
 die Absichtserklärung|меморандум о намерениях|Beide Seiten unterzeichneten eine Absichtserklärung.|Обе стороны подписали меморандум о намерениях.
 die Geopolitik|геополитика|Energie ist längst eine Frage der Geopolitik.|Энергетика давно стала вопросом геополитики.
 ` },
@@ -10832,16 +14738,12 @@ die Widerspruchsfreiheit|непротиворечивость|Eine Theorie muss 
 die Synthese|синтез|Aus These und Antithese entsteht die Synthese.|Из тезиса и антитезиса рождается синтез.
 die Redekunst|ораторское искусство|Cicero war ein Meister der Redekunst.|Цицерон был мастером ораторского искусства.
 das Redepult|трибуна (для выступлений)|Sie trat ans Redepult.|Она вышла на трибуну.
-die rhetorische Frage|риторический вопрос|„Wer will schon verlieren?“ ist eine rhetorische Frage.|«Кто же хочет проиграть?» — риторический вопрос.
 die Captatio Benevolentiae|снискание благосклонности слушателей|Mit einem Scherz als Captatio Benevolentiae gewann er das Publikum.|Шуткой в начале он завоевал расположение публики.
 das Plädoyer|речь защитника; пламенная речь в защиту|Sie hielt ein leidenschaftliches Plädoyer für die Freiheit.|Она произнесла пламенную речь в защиту свободы.
-die Demagogie|демагогия|Populisten setzen auf Demagogie.|Популисты делают ставку на демагогию.
 der Demagoge|демагог|Der Demagoge hetzte die Menge auf.|Демагог подстрекал толпу.
 die Suggestivfrage|наводящий вопрос|Der Anwalt stellte eine Suggestivfrage.|Адвокат задал наводящий вопрос.
 die Spitzfindigkeit|казуистика, крючкотворство|Das sind juristische Spitzfindigkeiten.|Это юридическое крючкотворство.
 die Sophisterei|софистика|Seine Argumente sind reine Sophisterei.|Его аргументы — чистая софистика.
-das Pathos|пафос|Er sprach mit viel Pathos.|Он говорил с большим пафосом.
-die Schlagfertigkeit|находчивость (в ответе)|Ihre Schlagfertigkeit ist legendär.|Её находчивость легендарна.
 die Floskel|пустая фраза, штамп|Die Rede bestand aus leeren Floskeln.|Речь состояла из пустых фраз.
 die Ausflucht|отговорка, увёртка|Das sind doch nur Ausflüchte!|Это же просто отговорки!
 die Unterstellung|инсинуация, домысел|Das ist eine böswillige Unterstellung!|Это злонамеренная инсинуация!
@@ -10863,15 +14765,10 @@ der Komödiant|комедиант|Er ist ein geborener Komödiant.|Он прир
 der Statist|статист|Für die Massenszene suchte man Statisten.|Для массовой сцены искали статистов.
 das Beiseitesprechen|реплика в сторону|Durch das Beiseitesprechen erfährt das Publikum seine Gedanken.|Через реплики в сторону публика узнаёт его мысли.
 die Bühnenanweisung|ремарка|Die Bühnenanweisung verlangt völlige Dunkelheit.|Ремарка требует полной темноты.
-die Katharsis|катарсис|Die Tragödie soll eine Katharsis bewirken.|Трагедия должна вызывать катарсис.
 die Fallhöhe|высота падения (героя трагедии)|Je größer die Fallhöhe, desto tragischer der Sturz.|Чем выше положение героя, тем трагичнее падение.
 das epische Theater|эпический театр|Brecht entwickelte das epische Theater.|Брехт создал эпический театр.
 der Verfremdungseffekt|эффект очуждения|Der Verfremdungseffekt soll den Zuschauer zum Nachdenken bringen.|Эффект очуждения должен заставить зрителя задуматься.
 das Regietheater|режиссёрский театр|Kritiker werfen dem Regietheater Willkür vor.|Критики упрекают режиссёрский театр в произволе.
-der Verriss|разгромная рецензия|Die Kritik war ein vernichtender Verriss.|Рецензия оказалась уничтожающей.
-die Legislative|законодательная власть|Das Parlament bildet die Legislative.|Парламент — законодательная власть.
-die Exekutive|исполнительная власть|Die Regierung ist die Exekutive.|Правительство — исполнительная власть.
-die Judikative|судебная власть|Die Judikative ist unabhängig.|Судебная власть независима.
 das Verhältniswahlrecht|пропорциональная избирательная система|Deutschland hat ein personalisiertes Verhältniswahlrecht.|В Германии персонализированная пропорциональная система.
 das Überhangmandat|избыточный мандат|Durch Überhangmandate wuchs der Bundestag.|Из-за избыточных мандатов бундестаг разрастался.
 der Staatssekretär|статс-секретарь|Der Staatssekretär vertrat den Minister.|Статс-секретарь замещал министра.
@@ -10911,6 +14808,396 @@ die Stimmgabel|камертон (прибор)|Er schlug die Stimmgabel an.|Он
 das Gesamtkunstwerk|синтетическое произведение искусства|Wagner strebte nach dem Gesamtkunstwerk.|Вагнер стремился к синтезу искусств.
 die Zwölftonmusik|додекафония|Schönberg begründete die Zwölftonmusik.|Шёнберг основал додекафонию.
 der Ländler|лендлер (народный танец)|Der Ländler ist ein Vorläufer des Walzers.|Лендлер — предшественник вальса.
+` },
+);
+/* de-c2-7.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-c2-architecture', level: 'C2', emoji: '🏰', title: 'Architektur', desc: 'Детали зданий, готический собор по частям и архитектурные стили от романики до панельных домов.', cards: `
+das Fachwerk|фахверк|Das Fachwerk wurde sorgfältig restauriert.|Фахверк тщательно отреставрировали.
+der Giebel|фронтон, щипец|Das Haus hat einen spitzen Giebel.|У дома острый щипец.
+die Gaube|слуховое (мансардное) окно|Im Dach sind zwei Gauben.|В крыше два слуховых окна.
+der Dachstuhl|стропильная конструкция|Der Dachstuhl ist aus Eichenholz.|Стропила сделаны из дуба.
+das Kreuzrippengewölbe|крестовый нервюрный свод|Die Kathedrale hat ein Kreuzrippengewölbe.|В соборе крестовый нервюрный свод.
+der Strebepfeiler|контрфорс|Strebepfeiler stützen die Mauern.|Контрфорсы поддерживают стены.
+der Strebebogen|аркбутан|Strebebögen leiten den Schub nach außen ab.|Аркбутаны отводят распор наружу.
+das Langhaus|продольный корпус храма, неф|Das Langhaus hat drei Schiffe.|Продольный корпус имеет три нефа.
+das Querschiff|трансепт|Das Querschiff kreuzt das Langhaus.|Трансепт пересекает продольный неф.
+die Apsis|апсида|In der Apsis steht der Altar.|В апсиде стоит алтарь.
+die Krypta|крипта|In der Krypta liegen die Bischöfe begraben.|В крипте похоронены епископы.
+der Kreuzgang|крытая галерея монастыря|Die Mönche wandelten im Kreuzgang.|Монахи прогуливались по крытой галерее.
+die Rosette|роза (круглое окно)|Die Rosette leuchtet in allen Farben.|Окно-роза сияет всеми цветами.
+das Maßwerk|ажурный каменный узор, масверк|Das Maßwerk der Fenster ist filigran.|Каменный узор окон филигранен.
+der Wasserspeier|горгулья (водосток)|Wasserspeier in Dämonengestalt zieren die Fassade.|Горгульи в виде демонов украшают фасад.
+das Portal|портал|Das Portal ist reich mit Figuren geschmückt.|Портал богато украшен фигурами.
+das Tympanon|тимпан|Das Tympanon zeigt das Weltgericht.|На тимпане изображён Страшный суд.
+das Kapitell|капитель|Das Kapitell ist mit Akanthusblättern verziert.|Капитель украшена листьями аканта.
+der Pfeiler|столб, пилон|Mächtige Pfeiler tragen die Kuppel.|Мощные пилоны несут купол.
+das Gesims|карниз|Tauben sitzen auf dem Gesims.|Голуби сидят на карнизе.
+der Fries|фриз|Ein Fries mit Ranken umläuft das Gebäude.|Фриз с растительным орнаментом опоясывает здание.
+die Arkade|аркада|Unter den Arkaden gibt es Cafés.|Под аркадами есть кафе.
+die Romanik|романский стиль|Der Dom zu Speyer ist ein Hauptwerk der Romanik.|Шпайерский собор — главное произведение романского стиля.
+die Backsteingotik|кирпичная готика|In Lübeck sieht man viel Backsteingotik.|В Любеке много кирпичной готики.
+das Rokoko|рококо|Schloss Sanssouci ist im Stil des Rokoko gebaut.|Дворец Сан-Суси построен в стиле рококо.
+der Historismus|историзм|Viele Rathäuser stammen aus der Zeit des Historismus.|Многие ратуши относятся к эпохе историзма.
+der Plattenbau|панельный дом|Sie wuchs in einem Plattenbau in Rostock auf.|Она выросла в панельном доме в Ростоке.
+` },
+{ lang: 'de', id: 'de-c2-colours', level: 'C2', emoji: '🎨', title: 'Farben, Geschmack, Tastsinn', desc: 'Изысканные оттенки цвета, нюансы вкуса и осязания.', cards: `
+purpurn|пурпурный|Ein purpurner Mantel umhüllte den König.|Пурпурная мантия облекала короля.
+karmesinrot|малиновый, кармазинный|Karmesinrote Rosen schmückten den Saal.|Малиновые розы украшали зал.
+zinnoberrot|киноварный|Das Dach leuchtet zinnoberrot.|Крыша сияет киноварью.
+ockergelb|охристый|Die Fassade ist ockergelb gestrichen.|Фасад окрашен в охристый цвет.
+safrangelb|шафрановый|Die Mönche tragen safrangelbe Gewänder.|Монахи носят шафрановые одеяния.
+azurblau|лазурный|Ein azurblauer Himmel spannte sich über uns.|Над нами раскинулось лазурное небо.
+kobaltblau|кобальтовый|Die Vase ist kobaltblau glasiert.|Ваза покрыта кобальтовой глазурью.
+elfenbeinfarben|цвета слоновой кости|Sie trug ein elfenbeinfarbenes Brautkleid.|На ней было свадебное платье цвета слоновой кости.
+bordeauxrot|бордовый|Die Sessel sind mit bordeauxrotem Samt bezogen.|Кресла обиты бордовым бархатом.
+fleckig|в пятнах, пятнистый|Die Tischdecke ist fleckig.|Скатерть в пятнах.
+gesprenkelt|крапчатый|Die Eier sind braun gesprenkelt.|Яйца в коричневую крапинку.
+scheckig|пегий|Ein scheckiges Pferd graste auf der Weide.|Пегая лошадь паслась на лугу.
+gedeckt|приглушённый (о цвете)|Er bevorzugt gedeckte Farben.|Он предпочитает приглушённые цвета.
+süffig|приятный на вкус, легко пьющийся|Das Bier ist süffig.|Пиво легко пьётся.
+mürbe|рассыпчатый; мягкий (о мясе)|Der Kuchen ist schön mürbe.|Пирог хорошо рассыпчатый.
+sämig|густой, кремообразный (о соусе)|Die Soße ist schön sämig.|Соус приятно густой.
+samtig|бархатистый|Die Haut des Pfirsichs ist samtig.|Кожица персика бархатистая.
+seidig|шелковистый|Sie hat seidiges Haar.|У неё шелковистые волосы.
+schrundig|потрескавшийся|Im Winter hat sie schrundige Lippen.|Зимой у неё потрескавшиеся губы.
+schwammig|губчатый, рыхлый; расплывчатый|Die Formulierung ist schwammig.|Формулировка расплывчатая.
+borstig|щетинистый, колючий|Das Fell des Ebers ist borstig.|Шерсть кабана щетинистая.
+die Germanistik|германистика|Er hat Germanistik und Geschichte studiert.|Он изучал германистику и историю.
+die Lehnübersetzung|калька|„Wolkenkratzer“ ist eine Lehnübersetzung aus dem Englischen.|«Wolkenkratzer» — калька с английского.
+das Erbwort|исконное слово|„Vater“ ist ein germanisches Erbwort.|«Vater» — исконное германское слово.
+das Althochdeutsche|древневерхненемецкий язык|Das Althochdeutsche ist für Laien kaum verständlich.|Древневерхненемецкий почти непонятен непосвящённым.
+das Mittelhochdeutsche|средневерхненемецкий язык|Walthers Lieder sind im Mittelhochdeutschen verfasst.|Песни Вальтера написаны на средневерхненемецком.
+das Niederdeutsche|нижненемецкий язык|Das Niederdeutsche wird im Norden noch gesprochen.|На нижненемецком ещё говорят на севере.
+die Flexion|словоизменение, флексия|Das Deutsche hat eine reiche Flexion.|В немецком богатое словоизменение.
+das Lautgesetz|фонетический закон|Die Junggrammatiker glaubten an ausnahmslose Lautgesetze.|Младограмматики верили в фонетические законы без исключений.
+die Textkritik|текстология, критика текста|Die Textkritik rekonstruiert den Urtext.|Текстология реконструирует первоначальный текст.
+das Grimmsche Wörterbuch|Словарь братьев Гримм|Das Grimmsche Wörterbuch wurde erst 1961 vollendet.|Словарь братьев Гримм был завершён лишь в 1961 году.
+der Duden|Дуден (нормативный словарь)|Im Zweifel schlägt man im Duden nach.|В сомнительных случаях заглядывают в Дуден.
+die Rechtschreibreform|реформа орфографии|Seit der Rechtschreibreform schreibt man „dass“ mit Doppel-s.|После реформы орфографии «dass» пишут с двумя s.
+` },
+{ lang: 'de', id: 'de-c2-bible', level: 'C2', emoji: '📕', title: 'Bibel und alte Denkmäler', desc: 'Библейские образы и выражения в немецкой речи, а также древние памятники немецкой письменности.', cards: `
+das Alte Testament|Ветхий Завет|Das Alte Testament beginnt mit der Schöpfung.|Ветхий Завет начинается с сотворения мира.
+die Schöpfung|сотворение мира|Nach der Bibel dauerte die Schöpfung sechs Tage.|Согласно Библии, сотворение мира длилось шесть дней.
+der Sündenfall|грехопадение|Nach dem Sündenfall wurden Adam und Eva vertrieben.|После грехопадения Адам и Ева были изгнаны.
+die Sintflut|всемирный потоп|Noah überlebte die Sintflut in der Arche.|Ной пережил потоп в ковчеге.
+die Arche|ковчег|Noah baute eine Arche für die Tiere.|Ной построил ковчег для животных.
+der Turmbau zu Babel|Вавилонская башня|Der Turmbau zu Babel führte zur Sprachverwirrung.|Строительство Вавилонской башни привело к смешению языков.
+das Gelobte Land|Земля обетованная|Moses führte das Volk ins Gelobte Land.|Моисей вёл народ в Землю обетованную.
+der Exodus|исход|Der Exodus der Fachkräfte schwächt das Land.|Исход специалистов ослабляет страну.
+das Goldene Kalb|золотой телец|Sie tanzen um das Goldene Kalb.|Они поклоняются золотому тельцу.
+die Zehn Gebote|десять заповедей (мн. ч.)|Moses empfing die Zehn Gebote am Sinai.|Моисей получил десять заповедей на Синае.
+das Manna|манна|In der Wüste fiel Manna vom Himmel.|В пустыне с неба падала манна.
+die Bergpredigt|Нагорная проповедь|In der Bergpredigt preist Jesus die Sanftmütigen.|В Нагорной проповеди Иисус прославляет кротких.
+das Gleichnis|притча|Jesus sprach in Gleichnissen.|Иисус говорил притчами.
+der verlorene Sohn|блудный сын|Der verlorene Sohn kehrte nach Hause zurück.|Блудный сын вернулся домой.
+der barmherzige Samariter|милосердный самаритянин|Er half wie ein barmherziger Samariter.|Он помог, как милосердный самаритянин.
+das Jüngste Gericht|Страшный суд|Am Jüngsten Gericht werden die Toten gerichtet.|На Страшном суде будут судимы мёртвые.
+der Judaskuss|поцелуй Иуды|Sein Lob war ein Judaskuss.|Его похвала была поцелуем Иуды.
+der Judaslohn|тридцать сребреников, плата за предательство|Er verriet seine Freunde für einen Judaslohn.|Он предал друзей за тридцать сребреников.
+der ungläubige Thomas|Фома неверующий|Sei kein ungläubiger Thomas!|Не будь Фомой неверующим!
+die Hiobsbotschaft|печальная весть|Die Hiobsbotschaft kam am Morgen.|Печальная весть пришла утром.
+das Kainsmal|каинова печать|Er trug das Kainsmal des Verräters.|На нём лежала печать предателя.
+der Goliath|Голиаф, великан|Der kleine Verein besiegte den Goliath.|Маленький клуб победил великана.
+salomonisch|соломонов, мудрый|Das war ein salomonisches Urteil.|Это было соломоново решение.
+das Menetekel|зловещее предзнаменование|Die Krise war ein Menetekel für die Regierung.|Кризис стал зловещим знаком для правительства.
+im Schweiße seines Angesichts|в поте лица|Im Schweiße seines Angesichts baute er das Haus.|В поте лица он построил дом.
+ein Buch mit sieben Siegeln|книга за семью печатями|Mathematik ist für mich ein Buch mit sieben Siegeln.|Математика для меня — книга за семью печатями.
+wie Sand am Meer|видимо-невидимо, как песку морского|Touristen gibt es hier wie Sand am Meer.|Туристов здесь видимо-невидимо.
+von Pontius zu Pilatus laufen|ходить от Понтия к Пилату, по всем инстанциям|Wegen des Antrags lief ich von Pontius zu Pilatus.|Из-за заявления я ходил по всем инстанциям.
+das Hildebrandslied|«Песнь о Хильдебранде»|Das Hildebrandslied ist das älteste deutsche Heldenlied.|«Песнь о Хильдебранде» — древнейшая немецкая героическая песнь.
+die Merseburger Zaubersprüche|Мерзебургские заклинания (мн. ч.)|Die Merseburger Zaubersprüche stammen aus heidnischer Zeit.|Мерзебургские заклинания восходят к языческим временам.
+das Nibelungenlied|«Песнь о Нибелунгах»|Das Nibelungenlied erzählt von Siegfried und Kriemhild.|«Песнь о Нибелунгах» рассказывает о Зигфриде и Кримхильде.
+die Lutherbibel|Библия Лютера|Die Lutherbibel prägte die deutsche Sprache.|Библия Лютера сформировала немецкий язык.
+die Gutenberg-Bibel|Библия Гутенберга|Die Gutenberg-Bibel war das erste große gedruckte Buch Europas.|Библия Гутенберга стала первой большой печатной книгой Европы.
+die Inkunabel|инкунабула|Die Bibliothek besitzt wertvolle Inkunabeln.|Библиотека владеет ценными инкунабулами.
+das Pergament|пергамент|Die Urkunde ist auf Pergament geschrieben.|Грамота написана на пергаменте.
+` },
+{ lang: 'de', id: 'de-c2-light', level: 'C2', emoji: '🕯️', title: 'Licht und Dunkel', desc: 'Глаголы и слова света и тьмы: мерцать, тлеть, сиять; сумерки, отблески и полутени.', cards: `
+schimmern|мерцать, отсвечивать|Das Wasser schimmerte im Mondlicht.|Вода мерцала в лунном свете.
+flimmern|мерцать, дрожать (о воздухе, экране)|Die Luft flimmert vor Hitze.|Воздух дрожит от жары.
+flackern|мигать, трепетать (о пламени)|Die Kerze flackerte im Wind.|Свеча трепетала на ветру.
+glimmen|тлеть|In der Asche glimmt noch etwas.|В золе ещё что-то тлеет.
+die Glut|жар, раскалённые угли|Sie legten Holz auf die Glut.|Они подложили дров на угли.
+glitzern|сверкать, искриться|Der Schnee glitzert in der Sonne.|Снег искрится на солнце.
+funkeln|сверкать, мерцать|Ihre Augen funkelten vor Freude.|Её глаза сверкали от радости.
+gleißen|ослепительно сиять|Die Sonne gleißte auf dem Eis.|Солнце ослепительно сияло на льду.
+blenden|ослеплять|Das Licht der Scheinwerfer blendete ihn.|Свет фар ослепил его.
+schummrig|полутёмный|In der Bar war es schummrig.|В баре был полумрак.
+das Zwielicht|полусвет, сумерки|Im Zwielicht erkannte er sie nicht.|В полусвете он её не узнал.
+die Dämmerung|сумерки|In der Dämmerung kehrten sie heim.|В сумерках они вернулись домой.
+das Morgengrauen|предрассветные сумерки|Im Morgengrauen brachen sie auf.|На рассвете они отправились в путь.
+die Finsternis|мрак, тьма|Tiefe Finsternis umgab sie.|Их окружала глубокая тьма.
+stockdunkel|кромешно тёмный|Im Keller war es stockdunkel.|В подвале было темно, хоть глаз выколи.
+düster|мрачный, сумрачный|Ein düsterer Himmel hing über der Stadt.|Над городом нависло мрачное небо.
+trübe|тусклый, пасмурный|An trüben Tagen bleibt sie zu Hause.|В пасмурные дни она остаётся дома.
+der Schein|свет, отблеск; видимость|Im Schein der Kerze las er den Brief.|При свете свечи он читал письмо.
+der Abglanz|отблеск|Das ist nur ein Abglanz früherer Größe.|Это лишь отблеск былого величия.
+der Widerschein|отсвет, отражение|Der Widerschein des Feuers tanzte an der Wand.|Отсвет огня плясал на стене.
+der Lichtkegel|конус света, луч|Der Lichtkegel der Taschenlampe tastete die Wand ab.|Луч фонарика скользил по стене.
+das Gegenlicht|контровой свет, свет против солнца|Im Gegenlicht sah man nur seine Silhouette.|В контровом свете был виден лишь его силуэт.
+der Halbschatten|полутень|Die Pflanze mag Halbschatten.|Растение любит полутень.
+schattig|тенистый|Wir suchten ein schattiges Plätzchen.|Мы искали тенистое местечко.
+der Leuchter|подсвечник|Auf dem Tisch stand ein silberner Leuchter.|На столе стоял серебряный подсвечник.
+die Fackel|факел|Mit Fackeln zogen sie durch die Nacht.|С факелами они шли сквозь ночь.
+das Glühwürmchen|светлячок|Glühwürmchen leuchten in der Sommernacht.|Светлячки светятся летней ночью.
+das Polarlicht|северное (полярное) сияние|In Norwegen sahen wir das Polarlicht.|В Норвегии мы видели северное сияние.
+lichterloh|ярким пламенем|Das Haus brannte lichterloh.|Дом пылал ярким пламенем.
+erlöschen|гаснуть|Die Kerze erlosch.|Свеча погасла.
+` },
+{ lang: 'de', id: 'de-c2-ailments', level: 'C2', emoji: '⚕️', title: 'Gebrechen und Heilkunst', desc: 'Книжные и устаревшие названия болезней и лечения: чахотка, подагра, кровопускание, знахари.', cards: `
+das Gebrechen|недуг, физический недостаток|Trotz seiner Gebrechen blieb er heiter.|Несмотря на свои недуги, он оставался бодр.
+das Siechtum|долгая изнурительная болезнь|Nach langem Siechtum starb er.|После долгой изнурительной болезни он умер.
+dahinsiechen|чахнуть|Sie siechte jahrelang dahin.|Она годами чахла.
+die Schwindsucht|чахотка|Viele Dichter starben an der Schwindsucht.|Многие поэты умерли от чахотки.
+die Auszehrung|истощение|Er litt an völliger Auszehrung.|Он страдал полным истощением.
+die Gicht|подагра|Der König litt an Gicht.|Король страдал подагрой.
+die Wassersucht|водянка|Die Wassersucht ließ seine Beine anschwellen.|От водянки у него распухли ноги.
+die Fallsucht|падучая, эпилепсия (уст.)|Man sagte, er leide an der Fallsucht.|Говорили, что он страдает падучей.
+die Blattern|оспа (уст.) (мн. ч.)|Sein Gesicht war von den Blattern gezeichnet.|Его лицо было изрыто оспой.
+das Nervenfieber|нервная горячка, тиф (уст.)|Sie erkrankte am Nervenfieber.|Она слегла с нервной горячкой.
+der Schlagfluss|апоплексический удар (уст.)|Ein Schlagfluss raffte ihn dahin.|Его унёс апоплексический удар.
+die Hypochondrie|ипохондрия|Seine Hypochondrie war unerträglich.|Его ипохондрия была невыносимой.
+das Leiden|страдание, недуг|Er erlag seinem langen Leiden.|Он скончался после долгой болезни.
+genesen|выздоравливать|Er ist von seiner Krankheit genesen.|Он выздоровел от болезни.
+die Rekonvaleszenz|выздоровление, восстановительный период|Die Rekonvaleszenz dauerte Wochen.|Восстановление длилось неделями.
+das Heilbad|бальнеологический курорт|Wiesbaden ist ein altes Heilbad.|Висбаден — старинный бальнеологический курорт.
+der Aderlass|кровопускание; тяжёлая потеря|Der Arzt verordnete einen Aderlass.|Врач назначил кровопускание.
+der Wundarzt|хирург, лекарь (уст.)|Der Wundarzt verband die Verletzung.|Лекарь перевязал рану.
+der Quacksalber|знахарь-шарлатан|Der Quacksalber verkaufte Wundermittel.|Шарлатан продавал чудо-средства.
+das Allheilmittel|панацея|Es gibt kein Allheilmittel gegen die Krise.|Против кризиса нет панацеи.
+die Arznei|лекарство, снадобье|Die bittere Arznei half.|Горькое лекарство помогло.
+der Umschlag|компресс|Ein kalter Umschlag senkte das Fieber.|Холодный компресс сбил жар.
+der Wickel|обёртывание, компресс|Ein warmer Wickel lindert den Husten.|Тёплый компресс облегчает кашель.
+lindern|облегчать, смягчать|Die Tropfen lindern den Schmerz.|Капли облегчают боль.
+die Linderung|облегчение|Das warme Bad brachte Linderung.|Тёплая ванна принесла облегчение.
+das Siechenhaus|приют для неизлечимых (ист.)|Die Aussätzigen lebten im Siechenhaus vor der Stadt.|Прокажённые жили в приюте за городом.
+der Aussatz|проказа|Im Mittelalter fürchtete man den Aussatz.|В Средние века боялись проказы.
+die Quarantäne|карантин|Das Schiff musste in Quarantäne.|Судно отправили на карантин.
+der Leibarzt|лейб-медик|Der Leibarzt des Königs war ratlos.|Лейб-медик короля был в растерянности.
+unpässlich|нездоровый, недомогающий|Die Gräfin ist heute unpässlich.|Графине сегодня нездоровится.
+` },
+{ lang: 'de', id: 'de-c2-verbs2', level: 'C2', emoji: '📚', title: 'Gehobene Verben (2)', desc: 'Ещё книжные глаголы: чувства, порицание, сокрытие, кара и умиротворение.', cards: `
+begehren|желать, жаждать|Er begehrte sie zur Frau.|Он желал взять её в жёны.
+ersehnen|страстно желать|Das ganze Land ersehnte den Frieden.|Вся страна жаждала мира.
+bekümmern|огорчать, тревожить|Sein Zustand bekümmert mich.|Его состояние меня тревожит.
+betrüben|печалить|Die Nachricht betrübte sie sehr.|Новость её очень опечалила.
+erquicken|освежать, подкреплять|Der Regen erquickte die Pflanzen.|Дождь освежил растения.
+sich laben|подкрепляться, услаждаться|Die Wanderer labten sich an frischem Wasser.|Путники подкрепились свежей водой.
+schmähen|поносить, хулить|Er wurde in der Presse geschmäht.|Его поносили в прессе.
+lobpreisen|прославлять, восхвалять|Die Gemeinde lobpreiste den Herrn.|Община прославляла Господа.
+verklären|преображать; идеализировать|Die Erinnerung verklärt die Vergangenheit.|Память идеализирует прошлое.
+verbrämen|приукрашивать, маскировать|Er verbrämte seine Absichten mit schönen Worten.|Он прикрывал свои намерения красивыми словами.
+verhehlen|скрывать|Er verhehlte seine Enttäuschung nicht.|Он не скрывал разочарования.
+sühnen|искупать (вину)|Er wollte seine Schuld sühnen.|Он хотел искупить свою вину.
+vergelten|воздавать, отплачивать|Wie kann ich dir das je vergelten?|Как мне тебя когда-нибудь отблагодарить?
+besänftigen|смягчать, усмирять|Nichts konnte seinen Zorn besänftigen.|Ничто не могло смягчить его гнев.
+zunichtemachen|свести на нет, разрушить|Der Regen machte unsere Pläne zunichte.|Дождь свёл на нет наши планы.
+trachten|стремиться, домогаться|Sie trachteten ihm nach dem Leben.|Они покушались на его жизнь.
+erstreben|добиваться, стремиться|Er erstrebte die Macht um jeden Preis.|Он добивался власти любой ценой.
+sich erbarmen|сжалиться|Herr, erbarme dich unser!|Господи, помилуй нас!
+` },
+);
+/* de-c2-8.js */
+(window.MNEMO_DECKS = window.MNEMO_DECKS || []).push(
+{ lang: 'de', id: 'de-c2-estates', level: 'C2', emoji: '👑', title: 'Stände und Hierarchie', desc: 'Сословное общество старой Германии: титулы знати, двор, бюргерство и крепостные.', cards: `
+der Stand|сословие|Er gehörte dem geistlichen Stand an.|Он принадлежал к духовному сословию.
+die Ständegesellschaft|сословное общество|Die Ständegesellschaft kannte drei Stände.|Сословное общество знало три сословия.
+der Hochadel|высшая знать|Der Hochadel heiratete nur untereinander.|Высшая знать заключала браки только между собой.
+der Landadel|поместное дворянство|Der Landadel lebte auf seinen Gütern.|Поместное дворянство жило в своих имениях.
+der Junker|юнкер, помещик (прусск.)|Die ostelbischen Junker besaßen riesige Güter.|Восточноэльбские юнкеры владели огромными имениями.
+der Freiherr|барон|Freiherr vom Stein reformierte Preußen.|Барон фом Штейн реформировал Пруссию.
+der Landgraf|ландграф|Der Landgraf von Hessen residierte in Kassel.|Ландграф Гессенский жил в Касселе.
+der Markgraf|маркграф|Der Markgraf von Brandenburg wurde später Kurfürst.|Маркграф Бранденбургский позже стал курфюрстом.
+die Durchlaucht|светлость|Seine Durchlaucht lässt bitten.|Его светлость просит войти.
+die Hoheit|высочество|Ihre Königliche Hoheit eröffnete den Ball.|Её королевское высочество открыла бал.
+der Hofstaat|придворный штат|Der Hofstaat zählte hundert Personen.|Придворный штат насчитывал сто человек.
+der Höfling|придворный|Die Höflinge buhlten um die Gunst des Königs.|Придворные добивались благосклонности короля.
+der Kämmerer|камергер; казначей|Der Kämmerer verwaltete die Finanzen des Hofes.|Камергер управлял финансами двора.
+der Klerus|духовенство|Der Klerus zahlte keine Steuern.|Духовенство не платило налогов.
+das Bürgertum|бюргерство, буржуазия|Das Bürgertum gewann im 19. Jahrhundert an Einfluss.|В XIX веке бюргерство усилило своё влияние.
+der Patrizier|патриций|Die Patrizier beherrschten den Rat der Stadt.|Патриции господствовали в городском совете.
+der Spießbürger|обыватель, мещанин|Er verachtete die Spießbürger seiner Heimatstadt.|Он презирал мещан своего родного города.
+der Bildungsbürger|образованный бюргер|Der Bildungsbürger las Goethe und hörte Brahms.|Образованный бюргер читал Гёте и слушал Брамса.
+die Fron|барщина, тяжкая подневольная работа|Die Bauern mussten Fron leisten.|Крестьяне должны были отбывать барщину.
+der Frondienst|барщинная повинность|Der Frondienst dauerte drei Tage pro Woche.|Барщина длилась три дня в неделю.
+der Tagelöhner|подёнщик|Als Tagelöhner verdiente er kaum etwas.|Подёнщиком он почти ничего не зарабатывал.
+der Häusler|безземельный крестьянин, бобыль|Der Häusler besaß nur eine kleine Hütte.|У бобыля была лишь маленькая хижина.
+die Kate|хижина, лачуга|Die Familie lebte in einer armseligen Kate.|Семья жила в убогой лачуге.
+der Gutsherr|помещик|Der Gutsherr ritt über seine Felder.|Помещик объезжал свои поля.
+das Rittergut|рыцарское поместье|Das Rittergut umfasste drei Dörfer.|Рыцарское поместье включало три деревни.
+der Pächter|арендатор|Der Pächter zahlte jährlich seine Pacht.|Арендатор ежегодно платил аренду.
+das Proletariat|пролетариат|Marx rief das Proletariat zur Revolution auf.|Маркс призывал пролетариат к революции.
+der Emporkömmling|выскочка|Der Adel verachtete den reichen Emporkömmling.|Знать презирала богатого выскочку.
+die Standesgrenze|сословная граница|Ihre Liebe überwand alle Standesgrenzen.|Их любовь преодолела все сословные границы.
+standesgemäß|соответствующий сословию|Sie heiratete nicht standesgemäß.|Она вышла замуж не по своему сословию.
+die Mesalliance|мезальянс|Die Heirat galt als Mesalliance.|Брак считался мезальянсом.
+die Obrigkeit|власти, начальство|Die Bauern fürchteten die Obrigkeit.|Крестьяне боялись властей.
+` },
+{ lang: 'de', id: 'de-c2-kin', level: 'C2', emoji: '🌳', title: 'Verwandtschaft', desc: 'Все степени родства и свойства: зять, невестка, отчим, двоюродные деды, предки и потомки.', cards: `
+die Sippe|род, клан|Die ganze Sippe kam zur Hochzeit.|На свадьбу съехался весь клан.
+die Blutsverwandtschaft|кровное родство|Zwischen ihnen besteht keine Blutsverwandtschaft.|Между ними нет кровного родства.
+die Schwägerschaft|свойство (родство через брак)|Durch die Heirat entstand eine Schwägerschaft.|Благодаря браку возникло свойство.
+die Halbschwester|единокровная или единоутробная сестра|Ihre Halbschwester lebt in Kanada.|Её сводная сестра живёт в Канаде.
+der Großonkel|двоюродный дед|Mein Großonkel war Kapitän.|Мой двоюродный дед был капитаном.
+die Großtante|двоюродная бабушка|Die Großtante hinterließ uns ein Haus.|Двоюродная бабушка оставила нам дом.
+der Urenkel|правнук|Sie erlebte noch die Geburt ihres Urenkels.|Она ещё дожила до рождения правнука.
+der Vetter|двоюродный брат, кузен (уст.)|Sein Vetter lebt in Amerika.|Его кузен живёт в Америке.
+die Muhme|тётка (арх.)|Die alte Muhme erzählte Märchen.|Старая тётка рассказывала сказки.
+der Ahn|предок|Seine Ahnen kamen aus Schlesien.|Его предки были из Силезии.
+die Ahnentafel|родословная таблица|Die Ahnentafel reicht bis ins 16. Jahrhundert.|Родословная восходит к XVI веку.
+der Nachfahre|потомок|Er ist ein Nachfahre Luthers.|Он потомок Лютера.
+der Spross|отпрыск|Er ist der Spross einer alten Familie.|Он отпрыск старинного рода.
+der Stammhalter|продолжатель рода (сын-наследник)|Endlich wurde der Stammhalter geboren.|Наконец родился наследник.
+der Erstgeborene|первенец|Der Erstgeborene erbte den Hof.|Первенец унаследовал двор.
+das Nesthäkchen|младшенький, любимчик|Als Nesthäkchen wurde sie verwöhnt.|Как младшую, её баловали.
+die Waise|сирота|Nach dem Unfall war sie Waise.|После аварии она осталась сиротой.
+der Vormund|опекун|Der Onkel wurde zum Vormund bestimmt.|Дядю назначили опекуном.
+die Großfamilie|большая семья (несколько поколений)|Früher lebte man in der Großfamilie.|Раньше жили большими семьями.
+` },
+{ lang: 'de', id: 'de-c2-roads', level: 'C2', emoji: '🐎', title: 'Weg und Pferdegeschirr', desc: 'Конская упряжь, экипажи, масти и старые дороги с постоялыми дворами.', cards: `
+das Zaumzeug|узда, сбруя|Das Zaumzeug war aus feinem Leder.|Узда была из тонкой кожи.
+die Trense|удила, трензель|Das Pferd kaute auf der Trense.|Лошадь жевала удила.
+die Kandare|мундштук (удила)|Der neue Chef nahm die Abteilung an die Kandare.|Новый начальник взял отдел в ежовые рукавицы.
+der Zügel|повод, вожжи|Sie hielt die Zügel fest in der Hand.|Она крепко держала поводья.
+das Halfter|недоуздок|Er führte das Pferd am Halfter.|Он вёл лошадь за недоуздок.
+der Steigbügel|стремя|Sie setzte den Fuß in den Steigbügel.|Она вставила ногу в стремя.
+das Kummet|хомут|Das Kummet scheuerte den Hals des Pferdes.|Хомут натёр лошади шею.
+das Joch|ярмо|Die Ochsen zogen im Joch.|Волы тянули в ярме.
+die Deichsel|дышло|Zwei Pferde gingen links und rechts der Deichsel.|Две лошади шли по обе стороны дышла.
+die Peitsche|кнут|Der Kutscher knallte mit der Peitsche.|Кучер щёлкнул кнутом.
+der Kutscher|кучер|Der Kutscher lenkte die Pferde durch die Stadt.|Кучер правил лошадьми по городу.
+die Kutsche|карета|Die Kutsche hielt vor dem Schloss.|Карета остановилась перед дворцом.
+die Postkutsche|почтовая карета, дилижанс|Die Postkutsche brauchte drei Tage bis Berlin.|Дилижанс ехал до Берлина три дня.
+das Fuhrwerk|повозка, подвода|Ein schweres Fuhrwerk versperrte den Weg.|Тяжёлая подвода перегородила дорогу.
+der Leiterwagen|телега с решётчатыми бортами|Die Kinder saßen auf dem Leiterwagen.|Дети сидели на телеге.
+das Gespann|упряжка|Ein Gespann aus vier Pferden zog die Kutsche.|Карету тянула четвёрка лошадей.
+anspannen|запрягать|Spann die Pferde an, wir fahren!|Запрягай лошадей, едем!
+ausspannen|распрягать; отдыхать|Am Abend spannte er die Pferde aus.|Вечером он распряг лошадей.
+traben|идти рысью|Das Pferd trabte über die Wiese.|Лошадь шла рысью по лугу.
+galoppieren|скакать галопом|Die Reiter galoppierten davon.|Всадники ускакали галопом.
+scheuen|пугаться, шарахаться (о лошади)|Das Pferd scheute vor dem Hund.|Лошадь шарахнулась от собаки.
+der Gaul|кляча, лошадь (пренебр.)|Einem geschenkten Gaul schaut man nicht ins Maul.|Дарёному коню в зубы не смотрят.
+der Hengst|жеребец|Der Hengst bäumte sich auf.|Жеребец встал на дыбы.
+die Stute|кобыла|Die Stute bekam ein Fohlen.|Кобыла родила жеребёнка.
+das Fohlen|жеребёнок|Das Fohlen sprang über die Weide.|Жеребёнок скакал по лугу.
+der Rappe|вороной конь|Der schwarze Ritter saß auf einem Rappen.|Чёрный рыцарь сидел на вороном коне.
+der Hohlweg|дорога в выемке, ложбина|Im Hohlweg lauerten die Räuber.|Разбойники подстерегали в ложбине.
+der Saumpfad|вьючная тропа|Ein Saumpfad führte über den Pass.|Через перевал вела вьючная тропа.
+der Feldweg|полевая дорога|Wir radelten über holprige Feldwege.|Мы ехали на велосипедах по ухабистым полевым дорогам.
+die Wegscheide|развилка, распутье|An der Wegscheide stand ein Kreuz.|На распутье стоял крест.
+die Herberge|постоялый двор, приют|Sie fanden keine Herberge für die Nacht.|Они не нашли ночлега.
+die Poststation|почтовая станция|An der Poststation wechselte man die Pferde.|На почтовой станции меняли лошадей.
+der Schlagbaum|шлагбаум|Am Schlagbaum mussten sie Zoll zahlen.|У шлагбаума им пришлось платить пошлину.
+` },
+{ lang: 'de', id: 'de-c2-wit', level: 'C2', emoji: '💡', title: 'Verstand und Klugheit', desc: 'Оттенки ума: проницательность, смекалка, начитанность, присутствие духа.', cards: `
+der Spürsinn|чутьё|Der Kommissar hat einen guten Spürsinn.|У комиссара хорошее чутьё.
+der Weitblick|дальновидность|Mit Weitblick plante sie die Zukunft der Firma.|Она дальновидно планировала будущее фирмы.
+weitsichtig|дальновидный|Das war eine weitsichtige Entscheidung.|Это было дальновидное решение.
+die Umsicht|осмотрительность|Mit Umsicht leitete er die Rettung.|Он осмотрительно руководил спасением.
+umsichtig|осмотрительный|Sie ist eine umsichtige Fahrerin.|Она осмотрительный водитель.
+gewitzt|смекалистый, ловкий|Der gewitzte Junge fand einen Ausweg.|Смекалистый мальчик нашёл выход.
+pfiffig|смышлёный, остроумный|Das ist eine pfiffige Idee!|Это остроумная идея!
+aufgeweckt|смышлёный, живой (о ребёнке)|Sie ist ein aufgewecktes Kind.|Она смышлёный ребёнок.
+helle|сообразительный (разг.)|Der Kleine ist ganz schön helle.|Малыш весьма сообразительный.
+gescheit|умный, толковый|Das ist ein gescheiter Vorschlag.|Это толковое предложение.
+verständig|рассудительный, понятливый|Ein verständiger Mensch wird das einsehen.|Разумный человек это поймёт.
+die Auffassungsgabe|способность быстро схватывать|Sie hat eine schnelle Auffassungsgabe.|Она очень быстро всё схватывает.
+der Geistesblitz|озарение|Plötzlich hatte er einen Geistesblitz.|Вдруг его осенило.
+der Einfall|идея, пришедшая в голову|Das war ein genialer Einfall.|Это была гениальная идея.
+der Mutterwitz|природная смекалка|Mit Mutterwitz kam er gut durchs Leben.|Природная смекалка помогала ему в жизни.
+der Esprit|остроумие, блеск ума|Ihre Briefe sprühen vor Esprit.|Её письма искрятся остроумием.
+geistreich|остроумный, умный|Er machte eine geistreiche Bemerkung.|Он сделал остроумное замечание.
+hintersinnig|с глубоким скрытым смыслом|Sein Humor ist hintersinnig.|Его юмор полон скрытого смысла.
+tiefgründig|глубокий, основательный|Sie führten ein tiefgründiges Gespräch.|У них был глубокий разговор.
+das Urteilsvermögen|способность здраво судить|Ihm fehlt jedes Urteilsvermögen.|Ему совершенно не хватает здравого суждения.
+der Sachverstand|компетентность, знание дела|Er bewies großen Sachverstand.|Он проявил большую компетентность.
+beschlagen|сведущий, подкованный|In Geschichte ist sie gut beschlagen.|В истории она хорошо подкована.
+belesen|начитанный|Der belesene Großvater kannte alle Klassiker.|Начитанный дед знал всех классиков.
+bewandert|сведущий, опытный|Er ist in Rechtsfragen bewandert.|Он сведущ в правовых вопросах.
+der Schöngeist|эстет, любитель изящного|Der Schöngeist liebte Poesie und Musik.|Эстет любил поэзию и музыку.
+der Schlaumeier|хитрец, всезнайка (ирон.)|Du bist mir ja ein Schlaumeier!|Ну ты и хитрец!
+das Köpfchen|смекалка, голова|Köpfchen muss man haben!|Голова нужна!
+die Bauernschläue|крестьянская хитрость|Mit Bauernschläue überlistete er den Händler.|Крестьянской хитростью он перехитрил торговца.
+die Geistesgegenwart|присутствие духа|Dank ihrer Geistesgegenwart wurde niemand verletzt.|Благодаря её присутствию духа никто не пострадал.
+der Tiefsinn|глубокомыслие|Seine Gedichte sind voller Tiefsinn.|Его стихи полны глубокомыслия.
+sinnreich|хитроумный (об устройстве)|Eine sinnreiche Erfindung erleichterte die Arbeit.|Хитроумное изобретение облегчило работу.
+beiliegend|прилагаемый|Füllen Sie bitte das beiliegende Formular aus.|Заполните, пожалуйста, прилагаемый формуляр.
+in Kenntnis setzen|ставить в известность|Wir setzen Sie hiermit davon in Kenntnis.|Настоящим ставим вас об этом в известность.
+die Vorladung|вызов, повестка|Er erhielt eine Vorladung zur Polizei.|Он получил повестку в полицию.
+die Zuwiderhandlung|нарушение|Zuwiderhandlungen werden mit Bußgeld geahndet.|Нарушения караются штрафом.
+die Ordnungswidrigkeit|административное правонарушение|Falschparken ist eine Ordnungswidrigkeit.|Неправильная парковка — административное правонарушение.
+die Bearbeitungsgebühr|сбор за рассмотрение|Die Bearbeitungsgebühr beträgt 20 Euro.|Сбор за рассмотрение составляет 20 евро.
+der Wohnsitz|место жительства|Melden Sie Ihren Wohnsitz beim Bürgeramt an.|Зарегистрируйте место жительства в бюро граждан.
+die Bedürftigkeit|нуждаемость|Die Bedürftigkeit muss nachgewiesen werden.|Нуждаемость должна быть подтверждена.
+` },
+{ lang: 'de', id: 'de-c2-quantity', level: 'C2', emoji: '🧺', title: 'Sammelbegriffe und Maß', desc: 'Собирательные существительные и слова меры: стаи, своры, щепотки, глотки и всякая всячина.', cards: `
+die Schar|стайка, толпа|Eine Schar Kinder lief über den Platz.|Стайка детей бежала по площади.
+das Rudel|стая (волков)|Ein Rudel Wölfe jagte im Wald.|Стая волков охотилась в лесу.
+die Meute|свора; толпа|Die Meute der Reporter wartete vor dem Haus.|Свора репортёров ждала у дома.
+die Rotte|стадо (кабанов); шайка|Eine Rotte Wildschweine durchwühlte den Acker.|Стадо кабанов перерыло поле.
+die Kolonne|колонна|Eine Kolonne Lastwagen fuhr vorbei.|Мимо проехала колонна грузовиков.
+der Pulk|скопление, группа|Ein Pulk Radfahrer erreichte das Ziel.|Группа велосипедистов достигла финиша.
+das Grüppchen|кучка, группка|Ein Grüppchen Raucher stand vor der Tür.|У двери стояла кучка курильщиков.
+die Horde|орда|Eine Horde Jugendlicher stürmte in den Laden.|В магазин ворвалась орда подростков.
+die Unmenge|уйма, масса|Er besitzt eine Unmenge Bücher.|У него уйма книг.
+die Unzahl|бесчисленное множество|Eine Unzahl von Briefen erreichte ihn.|Ему пришло бесчисленное множество писем.
+die Vielzahl|множество|Eine Vielzahl von Faktoren spielt eine Rolle.|Роль играет множество факторов.
+der Hauch|оттенок, лёгкое дуновение|Ein Hauch von Zimt verfeinert den Kuchen.|Лёгкий оттенок корицы улучшает пирог.
+der Klecks|капля, клякса|Ein Klecks Sahne krönte den Kuchen.|Пирог венчала капля сливок.
+der Schuss|капелька (жидкости)|Einen Schuss Milch in den Kaffee, bitte.|Капельку молока в кофе, пожалуйста.
+der Spritzer|брызги, капля|Ein Spritzer Zitrone gibt Frische.|Капля лимона придаёт свежесть.
+der Happen|кусочек, перекус|Lass uns schnell einen Happen essen.|Давай быстренько перекусим.
+der Bissen|кусок (пищи)|Er brachte keinen Bissen herunter.|Он не мог проглотить ни куска.
+die Krume|крошка|Die Vögel picken die Krumen auf.|Птицы клюют крошки.
+der Brocken|кусок, глыба|Ein Brocken Fels löste sich vom Hang.|Со склона откололась глыба скалы.
+das Bündel|узел, связка|Er schnürte sein Bündel und ging.|Он связал свой узел и ушёл.
+der Ballen|тюк|Ballen von Stroh lagen auf dem Feld.|На поле лежали тюки соломы.
+das Knäuel|клубок|Die Katze spielt mit einem Knäuel Wolle.|Кошка играет с клубком шерсти.
+der Strauß|букет|Er brachte ihr einen Strauß Rosen.|Он принёс ей букет роз.
+das Gebinde|связка, цветочная композиция|Ein Gebinde aus Ähren schmückte den Altar.|Связка колосьев украшала алтарь.
+das Sammelsurium|мешанина, собрание всякой всячины|Der Dachboden ist ein Sammelsurium alter Dinge.|Чердак — собрание всякой старой всячины.
+der Krimskrams|барахло, мелочёвка|Die Schublade ist voller Krimskrams.|Ящик полон мелочёвки.
+das Allerlei|всякая всячина|Leipziger Allerlei ist ein Gemüsegericht.|«Лейпцигская смесь» — овощное блюдо.
+die Gesamtheit|совокупность|Die Gesamtheit der Bürger entscheidet.|Решает совокупность граждан.
+` },
+{ lang: 'de', id: 'de-c2-insults', level: 'C2', emoji: '🤬', title: 'Abwertende Bezeichnungen', desc: 'Пренебрежительные характеристики людей — от безобидного «лентяя» до грубого «умника».', cards: `
+der Taugenichts|бездельник, никчёмный человек|Ihr Sohn ist ein Taugenichts.|Её сын — бездельник.
+der Nichtsnutz|негодник, бездельник|Du Nichtsnutz, hilf mir endlich!|Ах ты негодник, помоги же мне!
+der Faulpelz|лентяй|Steh auf, du Faulpelz!|Вставай, лентяй!
+der Tagedieb|лодырь|Der Tagedieb lag den ganzen Tag im Bett.|Лодырь весь день лежал в постели.
+der Tunichtgut|шалопай, негодник|Der Tunichtgut hat wieder Fenster eingeworfen.|Этот шалопай снова разбил окна.
+der Lump|негодяй, подлец|Dieser Lump hat mich betrogen!|Этот негодяй меня обманул!
+der Halunke|прохвост, мерзавец|Der Halunke ist mit dem Geld verschwunden.|Прохвост исчез с деньгами.
+der Schuft|подлец|Nur ein Schuft lässt seine Familie im Stich.|Только подлец бросит семью.
+der Schurke|злодей, негодяй|Im Film spielt er den Schurken.|В фильме он играет злодея.
+der Gauner|жулик, мошенник|Der Gauner verkaufte gefälschte Uhren.|Жулик продавал поддельные часы.
+der Hallodri|повеса, ветреник (южн.)|Er ist ein charmanter Hallodri.|Он обаятельный повеса.
+der Schwerenöter|ловелас, сердцеед|Der alte Schwerenöter flirtete mit allen Damen.|Старый ловелас флиртовал со всеми дамами.
+der Wüstling|распутник|Der Wüstling verführte das unschuldige Mädchen.|Распутник соблазнил невинную девушку.
+der Geizhals|скряга|Der Geizhals gab keinen Cent.|Скряга не дал ни цента.
+der Pfennigfuchser|крохобор|Er ist ein echter Pfennigfuchser.|Он настоящий крохобор.
+der Angeber|хвастун|Der Angeber prahlte mit seinem Auto.|Хвастун похвалялся своей машиной.
+der Wichtigtuer|задавака, важничающий|Der Wichtigtuer redete ständig dazwischen.|Задавака постоянно встревал.
+der Besserwisser|всезнайка|Sei nicht so ein Besserwisser!|Не будь таким всезнайкой!
+der Klugscheißer|умник, всезнайка (груб.)|Kein Mensch mag diesen Klugscheißer.|Никто не любит этого умника.
+der Speichellecker|подхалим, лизоблюд|Der Speichellecker lobte jeden Satz des Chefs.|Подхалим хвалил каждое слово начальника.
+der Kriecher|подхалим|Er ist ein elender Kriecher.|Он жалкий подхалим.
+der Duckmäuser|трусливый приспособленец, тихоня|Unter dem Regime wurden viele zu Duckmäusern.|При режиме многие стали трусливыми приспособленцами.
+der Feigling|трус|Lauf nicht weg, du Feigling!|Не убегай, трус!
+der Hasenfuß|трусишка|Der Hasenfuß traute sich nicht ins Wasser.|Трусишка не решался войти в воду.
+der Jammerlappen|нытик, тряпка|Hör auf zu heulen, du Jammerlappen!|Хватит ныть, тряпка!
+der Waschlappen|тряпка, слабак|Er ist ein richtiger Waschlappen.|Он настоящая тряпка.
+der Trottel|болван|Der Trottel hat den Schlüssel verloren.|Болван потерял ключ.
+der Tölpel|растяпа, увалень|Der Tölpel stolperte über die Schwelle.|Растяпа споткнулся о порог.
+der Einfaltspinsel|простофиля|Nur ein Einfaltspinsel glaubt so etwas.|Только простофиля поверит в такое.
+der Schwachkopf|недоумок|Welcher Schwachkopf hat das gemacht?|Какой недоумок это сделал?
+der Hohlkopf|пустоголовый|Er redet daher wie ein Hohlkopf.|Он болтает, как пустоголовый.
+der Querulant|склочник, кляузник|Der Querulant beschwert sich über alles.|Склочник жалуется на всё.
+der Miesepeter|брюзга|Sei kein Miesepeter!|Не будь брюзгой!
+der Spielverderber|тот, кто портит удовольствие другим|Komm schon, sei kein Spielverderber!|Ну давай, не порти всем удовольствие!
+die Klatschbase|сплетница|Die Klatschbase wusste alles über die Nachbarn.|Сплетница знала всё о соседях.
+der Grobian|грубиян|Dieser Grobian hat mich angerempelt.|Этот грубиян меня толкнул.
 ` },
 );
 (window.MNEMO_LOADED = window.MNEMO_LOADED || {}).de = 1;
