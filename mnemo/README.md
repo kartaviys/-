@@ -10,7 +10,7 @@
 | Платформа | Как установить |
 |---|---|
 | **Android** | Скачать `Mnemo.apk` из релиза **[mnemo-latest](../../releases/tag/mnemo-latest)** и открыть файл на телефоне |
-| **iPhone** | Открыть **https://kartaviyukr.github.io/-/mnemo/** в **Safari** → «Поделиться» → **«На экран „Домой“»** |
+| **iPhone** | Открыть **https://kartaviys.github.io/-/mnemo/** в **Safari** → «Поделиться» → **«На экран „Домой“»** |
 
 APK и веб-версия собираются GitHub Actions (`.github/workflows/mnemo.yml`) при
 каждом пуше в `mnemo/`. Вручную: Actions → «Мнемо — APK и веб-версия» → Run workflow.
