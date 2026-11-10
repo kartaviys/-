@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мнемо — перенос прогресса</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #14122B; color: #ECEAF7;
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 24px; box-sizing: border-box; }
+  .box { max-width: 360px; }
+  .big { font-size: 56px; }
+  button { margin: 8px 4px 0; padding: 12px 18px; border: 0; border-radius: 12px; font: inherit; font-weight: 700; background: #7C5CFF; color: #fff; }
+  button.ghost { background: #2A2650; }
+</style>
+</head>
+<body>
+<div class="box"><div class="big">📦</div><h2 id="t">Переношу прогресс…</h2><p id="m"></p><div id="b"></div></div>
+<script>
+/* Перенос прогресса со старого адреса веб-версии (после смены имени на GitHub).
+ * Старый адрес открывает страницу-«переезд», она пересылает сюда данные телефона в адресе после «#»:
+ *   z<base64url(gzip(JSON))> или j<base64url(JSON)>, где JSON = { db, photos }.
+ * Здесь данные записываются в память нового адреса, и открывается приложение. */
+(async function () {
+  var KEY = 'mnemo.v1', PHOTO_KEY = 'mnemo.photos2';
+  var $ = function (id) { return document.getElementById(id); };
+  var open = function () { location.replace('./'); };
+  var fail = function (msg) {
+    $('t').textContent = 'Не получилось перенести';
+    $('m').textContent = msg + ' Можно перенести вручную: «Ещё» → «Резервная копия».';
+    $('b').innerHTML = '<button id="go">Открыть Мнемо</button>';
+    $('go').onclick = open;
+  };
+  var raw = location.hash.slice(1);
+  history.replaceState(null, '', location.pathname); // данные не должны остаться в адресе и истории
+  if (!raw) return open();
+  var data;
+  try {
+    var b64 = raw.slice(1).replace(/-/g, '+').replace(/_/g, '/');
+    var bin = atob(b64 + '==='.slice((b64.length + 3) % 4));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    if (raw[0] === 'z') bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+    data = JSON.parse(new TextDecoder().decode(bytes));
+  } catch (e) { return fail('Данные со старого адреса повреждены.'); }
+  if (!data || !data.db || !Array.isArray(data.db.decks)) return fail('Со старого адреса пришли не данные Мнемо.');
+
+  var count = function (d) { return d && d.prog ? Object.keys(d.prog).length : 0; };
+  var here = null;
+  try { here = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  var write = function () {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(data.db));
+      if (data.photos) localStorage.setItem(PHOTO_KEY, JSON.stringify(data.photos));
+    } catch (e) { return fail('Не хватило памяти браузера.'); }
+    $('t').textContent = 'Прогресс перенесён!';
+    $('m').textContent = 'Слов с прогрессом: ' + count(data.db) + '. Открываю Мнемо…';
+    setTimeout(open, 1200);
+  };
+  // На новом адресе уже занимались — спрашиваем, если там прогресса не меньше, чем пришло.
+  if (count(here) && count(here) >= count(data.db)) {
+    $('t').textContent = 'Здесь уже есть прогресс';
+    $('m').textContent = 'На новом адресе слов с прогрессом: ' + count(here) + ', со старого пришло: ' + count(data.db) + '. Заменить данными со старого адреса?';
+    $('b').innerHTML = '<button id="yes">Заменить</button><button class="ghost" id="no">Оставить как есть</button>';
+    $('yes').onclick = write;
+    $('no').onclick = open;
+    return;
+  }
+  write();
+})();
+</script>
+</body>
+</html>
