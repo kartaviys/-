@@ -17,7 +17,7 @@
 
 ## Ссылка
 
-**https://kartaviyukr.github.io/-/ege/**
+**https://kartaviys.github.io/-/ege/**
 
 Workflow `.github/workflows/ege-web.yml` при каждом изменении папки `app/` кладёт приложение в папку `ege/` ветки `gh-pages`
 (остальные приложения в этой ветке не трогаются). Прогресс каждого ученика хранится на его устройстве.
