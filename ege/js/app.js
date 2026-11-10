@@ -152,6 +152,8 @@ const App = (() => {
 
   function toast(text, kind = '') {
     const el = h(`<div class="toast ${kind}">${text}</div>`);
+    // в уроке — только последнее сообщение, чтобы не закрывать задание
+    if (document.body.classList.contains('in-lesson')) $('#toasts').innerHTML = '';
     $('#toasts').appendChild(el);
     setTimeout(() => el.classList.add('out'), 2300);
     setTimeout(() => el.remove(), 2800);
@@ -599,7 +601,7 @@ const App = (() => {
     const CHEER = ['Ты молодец! 💪', 'Так держать! 🚀', 'Отличный темп! ⚡', 'Мозг прокачивается! 🧠', 'Ещё чуть-чуть — и ты эксперт! ✨', 'Горжусь тобой! 💜'];
 
     const api = {
-      ctx, S,
+      ctx, S, mainEl: main,
       next: () => show(idx + 1),
       foot({ label = 'Дальше', enabled = true, onClick = api.next, extraLabel = null, onExtra = null } = {}) {
         main.textContent = label;
@@ -653,7 +655,10 @@ const App = (() => {
         const bx = first ? 60 : 20, bc = first ? 40 : 10;
         const gx = reward(bx, bc, { quiet: true });
         ctx.xp += gx; ctx.coins += bc; bankTo(ctx.xp);
-        delete S.prog[n]; save();
+        delete S.prog[n];
+        // общий урок на несколько станций (19–20) закрывает их все
+        (L.alsoDone || []).forEach((x) => { const p = S.done[x] || { stars: 0, times: 0 }; S.done[x] = { stars: Math.max(p.stars, stars), times: p.times + 1 }; delete S.prog[x]; });
+        save();
         if (n === 1) unlock('t1');
         if (n === 17) unlock('t17');
         if (stars === 3) unlock('clean');
