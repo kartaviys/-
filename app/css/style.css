@@ -553,3 +553,22 @@ body.in-lesson #toasts { top: calc(96px + var(--safe-t)); }
 
 /* Во время пошагового разбора предложение остаётся на виду, пояснения прокручиваются под ним */
 .board.demo-board { position: sticky; top: 0; z-index: 3; box-shadow: 0 6px 16px rgba(91, 33, 182, .12); }
+
+/* ===== Задания 16, 18, 19–20, 21 ===== */
+.sent-row { display: flex; gap: 6px; align-items: flex-start; }
+.sent-n { flex: none; font-weight: 900; color: var(--violet); padding-top: 1.6em; width: 1.6em; }
+.sent-b { flex: 1; min-width: 0; }
+.ref-imgs { display: flex; flex-direction: column; gap: 8px; }
+.ref-img { position: relative; display: block; width: 100%; border-radius: 14px; overflow: hidden; border: 1.5px solid var(--line); background: #fff; padding: 0; }
+.ref-img img { width: 100%; display: block; }
+.ref-img span { position: absolute; right: 8px; bottom: 8px; font-size: .75rem; font-weight: 800; background: rgba(255, 255, 255, .92); padding: 3px 8px; border-radius: 99px; color: var(--violet-d); }
+.gap .gch { position: absolute; left: 50%; top: .9em; transform: translateX(-50%); font-weight: 900; font-size: 1.15em; color: #ea580c; line-height: 1; }
+.gap.brk { width: .9em; }
+.gap.pending-gap { background: var(--violet-l); border-radius: 4px; }
+.tok.box .w { box-shadow: 0 0 0 2.5px #0d9488; border-radius: 3px; padding: 0 .15em; }
+.g-brk { color: #ea580c; font-weight: 900; font-size: .95rem; width: 34px; text-align: center; line-height: 1; }
+.g-box { display: inline-grid; place-items: center; padding: 0 4px; height: 22px; box-shadow: 0 0 0 2px #0d9488; border-radius: 3px; font-size: .8rem; font-weight: 800; color: var(--ink); }
+.gap-menu { width: 200px; }
+.hero-num small { font-size: .5em; }
+.train .boards .board { margin: 4px 0; }
+body.in-lesson .toast { font-size: .85rem; padding: 8px 14px; }

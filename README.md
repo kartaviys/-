@@ -35,6 +35,7 @@ python3 -m http.server 8000 --directory app
 - `app/index.html`: оболочка приложения
 - `app/js/app.js`: состояние, награды, карта пути, город, профиль, движок уроков
 - `app/js/markup.js`: движок разметки предложения и проверки
-- `app/js/task17.js`: урок по заданию 17 (новые задания добавляются так же: `App.LESSONS[n] = { slides }`)
+- `app/js/task17.js`: урок по заданию 17
+- `app/js/practice.js`, `app/js/practice-data.js`: задания 16, 18, 19–20, 21 (алгоритм, 10 упражнений, эталонная разметка в `app/assets/pr/`) (новые задания добавляются так же: `App.LESSONS[n] = { slides }`)
 - `app/css/style.css`: оформление (белый фон, фиолетовый и жёлтый)
 - `app/sw.js`, `app/manifest.webmanifest`: офлайн-режим и установка

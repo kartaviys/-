@@ -9,7 +9,7 @@ const Markup = (() => {
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, rings: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, rings: [], gm: {}, boxes: [] });
   const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
   const toggle = (arr, v) => { const i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); };
   const without = (arr, v) => arr.filter((x) => x !== v);
@@ -17,10 +17,11 @@ const Markup = (() => {
   /* Разбор предложения: слова, знаки препинания и цифры (1), (2)... */
   function parse(text) {
     const items = [], words = [];
-    const re = /\((\d+)\)|[^\s()]+/g;
+    const re = /\((\d+)\)|(\n)|[^\s()]+/g;
     let m;
     while ((m = re.exec(text))) {
       if (m[1]) { items.push({ k: 'd', n: +m[1] }); continue; }
+      if (m[2]) { items.push({ k: 'br' }); continue; }
       const mm = m[0].match(/^([«"]?)(.*?)([.,;:!?»"]*)$/);
       const wi = words.length;
       words.push(mm[2]);
@@ -94,11 +95,12 @@ const Markup = (() => {
         const g = document.createElement('span');
         g.className = 'gap';
         g.dataset.g = k;
-        g.innerHTML = '<b class="bar"></b><span class="w">​<span class="lines"></span></span>';
+        g.innerHTML = '<b class="bar"></b><b class="gch"></b><span class="w">​<span class="lines"></span></span>';
         s.appendChild(g);
         this.gapEls[k] = g;
       };
       for (const it of this.sent.items) {
+        if (it.k === 'br') { s.appendChild(document.createElement('br')); continue; }
         if (it.k === 'd') {
           const d = document.createElement('span');
           d.className = 'dig';
@@ -155,6 +157,7 @@ const Markup = (() => {
         t.querySelector('.lines').innerHTML = this.linesHtml(this.layers(wi));
         t.classList.toggle('x', m.cross.includes(wi));
         t.classList.toggle('ring', m.rings.includes(wi));
+        t.classList.toggle('box', m.boxes.includes(wi));
         const lb = m.labels[wi] || '';
         t.querySelector('.lbl').textContent = lb;
         t.classList.toggle('has-lbl', !!lb);
@@ -163,6 +166,9 @@ const Markup = (() => {
       for (let k = 0; k <= n; k++) {
         const g = this.gapEls[k];
         g.classList.toggle('on', m.bars.includes(k));
+        const ch = m.gm[k] || '';
+        g.querySelector('.gch').textContent = ch;
+        g.classList.toggle('brk', !!ch);
         let joined = [];
         if (k > 0 && k < n) {
           const a = this.layers(k - 1), b = this.layers(k);
@@ -225,6 +231,8 @@ const Markup = (() => {
         case 'circ': return m.circ.includes(wi);
         case 'cross': return m.cross.includes(wi);
         case 'ring': return m.rings.includes(wi);
+        case 'box': return m.boxes.includes(wi);
+        case 'obj': return m.obj.includes(wi);
         default: return false;
       }
     }
@@ -240,10 +248,12 @@ const Markup = (() => {
         case 'circ': m.circ = without(m.circ, wi); if (on) m.circ.push(wi); break;
         case 'cross': m.cross = without(m.cross, wi); if (on) m.cross.push(wi); break;
         case 'ring': m.rings = without(m.rings, wi); if (on) m.rings.push(wi); break;
+        case 'box': m.boxes = without(m.boxes, wi); if (on) m.boxes.push(wi); break;
+        case 'obj': m.obj = without(m.obj, wi); if (on) m.obj.push(wi); break;
         case 'erase':
           delete m.mem[wi];
           m.def = without(m.def, wi); m.circ = without(m.circ, wi); m.cross = without(m.cross, wi);
-          m.rings = without(m.rings, wi); m.obj = without(m.obj, wi); delete m.labels[wi];
+          m.rings = without(m.rings, wi); m.obj = without(m.obj, wi); m.boxes = without(m.boxes, wi); delete m.labels[wi];
           m.arrows = m.arrows.filter((a) => a[0] !== wi && a[1] !== wi);
           break;
       }
@@ -255,6 +265,13 @@ const Markup = (() => {
         if (!this.tool) { this.onTap('notool'); return; }
         const tok = e.target.closest('.tok');
         const gap = e.target.closest('.gap');
+        if (this.tool === 'brk') {
+          let k = null;
+          if (gap) k = +gap.dataset.g;
+          else if (tok) { const r = tok.getBoundingClientRect(); const wi = +tok.dataset.w; k = e.clientX < r.left + r.width / 2 ? wi : wi + 1; }
+          if (k != null) this.openGapMenu(k);
+          return;
+        }
         if (this.tool === 'bar') {
           let k = null;
           if (gap) k = +gap.dataset.g;
@@ -290,7 +307,7 @@ const Markup = (() => {
         }
         if (this.tool === 'erase' && gap && !tok) {
           const k = +gap.dataset.g;
-          if (this.marks.bars.includes(k)) { this.snap(); this.marks.bars = without(this.marks.bars, k); this.changed(); }
+          if (this.marks.bars.includes(k) || this.marks.gm[k]) { this.snap(); this.marks.bars = without(this.marks.bars, k); delete this.marks.gm[k]; this.changed(); }
           return;
         }
         if (!tok) return;
@@ -344,7 +361,29 @@ const Markup = (() => {
       this.menu = menu;
       t.classList.add('pending');
     }
+    /* Меню скобок в промежутке между словами */
+    openGapMenu(k) {
+      this.closeMenu();
+      const g = this.gapEls[k], br = this.el.getBoundingClientRect(), r = g.getBoundingClientRect();
+      const menu = document.createElement('div');
+      menu.className = 'lbl-menu gap-menu';
+      menu.innerHTML = ['[', ']', '(', ')'].map((c) => `<button data-c="${c}">${c}</button>`).join('') + (this.marks.gm[k] ? '<button data-c="" class="del">✕</button>' : '');
+      menu.style.top = r.bottom - br.top + 4 + 'px';
+      menu.style.left = Math.max(0, Math.min(br.width - 230, r.left - br.left - 40)) + 'px';
+      menu.addEventListener('pointerdown', (e) => e.stopPropagation());
+      menu.addEventListener('click', (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        this.snap();
+        if (b.dataset.c) this.marks.gm[k] = b.dataset.c; else delete this.marks.gm[k];
+        this.closeMenu(); this.changed(); this.onTap('mark');
+      });
+      this.el.appendChild(menu);
+      this.menu = menu;
+      g.classList.add('pending-gap');
+    }
     closeMenu() {
+      this.el.querySelectorAll('.pending-gap').forEach((e) => e.classList.remove('pending-gap'));
       if (this.menu) { this.menu.remove(); this.menu = null; }
       this.el.querySelectorAll('.tok.pending').forEach((e) => e.classList.remove('pending'));
     }
@@ -378,7 +417,10 @@ const Markup = (() => {
     cross: { label: 'Главное слово', glyph: '<b class="g-x">×</b>' },
     arrow: { label: 'Стрелка', glyph: '<b class="g-arr">↷</b>' },
     label: { label: 'Подпись', glyph: '<b class="g-lbl">ПО</b>' },
-    ring: { label: 'Союз в кружок', glyph: '<b class="g-ring">и</b>' },
+    ring: { label: 'В кружок', glyph: '<b class="g-ring">и</b>' },
+    obj: { label: 'Дополнение', glyph: '<i class="g g-dashed"></i>' },
+    brk: { label: 'Скобки', glyph: '<b class="g-brk">[ ]</b>' },
+    box: { label: 'В квадрат', glyph: '<b class="g-box">то</b>' },
     bar: { label: 'Граница', glyph: '<b class="g-bar">|</b>' },
     erase: { label: 'Ластик', glyph: '<b class="g-er">⌫</b>' },
   };
@@ -527,5 +569,17 @@ const Markup = (() => {
     });
   }
 
-  return { parse, find, Board, toolbar, emptyMarks, BASE_COLORS, LABELS, checkBases, checkSet, checkArrows, checkBars, checkCrossGroups, checkLabels, checkRings, clone };
+  /* Несколько предложений под одной панелью инструментов */
+  class BoardGroup {
+    constructor(boards) {
+      this.boards = boards; this.last = boards[0];
+      boards.forEach((b) => { const prev = b.onTap; b.onTap = (k) => { this.last = b; prev(k); }; });
+    }
+    setTool(t) { this.boards.forEach((b) => b.setTool(t)); }
+    setBase(x) { this.boards.forEach((b) => b.setBase(x)); }
+    undo() { return this.last.undo(); }
+    clear() { this.boards.forEach((b) => b.clear()); }
+  }
+
+  return { parse, find, Board, BoardGroup, toolbar, emptyMarks, BASE_COLORS, LABELS, checkBases, checkSet, checkArrows, checkBars, checkCrossGroups, checkLabels, checkRings, clone };
 })();
