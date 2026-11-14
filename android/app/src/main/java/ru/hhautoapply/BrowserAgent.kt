@@ -246,6 +246,14 @@ class BrowserAgent(
         .apply { if (Prefs.bool(ctx, "remote_only")) appendQueryParameter("schedule", "remote") }
         .build().toString()
 
+    /** Одна страница поиска hh. null — не удалось пройти проверку (капча без ответа). */
+    suspend fun hhSearchPage(query: String, page: Int): List<HhVacancy>? {
+        status("hh: ищу «${query.take(40)}», стр. ${page + 1}")
+        if (!open(hhSearchUrl(query, page))) return null
+        val arr = try { JSONArray(call("window.__ag.hhLinks()")) } catch (_: Exception) { JSONArray() }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+    }
+
     suspend fun hhCollect(queries: List<String>, pages: Int = 2): List<HhVacancy> {
         val out = LinkedHashMap<String, HhVacancy>()
         for (query in queries) {

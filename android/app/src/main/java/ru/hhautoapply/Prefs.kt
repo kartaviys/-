@@ -32,21 +32,36 @@ object Prefs {
             Field("strategy", "Стратегия: fallback или round_robin (вперемешку)", default = "fallback"),
             Field("claude_model", "Модель Claude", default = "claude-haiku-5-5"),
             Field("deepseek_model", "Модель DeepSeek", default = "deepseek-chat"),
+            Field("daily_budget", "Дневной бюджет на нейросеть, $ (0 — без ограничения)", default = "1"),
         )),
         Section("Поиск", listOf(
-            Field("queries", "Запросы (по одному на строку, можно OR и кавычки)", FieldType.MULTILINE, default = listOf(
-                "\"data scientist\" OR \"дата сайентист\" OR \"дата-сайентист\" OR \"data science\" OR \"специалист по анализу данных\"",
-                "\"ml engineer\" OR \"ml-engineer\" OR \"ml инженер\" OR \"ml-инженер\" OR \"machine learning engineer\" OR \"инженер машинного обучения\" OR \"инженер по машинному обучению\" OR \"специалист по машинному обучению\"",
-                "\"ml developer\" OR \"ml-разработчик\" OR \"ml разработчик\" OR \"разработчик ml\" OR \"разработчик машинного обучения\" OR \"ai developer\" OR \"ai-разработчик\" OR \"разработчик ai\" OR \"разработчик ии\" OR \"ии-разработчик\"",
-                "\"ml analyst\" OR \"ml-аналитик\" OR \"ml аналитик\" OR \"аналитик ml\" OR \"аналитик машинного обучения\"",
-                "\"ai engineer\" OR \"ai-инженер\" OR \"ai инженер\" OR \"инженер ai\" OR \"инженер ии\" OR \"ии-инженер\" OR \"llm engineer\" OR \"llm-инженер\" OR \"llm инженер\" OR \"genai engineer\"",
-                "\"внедрение ai\" OR \"внедрению ai\" OR \"внедрение ии\" OR \"внедрению ии\" OR \"ai specialist\" OR \"ai-специалист\" OR \"специалист по ии\" OR \"специалист по искусственному интеллекту\" OR \"ai automation\" OR \"ai integration\"",
-                "nlp OR \"обработка естественного языка\" OR \"natural language processing\"",
-                "\"classic ml\" OR \"classical ml\" OR \"классическое ml\" OR \"классический ml\" OR \"классическому ml\" OR \"классическое машинное обучение\"",
-                "\"data analyst\" OR \"аналитик данных\"",
-                "\"applied scientist\" OR \"research scientist\" OR \"research engineer\" OR \"ml researcher\" OR \"ai researcher\" OR \"machine learning scientist\" OR \"ml scientist\" OR \"исследователь машинного обучения\" OR \"исследователь ml\" OR \"исследователь ai\"",
-                "\"deep learning\" OR \"специалист по нейросетям\" OR \"разработчик нейросетей\" OR \"инженер нейросетей\" OR \"нейросетевой\" OR \"prompt engineer\" OR \"промпт-инженер\" OR \"промпт инженер\" OR \"generative ai\" OR \"генеративный ии\" OR \"genai\"",
-                "\"рекомендательных систем\" OR \"recommender\" OR \"recsys\" OR \"ранжирования\" OR \"search ranking\" OR \"компьютерный лингвист\" OR \"computational linguist\" OR \"decision scientist\" OR \"conversational ai\" OR \"ai solutions\"",
+            Field("queries", "Запросы для hh — по одному на строку, простыми словами, в порядке важности", FieldType.MULTILINE, default = listOf(
+                "data scientist",
+                "ml engineer",
+                "ml-инженер",
+                "machine learning engineer",
+                "инженер машинного обучения",
+                "специалист по машинному обучению",
+                "ai engineer",
+                "ai-инженер",
+                "llm engineer",
+                "nlp engineer",
+                "nlp",
+                "ml-разработчик",
+                "разработчик ml",
+                "ai developer",
+                "ml-аналитик",
+                "ml analyst",
+                "аналитик данных",
+                "data analyst",
+                "applied scientist",
+                "research scientist",
+                "deep learning",
+                "внедрение ии",
+                "специалист по ии",
+                "промпт-инженер",
+                "рекомендательные системы",
+                "компьютерный лингвист",
             ).joinToString("\n")),
             Field("title_include", "Название содержит одно из (через запятую)",
                 default = "data scien, дата сайент, дата-сайент, анализу данных, ml, machine learning, машинн, ai, ии, искусственн, llm, genai, nlp, естественного языка, natural language, data analyst, аналитик данных, applied scien, research scien, research engineer, ml researcher, ai researcher, исследователь машинн, исследователь ml, исследователь ai, deep learning, нейросет, нейронн, prompt, промпт, generative, генеративн, рекомендательн, recommender, recsys, ranking, ранжирован, decision scien, лингвист, linguist, conversational"),
@@ -112,6 +127,12 @@ object Prefs {
         get(ctx, key).split(sep).map { it.trim() }.filter { it.isNotEmpty() }
 
     fun set(ctx: Context, key: String, value: String) = sp(ctx).edit().putString(key, value).apply()
+
+    /** Обновления настроек между версиями: старые OR-запросы заменяем на простые. */
+    fun migrate(ctx: Context) {
+        val q = sp(ctx).getString("queries", null)
+        if (q != null && q.contains(" OR ")) sp(ctx).edit().remove("queries").apply()
+    }
 
     fun profileJson(ctx: Context): String {
         val o = org.json.JSONObject()

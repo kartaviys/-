@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RunWorker.ensureChannel(this)
+        Prefs.migrate(this)
         if (Build.VERSION.SDK_INT >= 33) {
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
                 .launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -97,7 +98,11 @@ class MainActivity : ComponentActivity() {
         box.addView(row(
             button("Анкеты") { openWeb(WebActivity.MODE_FORMS) },
             button("Журнал") { showJournal() },
-            button("Стоп") { RunWorker.stop(this) },
+            button("💰 Расходы") {
+                AlertDialog.Builder(this).setTitle("Расходы на нейросеть").setMessage(Usage.report(this))
+                    .setPositiveButton("Закрыть", null).show()
+            },
+            button("Стоп") { RunWorker.stop(this); RunWorker.stopAgent(this) },
         ))
         box.addView(header("Лог"))
         logView = TextView(this).apply { textSize = 12f; setTextIsSelectable(true) }
@@ -138,8 +143,9 @@ class MainActivity : ComponentActivity() {
             append(if (Prefs.get(c, "ru_resume_text").isNotBlank()) "✅ Резюме RU есть" else "ℹ Резюме RU возьмёт агент из профиля hh")
             append(" · ")
             append(if (Prefs.get(c, "en_resume_text").isNotBlank()) "✅ EN есть" else "EN — из профиля hh, если есть").append("\n")
-            append("Откликов сегодня: $today · Анкет ждут: $pending")
-            if (running) append("\n⏳ Идёт запуск…")
+            append("Откликов сегодня: $today · Анкет ждут: $pending\n")
+            append(Usage.shortLine(c))
+            if (running || AgentEngine.running.value) append("\n⏳ Идёт запуск… ${AgentEngine.status.value}")
         }
         if (running) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

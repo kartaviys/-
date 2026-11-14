@@ -20,7 +20,10 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
-class LlmException(msg: String) : Exception(msg)
+open class LlmException(msg: String) : Exception(msg)
+
+/** Дневной бюджет исчерпан — сессию нужно остановить. */
+class BudgetException(msg: String) : LlmException(msg)
 
 interface Provider {
     val name: String
@@ -105,7 +108,7 @@ class DeepSeekProvider(private val apiKey: String, private val model: String) : 
 }
 
 /** Набор провайдеров с fallback или round_robin («вперемешку»). */
-class Llm(ctx: Context, private val log: (String) -> Unit) {
+class Llm(private val ctx: Context, private val log: (String) -> Unit) {
     private val providers = mutableListOf<Provider>()
     private val roundRobin = Prefs.get(ctx, "strategy").trim() == "round_robin"
     private var turn = 0
@@ -130,13 +133,19 @@ class Llm(ctx: Context, private val log: (String) -> Unit) {
             val k = turn++ % providers.size
             providers.drop(k) + providers.take(k)
         } else providers
+        val budget = Prefs.get(ctx, "daily_budget").replace(',', '.').toDoubleOrNull() ?: 0.0
+        if (budget > 0 && Usage.todayCost(ctx) >= budget) {
+            throw BudgetException("Дневной бюджет на нейросеть исчерпан (${Usage.money(budget)}). Увеличьте его в настройках или продолжите завтра.")
+        }
         var last: Exception? = null
         for (p in order) {
             try {
                 val (text, tin, tout) = p.complete(system, user, wantJson, maxTokens)
+                val cost = tin / 1e6 * p.priceIn + tout / 1e6 * p.priceOut
                 val u = usage.getOrPut(p.name) { DoubleArray(3) }
                 u[0] += tin.toDouble(); u[1] += tout.toDouble()
-                u[2] += tin / 1e6 * p.priceIn + tout / 1e6 * p.priceOut
+                u[2] += cost
+                Usage.add(ctx, p.name, tin, tout, cost)
                 if (text.isNotBlank()) return text.trim()
                 last = LlmException("${p.name}: пустой ответ")
             } catch (e: Exception) {

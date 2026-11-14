@@ -20,6 +20,8 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -28,39 +30,79 @@ import java.util.concurrent.TimeUnit
 class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        val app = applicationContext
+        ensureChannel(app)
+        Prefs.migrate(app)
+        val mode = inputData.getString(KEY_MODE) ?: "api"
+        setForeground(foregroundInfo(if (mode == "agent") "Агент откликается на вакансии…" else "Идёт отклик на вакансии…"))
+        if (mode == "agent") {
+            return@withContext runAgent(inputData.getBoolean(KEY_SINGLE, false), inputData.getString(KEY_SOURCE).orEmpty())
+        }
         val dry = inputData.getBoolean(KEY_DRY, true)
-        ensureChannel(applicationContext)
-        setForeground(foregroundInfo("Идёт отклик на вакансии…"))
-        if (inputData.getBoolean(KEY_DAILY, false)) RunLog.clear(applicationContext)
+        if (inputData.getBoolean(KEY_DAILY, false)) RunLog.clear(app)
         try {
-            val summary = Runner(applicationContext, dry) { isStopped }.run()
-            notify(applicationContext, "Автоотклик завершён", summary)
-            // hh через сайт или есть анкеты — предлагаем запустить агента (ему нужен открытый экран)
-            val hhSite = Sources.byKey("hh")?.let { Sources.isOn(applicationContext, it) } == true && !HhMode.useApi(applicationContext)
-            if (!dry && (hhSite || Db(applicationContext).pendingBrowser().isNotEmpty())) {
-                notify(applicationContext, "Запустите агента", "Нажмите, чтобы агент откликнулся через сайты (hh и «Анкеты»). Лучше на зарядке.", openAgent = true)
-            }
+            val summary = Runner(app, dry) { isStopped }.run()
+            notify(app, "Автоотклик завершён", summary)
+            // hh через сайт или есть анкеты — сразу запускаем агента в этой же фоновой задаче (экран не нужен)
+            val hhSite = Sources.byKey("hh")?.let { Sources.isOn(app, it) } == true && !HhMode.useApi(app)
+            if (!dry && !isStopped && (hhSite || Db(app).pendingBrowser().isNotEmpty())) runAgent(false, "")
             Result.success()
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
         } catch (e: Exception) {
-            RunLog.add(applicationContext, "Ошибка: ${e.message}")
-            notify(applicationContext, "Автоотклик: ошибка", e.message.orEmpty())
+            RunLog.add(app, "Ошибка: ${e.message}")
+            notify(app, "Автоотклик: ошибка", e.message.orEmpty())
             Result.failure()
         }
     }
 
+    /** Агент в фоне: статус выводится в постоянное уведомление. */
+    private suspend fun runAgent(single: Boolean, source: String): Result = coroutineScope {
+        val app = applicationContext
+        val updater = launch {
+            AgentEngine.status.collect { text ->
+                try { app.getSystemService(NotificationManager::class.java).notify(1, buildOngoing(text)) } catch (_: SecurityException) { }
+            }
+        }
+        try {
+            val summary = AgentEngine.run(app, single, source)
+            notify(app, "Агент закончил", summary)
+            Result.success()
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            RunLog.add(app, "Агент: ошибка — ${e.message}")
+            notify(app, "Агент: ошибка", e.message.orEmpty())
+            Result.failure()
+        } finally {
+            updater.cancel()
+        }
+    }
+
+    private fun buildOngoing(text: String) = NotificationCompat.Builder(applicationContext, CHANNEL)
+        .setSmallIcon(android.R.drawable.ic_menu_send)
+        .setContentTitle("HH Автоотклик")
+        .setContentText(text)
+        .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+        .setOngoing(true)
+        .setOnlyAlertOnce(true)
+        .setContentIntent(PendingIntent.getActivity(applicationContext, 5,
+            Intent(applicationContext, AgentActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
+        .build()
+
     private fun foregroundInfo(text: String): ForegroundInfo {
-        val n = NotificationCompat.Builder(applicationContext, CHANNEL)
-            .setSmallIcon(android.R.drawable.ic_menu_send)
-            .setContentTitle("HH Автоотклик")
-            .setContentText(text)
-            .setOngoing(true)
-            .build()
+        val n = buildOngoing(text)
         return if (Build.VERSION.SDK_INT >= 29) ForegroundInfo(1, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
         else ForegroundInfo(1, n)
     }
 
     companion object {
         const val KEY_DRY = "dry"
+        const val KEY_MODE = "mode"
+        const val KEY_SINGLE = "single"
+        const val KEY_SOURCE = "source"
+        const val AGENT = "agent_now"
         const val KEY_DAILY = "daily"
         const val CHANNEL = "run"
         const val ONE_SHOT = "run_now"
@@ -126,6 +168,20 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
         }
 
         fun stop(ctx: Context) = WorkManager.getInstance(ctx).cancelUniqueWork(ONE_SHOT)
+
+        /** Запуск агента в фоне (работает и при выключенном экране). */
+        fun startAgent(ctx: Context, single: Boolean = false, source: String = "") {
+            val req = OneTimeWorkRequestBuilder<RunWorker>()
+                .setInputData(workDataOf(KEY_MODE to "agent", KEY_SINGLE to single, KEY_SOURCE to source))
+                .setConstraints(network)
+                .build()
+            WorkManager.getInstance(ctx).enqueueUniqueWork(AGENT, ExistingWorkPolicy.KEEP, req)
+        }
+
+        fun stopAgent(ctx: Context) {
+            AgentEngine.answer(false)
+            WorkManager.getInstance(ctx).cancelUniqueWork(AGENT)
+        }
 
         fun scheduleDaily(ctx: Context) {
             val wm = WorkManager.getInstance(ctx)

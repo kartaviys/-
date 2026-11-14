@@ -9,19 +9,33 @@ user_agent = "hh-autoapply/1.0 (you@example.com)"   # hh требует конт
 token_path = "token.json"
 
 [search]
-queries = [
-  '"data scientist" OR "дата сайентист" OR "дата-сайентист" OR "data science" OR "специалист по анализу данных"',
-  '"ml engineer" OR "ml-engineer" OR "ml инженер" OR "ml-инженер" OR "machine learning engineer" OR "инженер машинного обучения" OR "инженер по машинному обучению" OR "специалист по машинному обучению"',
-  '"ml developer" OR "ml-разработчик" OR "ml разработчик" OR "разработчик ml" OR "разработчик машинного обучения" OR "ai developer" OR "ai-разработчик" OR "разработчик ai" OR "разработчик ии" OR "ии-разработчик"',
-  '"ml analyst" OR "ml-аналитик" OR "ml аналитик" OR "аналитик ml" OR "аналитик машинного обучения"',
-  '"ai engineer" OR "ai-инженер" OR "ai инженер" OR "инженер ai" OR "инженер ии" OR "ии-инженер" OR "llm engineer" OR "llm-инженер" OR "llm инженер" OR "genai engineer"',
-  '"внедрение ai" OR "внедрению ai" OR "внедрение ии" OR "внедрению ии" OR "ai specialist" OR "ai-специалист" OR "специалист по ии" OR "специалист по искусственному интеллекту" OR "ai automation" OR "ai integration"',
-  'nlp OR "обработка естественного языка" OR "natural language processing"',
-  '"classic ml" OR "classical ml" OR "классическое ml" OR "классический ml" OR "классическому ml" OR "классическое машинное обучение"',
-  '"data analyst" OR "аналитик данных"',
-  '"applied scientist" OR "research scientist" OR "research engineer" OR "ml researcher" OR "ai researcher" OR "machine learning scientist" OR "ml scientist" OR "исследователь машинного обучения" OR "исследователь ml" OR "исследователь ai"',
-  '"deep learning" OR "специалист по нейросетям" OR "разработчик нейросетей" OR "инженер нейросетей" OR "нейросетевой" OR "prompt engineer" OR "промпт-инженер" OR "промпт инженер" OR "generative ai" OR "генеративный ии" OR "genai"',
-  '"рекомендательных систем" OR "recommender" OR "recsys" OR "ранжирования" OR "search ranking" OR "компьютерный лингвист" OR "computational linguist" OR "decision scientist" OR "conversational ai" OR "ai solutions"',
+queries = [  # простые запросы, по одному, в порядке важности
+  "data scientist",
+  "ml engineer",
+  "ml-инженер",
+  "machine learning engineer",
+  "инженер машинного обучения",
+  "специалист по машинному обучению",
+  "ai engineer",
+  "ai-инженер",
+  "llm engineer",
+  "nlp engineer",
+  "nlp",
+  "ml-разработчик",
+  "разработчик ml",
+  "ai developer",
+  "ml-аналитик",
+  "ml analyst",
+  "аналитик данных",
+  "data analyst",
+  "applied scientist",
+  "research scientist",
+  "deep learning",
+  "внедрение ии",
+  "специалист по ии",
+  "промпт-инженер",
+  "рекомендательные системы",
+  "компьютерный лингвист",
 ]
 search_field = "name"                  # искать только в названии вакансии
 experience = ["between3And6", "moreThan6"]   # уровень Senior
