@@ -119,3 +119,13 @@ class HhApi(private val ctx: Context) {
         call(Request.Builder().url("$api/negotiations").post(form.build()), auth = true)
     }
 }
+
+/** Как работать с hh: через API (нужно одобренное приложение) или через сайт (браузерный агент). */
+object HhMode {
+    /** auto — API, если подключено, иначе сайт. */
+    fun useApi(ctx: Context): Boolean = when (Prefs.get(ctx, "hh_mode").trim().lowercase()) {
+        "api" -> true
+        "site", "сайт" -> false
+        else -> HhApi(ctx).isAuthorized
+    }
+}

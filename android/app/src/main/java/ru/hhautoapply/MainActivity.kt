@@ -64,6 +64,9 @@ class MainActivity : ComponentActivity() {
             button("Пробный прогон") { RunWorker.runNow(this, dry = true) },
             button("Откликнуться") { confirmLive() },
         ))
+        box.addView(button("🤖 Агент: откликаться через сайты (hh без API и «Анкеты»)") {
+            startActivity(Intent(this, AgentActivity::class.java))
+        })
         box.addView(row(
             button("Анкеты") { openWeb(WebActivity.MODE_FORMS) },
             button("Журнал") { showJournal() },
@@ -100,7 +103,7 @@ class MainActivity : ComponentActivity() {
         }
         val hhOk = HhApi(this).isAuthorized
         status.text = buildString {
-            append(if (hhOk) "✅ API hh подключено" else "❌ API hh не подключено").append("\n")
+            append(if (hhOk) "✅ API hh подключено" else "ℹ API hh не подключено — hh работает через «Агента»").append("\n")
             append(if (Prefs.get(this@MainActivity, "ru_resume_id").isNotBlank()) "✅ Резюме выбрано" else "❌ Резюме hh не выбрано").append("\n")
             append(if (Prefs.get(this@MainActivity, "ru_resume_text").isNotBlank()) "✅ Текст резюме RU загружен" else "❌ Текст резюме RU пуст").append("\n")
             append(if (Prefs.get(this@MainActivity, "en_resume_text").isNotBlank()) "✅ Текст резюме EN загружен" else "— Текст резюме EN пуст").append("\n")

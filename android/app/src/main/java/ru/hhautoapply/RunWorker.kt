@@ -35,6 +35,11 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
         try {
             val summary = Runner(applicationContext, dry) { isStopped }.run()
             notify(applicationContext, "Автоотклик завершён", summary)
+            // hh через сайт или есть анкеты — предлагаем запустить агента (ему нужен открытый экран)
+            val hhSite = Sources.byKey("hh")?.let { Sources.isOn(applicationContext, it) } == true && !HhMode.useApi(applicationContext)
+            if (!dry && (hhSite || Db(applicationContext).pendingBrowser().isNotEmpty())) {
+                notify(applicationContext, "Запустите агента", "Нажмите, чтобы агент откликнулся через сайты (hh и «Анкеты»). Лучше на зарядке.", openAgent = true)
+            }
             Result.success()
         } catch (e: Exception) {
             RunLog.add(applicationContext, "Ошибка: ${e.message}")
@@ -66,8 +71,10 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
             nm.createNotificationChannel(NotificationChannel(CHANNEL, "Автоотклик", NotificationManager.IMPORTANCE_LOW))
         }
 
-        fun notify(ctx: Context, title: String, text: String) {
-            val pi = PendingIntent.getActivity(ctx, 0, Intent(ctx, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
+        fun notify(ctx: Context, title: String, text: String, openAgent: Boolean = false) {
+            val target = if (openAgent) Intent(ctx, AgentActivity::class.java).putExtra(AgentActivity.EXTRA_AUTOSTART, true)
+            else Intent(ctx, MainActivity::class.java)
+            val pi = PendingIntent.getActivity(ctx, if (openAgent) 1 else 0, target, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             val n = NotificationCompat.Builder(ctx, CHANNEL)
                 .setSmallIcon(android.R.drawable.ic_menu_send)
                 .setContentTitle(title)

@@ -100,6 +100,11 @@ class WebActivity : ComponentActivity() {
                 button("Пропуск") { mark("manual") },
             ))
             MODE_ASSIST -> root.addView(row(
+                button("🤖 Агент") {
+                    startActivity(android.content.Intent(this, AgentActivity::class.java)
+                        .putExtra(AgentActivity.EXTRA_URL, web.url.orEmpty())
+                        .putExtra(AgentActivity.EXTRA_SOURCE, sourceKey))
+                },
                 button("Отклик с ИИ") { assistApply() },
                 button("Письмо") { copyLetter() },
                 button("В журнал ✓") { assistRecord() },

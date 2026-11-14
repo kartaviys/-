@@ -35,13 +35,15 @@ class Runner(private val ctx: Context, private val dryRun: Boolean, private val 
         if (ruText.isBlank() && enText.isBlank()) log("⚠ Текст резюме пуст — письма будут слабыми. Загрузите PDF.")
         val ruId = Prefs.get(ctx, "ru_resume_id").trim()
         val enId = Prefs.get(ctx, "en_resume_id").trim().ifBlank { ruId }
-        val hhEnabled = Sources.byKey("hh")?.let { Sources.isOn(ctx, it) } ?: true
+        val hhSourceOn = Sources.byKey("hh")?.let { Sources.isOn(ctx, it) } ?: true
+        val hhEnabled = hhSourceOn && HhMode.useApi(ctx)
+        if (hhSourceOn && !hhEnabled) log("hh.ru работает через сайт: отклики на hh делает «Агент» (кнопка на главном экране).")
         if (!dryRun && hhEnabled && ruId.isBlank()) throw IllegalStateException("Не выбрано резюме hh (кнопка «Мои резюме»)")
 
         // 1. Поиск на hh
         val found = LinkedHashMap<String, Pair<String, String>>() // id -> (name, url)
         val hhOn = hhEnabled
-        if (!hhOn) log("hh.ru выключен в «Источниках».")
+        if (!hhSourceOn) log("hh.ru выключен в «Источниках».")
         for (q in if (hhOn) Prefs.list(ctx, "queries", Regex("\n")) else emptyList()) {
             for (page in 0 until 3) {
                 val res = hh.search(q, page)

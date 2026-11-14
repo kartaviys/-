@@ -11,6 +11,13 @@ data class Section(val title: String, val fields: List<Field>)
 
 object Prefs {
     val sections = listOf(
+        Section("hh.ru: режим работы", listOf(
+            Field("hh_mode", "auto — API, если подключено, иначе через сайт; api — только API; site — только через сайт (Агент)", default = "auto"),
+        )),
+        Section("Браузерный агент", listOf(
+            Field("agent_confirm", "Спрашивать подтверждение перед каждой отправкой (LinkedIn — всегда)", FieldType.BOOL, "false"),
+            Field("agent_max_steps", "Максимум шагов агента на одну вакансию", FieldType.NUMBER, "20"),
+        )),
         Section("hh.ru API (приложение с dev.hh.ru)", listOf(
             Field("hh_client_id", "Client ID"),
             Field("hh_client_secret", "Client Secret", FieldType.SECRET),
