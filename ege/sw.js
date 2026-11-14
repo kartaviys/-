@@ -1,5 +1,5 @@
 /* Офлайн-кэш: приложение работает без интернета после первого открытия */
-const CACHE = 'egequest-v10';
+const CACHE = 'egequest-v11';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
   'js/markup.js?v=10', 'js/app.js?v=10', 'js/task1.js?v=10', 'js/kit.js?v=10', 'js/task17.js?v=10', 'js/theory16.js?v=10', 'js/theory18.js?v=10', 'js/theory19.js?v=10', 'js/zachet.js?v=10', 'js/games.js?v=10', 'js/practice-data.js?v=10', 'js/practice.js?v=10', 'css/style.css?v=10',

@@ -67,33 +67,104 @@
     return { q: `<span class="gs">${c === 0 ? plain : t}</span>`, options: ['вводное — нужны запятые', 'не вводное'], correct: c, why: c === 0 ? `Вводное: <b>${t}</b>` : `Член предложения, запятые не нужны: <b>${t}</b>` };
   });
 
+  /* ===== Лабиринт: в каждой комнате выбери дверь с верным написанием ===== */
+  const MAZE = [
+    ['прекрасный', 'прикрасный'], ['пригорок', 'прегорок'], ['искусство', 'исскуство'], ['рассчитать', 'расчитать'],
+    ['расчёт', 'рассчёт'], ['бесполезный', 'безполезный'], ['безвкусный', 'бесвкусный'], ['деревянный', 'деревяный'],
+    ['кожаный', 'кожанный'], ['серебряный', 'серебрянный'], ['стеклянный', 'стекляный'], ['ветреный', 'ветренный'],
+    ['чересчур', 'черезчур'], ['предыстория', 'предистория'], ['подыграть', 'подиграть'], ['цыплёнок', 'циплёнок'],
+    ['цирк', 'цырк'], ['огурцы', 'огурци'], ['ключик', 'ключек'], ['замочек', 'замочик'], ['по-моему', 'по моему', 'помоему'],
+    ['полгорода', 'пол-города', 'пол города'], ['пол-яблока', 'полъяблока', 'пол яблока'], ['кое-где', 'коегде', 'кое где'],
+    ['несмотря на дождь', 'не смотря на дождь'], ['привокзальный', 'превокзальный'],
+  ];
+  /* ===== Алхимия: собери зелье из подходящих ингредиентов ===== */
+  const POTIONS = [
+    { name: 'Зелье причастий', c: '#8b5cf6', d: 'Добавь только причастия', ok: ['читающий', 'построенный', 'бегущий', 'нарисованный'], no: ['читая', 'красный', 'деревянный', 'построив'] },
+    { name: 'Эликсир вводных слов', c: '#f59e0b', d: 'Добавь только вводные слова', ok: ['конечно', 'по-моему', 'к счастью', 'во-первых'], no: ['вдруг', 'даже', 'якобы', 'почти'] },
+    { name: 'Настойка НН', c: '#10b981', d: 'Добавь слова, где пишется НН', ok: ['деревянный', 'стеклянный', 'прочитанный', 'искусственный'], no: ['кожаный', 'серебряный', 'ветреный', 'юный'] },
+    { name: 'Отвар деепричастий', c: '#ec4899', d: 'Добавь только деепричастия', ok: ['читая', 'построив', 'улыбаясь', 'будучи'], no: ['читающий', 'улыбка', 'построенный', 'быстро'] },
+    { name: 'Зелье приставки ПРИ-', c: '#0ea5e9', d: 'Добавь слова с приставкой ПРИ-', ok: ['приехать', 'пригород', 'приклеить', 'привокзальный'], no: ['прекрасный', 'преградить', 'преемник', 'пребывать'] },
+  ];
+  /* ===== Сортировка: отправь слово в нужную корзину ===== */
+  const SORTS = [
+    { name: 'ПРЕ или ПРИ?', bins: ['ПРЕ', 'ПРИ'], items: [['пр_красный', 0], ['пр_ехать', 1], ['пр_градить', 0], ['пр_школьный', 1], ['пр_мудрый', 0], ['пр_морский', 1], ['пр_клеить', 1], ['пр_рвать', 0]] },
+    { name: 'Н или НН?', bins: ['Н', 'НН'], items: [['деревя_ый', 1], ['кожа_ый', 0], ['стекля_ый', 1], ['серебря_ый', 0], ['ветре_ый', 0], ['оловя_ый', 1], ['кури_ый', 0], ['жаре_ый', 0]] },
+    { name: 'Слитно, раздельно или через дефис?', bins: ['слитно', 'раздельно', 'дефис'], items: [['(пол)яблока', 2], ['(пол)города', 0], ['(по)моему', 2], ['(не)смотря на дождь', 0], ['(в)течение дня', 1], ['(кое)где', 2], ['(во)время урока', 1], ['(на)встречу другу', 0]] },
+    { name: 'Вводное слово или нет?', bins: ['вводное', 'член предложения'], items: [['<i>Конечно</i>, он придёт.', 0], ['Он <i>может быть</i> полезным.', 1], ['<i>Кажется</i>, дождь.', 0], ['Луна <i>кажется</i> бледной.', 1], ['<i>К счастью</i>, всё обошлось.', 0], ['Данные внесены <i>верно</i>.', 1]] },
+  ];
+
   const GAMES = [
+    { id: 'maze', name: 'Лабиринт грамотности', e: '🌀', topic: 'Орфография · выбирай двери с верным написанием', kind: 'maze' },
+    { id: 'alchemy', name: 'Алхимия', e: '⚗️', topic: 'Свари зелье из подходящих слов', kind: 'alchemy' },
+    { id: 'sort', name: 'Сортировщик', e: '🗂️', topic: 'Разложи слова по корзинам: ПРЕ/ПРИ, Н/НН и другие', kind: 'sort' },
+    { id: 'comma', name: 'Запятая-молния', e: '⚡', topic: 'Пунктуация · задания 16–19 · на время', timer: 8, pool: () => COMMAS },
     { id: 'letters', name: 'Пропущенная буква', e: '🔤', topic: 'Орфография · корни и приставки', pool: () => LETTERS },
-    { id: 'comma', name: 'Запятая-молния', e: '⚡', topic: 'Пунктуация · задания 16–19', timer: 8, pool: () => COMMAS },
     { id: 'stress', name: 'Эхо ударений', e: '🔊', topic: 'Задание 4 · ударения', pool: () => STRESS },
     { id: 'intro', name: 'Вводное или нет?', e: '🧩', topic: 'Задание 18 · вводные слова', pool: () => INTRO },
   ];
-  const PRO_LIST = ['Проверка сочинений экспертом ЕГЭ', 'Индивидуальный учёт ошибок и их отработка', 'Полноценные пробники раз в месяц', 'Мини-игры по каждому заданию', 'Отсутствие рекламы', 'Продуманная система повторения'];
 
+  /* ===== ПРО ===== */
+  const CMP = [
+    ['Теория и задания 1–27', '✓', '✓'], ['Тренировки и зачёты', '✓', '✓'], ['Мини-игры', 'базовые', 'по каждому заданию'],
+    ['Проверка сочинений экспертом ЕГЭ', '—', '✓'], ['Материал: как готовиться к сочинению', '—', '✓'], ['Учёт ошибок и их отработка', '—', '✓'],
+    ['Пробники раз в месяц', '—', '✓'], ['Система повторения', '—', '✓'], ['Реклама', 'есть', 'нет'],
+  ];
   function openPro() {
     C.modal(`<div class="pro">
       <div class="pro-hero"><div class="pro-crown">⭐</div><h2>ЕГЭ Квест ПРО</h2><p>Платная версия приложения</p></div>
-      <ul class="pro-list">${PRO_LIST.map((x) => `<li>✓ ${x}</li>`).join('')}</ul>
-      <p class="muted small">Вся основная подготовка — теория, задания и тренировки — остаётся бесплатной.</p>
-      <button class="btn ghost" data-close>Понятно</button></div>`);
+      <div class="pro-why"><b>Тест — это только 54 балла ЕГЭ.</b> Остальные <b>46 баллов</b> — сочинение, и его нужно отрабатывать.</div>
+      <table class="pro-cmp"><thead><tr><th></th><th>Бесплатно</th><th class="pro-col">ПРО</th></tr></thead>
+        <tbody>${CMP.map(([a, f, p]) => `<tr><td>${a}</td><td class="${f === '—' ? 'no' : ''}">${f}</td><td class="pro-col">${p}</td></tr>`).join('')}</tbody></table>
+      <button class="btn ghost" data-close>Понятно</button></div>`, { cls: 'wide' });
   }
   App.openPro = openPro;
   App.proCard = () => {
-    const c = h(`<div class="card pro-card"><span>⭐</span><div><b>Версия ПРО</b><small>Проверка сочинений экспертом, пробники, учёт ошибок, все мини-игры</small></div><button class="btn gold">Подробнее</button></div>`);
+    const c = h(`<div class="card pro-card"><span>⭐</span><div><b>Версия ПРО</b><small>Проверка сочинений, материал по подготовке к сочинению, пробники, учёт ошибок</small></div><button class="btn gold">Подробнее</button></div>`);
     c.querySelector('button').addEventListener('click', openPro);
     return c;
   };
 
+  /* Короткий интерактивный ролик о ПРО — изредка после пройденного блока */
+  App.proAd = () => {
+    const m = C.modal(`<div class="ad">
+      <div class="ad-bars">${[0, 1, 2, 3].map(() => '<i><b></b></i>').join('')}</div>
+      <button class="ad-x" data-close aria-label="Пропустить">✕</button>
+      <div class="ad-stage"></div>
+    </div>`, { cls: 'ad-modal' });
+    const st = m.el.querySelector('.ad-stage'), bars = [...m.el.querySelectorAll('.ad-bars b')];
+    let k = -1, timer = null;
+    const frames = [
+      () => `<div class="ad-f"><div class="ad-big"><span class="ad-num" data-to="54">0</span><small>баллов</small></div><p>Столько даёт <b>тестовая часть</b> ЕГЭ — задания 1–26.</p><div class="ad-pie" style="--p:54"></div></div>`,
+      () => `<div class="ad-f"><p class="ad-q">А где остальные <b>46 баллов</b>?</p><div class="ad-opts"><button data-a="0">В заданиях 1–26</button><button data-a="1">В сочинении</button><button data-a="0">Дают за явку 😄</button></div></div>`,
+      () => `<div class="ad-f"><div class="ad-emoji">✍️</div><p><b>46 баллов — сочинение!</b> Это почти половина результата. Его нужно отрабатывать: писать, получать проверку и исправлять ошибки.</p></div>`,
+      () => `<div class="ad-f"><div class="ad-emoji">⭐</div><p class="ad-q">В версии <b>ПРО</b>:</p><ul class="ad-list"><li>✓ проверка твоих сочинений</li><li>✓ материал: как готовиться к сочинению</li><li>✓ пробники и учёт ошибок</li></ul><button class="btn gold ad-more">Узнать о ПРО</button></div>`,
+    ];
+    const go = (n) => {
+      clearTimeout(timer);
+      k = n;
+      bars.forEach((b, i) => { b.style.transition = 'none'; b.style.width = i < k ? '100%' : '0'; });
+      st.innerHTML = frames[k]();
+      const num = st.querySelector('.ad-num');
+      if (num) { const t0 = performance.now(); const tick = (t) => { const q = Math.min(1, (t - t0) / 1200); num.textContent = Math.round(54 * q); if (q < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
+      const cur = bars[k];
+      const auto = k !== 1 && k < frames.length - 1;
+      requestAnimationFrame(() => { cur.style.transition = auto ? 'width 4s linear' : 'width .4s'; cur.style.width = auto || k === frames.length - 1 ? '100%' : '0'; });
+      if (auto) timer = setTimeout(() => go(k + 1), 4000);
+      st.querySelectorAll('.ad-opts button').forEach((b) => b.addEventListener('click', () => {
+        if (b.dataset.a === '1') { b.classList.add('right'); setTimeout(() => go(2), 700); } else { b.classList.add('wrong'); b.disabled = true; }
+      }));
+      const more = st.querySelector('.ad-more');
+      if (more) more.addEventListener('click', () => { m.close(); openPro(); });
+    };
+    st.addEventListener('click', (e) => { if (k !== 1 && k < frames.length - 1 && !e.target.closest('button')) go(k + 1); });
+    go(0);
+  };
+
   App.renderGames = (v) => {
-    v.appendChild(h(`<div class="card"><div class="eyebrow">Мини-игры</div><h2>Закрепи темы в игре</h2><p class="muted small">Быстрые раунды по 10 вопросов. За игру — опыт.</p></div>`));
+    v.appendChild(h(`<div class="card"><div class="eyebrow">Мини-игры</div><h2>Закрепи темы в игре</h2><p class="muted small">Лабиринт, алхимия, сортировка и быстрые раунды. За каждую игру — опыт.</p></div>`));
     const list = h(`<div class="games">${GAMES.map((g) => {
-      const best = ((C.S.game || {})[g.id] || {}).best;
-      return `<button class="game" data-g="${g.id}"><span class="ge">${g.e}</span><span class="sbody"><b>${g.name}</b><small>${g.topic}</small>${best != null ? `<small class="sinc">Рекорд: ${best}/10</small>` : ''}</span><span class="sprice">▶</span></button>`;
+      const rec = (C.S.game || {})[g.id] || {};
+      return `<button class="game ${g.kind ? 'new' : ''}" data-g="${g.id}"><span class="ge">${g.e}</span><span class="sbody"><b>${g.name}</b><small>${g.topic}</small>${rec.best != null ? `<small class="sinc">Рекорд: ${rec.best}${rec.max ? '/' + rec.max : '/10'}</small>` : ''}</span><span class="sprice">▶</span></button>`;
     }).join('')}</div>`);
     list.querySelectorAll('.game').forEach((b) => b.addEventListener('click', () => startGame(b.dataset.g)));
     v.appendChild(list);
@@ -102,8 +173,158 @@
     v.appendChild(App.proCard());
   };
 
+  /* Общая оболочка игры */
+  function shell(g) {
+    const root = $('#lesson');
+    root.innerHTML = `<div class="l-head"><button class="l-close" aria-label="Закрыть">✕</button><div class="l-progbox"><div class="l-prog"><i></i></div></div><span class="g-score">0</span></div>
+      <div class="l-body"><div class="slide game-screen"></div></div>
+      <div class="l-foot"><div class="l-feedback"></div><div class="l-btns"><button class="btn primary l-main" disabled>…</button></div></div>`;
+    root.classList.remove('hidden');
+    const o = { root, scr: $('.game-screen', root), prog: $('.l-prog i', root), sc: $('.g-score', root), fb: $('.l-feedback', root), main: $('.l-main', root), timers: [] };
+    o.close = () => { o.timers.forEach(clearInterval); root.classList.add('hidden'); root.innerHTML = ''; App.$('.tabbar [data-tab="games"]').click(); };
+    $('.l-close', root).onclick = o.close;
+    o.feedback = (kind, html) => { o.fb.className = 'l-feedback ' + (kind || ''); o.fb.innerHTML = html || ''; root.classList.toggle('fb-open', !!kind); };
+    o.foot = (label, onClick, enabled = true) => { o.main.textContent = label; o.main.disabled = !enabled; o.main.onclick = onClick; };
+    o.end = (score, max) => {
+      o.prog.style.width = '100%';
+      const S = C.S; S.game = S.game || {};
+      const rec = S.game[g.id] || {};
+      const newBest = rec.best == null || score > rec.best;
+      S.game[g.id] = { best: Math.max(score, rec.best || 0), max, plays: (rec.plays || 0) + 1 };
+      C.save(); C.unlock('game');
+      const xp = Math.round((score / max) * 30);
+      C.reward(xp, 0, { quiet: true });
+      const great = score >= max * 0.8;
+      if (great) C.confetti(150);
+      o.feedback(null);
+      o.scr.innerHTML = `<div class="intro final"><div class="big-emoji">${great ? '🌟' : g.e}</div><h2>${great ? 'Блестяще!' : 'Хорошая тренировка!'}</h2>
+        <div class="score-ring" style="--p:${Math.round((score / max) * 100)}"><b>${score}/${max}</b></div>${newBest && score > 0 ? '<p class="ok-text">🎉 Новый рекорд!</p>' : ''}<p class="lead">+${xp} XP</p></div>`;
+      o.foot('Ещё раз', () => startGame(g.id));
+    };
+    return o;
+  }
+
   function startGame(id) {
     const g = GAMES.find((x) => x.id === id);
+    if (g.kind === 'maze') return mazeGame(g);
+    if (g.kind === 'alchemy') return alchemyGame(g);
+    if (g.kind === 'sort') return sortGame(g);
+    return quizGame(g);
+  }
+
+  function mazeGame(g) {
+    const o = shell(g);
+    const rooms = shuffle(MAZE).slice(0, 8).map((r) => ({ ok: r[0], doors: shuffle(r) }));
+    let i = 0, lives = 3, score = 0;
+    const draw = () => {
+      o.prog.style.width = (i / rooms.length) * 100 + '%';
+      const r = rooms[i];
+      o.scr.innerHTML = `<div class="g-title">${g.e} ${g.name}</div>
+        <div class="maze-top"><span>Комната ${i + 1} из ${rooms.length}</span><span class="lives">${'❤️'.repeat(lives)}${'🤍'.repeat(3 - lives)}</span></div>
+        <div class="maze">${rooms.map((_, k) => `<span class="mz ${k < i ? 'done' : k === i ? 'cur' : ''}">${k === i ? '🧭' : k < i ? '✓' : ''}</span>`).join('<i></i>')}<i></i><span class="mz goal">💎</span></div>
+        <p class="maze-q">Перед тобой ${r.doors.length} двери. Открой ту, где слово написано <b>верно</b>:</p>
+        <div class="doors">${r.doors.map((d, k) => `<button class="door" data-k="${k}"><span class="door-arch">🚪</span><b>${d}</b></button>`).join('')}</div>`;
+      o.foot('Выбери дверь', null, false);
+      o.scr.querySelectorAll('.door').forEach((b) => b.addEventListener('click', () => {
+        const ok = r.doors[+b.dataset.k] === r.ok;
+        if (!ok) {
+          lives--; b.classList.add('wall'); b.disabled = true; b.querySelector('.door-arch').textContent = '🧱'; C.buzz([20, 40, 20]);
+          o.feedback('bad', `<b>Тупик! 🧱</b><div>«${r.doors[+b.dataset.k]}» — так не пишется.</div>`);
+          o.scr.querySelector('.lives').textContent = '❤️'.repeat(lives) + '🤍'.repeat(3 - lives);
+          if (lives <= 0) { o.scr.querySelectorAll('.door').forEach((x) => (x.disabled = true)); o.foot('Итоги', () => o.end(score, rooms.length)); }
+          return;
+        }
+        score++; o.sc.textContent = score;
+        b.classList.add('open'); o.scr.querySelectorAll('.door').forEach((x) => (x.disabled = true));
+        o.feedback('ok', `<b>${C.pick(C.GOOD)}</b><div>Верно: <b>${r.ok}</b></div>`);
+        const last = i === rooms.length - 1;
+        o.foot(last ? 'К сокровищу 💎' : 'В следующую комнату ▸', () => { o.feedback(null); if (last) o.end(score, rooms.length); else { i++; draw(); } });
+      }));
+    };
+    draw();
+  }
+
+  function alchemyGame(g) {
+    const o = shell(g);
+    const recipes = shuffle(POTIONS).slice(0, 3);
+    let ri = 0, score = 0, mistakes = 0;
+    const draw = () => {
+      const r = recipes[ri];
+      const ings = shuffle([...r.ok.map((w) => [w, 1]), ...r.no.map((w) => [w, 0])]);
+      let added = 0;
+      o.prog.style.width = (ri / recipes.length) * 100 + '%';
+      o.scr.innerHTML = `<div class="g-title">${g.e} ${g.name} · зелье ${ri + 1} из ${recipes.length}</div>
+        <div class="recipe"><b>📜 ${r.name}</b><span>${r.d}. Нужно 4 ингредиента.</span></div>
+        <div class="cauldron"><div class="cd-liquid" style="--c:${r.c}"><i style="height:8%"></i></div><div class="cd-pot">🫕</div><div class="cd-fx"></div></div>
+        <div class="ings">${ings.map(([w, ok], k) => `<button class="ing" data-k="${k}"><span>🧪</span>${w}</button>`).join('')}</div>`;
+      o.foot('Добавляй ингредиенты', null, false);
+      const liq = o.scr.querySelector('.cd-liquid i'), fx = o.scr.querySelector('.cd-fx');
+      o.scr.querySelectorAll('.ing').forEach((b) => b.addEventListener('click', () => {
+        const [w, ok] = ings[+b.dataset.k];
+        b.disabled = true;
+        if (!ok) {
+          mistakes++; b.classList.add('bad'); C.buzz([20, 40, 20]);
+          fx.textContent = '💨'; fx.className = 'cd-fx puff'; void fx.offsetWidth; fx.classList.add('go');
+          o.feedback('bad', `<b>Пш-ш-ш! 💨</b><div>«${w}» не подходит: ${r.d.toLowerCase()}.</div>`);
+          return;
+        }
+        added++; score++; o.sc.textContent = score; b.classList.add('in');
+        liq.style.height = 8 + added * 23 + '%';
+        fx.textContent = '✨'; fx.className = 'cd-fx'; void fx.offsetWidth; fx.classList.add('go');
+        o.feedback('ok', `<b>Бульк! ✨</b><div>«${w}» — подходит.</div>`);
+        if (added === 4) {
+          o.scr.querySelectorAll('.ing').forEach((x) => (x.disabled = true));
+          o.scr.querySelector('.cauldron').classList.add('ready');
+          o.feedback('ok', `<b>${r.name} готово! 🎉</b>`);
+          const last = ri === recipes.length - 1;
+          o.foot(last ? 'Итоги' : 'Следующее зелье ▸', () => { o.feedback(null); if (last) o.end(Math.max(0, score - mistakes), recipes.length * 4); else { ri++; draw(); } });
+        }
+      }));
+    };
+    draw();
+  }
+
+  function sortGame(g) {
+    const o = shell(g);
+    const rounds = shuffle(SORTS).slice(0, 3);
+    const total = rounds.reduce((a, r) => a + Math.min(6, r.items.length), 0);
+    let ri = 0, score = 0, done = 0;
+    const round = () => {
+      const r = rounds[ri];
+      const items = shuffle(r.items).slice(0, 6);
+      let k = 0;
+      const one = () => {
+        o.prog.style.width = (done / total) * 100 + '%';
+        const [w, c] = items[k];
+        o.scr.innerHTML = `<div class="g-title">${g.e} ${r.name}</div>
+          <div class="sort-left">Раунд ${ri + 1} из ${rounds.length} · слово ${k + 1} из ${items.length}</div>
+          <div class="sort-card">${w.replace('_', '<i>_</i>')}</div>
+          <div class="sort-bins b${r.bins.length}">${r.bins.map((b, j) => `<button class="sbin" data-j="${j}"><span>📥</span>${b}</button>`).join('')}</div>`;
+        o.foot('Выбери корзину', null, false);
+        o.scr.querySelectorAll('.sbin').forEach((b) => b.addEventListener('click', () => {
+          const j = +b.dataset.j, ok = j === c;
+          o.scr.querySelectorAll('.sbin').forEach((x) => { x.disabled = true; });
+          const card = o.scr.querySelector('.sort-card');
+          const br = b.getBoundingClientRect(), cr = card.getBoundingClientRect();
+          card.style.setProperty('--dx', br.left + br.width / 2 - (cr.left + cr.width / 2) + 'px');
+          card.style.setProperty('--dy', br.top - cr.top + 'px');
+          card.classList.add(ok ? 'fly' : 'nope');
+          if (ok) { score++; o.sc.textContent = score; b.classList.add('right'); }
+          else { b.classList.add('wrong'); o.scr.querySelectorAll('.sbin')[c].classList.add('right'); C.buzz([20, 40, 20]); }
+          const ans = r.bins[c];
+          o.feedback(ok ? 'ok' : 'bad', ok ? `<b>${C.pick(C.GOOD)}</b>` : `<b>Не та корзина</b><div>Правильно: <b>${ans}</b></div>`);
+          done++;
+          const lastW = k === items.length - 1, lastR = ri === rounds.length - 1;
+          o.foot(lastW && lastR ? 'Итоги' : lastW ? 'Следующий раунд ▸' : 'Дальше', () => { o.feedback(null); if (!lastW) { k++; one(); } else if (!lastR) { ri++; round(); } else o.end(score, total); });
+        }));
+      };
+      one();
+    };
+    round();
+  }
+
+  function quizGame(g) {
+    const id = g.id;
     const qs = shuffle(g.pool()).slice(0, 10);
     const root = $('#lesson');
     root.innerHTML = `<div class="l-head"><button class="l-close" aria-label="Закрыть">✕</button><div class="l-progbox"><div class="l-prog"><i></i></div></div><span class="g-score">0</span></div>

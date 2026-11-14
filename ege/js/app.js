@@ -9,22 +9,27 @@ const App = (() => {
   const TASKS = {
     1: 'Слово на месте пропуска', 2: 'Лексическое значение', 3: 'Стилистика текста', 4: 'Ударения', 5: 'Паронимы',
     6: 'Лексические нормы', 7: 'Морфологические нормы', 8: 'Синтаксические нормы', 9: 'Корни',
-    10: 'Приставки', 11: 'Суффиксы', 12: 'Окончания глаголов', 13: 'НЕ с разными частями речи',
-    14: 'Слитно / раздельно', 15: 'Н и НН', 16: 'Однородные члены и ССП', 17: 'Обособленные члены',
-    18: 'Вводные слова', 19: 'СПП', 20: 'Разные виды связи', 21: 'Пунктуационный анализ',
-    22: 'Смысл текста', 23: 'Типы речи', 24: 'Лексика текста', 25: 'Связь предложений',
-    26: 'Средства выразительности', 27: 'Сочинение', 100: 'Зачёт по пунктуации',
+    10: 'Приставки', 11: 'Суффиксы', 12: 'Окончания глаголов и суффиксы причастий и деепричастий', 13: 'НЕ с разными частями речи',
+    14: 'Слитное / раздельное / через дефис', 15: 'Н и НН', 16: 'Однородные члены и ССП', 17: 'Обособленные члены',
+    18: 'Вводные конструкции, обращения и междометия', 19: 'СПП', 20: 'Сложное предложение с разными видами связи', 21: 'Пунктуационный анализ',
+    22: 'Средства выразительности', 23: 'Смысл текста', 24: 'Типы речи', 25: 'Лексика и фразеология',
+    26: 'Средства связи предложений', 27: 'Сочинение', 100: 'Зачёт по пунктуации',
   };
   // Маршрут по главам; задания открываются строго по порядку, первым — №17
   const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
   const GROUPS = [
-    { name: 'Пунктуация', e: '✒️', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
-    { name: 'Орфография', e: '🔤', tasks: range(9, 15), label: 'задания 9–15' },
-    { name: 'Речевые нормы', e: '🗣️', tasks: range(4, 8), label: 'задания 4–8' },
-    { name: 'Текст', e: '📖', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
+    { name: 'Лес пунктуации', e: '🌲', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
+    { name: 'Орфографические холмы', e: '⛰️', tasks: range(9, 15), label: 'задания 9–15' },
+    { name: 'Озеро языковых норм', e: '🏞️', tasks: range(4, 8), label: 'задания 4–8' },
+    { name: 'Текстовые горы', e: '🏔️', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
     { name: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
   ];
   const ROUTE = GROUPS.flatMap((g) => g.tasks);
+  // заданий ЕГЭ на пути — 27 (зачёт в счёт не идёт)
+  const EGE = ROUTE.filter((n) => n !== 100);
+  // первичные баллы за задания и шкала перевода в тестовые баллы
+  const PTS = Object.fromEntries(range(1, 27).map((n) => [n, n === 8 || n === 22 ? 2 : n === 27 ? 22 : 1]));
+  const SCALE = [0, 3, 5, 8, 10, 12, 15, 17, 20, 22, 24, 27, 29, 32, 34, 36, 37, 39, 40, 42, 43, 45, 46, 48, 49, 51, 52, 54, 55, 57, 58, 60, 61, 63, 64, 66, 67, 69, 70, 72, 73, 75, 78, 81, 83, 86, 89, 91, 94, 97, 100];
   const GROUP_STARTS = GROUPS.map((g) => ROUTE.indexOf(g.tasks[0]));
   const LESSONS = {};
   const CHESTS = [4, 9, 14, 19, 24]; // после какого по счёту пройденного задания открывается сундук
@@ -35,23 +40,26 @@ const App = (() => {
 
 
   const ACH = [
-    { id: 'first', e: '🌱', name: 'Первый шаг', d: 'Первая верная проверка' },
-    { id: 'bases', e: '🧱', name: 'Основатель', d: 'Верно выделить грамматические основы' },
-    { id: 'clean', e: '💎', name: 'Без единой ошибки', d: 'Пройти задание на 3 звезды' },
-    { id: 't1', e: '🔑', name: 'Первый ключ', d: 'Пройти задание 1' },
-    { id: 't17', e: '🗝️', name: 'Мастер обособления', d: 'Пройти задание 17' },
-    { id: 'game', e: '🎲', name: 'Игрок', d: 'Сыграть в мини-игру' },
-    { id: 'lvl3', e: '⭐', name: 'Уровень 3', d: 'Достичь 3-го уровня' },
     { id: 'streak3', e: '🔥', name: 'Серия 3 дня', d: 'Заниматься 3 дня подряд' },
+    { id: 'streak7', e: '📅', name: 'Неделя без пропусков', d: 'Заниматься 7 дней подряд' },
+    { id: 'streak14', e: '🗓️', name: 'Две недели', d: 'Заниматься 14 дней подряд' },
+    { id: 'streak30', e: '🏅', name: 'Месяц силы воли', d: 'Заниматься 30 дней подряд' },
+    { id: 'run5', e: '⚡', name: 'Разгон', d: '5 верных ответов подряд' },
+    { id: 'run10', e: '🎯', name: 'Снайпер', d: '10 верных ответов подряд' },
+    { id: 'run25', e: '🧠', name: 'Без промаха', d: '25 верных ответов подряд' },
+    { id: 'ok50', e: '✅', name: '50 верных', d: 'Всего 50 верных ответов' },
+    { id: 'ok200', e: '💯', name: '200 верных', d: 'Всего 200 верных ответов' },
+    { id: 'ok500', e: '👑', name: '500 верных', d: 'Всего 500 верных ответов' },
+    { id: 'clean', e: '💎', name: 'Без единой ошибки', d: 'Пройти задание на 3 звезды' },
+    { id: 'game', e: '🎲', name: 'Игрок', d: 'Сыграть в мини-игру' },
   ];
-  const AVATARS = ['🦊', '🐱', '🐼', '🦄', '🐸', '🐯', '🐧', '🦉', '🐲', '🐙'];
 
   /* ===== Состояние ===== */
   const SAVE_KEY = 'egequest.v1';
   const fresh = () => ({
     name: '', avatar: '🦊', totalXp: 0, coins: 30, done: {}, chests: [], prog: {},
     city: { plots: {}, lastCollect: Date.now() }, ach: {}, streak: { count: 0, last: null },
-    sound: true, stats: { correct: 0, wrong: 0 }, onboarded: false,
+    sound: false, stats: { correct: 0, wrong: 0 }, run: 0, blocks: 0, lastAd: 0, onboarded: false, toured: false,
   });
   let S = load();
   function load() {
@@ -75,29 +83,12 @@ const App = (() => {
     const ys = `${y.getFullYear()}-${y.getMonth() + 1}-${y.getDate()}`;
     S.streak.count = S.streak.last === ys ? S.streak.count + 1 : 1;
     S.streak.last = t;
-    if (S.streak.count >= 3) unlock('streak3');
+    [3, 7, 14, 30].forEach((k) => { if (S.streak.count >= k) unlock('streak' + k); });
   }
 
   /* ===== Звук и эффекты ===== */
-  let actx = null;
-  function sound(kind) {
-    if (!S.sound) return;
-    try {
-      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-      const seq = { ok: [523, 659, 784], coin: [988, 1319], err: [196, 165], level: [523, 659, 784, 1047, 1319], tap: [660] }[kind] || [440];
-      seq.forEach((f, i) => {
-        const o = actx.createOscillator(), g = actx.createGain();
-        o.type = kind === 'err' ? 'sawtooth' : 'triangle';
-        o.frequency.value = f;
-        const t0 = actx.currentTime + i * (kind === 'tap' ? 0 : 0.09);
-        g.gain.setValueAtTime(0.0001, t0);
-        g.gain.exponentialRampToValueAtTime(kind === 'tap' ? 0.05 : 0.18, t0 + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, t0 + (kind === 'tap' ? 0.06 : 0.22));
-        o.connect(g).connect(actx.destination);
-        o.start(t0); o.stop(t0 + 0.25);
-      });
-    } catch (_) {}
-  }
+  // звуки отключены
+  function sound() {}
   const buzz = (ms) => { try { navigator.vibrate && navigator.vibrate(ms); } catch (_) {} };
 
   function confetti(n = 120) {
@@ -199,7 +190,6 @@ const App = (() => {
 
   let pendingLevel = 0, pendingToasts = [];
   function levelUp(lvl) {
-    if (lvl >= 3) unlock('lvl3');
     sound('level'); confetti(160); buzz([30, 40, 60]);
     const li = levelInfo();
     modal(`<div class="lvlup"><div class="lvl-badge big">${lvl}</div><h2>Новый уровень!</h2><p>Теперь ты — <b>${li.title}</b></p><p class="muted">Так держать — впереди новые задания!</p><button class="btn primary" data-close>Круто! 🎉</button></div>`);
@@ -222,7 +212,7 @@ const App = (() => {
   /* ===== Верхняя панель ===== */
   function topbar(pulse) {
     const li = levelInfo();
-    $('.tb-avatar').textContent = S.avatar;
+    $('.tb-avatar').textContent = ((S.name || '').trim()[0] || '?').toUpperCase();
     $('.tb-level').textContent = li.lvl;
     $('.tb-title').textContent = li.title;
     $('.tb-xpbar i').style.width = Math.round((li.into / li.need) * 100) + '%';
@@ -242,7 +232,8 @@ const App = (() => {
   }
 
   /* ===== Путь к замку ===== */
-  const doneCount = () => ROUTE.filter((n) => S.done[n]).length;
+  const doneCount = () => EGE.filter((n) => S.done[n]).length;
+  const primary = () => EGE.reduce((a, n) => a + (S.done[n] ? PTS[n] : 0), 0);
 
   function castleSvg(open) {
     return `<svg viewBox="0 0 220 180" class="castle-svg">
@@ -264,11 +255,12 @@ const App = (() => {
     const dc = doneCount();
     const head = h(`<div class="map-head card">
       <div><div class="eyebrow">Твой путь к 100 баллам</div><h2>Дорога к Замку Грамотности</h2></div>
-      <div class="prog-row"><div class="pbar"><i style="width:${(dc / ROUTE.length) * 100}%"></i></div><b>${dc}/${ROUTE.length}</b></div>
-      <div class="muted small">26 тестовых заданий + сочинение в замке. Каждое задание — ключ 🗝️ от ворот.</div>
+      <div class="prog-row"><div class="pbar"><i style="width:${(dc / EGE.length) * 100}%"></i></div><b>${dc}/${EGE.length}</b></div>
+      <div class="muted small">Каждое задание — ключ 🗝️ от ворот замка.</div>
       <div class="group-chips">${GROUPS.map((g, gi) => { const n = g.tasks.filter((t) => S.done[t]).length; return `<span class="gchip ${n === g.tasks.length ? 'full' : ''}">${g.e} ${gi + 1}. ${g.name} <b>${n}/${g.tasks.length}</b></span>`; }).join('')}</div>
     </div>`);
     v.appendChild(head);
+    v.appendChild(pointsCard());
     const wrap = h('<div class="map"></div>');
     v.appendChild(wrap);
     const W = Math.min((v.clientWidth || 360) - 28, 520);
@@ -352,8 +344,8 @@ const App = (() => {
       const st = h(`<button class="${cls}" style="left:${pt.x}px;top:${pt.y}px" data-n="${n}">
           <span class="st-num">${isCastle ? '✍️' : n === 100 ? '🏆' : n}</span>
           ${!ready && !isDone ? '<span class="st-lock">🔒</span>' : ''}
-          ${isCur ? `<span class="st-avatar">${S.avatar}</span>` : ''}
-          <span class="st-label">${isCastle ? '27 · ' : ''}${TASKS[n]}${stars ? `<em>${stars}</em>` : ''}${!isDone && ready && S.prog[n] && LESSONS[n] ? `<em class="st-pct">${Math.round((S.prog[n] / (LESSONS[n].slides.length - 1)) * 100)}%</em>` : ''}</span>
+          ${isCur ? '<span class="st-avatar">📍</span>' : ''}
+          <span class="st-label">${isCastle ? '27 · ' : ''}${TASKS[n]}${PTS[n] && n !== 100 ? `<span class="st-pts">${PTS[n]}&nbsp;${PTS[n] === 1 ? 'балл' : PTS[n] < 5 ? 'балла' : 'баллов'}</span>` : ''}${stars ? `<em>${stars}</em>` : ''}${!isDone && ready && S.prog[n] && LESSONS[n] ? `<em class="st-pct">${Math.round((S.prog[n] / (LESSONS[n].slides.length - 1)) * 100)}%</em>` : ''}</span>
         </button>`);
       st.addEventListener('click', () => openStation(n));
       wrap.appendChild(st);
@@ -389,7 +381,7 @@ const App = (() => {
     const open = S.done[n] || curIdx < 0 || i <= curIdx;
     if (open && LESSONS[n]) return openLesson(n);
     if (!open) return modal(`<div class="center"><div class="big-emoji">🔒</div><h2>Задание ${n}. ${TASKS[n]}</h2><p>Станции открываются по порядку. Сначала пройди задание <b>№${ROUTE[curIdx]}</b> — и дорога поведёт дальше.</p><button class="btn primary" data-close>Понятно</button></div>`);
-    if (n === 27) return modal(`<div class="center"><div class="big-emoji">🏰</div><h2>Сочинение — финальный босс</h2><p>Ворота замка откроются, когда ты соберёшь ключи от всех 26 заданий.</p><p class="muted">Ключей: ${doneCount()} / 26 🗝️</p><button class="btn primary" data-close>Вперёд!</button></div>`);
+    if (n === 27) return modal(`<div class="center"><div class="big-emoji">🏰</div><h2>Сочинение — финальный босс</h2><p>Ворота замка откроются, когда ты соберёшь ключи от всех 26 заданий.</p><p class="muted">Ключей: ${Math.min(doneCount(), 26)} / 26 🗝️</p><button class="btn primary" data-close>Вперёд!</button></div>`);
     modal(`<div class="center"><div class="big-emoji">🔒</div><h2>Задание ${n}. ${TASKS[n]}</h2><p>Ты дошёл до этой станции! 🎉 Урок по ней уже в разработке и скоро появится здесь.</p><button class="btn primary" data-close>Понятно</button></div>`);
   }
 
@@ -397,18 +389,17 @@ const App = (() => {
   function renderProfile(v) {
     const li = levelInfo();
     v.appendChild(h(`<div class="card profile">
-      <button class="pf-avatar">${S.avatar}</button>
+      <div class="pf-avatar">${((S.name || '').trim()[0] || '?').toUpperCase()}</div>
       <input class="pf-name" placeholder="Твоё имя" value="${(S.name || '').replace(/"/g, '&quot;')}" maxlength="20">
       <div class="pf-level"><span class="lvl-badge">${li.lvl}</span> ${li.title}</div>
       <div class="city-stats">
         <div><b>${S.totalXp}</b><span>XP всего</span></div>
         <div><b>${doneCount()}</b><span>заданий</span></div>
-        <div><b>${S.stats.correct}</b><span>верных проверок</span></div>
+        <div><b>${S.stats.correct}</b><span>верных ответов</span></div>
         <div><b>${S.streak.count}🔥</b><span>дней подряд</span></div>
       </div>
     </div>`));
-    $('.pf-name', v).addEventListener('change', (e) => { S.name = e.target.value.trim(); save(); });
-    $('.pf-avatar', v).addEventListener('click', () => pickAvatar(() => go('profile')));
+    $('.pf-name', v).addEventListener('change', (e) => { S.name = e.target.value.trim(); save(); topbar(); $('.pf-avatar', v).textContent = (S.name[0] || '?').toUpperCase(); });
     v.appendChild(h(`<div class="card"><h3>Достижения</h3><div class="ach-grid">${ACH.map((a) => `<div class="ach ${S.ach[a.id] ? 'got' : ''}"><span>${a.e}</span><b>${a.name}</b><small>${a.d}</small></div>`).join('')}</div></div>`));
     const inst = h(`<div class="card install"><h3>📲 Установить на телефон</h3>
       <div class="inst-btn"></div>
@@ -427,9 +418,9 @@ const App = (() => {
       $('.inst-btn', inst).innerHTML = '<p class="ok-text">✅ Приложение уже установлено</p>';
     }
     const set = h(`<div class="card"><h3>Настройки</h3>
-      <label class="switch-row"><span>Звуки</span><input type="checkbox" ${S.sound ? 'checked' : ''}></label>
+      <button class="btn ghost tour-again">Показать знакомство с приложением</button>
       <button class="btn ghost danger reset">Сбросить прогресс</button></div>`);
-    $('input', set).addEventListener('change', (e) => { S.sound = e.target.checked; save(); });
+    $('.tour-again', set).addEventListener('click', () => { go('map'); setTimeout(tour, 300); });
     $('.reset', set).addEventListener('click', () => {
       ask('Точно сбросить весь прогресс?', 'Сбросить', () => { S = fresh(); save(); topbar(); onboarding(); go('map'); });
     });
@@ -437,60 +428,129 @@ const App = (() => {
     if (App.proCard) v.insertBefore(App.proCard(), v.children[1] || null);
   }
 
-  function pickAvatar(cb) {
-    const m = modal(`<h2>Выбери персонажа</h2><div class="av-grid">${AVATARS.map((a) => `<button data-a="${a}" class="${a === S.avatar ? 'on' : ''}">${a}</button>`).join('')}</div>`);
-    m.el.addEventListener('click', (e) => {
-      const b = e.target.closest('[data-a]');
-      if (!b) return;
-      S.avatar = b.dataset.a; save(); topbar(); m.close(); cb && cb();
-    });
-  }
-
   const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
   function onboarding() {
-    if (S.onboarded) return;
+    if (S.onboarded) { if (!S.toured) setTimeout(tour, 400); return; }
     const m = modal(`<div class="center onb">
       <div class="big-emoji">🏰</div>
-      <h2>Добро пожаловать в ЕГЭ Квест!</h2>
-      <p>Впереди дорога к <b>Замку Грамотности</b>: 26 заданий и сочинение. За пройденные блоки ты получаешь <b>опыт</b> и растёшь в уровнях.</p>
+      <h2>Добро пожаловать в ЕГЭ квест!</h2>
+      <p>Тебе предстоит пройти по дороге к <b>Замку грамотности</b> и освоить 26 заданий ЕГЭ.</p>
       <input class="pf-name" placeholder="Как тебя зовут?" maxlength="20">
-      <div class="av-grid small">${AVATARS.map((a, i) => `<button data-a="${a}" class="${i === 0 ? 'on' : ''}">${a}</button>`).join('')}</div>
       <button class="btn primary go">Начать путь 🚀</button>
     </div>`);
-    m.el.addEventListener('click', (e) => {
-      const b = e.target.closest('[data-a]');
-      if (b) { m.el.querySelectorAll('[data-a]').forEach((x) => x.classList.toggle('on', x === b)); S.avatar = b.dataset.a; }
-      if (e.target.closest('.go')) {
-        S.name = m.el.querySelector('.pf-name').value.trim();
-        S.onboarded = true; save(); m.close(); topbar();
-        go('map');
-      }
+    m.el.querySelector('.go').addEventListener('click', () => {
+      S.name = m.el.querySelector('.pf-name').value.trim();
+      S.onboarded = true; save(); m.close(); topbar();
+      go('map');
+      setTimeout(tour, 350);
     });
   }
 
+  /* Знакомство с приложением: подсветка частей экрана с короткими подсказками */
+  function tour() {
+    if (tab !== 'map') go('map');
+    const v = $('#view');
+    const steps = [
+      { sel: '.map-head', t: 'Твой путь к 100 баллам', d: 'Здесь видно, сколько из 27 заданий ЕГЭ ты уже прошёл. Каждое пройденное задание — ключ от ворот замка.' },
+      { sel: '.pts-card', t: 'Баллы ЕГЭ', d: 'Сколько первичных баллов даёт каждое задание и во сколько тестовых баллов они превращаются. Максимум — 100.' },
+      { sel: '.gsign', t: '5 блоков дороги', d: 'Дорога разделена на 5 блоков: лес пунктуации, орфографические холмы, озеро языковых норм, текстовые горы и замок с сочинением.' },
+      { sel: '.station.cur', t: 'Задания', d: 'Кружок — это задание. Внутри: теория маленькими блоками и практика. Задания открываются по порядку — начнём с №17.' },
+      { sel: '.station[data-n="100"]', t: 'Зачёт', d: 'В конце блока ждёт зачёт 🏆: теория и задания из ЕГЭ по всем темам блока.' },
+      { sel: '.chest', t: 'Сундуки', d: 'По пути встречаются сундуки 🎁 с бонусным опытом — открываются после пройденных заданий.' },
+      { sel: '.tb-xp', t: 'Опыт и уровень', d: 'За верные ответы и пройденные блоки копится опыт (XP). Опыт повышает уровень — от «Новичка» до «Короля ЕГЭ».' },
+      { sel: '.tb-streak', t: 'Серия дней', d: 'Занимайся каждый день — огонёк считает дни подряд. За серии дают достижения.' },
+      { sel: '.tabbar [data-tab="games"]', t: 'Мини-игры', d: 'Лабиринт, алхимия, классификации и другие игры — чтобы закрепить правила в игровом формате.' },
+      { sel: '.tabbar [data-tab="profile"]', t: 'Профиль', d: 'Твои достижения, статистика, информация о версии PRO и установка приложения на телефон.' },
+    ].filter((x) => $(x.sel));
+    let k = 0;
+    const ov = h('<div class="tour"><div class="tour-hole"></div><div class="tour-tip"><div class="tour-n"></div><b class="tour-t"></b><p class="tour-d"></p><div class="tour-btns"><button class="btn ghost tour-skip">Пропустить</button><button class="btn primary tour-next">Дальше</button></div></div></div>');
+    document.body.appendChild(ov);
+    const hole = $('.tour-hole', ov), tip = $('.tour-tip', ov);
+    const end = () => { ov.remove(); S.toured = true; save(); go('map'); };
+    const place = () => {
+      const st = steps[k], el = $(st.sel);
+      const r = el.getBoundingClientRect(), pad = 6;
+      Object.assign(hole.style, { left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px' });
+      $('.tour-n', ov).textContent = `${k + 1} из ${steps.length}`;
+      $('.tour-t', ov).textContent = st.t;
+      $('.tour-d', ov).textContent = st.d;
+      $('.tour-next', ov).textContent = k === steps.length - 1 ? 'Поехали! 🚀' : 'Дальше';
+      const below = r.bottom + 12 + 190 < innerHeight;
+      tip.style.top = below ? r.bottom + 14 + 'px' : '';
+      tip.style.bottom = below ? '' : Math.max(12, innerHeight - r.top + 14) + 'px';
+      if (!below && r.top < 220) { tip.style.bottom = ''; tip.style.top = Math.min(innerHeight - 200, r.bottom + 14) + 'px'; }
+    };
+    const showStep = () => {
+      const el = $(steps[k].sel);
+      if (v.contains(el)) {
+        const er = el.getBoundingClientRect(), vr = v.getBoundingClientRect();
+        if (er.top < vr.top + 10 || er.bottom > vr.bottom - 10) v.scrollTop += er.top - vr.top - Math.max(20, (vr.height - Math.min(er.height, vr.height * 0.5)) / 3);
+      }
+      requestAnimationFrame(place);
+    };
+    $('.tour-next', ov).addEventListener('click', () => { if (++k >= steps.length) end(); else showStep(); });
+    $('.tour-skip', ov).addEventListener('click', end);
+    showStep();
+  }
+
+  /* Плашка с баллами: сколько даёт каждое задание и перевод в тестовые баллы */
+  const plural = (n) => (n === 1 ? 'балл' : n > 1 && n < 5 ? 'балла' : 'баллов');
+  function pointsCard() {
+    const pr = primary(), sec = SCALE[pr];
+    const tile = (n) => `<div class="pt ${S.done[n] ? 'done' : ''} ${n === 27 ? 'essay' : ''}" style="flex-basis:${PTS[n] === 2 ? 56 : 34}px"><b>${n}</b><span>${PTS[n]}</span></div>`;
+    const el = h(`<div class="card pts-card">
+      <div class="pts-top"><div><div class="eyebrow">Баллы ЕГЭ</div><b class="pts-big">${sec}<small> / 100</small></b><div class="muted small">за пройденные задания: ${pr} из 50 первичных</div></div>
+        <button class="btn ghost pts-more">Подробнее</button></div>
+      <div class="pts-split"><div class="ps-test" style="flex:28"><b>Тест · задания 1–26</b><span>28 первичных баллов</span></div><div class="ps-essay" style="flex:22"><b>Сочинение</b><span>22 первичных балла</span></div></div>
+      <div class="pts-more-box hidden">
+        <div class="small muted">Первичные баллы за каждое задание:</div>
+        <div class="pts-grid">${range(1, 27).map(tile).join('')}</div>
+        <div class="small"><b>1 балл</b> — задания 1–7, 9–21, 23–26 · <b>2 балла</b> — задания 8 и 22 · <b>22 балла</b> — сочинение (27)</div>
+        <details><summary>Шкала перевода первичных баллов в тестовые</summary><div class="scale">${SCALE.slice(1).map((x, i) => `<span class="${i + 1 === pr ? 'on' : ''}"><i>${i + 1}</i>${x}</span>`).join('')}</div></details>
+      </div>
+    </div>`);
+    $('.pts-more', el).addEventListener('click', (e) => { const b = $('.pts-more-box', el); b.classList.toggle('hidden'); e.target.textContent = b.classList.contains('hidden') ? 'Подробнее' : 'Свернуть'; });
+    return el;
+  }
+
   /* ===== Движок уроков ===== */
+  // практика — слайды, где ученик отвечает; остальное — теория
+  const PRACTICE_RE = /choicePh\(|sortPh\(|commaPh\(|answerPh\(|reasonAnswer\(|api\.good\(/;
+  const kindOf = (f) => f.kind || (/Упражнение|Практика|Тренировка/.test(f.block || '') || PRACTICE_RE.test(String(f)) ? 'practice' : 'theory');
+
   function openLesson(n) {
     const L = LESSONS[n];
     const root = $('#lesson');
     root.innerHTML = `<div class="l-head">
         <button class="l-close" aria-label="Закрыть">✕</button>
         <button class="l-back" aria-label="Назад">‹</button>
-        <div class="l-progbox"><div class="l-prog"><i></i></div></div>
+        <button class="l-fwd" aria-label="Вперёд">›</button>
+        <span class="l-sp"></span>
+        <button class="l-toc" aria-label="Оглавление" title="Оглавление">☰</button>
         <div class="l-bank" title="Копилка опыта"><b>0</b><small>XP</small></div>
-        <button class="l-algo" title="Алгоритм">📜</button>
         <span class="l-combo"></span>
       </div>
+      <div class="l-progrow"><div class="l-prog"></div></div>
       <div class="l-progtxt"></div>
       <div class="l-body"></div>
       <div class="l-foot"><div class="l-feedback"></div><div class="l-btns"><button class="btn ghost l-extra hidden"></button><button class="btn primary l-main">Дальше</button></div></div>`;
     root.classList.remove('hidden');
     document.body.classList.add('in-lesson');
-    const body = $('.l-body', root), prog = $('.l-prog i', root), fb = $('.l-feedback', root);
+    const body = $('.l-body', root), progEl = $('.l-prog', root), fb = $('.l-feedback', root);
     const main = $('.l-main', root), extra = $('.l-extra', root), combo = $('.l-combo', root);
+    const fwd = $('.l-fwd', root), back = $('.l-back', root);
     const ctx = { errors: 0, xp: 0, coins: 0, combo: 0, data: {} };
     const bank = $('.l-bank', root), bankN = $('.l-bank b', root), progTxt = $('.l-progtxt', root);
-    let idx = 0, shownXp = 0;
+    const total = L.slides.length - 1;
+    const kinds = L.slides.map(kindOf);
+    // полоска прогресса: участки теории и практики
+    const runs = [];
+    kinds.forEach((k, i) => { if (i === total) return; if (runs.length && runs[runs.length - 1].k === k) runs[runs.length - 1].n++; else runs.push({ k, from: i, n: 1 }); });
+    progEl.innerHTML = runs.map((r) => `<span class="lp-seg ${r.k}" style="flex:${r.n}" title="${r.k === 'practice' ? 'Практика' : 'Теория'}"><i></i></span>`).join('');
+    const segs = [...progEl.querySelectorAll('.lp-seg')];
+    let idx = 0, shownXp = 0, maxIdx = 0;
+    const cache = new Map();
     // счётчик копилки догоняет реальный опыт, когда долетают искры
     const bankTo = (v) => {
       const from = shownXp, t0 = performance.now();
@@ -509,7 +569,12 @@ const App = (() => {
     };
     const awarded = new Set();
     const blockOf = (i) => (L.slides[i] && L.slides[i].block) || null;
-    const blocks = [...new Set(L.slides.map((f) => f.block).filter(Boolean))];
+    const isPractice = () => kinds[idx] === 'practice';
+    const drawCombo = () => {
+      const on = isPractice() && ctx.combo >= 2;
+      combo.textContent = on ? `🔥 x${ctx.combo}` : '';
+      combo.classList.toggle('hot', on && ctx.combo >= 3);
+    };
 
     const api = {
       ctx, S, mainEl: main,
@@ -517,7 +582,7 @@ const App = (() => {
       foot({ label = 'Дальше', enabled = true, onClick = api.next, extraLabel = null, onExtra = null } = {}) {
         main.textContent = label;
         main.disabled = !enabled;
-        main.onclick = () => { sound('tap'); onClick(); };
+        main.onclick = () => onClick();
         if (extraLabel) { extra.textContent = extraLabel; extra.classList.remove('hidden'); extra.onclick = onExtra; }
         else extra.classList.add('hidden');
       },
@@ -531,18 +596,19 @@ const App = (() => {
         const mult = ctx.combo >= 3 ? 2 : 1;
         const gx = reward(xp * mult, 0, { quiet: true });
         ctx.xp += gx; pending += gx;
-        S.stats.correct++; save();
-        if (!S.ach.first) unlock('first');
-        combo.textContent = ctx.combo >= 2 ? `🔥 x${ctx.combo}` : '';
-        combo.classList.toggle('hot', ctx.combo >= 3);
+        S.stats.correct++; S.run = (S.run || 0) + 1; save();
+        [5, 10, 25].forEach((k) => { if (S.run >= k) unlock('run' + k); });
+        [50, 200, 500].forEach((k) => { if (S.stats.correct >= k) unlock('ok' + k); });
+        drawCombo();
         buzz(15);
         api.feedback('ok', `<b>${pick(GOOD)}</b>${text ? `<div>${text}</div>` : ''}`);
       },
       bad(msgs) {
         ctx.combo = 0; ctx.errors++;
-        combo.textContent = ''; combo.classList.remove('hot');
+        S.run = 0;
+        drawCombo();
         S.stats.wrong++; save();
-        sound('err'); buzz([20, 40, 20]);
+        buzz([20, 40, 20]);
         root.classList.remove('shake'); void root.offsetWidth; root.classList.add('shake');
         api.feedback('bad', `<b>${pick(BAD)}</b>${(msgs || []).map((m) => `<div>• ${m}</div>`).join('')}`);
       },
@@ -566,33 +632,72 @@ const App = (() => {
         // общий урок на несколько станций (19–20) закрывает их все
         (L.alsoDone || []).forEach((x) => { const p = S.done[x] || { stars: 0, times: 0 }; S.done[x] = { stars: Math.max(p.stars, stars), times: p.times + 1 }; delete S.prog[x]; });
         save();
-        if (n === 1) unlock('t1');
-        if (n === 17) unlock('t17');
         if (stars === 3) unlock('clean');
         return { first, bonusXp: gx, bonusCoins: bc };
       },
       close,
     };
 
+    // уходя со слайда, запоминаем его целиком — при возврате он будет таким, каким его оставили
+    function stash() {
+      if (!body.childNodes.length) return;
+      const frag = document.createDocumentFragment();
+      while (body.firstChild) frag.appendChild(body.firstChild);
+      cache.set(idx, {
+        frag, scroll: body.scrollTop,
+        main: { text: main.textContent, disabled: main.disabled, onclick: main.onclick },
+        extra: { text: extra.textContent, hidden: extra.classList.contains('hidden'), onclick: extra.onclick },
+        fb: { cls: fb.className, html: fb.innerHTML },
+      });
+    }
+    function restore(c) {
+      body.appendChild(c.frag);
+      main.textContent = c.main.text; main.disabled = c.main.disabled; main.onclick = c.main.onclick;
+      extra.textContent = c.extra.text; extra.classList.toggle('hidden', c.extra.hidden); extra.onclick = c.extra.onclick;
+      fb.className = c.fb.cls; fb.innerHTML = c.fb.html;
+      root.classList.toggle('fb-open', c.fb.cls.trim() !== 'l-feedback');
+      requestAnimationFrame(() => { body.scrollTop = c.scroll; });
+    }
+
     function show(i) {
       const prev = idx;
-      idx = i;
       if (i >= L.slides.length) return close();
       // блок пройден: накопленный опыт + бонус улетают в копилку (за вводный блок без теории — ничего)
       const pb = blockOf(prev), nb = blockOf(i);
+      let adAfter = false;
       if (i > prev && pb && pb !== nb && !awarded.has(pb)) {
         awarded.add(pb);
         flush(pb === 'Задание' ? 0 : 10);
+        if (pb !== 'Задание') { S.blocks = (S.blocks || 0) + 1; adAfter = shouldAd(); }
       }
-      if (!S.done[n] && i > (S.prog[n] || 0) && i < L.slides.length - 1) { S.prog[n] = i; save(); }
-      body.innerHTML = '';
-      body.scrollTop = 0;
-      api.feedback(null);
-      api.foot();
-      const total = L.slides.length - 1;
-      prog.style.width = Math.round((i / total) * 100) + '%';
-      progTxt.innerHTML = `${nb ? `<b>${nb}</b> · ` : ''}пройдено ${i} из ${total} · осталось ${total - i}`;
-      L.slides[i](body, api);
+      stash();
+      idx = i;
+      maxIdx = Math.max(maxIdx, i);
+      if (!S.done[n] && i > (S.prog[n] || 0) && i < total) { S.prog[n] = i; save(); }
+      const c = cache.get(i);
+      if (c) { cache.delete(i); restore(c); }
+      else {
+        body.innerHTML = '';
+        body.scrollTop = 0;
+        api.feedback(null);
+        api.foot();
+        L.slides[i](body, api);
+      }
+      segs.forEach((sg, k) => { const r = runs[k]; sg.firstChild.style.width = Math.max(0, Math.min(1, (i - r.from) / r.n)) * 100 + '%'; });
+      const pr = kinds[i] === 'practice';
+      progTxt.innerHTML = `<span class="pt-l">${nb ? `<b>${nb}</b> · ` : ''}<span class="pk ${pr ? 'practice' : 'theory'}">${pr ? '✍️ практика' : '📖 теория'}</span></span><span class="pt-r">пройдено ${Math.min(i, total)}/${total}</span>`;
+      back.disabled = i === 0;
+      fwd.classList.toggle('hidden', i >= maxIdx);
+      drawCombo();
+      if (adAfter) setTimeout(() => App.proAd && App.proAd(), 500);
+    }
+    // реклама PRO — изредка, после пройденного блока
+    function shouldAd() {
+      if (!App.proAd || S.blocks < 3) return false;
+      if (Date.now() - (S.lastAd || 0) < 40 * 60 * 1000) return false;
+      if (S.blocks % 4 !== 3) return false;
+      S.lastAd = Date.now(); save();
+      return true;
     }
     function close() {
       root.classList.add('hidden');
@@ -602,17 +707,35 @@ const App = (() => {
       if (pendingLevel) { const l = pendingLevel; pendingLevel = 0; setTimeout(() => levelUp(l), 400); }
       pendingToasts.splice(0).forEach((m, k) => setTimeout(() => toast(m, 'achv'), 1200 + k * 2600));
     }
-    $('.l-back', root).onclick = () => { if (idx > 0) show(idx - 1); };
+    // оглавление: можно перейти к любому уже открытому слайду
+    function toc() {
+      const open = S.done[n] ? total : maxIdx;
+      const groups = [];
+      L.slides.forEach((f, i) => {
+        if (i === total) return;
+        const b = f.block || 'Слайд';
+        const g = groups[groups.length - 1];
+        if (g && g.b === b) g.items.push(i); else groups.push({ b, items: [i] });
+      });
+      const m = modal(`<h2>Оглавление</h2><div class="toc">${groups.map((g) => {
+        const first = g.items[0], pr = g.items.some((i) => kinds[i] === 'practice'), th = g.items.some((i) => kinds[i] !== 'practice');
+        const st = g.items.includes(idx) ? 'cur' : first <= open ? 'open' : 'lock';
+        return `<button class="toc-i ${st}" data-i="${first}" ${st === 'lock' ? 'disabled' : ''}><span class="toc-k">${pr ? '✍️' : '📖'}</span><span class="toc-t">${g.b}<small>${pr && th ? 'теория + практика' : pr ? 'практика' : 'теория'} · ${g.items.length > 1 ? `слайдов: ${g.items.length}` : '1 слайд'}</small></span><span class="toc-s">${st === 'lock' ? '🔒' : st === 'cur' ? '📍' : first < maxIdx ? '✓' : ''}</span></button>`;
+      }).join('')}</div><button class="btn ghost" data-close>Закрыть</button>`, { cls: 'wide' });
+      m.el.querySelectorAll('.toc-i:not([disabled])').forEach((b) => b.addEventListener('click', () => { m.close(); const i = +b.dataset.i; if (i !== idx) { maxIdx = Math.max(maxIdx, open); show(i); } }));
+    }
+    back.onclick = () => { if (idx > 0) show(idx - 1); };
+    fwd.onclick = () => { if (idx < maxIdx) show(idx + 1); };
+    $('.l-toc', root).onclick = toc;
     $('.l-close', root).onclick = () => {
-      if (idx === 0 || idx >= L.slides.length - 1) close();
+      if (idx === 0 || idx >= total) close();
       else ask('Выйти из задания? Мы запомним, где ты остановился — сможешь продолжить.', 'Выйти', close);
     };
-    $('.l-algo', root).onclick = () => openAlgo(L.algoImg);
     const saved = S.prog[n] || 0;
     if (saved > 0 && !S.done[n]) {
       show(0);
-      const m = modal(`<div class="center"><div class="big-emoji">📍</div><h2>Продолжим?</h2><p>Ты уже прошёл <b>${saved} из ${L.slides.length - 1}</b> шагов этого задания${blockOf(saved) ? ` и остановился на блоке «${blockOf(saved)}»` : ''}.</p><button class="btn primary go-on">Продолжить 🚀</button><button class="btn ghost" data-close>Начать сначала</button></div>`);
-      m.el.querySelector('.go-on').addEventListener('click', () => { m.close(); idx = saved; show(saved); });
+      const m = modal(`<div class="center"><div class="big-emoji">📍</div><h2>Продолжим?</h2><p>Ты уже прошёл <b>${saved} из ${total}</b> шагов этого задания${blockOf(saved) ? ` и остановился на блоке «${blockOf(saved)}»` : ''}.</p><button class="btn primary go-on">Продолжить 🚀</button><button class="btn ghost" data-close>Начать сначала</button></div>`);
+      m.el.querySelector('.go-on').addEventListener('click', () => { m.close(); maxIdx = saved; show(saved); });
     } else show(0);
   }
 
@@ -627,7 +750,7 @@ const App = (() => {
   window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 
   function start() {
-    document.querySelectorAll('.tabbar button').forEach((b) => b.addEventListener('click', () => { sound('tap'); go(b.dataset.tab); }));
+    document.querySelectorAll('.tabbar button').forEach((b) => b.addEventListener('click', () => go(b.dataset.tab)));
     $('.tb-avatar').addEventListener('click', () => go('profile'));
     topbar();
     go('map');
@@ -638,5 +761,5 @@ const App = (() => {
   }
 
   const core = { reward, sound, buzz, confetti, pick, GOOD, BAD, modal, toast, save, unlock, topbar, get S() { return S; } };
-  return { start, LESSONS, TASKS, coin, h, $, pick, openAlgo, confetti, core };
+  return { start, LESSONS, TASKS, PTS, coin, h, $, pick, openAlgo, confetti, core, tour };
 })();

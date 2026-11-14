@@ -210,6 +210,42 @@
     ask();
   };
 
+  /* Расставь запятые: предложение без знаков, ученик нажимает на промежутки между словами.
+     items: [{ s: 'Дорога, размытая дождями, стала непроходимой.', why, mark: 'размытая дождями' }] */
+  const commaPh = (items, { title } = {}) => (box, api, done) => {
+    if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
+    const area = h('<div class="qa"></div>');
+    box.appendChild(area);
+    let i = 0;
+    const ask = () => {
+      const it = items[i];
+      const words = it.s.split(' ');
+      const need = new Set();
+      const clean = words.map((w, k) => { if (/,$/.test(w)) { need.add(k); return w.slice(0, -1); } return w; });
+      const sel = new Set();
+      const sent = clean.map((w, k) => `<span class="cw">${w}</span>${k < clean.length - 1 ? `<button class="cgap" data-k="${k}"><i>,</i></button>` : ''}`).join('');
+      area.innerHTML = `<div class="q-count">${i + 1} из ${items.length}</div><div class="q small">Нажми между словами там, где нужна запятая. Если запятые не нужны — сразу жми «Проверить».</div><div class="csent">${sent}</div><div class="c-after"></div>`;
+      const gaps = [...area.querySelectorAll('.cgap')];
+      gaps.forEach((g) => g.addEventListener('click', () => { const k = +g.dataset.k; sel.has(k) ? sel.delete(k) : sel.add(k); g.classList.toggle('on', sel.has(k)); }));
+      let tries = 0;
+      const reveal = (ok) => {
+        gaps.forEach((g) => { const k = +g.dataset.k; g.disabled = true; g.classList.toggle('on', need.has(k)); g.classList.toggle('miss', need.has(k) && !sel.has(k)); g.classList.toggle('extra', !need.has(k) && sel.has(k)); });
+        area.querySelector('.c-after').innerHTML = `<div class="explain card rv"><div class="c-right">${words.map((w) => w.replace(/,$/, '<b class="cm">,</b>')).join(' ')}</div><p>${it.why}</p></div>`;
+        const last = i === items.length - 1;
+        api.foot({ label: last ? 'Дальше' : 'Следующее ▸', onClick: () => { api.feedback(null); if (last) { area.innerHTML = `<div class="conclusion">Готово! ${items.length} из ${items.length} ✅</div>`; done(); } else { i++; ask(); } } });
+      };
+      const check = () => {
+        const ok = need.size === sel.size && [...need].every((k) => sel.has(k));
+        if (ok) { api.good(tries ? 2 : 5, 0, area.querySelector('.csent'), need.size ? 'Запятые на месте!' : 'Верно — запятые здесь не нужны.'); reveal(true); return; }
+        tries++;
+        api.bad([sel.size > need.size ? 'Есть лишняя запятая.' : sel.size < need.size ? 'Не хватает запятой.' : 'Запятая стоит не там.']);
+        if (tries >= 2) api.foot({ label: 'Проверить', onClick: check, extraLabel: '👀 Показать', onExtra: () => { api.feedback('info', 'Посмотри, где должны стоять запятые 👇'); reveal(false); } });
+      };
+      api.foot({ label: 'Проверить', onClick: check });
+    };
+    ask();
+  };
+
   /* Распредели по группам: нажми карточку, потом корзину. groups: [названия], items: [[текст, номер группы]] */
   const sortPh = (title, groups, items) => (box, api, done) => {
     box.appendChild(h(`<div class="demo-title">${title}</div>`));
@@ -295,5 +331,5 @@
   /* Схема предложения: '[ ], и [ ].' и т. п. */
   const scheme = (s, cap = '') => `<div class="scheme"><code>${s}</code>${cap ? `<span>${cap}</span>` : ''}</div>`;
 
-  App.Kit = { reasonAnswer, norm, P, W, R, marks, merge, shell, phases, revealPh, htmlPh, demoPh, flipPh, slide, ann, st, markedPh, examplesPh, choicePh, sortPh, answerPh, scheme };
+  App.Kit = { commaPh, reasonAnswer, norm, P, W, R, marks, merge, shell, phases, revealPh, htmlPh, demoPh, flipPh, slide, ann, st, markedPh, examplesPh, choicePh, sortPh, answerPh, scheme };
 })();
