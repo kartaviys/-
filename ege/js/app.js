@@ -13,12 +13,12 @@ const App = (() => {
     14: 'Слитно / раздельно', 15: 'Н и НН', 16: 'Однородные члены и ССП', 17: 'Обособленные члены',
     18: 'Вводные слова', 19: 'СПП', 20: 'Разные виды связи', 21: 'Пунктуационный анализ',
     22: 'Смысл текста', 23: 'Типы речи', 24: 'Лексика текста', 25: 'Связь предложений',
-    26: 'Средства выразительности', 27: 'Сочинение',
+    26: 'Средства выразительности', 27: 'Сочинение', 100: 'Зачёт по пунктуации',
   };
   // Маршрут по главам; задания открываются строго по порядку, первым — №17
   const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
   const GROUPS = [
-    { name: 'Пунктуация', e: '✒️', tasks: [17, 16, 18, 19, 20, 21], label: 'задания 16–21' },
+    { name: 'Пунктуация', e: '✒️', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
     { name: 'Орфография', e: '🔤', tasks: range(9, 15), label: 'задания 9–15' },
     { name: 'Речевые нормы', e: '🗣️', tasks: range(4, 8), label: 'задания 4–8' },
     { name: 'Текст', e: '📖', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
@@ -284,7 +284,7 @@ const App = (() => {
     const dc = doneCount();
     const head = h(`<div class="map-head card">
       <div><div class="eyebrow">Твой путь к 100 баллам</div><h2>Дорога к Замку Грамотности</h2></div>
-      <div class="prog-row"><div class="pbar"><i style="width:${(dc / 27) * 100}%"></i></div><b>${dc}/27</b></div>
+      <div class="prog-row"><div class="pbar"><i style="width:${(dc / ROUTE.length) * 100}%"></i></div><b>${dc}/${ROUTE.length}</b></div>
       <div class="muted small">26 тестовых заданий + сочинение в замке. Каждое задание — ключ 🗝️ от ворот.</div>
       <div class="group-chips">${GROUPS.map((g, gi) => { const n = g.tasks.filter((t) => S.done[t]).length; return `<span class="gchip ${n === g.tasks.length ? 'full' : ''}">${g.e} ${gi + 1}. ${g.name} <b>${n}/${g.tasks.length}</b></span>`; }).join('')}</div>
     </div>`);
@@ -370,7 +370,7 @@ const App = (() => {
       const cls = ['station', isDone ? 'done' : '', isCur ? 'cur' : '', ready ? 'ready' : 'soon', isCastle ? 'essay' : ''].join(' ');
       const stars = isDone ? '★'.repeat(S.done[n].stars) + '☆'.repeat(3 - S.done[n].stars) : '';
       const st = h(`<button class="${cls}" style="left:${pt.x}px;top:${pt.y}px" data-n="${n}">
-          <span class="st-num">${isCastle ? '✍️' : n}</span>
+          <span class="st-num">${isCastle ? '✍️' : n === 100 ? '🏆' : n}</span>
           ${!ready && !isDone ? '<span class="st-lock">🔒</span>' : ''}
           ${isCur ? `<span class="st-avatar">${S.avatar}</span>` : ''}
           <span class="st-label">${isCastle ? '27 · ' : ''}${TASKS[n]}${stars ? `<em>${stars}</em>` : ''}${!isDone && ready && S.prog[n] && LESSONS[n] ? `<em class="st-pct">${Math.round((S.prog[n] / (LESSONS[n].slides.length - 1)) * 100)}%</em>` : ''}</span>

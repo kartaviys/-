@@ -33,17 +33,30 @@
       ],
     },
     19: {
-      title: 'Сложноподчинённое предложение и разные виды связи',
+      title: 'Сложноподчинённое предложение',
       task: 'Расставьте все знаки препинания: укажите цифру(-ы), на месте которой(-ых) в предложении должна(-ы) стоять запятая(-ые).',
-      about: 'Задания 19 и 20 — про сложные предложения: <b>придаточные части</b>, однородные придаточные, <b>стык союзов</b> и предложения с разными видами связи. Это общий урок для станций 19 и 20.',
+      about: 'Задание 19 — про сложноподчинённые предложения: <b>придаточные части</b>, однородные придаточные, <b>стык союзов</b>.',
       tools: ['subj', 'pred', 'label', 'ring', 'brk', 'arrow', 'box', 'erase'],
       labels: ['I', 'II', 'III', 'IV', 'V', 'VI'],
-      alsoDone: [20],
       symbols: [
         ['<b class="g-lbl">I II</b>', 'Над каждой основой — римская цифра'],
         ['<b class="g-ring">что</b>', 'В кружок — только союзы, которые связывают основы'],
         ['<b class="g-brk">[ ] ( )</b>', 'Квадратные скобки — главная часть, круглые — придаточная'],
         ['<b class="g-arr">↷</b>', 'Стрелки с вопросами ко всем придаточным'],
+        ['<b class="g-box">то</b>', 'Продолжение союза при стыке (то, так, но) — в квадрат'],
+      ],
+    },
+    20: {
+      title: 'Предложения с разными видами связи',
+      task: 'Расставьте все знаки препинания: укажите цифру(-ы), на месте которой(-ых) в предложении должна(-ы) стоять запятая(-ые).',
+      about: 'Задание 20 — сложные предложения, где одновременно есть сочинительная, подчинительная и бессоюзная связь. Выделяем <b>блоки</b> — главную часть вместе с её придаточными.',
+      tools: ['subj', 'pred', 'label', 'ring', 'brk', 'arrow', 'box', 'erase'],
+      labels: ['I', 'II', 'III', 'IV', 'V', 'VI'],
+      symbols: [
+        ['<b class="g-lbl">I II</b>', 'Над каждой основой — римская цифра'],
+        ['<b class="g-ring">что</b>', 'В кружок — союзы, которые связывают основы'],
+        ['<b class="g-brk">[ ] ( )</b>', 'Квадратные скобки — главная часть, круглые — придаточная'],
+        ['<b class="g-brk">{ }</b>', 'Фигурные скобки — блок: главная часть с её придаточными'],
         ['<b class="g-box">то</b>', 'Продолжение союза при стыке (то, так, но) — в квадрат'],
       ],
     },
@@ -67,24 +80,26 @@
 
   function build(n) {
     const cfg = CFG[n], data = DATA[n], algo = data.algo;
-    const algoHtml = `<div class="algo-box"><h3>Алгоритм: задание ${n === 19 ? '19–20' : n}</h3><ol class="algo-steps">${algo.map((a) => `<li>${a}</li>`).join('')}</ol></div>`;
+    const algoHtml = `<div class="algo-box"><h3>Алгоритм: задание ${n}</h3><ol class="algo-steps">${algo.map((a) => `<li>${a}</li>`).join('')}</ol></div>`;
     const slides = [];
 
     slides.push(slide('Задание', (body, api) => {
       body.appendChild(h(`<div class="slide intro">
-        <div class="hero"><div class="hero-num">${n === 19 ? '19<small>–20</small>' : n}</div><div class="hero-castle">🏰</div></div>
-        <div class="step-chip">Задание ${n === 19 ? '19–20' : n} · пунктуация</div>
+        <div class="hero"><div class="hero-num">${n}</div><div class="hero-castle">🏰</div></div>
+        <div class="step-chip">Задание ${n} · пунктуация</div>
         <h2>${cfg.title}</h2>
         <p class="lead">${cfg.about}</p>
-        ${cfg.task ? `<div class="etask"><span class="etask-n">${n}</span><div>${cfg.task}</div></div>` : ''}
+        ${cfg.task && !(App.THEORY || {})[n] ? `<div class="etask"><span class="etask-n">${n}</span><div>${cfg.task}</div></div>` : ''}
         <div class="mission card">
-          <div class="mission-row"><span>🧭</span><div><b>Твой путь</b><br>алгоритм → 10 упражнений. В каждом идёшь по шагам алгоритма, потом пишешь ответ</div></div>
+          <div class="mission-row"><span>🧭</span><div><b>Твой путь</b><br>${(App.THEORY || {})[n] ? 'теория блоками и разбор примера → ' : ''}алгоритм → 10 упражнений. В каждом идёшь по шагам алгоритма, потом пишешь ответ</div></div>
           <div class="mission-row"><span>🖍️</span><div><b>Разметка</b><br>после ответа увидишь эталонную разметку преподавателя и разбор</div></div>
           <div class="mission-row"><span>🐷</span><div><b>Копилка опыта</b><br>за каждый шаг и верный ответ</div></div>
         </div>
       </div>`));
       api.foot({ label: 'Начинаем! 🚀' });
     }));
+
+    ((App.THEORY || {})[n] || []).forEach((f) => slides.push(f));
 
     slides.push(slide('Алгоритм', (body, api) => {
       body.appendChild(h(`<div class="slide"><div class="step-chip">Алгоритм</div><h2>Как выполнять задание</h2><p class="lead">Он будет рядом в каждом упражнении. Следующий шаг откроется, когда отметишь предыдущий.</p><div class="phase al"></div><div class="phase sym"></div></div>`));
@@ -167,7 +182,7 @@
       const r = api.finish(stars);
       body.appendChild(h(`<div class="slide intro final">
         <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
-        <h2>${r.first ? `Задание ${n === 19 ? '19–20' : n} пройдено!` : 'Отличная тренировка!'}</h2>
+        <h2>${r.first ? `Задание ${n} пройдено!` : 'Отличная тренировка!'}</h2>
         <p class="lead">${r.first ? 'Ещё один ключ 🗝️ от ворот замка — твой! Дорога ведёт дальше.' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
         <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>+${api.ctx.coins}</b><span>${coin}</span></div><div><b>${e}</b><span>ошибок</span></div></div>
         <div class="card tip-card">🏙️ Загляни в <b>город</b> — монет уже может хватить на новое здание!</div>
@@ -176,9 +191,8 @@
       api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏙️ В город', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="city"]').click(); } });
     }));
 
-    return { slides, algoImg: algoHtml, alsoDone: cfg.alsoDone || [] };
+    return { slides, algoImg: algoHtml };
   }
 
-  [16, 18, 19, 21].forEach((n) => (App.LESSONS[n] = build(n)));
-  App.LESSONS[20] = App.LESSONS[19];
+  [16, 18, 19, 20, 21].forEach((n) => (App.LESSONS[n] = build(n)));
 })();

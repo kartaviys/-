@@ -127,6 +127,7 @@ const Markup = (() => {
     /* Заменить цифры запятыми (для показа верного ответа) */
     showCommas(list) {
       for (const d of this.digEls) {
+        d.textContent = '(' + d.dataset.n + ')'; d.classList.remove('comma', 'gone');
         if (list.includes(+d.dataset.n)) { d.textContent = ','; d.classList.add('comma'); }
         else d.classList.add('gone');
       }
@@ -159,7 +160,7 @@ const Markup = (() => {
         t.classList.toggle('ring', m.rings.includes(wi));
         t.classList.toggle('box', m.boxes.includes(wi));
         const lb = m.labels[wi] || '';
-        t.querySelector('.lbl').textContent = lb;
+        t.querySelector('.lbl').innerHTML = lb.startsWith('o:') ? `<span class="oc oc-${esc(lb.slice(2))}"></span>` : esc(lb);
         t.classList.toggle('has-lbl', !!lb);
         t.classList.toggle('pending', this.pending === wi);
       }
@@ -367,7 +368,7 @@ const Markup = (() => {
       const g = this.gapEls[k], br = this.el.getBoundingClientRect(), r = g.getBoundingClientRect();
       const menu = document.createElement('div');
       menu.className = 'lbl-menu gap-menu';
-      menu.innerHTML = ['[', ']', '(', ')'].map((c) => `<button data-c="${c}">${c}</button>`).join('') + (this.marks.gm[k] ? '<button data-c="" class="del">✕</button>' : '');
+      menu.innerHTML = ['[', ']', '(', ')', '{', '}'].map((c) => `<button data-c="${c}">${c}</button>`).join('') + (this.marks.gm[k] ? '<button data-c="" class="del">✕</button>' : '');
       menu.style.top = r.bottom - br.top + 4 + 'px';
       menu.style.left = Math.max(0, Math.min(br.width - 230, r.left - br.left - 40)) + 'px';
       menu.addEventListener('pointerdown', (e) => e.stopPropagation());
