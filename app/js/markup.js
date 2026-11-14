@@ -1,7 +1,8 @@
 /* Движок разметки предложения: основы, обороты, главные слова, стрелки, границы */
 const Markup = (() => {
   const NS = 'http://www.w3.org/2000/svg';
-  const BASE_COLORS = { 1: '#7c3aed', 2: '#f59e0b', 3: '#ec4899', 4: '#14b8a6' };
+  // все члены предложения подчёркиваются одним цветом — фиолетовым
+  const BASE_COLORS = { 1: '#7c3aed', 2: '#7c3aed', 3: '#7c3aed', 4: '#7c3aed', 5: '#7c3aed', 6: '#7c3aed' };
   // Подписи над словами: чем выражен член предложения
   const LABELS = ['ПО', 'ДО', 'прил.', 'прич.', 'деепр.', 'прил.+з.с.', 'несмотря на + з.с.', 'невзирая на + з.с.'];
   let uid = 0;
@@ -129,11 +130,13 @@ const Markup = (() => {
     }
 
     /* Заменить цифры запятыми (для показа верного ответа) */
+    // цифры остаются на месте (иначе непонятно, какой ответ писать); где нужна запятая — она появляется перед цифрой
     showCommas(list) {
       for (const d of this.digEls) {
-        d.textContent = '(' + d.dataset.n + ')'; d.classList.remove('comma', 'gone');
-        if (list.includes(+d.dataset.n)) { d.textContent = ','; d.classList.add('comma'); }
-        else d.classList.add('gone');
+        d.classList.remove('comma', 'gone', 'nocomma');
+        const n = d.dataset.n;
+        if (list.includes(+n)) { d.innerHTML = `<b class="cm">,</b>(${n})`; d.classList.add('comma'); }
+        else { d.textContent = '(' + n + ')'; d.classList.add('nocomma'); }
       }
     }
 
@@ -214,10 +217,14 @@ const Markup = (() => {
       const br = this.el.getBoundingClientRect();
       if (!br.width) return;
       const aid = 'ah' + this.id;
-      let h = `<defs><marker id="${aid}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/></marker></defs>`;
+      // от главного (определяемого) слова — фиолетовые стрелки, к зависимым словам — оранжевые
+      const mk = (id, c) => `<marker id="${id}" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="strokeWidth" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah" style="fill:${c};stroke:none"/></marker>`;
+      let h = `<defs>${mk(aid, '#7c3aed')}${mk(aid + 'd', '#ea580c')}</defs>`;
       for (const [a, b, label] of this.marks.arrows) {
         const ea = this.wordEls[a], eb = this.wordEls[b];
         if (!ea || !eb) continue;
+        const dep = !this.marks.cross.includes(a);
+        const mid = dep ? aid + 'd' : aid, cls = dep ? ' class="dep"' : '';
         const ra = ea.querySelector('.w').getBoundingClientRect();
         const rb = eb.querySelector('.w').getBoundingClientRect();
         // стрелки идут выше строки подписей, чтобы не перекрывать их
@@ -232,16 +239,16 @@ const Markup = (() => {
           // одна строка — дуга над словами
           const lift = 10 + Math.min(8, Math.abs(x2 - x1) * 0.05);
           const cy = Math.max(2, Math.min(y1, y2) - lift);
-          h += `<path d="M${f(x1)},${f(y1)} Q${f((x1 + x2) / 2)},${f(cy)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
+          h += `<path d="M${f(x1)},${f(y1)} Q${f((x1 + x2) / 2)},${f(cy)} ${f(x2)},${f(y2)}" marker-end="url(#${mid})"${cls}/>`;
           mx = (x1 + (x1 + x2) + x2) / 4; my = (y1 + 2 * cy + y2) / 4;
         } else {
           // разные строки — S-образная кривая, входящая в слово сверху
           // разные строки — заходим в слово сверху, вопрос пишем над концом стрелки
           const top = Math.min(y1, y2) - 16;
-          h += `<path d="M${f(x1)},${f(y1)} C${f(x1)},${f(top)} ${f(x2)},${f(top)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
+          h += `<path d="M${f(x1)},${f(y1)} C${f(x1)},${f(top)} ${f(x2)},${f(top)} ${f(x2)},${f(y2)}" marker-end="url(#${mid})"${cls}/>`;
           mx = x2; my = y2 - 12;
         }
-        if (label) h += `<text x="${f(mx)}" y="${f(my - 4)}" text-anchor="middle" class="arr-q">${esc(label)}</text>`;
+        if (label) h += `<text x="${f(mx)}" y="${f(my - 4)}" text-anchor="middle" class="arr-q${dep ? ' dep' : ''}">${esc(label)}</text>`;
       }
       this.svg.innerHTML = h;
     }
@@ -483,10 +490,8 @@ const Markup = (() => {
   function toolbar(host, board, tools, onTool) {
     const wrap = document.createElement('div');
     wrap.className = 'toolbar';
-    const hasBase = tools.includes('subj') || tools.includes('pred');
     const drawTools = tools.filter((t) => TOOL_DEFS[t]);
     wrap.innerHTML = `
-      ${hasBase ? `<div class="bases"><span>Основа:</span>${[1, 2, 3, 4].map((b) => `<button class="bdot${b === 1 ? ' on' : ''}" data-b="${b}" style="--c:${BASE_COLORS[b]}">${b}</button>`).join('')}</div>` : ''}
       <div class="tools">${drawTools.map((t) => `<button class="tool" data-t="${t}" style="--c:${BASE_COLORS[1]}">${TOOL_DEFS[t].glyph}<span>${TOOL_DEFS[t].label}</span></button>`).join('')}
         <button class="tool util" data-u="undo"><b class="g-er">↶</b><span>Отменить</span></button>
         <button class="tool util" data-u="clear"><b class="g-er">⟲</b><span>Сбросить</span></button>
@@ -541,17 +546,7 @@ const Markup = (() => {
       const i = +k;
       if (!all.has(i) && !opt.has(i)) { wrong.add(i); msgs.add('Есть лишние подчёркивания: эти слова не входят в грамматическую основу.'); }
     }
-    let colorErr = false;
-    // free: основа без подлежащего — её цвет не обязан отличаться от других
-    const used = spec.groups.map((g) => {
-      const bs = new Set([...g.s, ...g.p].map((i) => m.mem[i] && m.mem[i].b).filter(Boolean));
-      if (bs.size > 1) { colorErr = true; msgs.add('Слова одной основы подчеркни одним цветом.'); }
-      return [...bs][0];
-    });
-    for (let a = 0; a < used.length; a++)
-      for (let b = a + 1; b < used.length; b++)
-        if (used[a] && used[a] === used[b] && !spec.groups[a].free && !spec.groups[b].free) { colorErr = true; msgs.add('Разные основы подчеркни разными цветами 🎨 (переключи «Основа: 1 / 2»).'); }
-    return { ok: !wrong.size && !colorErr, wrong: [...wrong], msgs: [...msgs] };
+    return { ok: !wrong.size, wrong: [...wrong], msgs: [...msgs] };
   }
 
   function checkSet(student, expected, optional, names) {

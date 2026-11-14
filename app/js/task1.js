@@ -342,7 +342,6 @@
       <p class="lead">Два новых текста. Подсказок по шагам больше не будет — действуй по алгоритму. Ответ проверяется сразу, попытка одна.</p>
       <div class="mission card">
         <div class="mission-row"><span>🎯</span><div>Верный ответ — 40 XP</div></div>
-        <div class="mission-row"><span>📜</span><div>Схема и шпаргалка — кнопка 📜 вверху</div></div>
       </div>
     </div>`));
     api.foot({ label: 'Принять вызов' });
