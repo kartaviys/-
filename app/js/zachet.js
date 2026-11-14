@@ -119,7 +119,10 @@
     const content = Array.isArray(text) ? `<ol class="ex-list">${text.map((t) => `<li>${t}</li>`).join('')}</ol>` : `<div class="zt">${text}</div>`;
     phases(host, api, [
       htmlPh(`<div class="etask"><span class="etask-n">${n}</span><div>${task}${content}</div></div>`),
-      answerPh(answer, `<h3>Разбор</h3>${explain.map((x) => `<p>${x}</p>`).join('')}`),
+      (box, api, done) => {
+        const nums = Array.isArray(text) ? text.map((_, i) => i + 1) : text.match(/\((\d+)\)/g).map((x) => +x.slice(1, -1));
+        App.Kit.reasonAnswer(box, api, Object.assign({ nums, answer, onDone: (ok) => { if (!ok) api.ctx.errors++; box.insertAdjacentHTML('beforeend', `<div class="explain card rv"><div class="ans-big">Ответ: <b>${answer}</b></div><h3>Разбор</h3>${explain.map((x) => `<p>${x}</p>`).join('')}</div>`); done(); } }, App.REASONS[n]));
+      },
     ]);
   })));
 
@@ -131,7 +134,7 @@
       <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
       <h2>${r.first ? 'Зачёт по пунктуации сдан! 🏆' : 'Отличная тренировка!'}</h2>
       <p class="lead">${r.first ? 'Весь блок пунктуации пройден. Впереди — орфография!' : 'Знания закреплены 💪'}</p>
-      <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>+${api.ctx.coins}</b><span>${coin}</span></div><div><b>${e}</b><span>ошибок</span></div></div>
+      <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>${e}</b><span>ошибок</span></div></div>
     </div>`));
     api.confetti(220); api.sound('level');
     api.foot({ label: 'На карту пути', onClick: () => api.close() });

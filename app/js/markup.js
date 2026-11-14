@@ -3,13 +3,15 @@ const Markup = (() => {
   const NS = 'http://www.w3.org/2000/svg';
   const BASE_COLORS = { 1: '#7c3aed', 2: '#f59e0b', 3: '#ec4899', 4: '#14b8a6' };
   // Подписи над словами: чем выражен член предложения
-  const LABELS = ['ПО', 'ДО', 'прил.', 'прич.', 'деепр.', 'прил.+з.с.'];
+  const LABELS = ['ПО', 'ДО', 'прил.', 'прич.', 'деепр.', 'прил.+з.с.', 'несмотря на + з.с.', 'невзирая на + з.с.'];
   let uid = 0;
 
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, rings: [], gm: {}, boxes: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, rings: [], gm: {}, boxes: [], links: [] });
+  // Вопросы для подписи над стрелкой
+  const QUESTIONS = ['какой?', 'какая?', 'какое?', 'какие?', 'что делая?', 'что сделав?', 'как?', 'где?', 'когда?', 'куда?', 'почему?', 'вопреки чему?', 'что?', 'чего?'];
   const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
   const toggle = (arr, v) => { const i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); };
   const without = (arr, v) => arr.filter((x) => x !== v);
@@ -59,6 +61,8 @@ const Markup = (() => {
       this.readOnly = !!opts.readOnly;
       this.marks = normMarks(opts.marks);
       this.labelSet = opts.labels || LABELS;
+      // у готовых примеров линии соединяются только внутри одной фразы (links), у ученика — всегда
+      this.useLinks = !!opts.useLinks;
       this.tool = null;
       this.base = 1;
       this.pending = null;
@@ -79,7 +83,7 @@ const Markup = (() => {
       this.render();
       if (!this.readOnly) this.bind();
       if (window.ResizeObserver) {
-        this.ro = new ResizeObserver(() => this.drawArrows());
+        this.ro = new ResizeObserver(() => { this.alignPatterns(); this.drawArrows(); });
         this.ro.observe(this.el);
       }
       requestAnimationFrame(() => this.drawArrows());
@@ -113,10 +117,10 @@ const Markup = (() => {
           const t = document.createElement('span');
           t.className = 'tok';
           t.dataset.w = it.wi;
-          t.innerHTML = '<span class="lbl"></span>' +
-            (it.pre ? `<span class="p">${esc(it.pre)}</span>` : '') +
-            `<span class="w">${esc(it.text)}<span class="lines"></span></span>` +
-            (it.punct ? `<span class="p">${esc(it.punct)}</span>` : '');
+          t.innerHTML = (it.pre ? `<span class="p">${esc(it.pre)}</span>` : '') +
+            `<span class="w"><span class="lbl"></span>${esc(it.text)}<span class="lines"></span></span>` +
+            (it.punct ? `<b class="bar-in"></b><span class="p">${esc(it.punct)}</span>` : '');
+          if (it.punct) t.classList.add('has-p');
           s.appendChild(t);
           this.wordEls[it.wi] = t;
         }
@@ -143,10 +147,13 @@ const Markup = (() => {
       return out;
     }
 
-    linesHtml(ls) {
+    // Все подчёркивания на одном уровне; вторая линия у того же слова — ниже
+    linesHtml(ls, ref) {
       return ls.map((l) => {
-        if (l.k === 'mem') return `<i class="ln l-mem ${l.t === 's' ? 'single' : 'double'}" style="--c:${BASE_COLORS[l.b]}"></i>`;
-        return `<i class="ln l-${l.k}"></i>`;
+        const i = ref ? ref.findIndex((r) => r.k === l.k && r.t === l.t && r.b === l.b) : ls.indexOf(l);
+        const top = `top:${1 + Math.max(0, i) * 8}px;`;
+        if (l.k === 'mem') return `<i class="ln l-mem ${l.t === 's' ? 'single' : 'double'}" style="${top}--c:${BASE_COLORS[l.b]}"></i>`;
+        return `<i class="ln l-${l.k}" style="${top}"></i>`;
       }).join('');
     }
 
@@ -164,21 +171,43 @@ const Markup = (() => {
         t.classList.toggle('has-lbl', !!lb);
         t.classList.toggle('pending', this.pending === wi);
       }
+      const marked = new Set([...m.def, ...m.circ]);
+      this.digEls.forEach((d) => d.classList.remove('bar-before'));
+      for (let wi = 0; wi < n; wi++) this.wordEls[wi].classList.remove('bar-end');
       for (let k = 0; k <= n; k++) {
         const g = this.gapEls[k];
-        g.classList.toggle('on', m.bars.includes(k));
+        // закрывающая палочка встаёт до запятой (цифры), а не после неё
+        let inGap = m.bars.includes(k);
+        if (inGap && k > 0 && marked.has(k - 1) && !marked.has(k)) {
+          const prevEl = g.previousElementSibling;
+          if (prevEl && prevEl.classList.contains('dig')) { prevEl.classList.add('bar-before'); inGap = false; }
+          else if (this.wordEls[k - 1].classList.contains('has-p')) { this.wordEls[k - 1].classList.add('bar-end'); inGap = false; }
+        }
+        g.classList.toggle('on', inGap);
         const ch = m.gm[k] || '';
         g.querySelector('.gch').textContent = ch;
         g.classList.toggle('brk', !!ch);
         g.style.width = ch ? (0.5 * ch.length + 0.4) + 'em' : '';
         let joined = [];
-        if (k > 0 && k < n) {
-          const a = this.layers(k - 1), b = this.layers(k);
+        const a = k > 0 ? this.layers(k - 1) : [];
+        if (k > 0 && k < n && (!this.useLinks || (m.links || []).includes(k))) {
+          const b = this.layers(k);
           joined = a.filter((la) => b.some((lb) => lb.k === la.k && lb.t === la.t && lb.b === la.b));
         }
-        g.querySelector('.lines').innerHTML = this.linesHtml(joined);
+        g.querySelector('.lines').innerHTML = this.linesHtml(joined, a);
       }
+      this.el.classList.toggle('has-arrows', m.arrows.length > 0);
+      this.alignPatterns();
       this.drawArrows();
+    }
+
+    /* Волнистая и точка-тире продолжаются без «склеек» между словами */
+    alignPatterns() {
+      const sr = this.sentEl.getBoundingClientRect();
+      if (!sr.width) return;
+      this.sentEl.querySelectorAll('.ln.l-def, .ln.l-circ').forEach((el) => {
+        el.style.backgroundPositionX = `${-(el.getBoundingClientRect().left - sr.left)}px`;
+      });
     }
 
     drawArrows() {
@@ -191,24 +220,26 @@ const Markup = (() => {
         if (!ea || !eb) continue;
         const ra = ea.querySelector('.w').getBoundingClientRect();
         const rb = eb.querySelector('.w').getBoundingClientRect();
+        // стрелки идут выше строки подписей, чтобы не перекрывать их
+        const fs = parseFloat(getComputedStyle(this.sentEl).fontSize) || 18;
         const x1 = ra.left + ra.width / 2 - br.left;
-        let y1 = ra.top - br.top - 2;
-        if (this.marks.cross.includes(a)) y1 -= 16;
-        if (this.marks.labels[a]) y1 -= 14;
+        const y1 = ra.top - br.top - fs * 1.15;
         const x2 = rb.left + rb.width / 2 - br.left;
-        const y2 = rb.top - br.top - 3 - (this.marks.labels[b] ? 14 : 0);
+        const y2 = rb.top - br.top - fs * 1.15;
         let mx, my;
         const f = (n) => n.toFixed(1);
         if (Math.abs(y1 - y2) < 24) {
           // одна строка — дуга над словами
-          const lift = 22 + Math.min(34, Math.abs(x2 - x1) * 0.12);
+          const lift = 10 + Math.min(8, Math.abs(x2 - x1) * 0.05);
           const cy = Math.max(2, Math.min(y1, y2) - lift);
           h += `<path d="M${f(x1)},${f(y1)} Q${f((x1 + x2) / 2)},${f(cy)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
           mx = (x1 + (x1 + x2) + x2) / 4; my = (y1 + 2 * cy + y2) / 4;
         } else {
           // разные строки — S-образная кривая, входящая в слово сверху
-          h += `<path d="M${f(x1)},${f(y1)} C${f(x1)},${f(y1 - 26)} ${f(x2)},${f(y2 - 34)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
-          mx = (x1 + 3 * x1 + 3 * x2 + x2) / 8; my = (y1 + 3 * (y1 - 26) + 3 * (y2 - 34) + y2) / 8;
+          // разные строки — заходим в слово сверху, вопрос пишем над концом стрелки
+          const top = Math.min(y1, y2) - 16;
+          h += `<path d="M${f(x1)},${f(y1)} C${f(x1)},${f(top)} ${f(x2)},${f(top)} ${f(x2)},${f(y2)}" marker-end="url(#${aid})"/>`;
+          mx = x2; my = y2 - 12;
         }
         if (label) h += `<text x="${f(mx)}" y="${f(my - 4)}" text-anchor="middle" class="arr-q">${esc(label)}</text>`;
       }
@@ -246,8 +277,8 @@ const Markup = (() => {
           if (on) m.mem[wi] = { t: this.tool === 'subj' ? 's' : 'p', b: this.base };
           else delete m.mem[wi];
           break;
-        case 'def': m.def = without(m.def, wi); if (on) m.def.push(wi); break;
-        case 'circ': m.circ = without(m.circ, wi); if (on) m.circ.push(wi); break;
+        case 'def': m.def = without(m.def, wi); if (on) { m.def.push(wi); m.circ = without(m.circ, wi); } break;
+        case 'circ': m.circ = without(m.circ, wi); if (on) { m.circ.push(wi); m.def = without(m.def, wi); } break;
         case 'cross': m.cross = without(m.cross, wi); if (on) m.cross.push(wi); break;
         case 'ring': m.rings = without(m.rings, wi); if (on) m.rings.push(wi); break;
         case 'box': m.boxes = without(m.boxes, wi); if (on) m.boxes.push(wi); break;
@@ -301,6 +332,7 @@ const Markup = (() => {
             this.pending = null;
             this.changed();
             this.onTap('mark');
+            this.openQMenu(this.marks.arrows.length - 1, wi);
             return;
           }
           this.render();
@@ -363,6 +395,27 @@ const Markup = (() => {
       this.menu = menu;
       t.classList.add('pending');
     }
+    /* Подпись вопроса над только что проведённой стрелкой */
+    openQMenu(ai, wi) {
+      this.closeMenu();
+      const t = this.wordEls[wi], br = this.el.getBoundingClientRect(), r = t.getBoundingClientRect();
+      const menu = document.createElement('div');
+      menu.className = 'lbl-menu q-menu';
+      menu.innerHTML = '<div class="qm-h">Какой вопрос задаём?</div>' + QUESTIONS.map((q) => `<button data-q="${esc(q)}">${esc(q)}</button>`).join('') + '<button data-q="" class="del">без вопроса</button>';
+      menu.style.top = r.bottom - br.top + 4 + 'px';
+      menu.style.left = Math.max(0, Math.min(br.width - 250, r.left - br.left - 20)) + 'px';
+      menu.addEventListener('pointerdown', (e) => e.stopPropagation());
+      menu.addEventListener('click', (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        const a = this.marks.arrows[ai];
+        if (a) { if (b.dataset.q) a[2] = b.dataset.q; else a.length = 2; }
+        this.closeMenu(); this.changed();
+      });
+      this.el.appendChild(menu);
+      this.menu = menu;
+    }
+
     /* Меню скобок в промежутке между словами */
     openGapMenu(k) {
       this.closeMenu();

@@ -281,7 +281,8 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .board.ro { background: #fff; border-color: var(--line); box-shadow: none; }
 .sent { font-size: 18px; line-height: 1.25; position: relative; z-index: 1; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .board.ro .sent { touch-action: auto; }
-.tok, .gap, .dig { display: inline-block; position: relative; padding: 1.3em 0 1.1em; vertical-align: baseline; }
+.tok, .gap, .dig { display: inline-block; position: relative; padding: 1.25em 0 .9em; vertical-align: baseline; }
+.board.has-arrows .tok, .board.has-arrows .gap, .board.has-arrows .dig { padding-top: 2.1em; }
 .tok { cursor: pointer; }
 .tok .w { position: relative; display: inline-block; border-radius: 5px; transition: background .2s; }
 .gap { width: .3em; }
@@ -290,6 +291,7 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .lines { position: absolute; left: 0; right: 0; top: 100%; height: 0; pointer-events: none; }
 .ln { position: absolute; left: 0; right: 0; display: block; }
 .l-mem { top: 1px; }
+.l-def, .l-circ, .l-obj { top: 1px; }
 .l-mem.single { height: 0; border-bottom: 2.6px solid var(--c); }
 .l-mem.double { height: 7.5px; border-top: 2.3px solid var(--c); border-bottom: 2.3px solid var(--c); }
 .l-def { top: 9px; height: 6px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Cpath d='M0 3 Q3 0 6 3 T12 3' fill='none' stroke='%233b2f63' stroke-width='1.8'/%3E%3C/svg%3E") repeat-x 0 0 / 12px 6px; }
@@ -440,7 +442,7 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .st-pct { color: var(--violet) !important; letter-spacing: 0 !important; }
 
 /* ===== Разметка: подписи, союз в кружке, дополнение, вопросы на стрелках ===== */
-.tok .lbl { position: absolute; left: 50%; top: .05em; transform: translateX(-50%); font-size: .64em; font-weight: 900; color: #ea580c; white-space: nowrap; pointer-events: none; }
+.tok .lbl { position: absolute; left: 50%; bottom: 100%; margin-bottom: .1em; transform: translateX(-50%); font-size: .64em; font-weight: 900; color: #ea580c; white-space: nowrap; pointer-events: none; }
 .tok.has-lbl .lbl { animation: pop .3s; }
 .tok.ring .w { box-shadow: 0 0 0 2.5px #f97316; border-radius: 999px; padding: 0 .2em; }
 .l-obj { top: 2px; height: 0; border-bottom: 2.6px dashed #e11d48; }
@@ -627,3 +629,83 @@ body.in-lesson .toast { font-size: .85rem; padding: 8px 14px; }
 .qcard[data-seen] em { color: var(--ok); }
 
 .gap .gch { white-space: nowrap; letter-spacing: -.05em; }
+
+/* ===== Без монет: копилка опыта, кнопка «назад», ПРО ===== */
+.l-back { width: 36px; height: 40px; border-radius: 12px; font-size: 28px; line-height: 1; color: var(--violet-d); flex: none; background: var(--violet-ll); }
+.l-bank { gap: 4px; }
+.pro-card { display: flex; align-items: center; gap: 12px; background: linear-gradient(150deg, #4c1d95, #7c3aed); color: #fff; border: 0; }
+.pro-card > span { font-size: 30px; }
+.pro-card div { flex: 1; display: flex; flex-direction: column; }
+.pro-card small { color: #ddd6fe; }
+.pro-card .btn { min-height: 42px; }
+.pro-hero { text-align: center; padding: 14px; border-radius: 20px; background: linear-gradient(150deg, #4c1d95, #7c3aed 60%, #a855f7); color: #fff; margin-bottom: 12px; }
+.pro-hero h2 { color: #fde68a; margin: .1em 0; }
+.pro-hero p { margin: 0; }
+.pro-crown { font-size: 40px; }
+.pro-list { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-direction: column; gap: 8px; }
+.pro-list li { background: var(--yellow-l); padding: 10px 12px; border-radius: 12px; font-weight: 700; }
+.pro-games { background: var(--violet-ll); cursor: pointer; }
+.games { display: flex; flex-direction: column; gap: 8px; margin: 0 0 14px; }
+.game { display: flex; align-items: center; gap: 10px; text-align: left; padding: 12px; border-radius: 16px; border: 1.5px solid var(--line); background: #fff; box-shadow: 0 3px 0 var(--line); }
+.game .ge { font-size: 34px; }
+.game-screen { padding-top: 6px; }
+.g-title { font-weight: 900; color: var(--violet-d); }
+.g-timer { height: 8px; border-radius: 99px; background: var(--violet-l); overflow: hidden; margin: 10px 0 0; }
+.g-timer i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--yellow), var(--yellow-d)); }
+.gw i { font-style: normal; color: var(--violet); border-bottom: 3px solid var(--violet); padding: 0 4px; }
+.gw b { color: var(--ok); }
+.gs { font-size: 1.2rem; font-weight: 650; line-height: 1.5; }
+.gs i { font-style: normal; display: inline-block; width: 1.4em; text-align: center; border-radius: 8px; background: var(--violet); color: #fff; font-weight: 900; }
+.gq { font-weight: 800; color: var(--muted); }
+.g-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.g-opts .opt { text-align: center; font-size: 1.05rem; padding: 16px 8px; }
+.g-score { font-weight: 900; color: var(--violet-d); min-width: 28px; text-align: center; background: var(--yellow-l); border-radius: 10px; padding: 6px 8px; }
+.intro .etask, .etask { text-align: left; }
+
+/* палочка, которая закрывает оборот, стоит до запятой */
+.tok .bar-in { display: none; }
+.tok.bar-end .bar-in { display: inline-block; width: 3px; height: 1.1em; vertical-align: -.15em; margin: 0 .12em; border-radius: 2px; background: var(--violet-d); }
+.dig.bar-before::before { content: ''; display: inline-block; width: 3px; height: 1.1em; vertical-align: -.15em; margin-right: .15em; border-radius: 2px; background: var(--violet-d); }
+.q-menu { width: 250px; }
+.qm-h { width: 100%; font-weight: 800; font-size: .8rem; color: var(--muted); }
+.tok.x.has-lbl .w::before { top: -1.85em; }
+
+/* Таблицы теории, формы причастия, памятки, объяснение ответа */
+.ttable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .95rem; border: 1.5px solid var(--line); border-radius: 14px; overflow: hidden; }
+.ttable th { background: var(--violet-l); color: var(--violet-d); text-align: left; padding: 8px 10px; font-size: .82rem; }
+.ttable td { padding: 9px 10px; border-top: 1px solid var(--line); vertical-align: top; line-height: 1.35; }
+.ttable td.tn { font-weight: 800; color: var(--violet-d); }
+.ttable td .g { width: 28px; margin-right: 6px; vertical-align: middle; }
+.cond { display: flex; align-items: flex-start; gap: 10px; }
+.cond p { margin: 0; flex: 1; min-width: 0; overflow-wrap: anywhere; text-align: left; }
+.cond > span { margin-top: 1px; }
+.forms { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.form-card { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 16px; background: var(--violet-ll); border: 1.5px solid #c4b5fd; min-width: 0; }
+.form-card.yellow { background: var(--yellow-l); border-color: #fde68a; }
+.form-card b { font-size: 1rem; }
+.fq { font-style: italic; color: var(--violet-d); }
+.fx { font-size: .95rem; }
+.fr { font-size: .88rem; color: var(--muted); }
+.fr .g { width: 26px; vertical-align: middle; }
+.memo { display: flex; flex-direction: column; gap: 10px; }
+.memo-col { border: 1.5px solid var(--line); border-radius: 16px; overflow: hidden; }
+.memo-h { padding: 8px 12px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.memo-h.violet { background: var(--violet-l); color: var(--violet-d); }
+.memo-h.yellow { background: var(--yellow-l); color: #92400e; }
+.memo-h .g { width: 30px; }
+.memo-i { padding: 8px 12px; border-top: 1px solid var(--line); font-size: .93rem; line-height: 1.4; }
+.memo-i.ok::before { content: '✓ '; color: var(--ok); font-weight: 900; }
+.memo-i.no::before { content: '✕ '; color: var(--err); font-weight: 900; }
+.memo-i code { font-family: ui-monospace, Menlo, monospace; color: #ea580c; font-weight: 800; }
+.memo-all { background: var(--yellow-l); padding: 10px 12px; border-radius: 14px; font-size: .93rem; line-height: 1.45; }
+.reasons { margin: 10px 0; padding: 10px; border-radius: 16px; background: var(--violet-ll); display: flex; flex-direction: column; gap: 8px; }
+.rs-h { font-weight: 800; font-size: .92rem; color: var(--violet-d); }
+.rs-row { display: grid; grid-template-columns: 28px auto 1fr; gap: 6px; align-items: center; }
+.rs-n { width: 26px; height: 26px; border-radius: 8px; background: var(--violet); color: #fff; display: grid; place-items: center; font-size: .85rem; }
+.rs-seg { display: flex; gap: 4px; }
+.rs-seg button { padding: 7px 8px; border-radius: 10px; background: #fff; border: 1.5px solid var(--line); font-weight: 800; font-size: .8rem; white-space: nowrap; }
+.rs-seg button.on { border-color: var(--violet); background: var(--violet); color: #fff; }
+.rs-sel { min-width: 0; width: 100%; height: 36px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; font-size: .82rem; padding: 0 6px; }
+.rs-ans { font-weight: 800; }
+.rs-ans b { letter-spacing: .1em; color: var(--violet-d); }
+.ex-card + .ex-card { margin-top: 4px; }

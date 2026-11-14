@@ -18,11 +18,19 @@
     (spec.s || []).forEach(([i, b = 1]) => (m.mem[i] = { t: 's', b }));
     (spec.p || []).forEach(([i, b = 1]) => (m.mem[i] = { t: 'p', b }));
     delete m.s; delete m.p;
+    m.links = autoLinks(m);
     return m;
+  }
+  // линии соединяются между соседними словами одной фразы
+  function autoLinks(m) {
+    const L = new Set(m.links || []);
+    for (const k of ['def', 'circ', 'obj']) { const st = new Set(m[k]); m[k].forEach((i) => { if (st.has(i + 1)) L.add(i + 1); }); }
+    Object.keys(m.mem).forEach((i) => { i = +i; const a = m.mem[i], b = m.mem[i + 1]; if (b && a.t === b.t && a.b === b.b) L.add(i + 1); });
+    return [...L];
   }
   const merge = (a, b) => {
     const r = M.clone(a);
-    for (const k of ['def', 'circ', 'obj', 'cross', 'bars', 'rings', 'boxes']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
+    for (const k of ['def', 'circ', 'obj', 'cross', 'bars', 'rings', 'boxes', 'links']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
     r.arrows = [...(r.arrows || []), ...(b.arrows || [])];
     r.mem = Object.assign({}, r.mem, b.mem);
     r.labels = Object.assign({}, r.labels, b.labels);
@@ -38,38 +46,45 @@
     return el.querySelector('.phases');
   }
 
-  // Фазы внутри одного слайда: следующая открывается, когда закончилась предыдущая
+  // Фазы внутри одного слайда: следующая открывается только по кнопке «Дальше» (заголовки htmlPh — сразу)
   function phases(host, api, list, endLabel = 'Дальше') {
     let i = 0;
     const run = () => {
       if (i >= list.length) { api.foot({ label: endLabel }); return; }
+      const ph = list[i++];
       const box = h('<div class="phase"></div>');
       host.appendChild(box);
-      list[i++](box, api, run);
+      ph(box, api, () => {
+        if (ph.instant) { run(); return; }
+        if (i >= list.length) { api.foot({ label: endLabel }); return; }
+        api.feedback(null);
+        api.foot({ label: 'Дальше ▸', onClick: run });
+      });
       requestAnimationFrame(() => box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
     };
     run();
   }
 
-  // Карточки появляются по одной
-  const revealPh = (items, { btn = 'Дальше ▸' } = {}) => (box, api, done) => {
+  // Карточки правила: все сразу; step: true — по одной
+  const revealPh = (items, { btn = 'Дальше ▸', step = false } = {}) => (box, api, done) => {
     let k = 0;
     const add = () => { const el = h(`<div class="rv">${items[k++]}</div>`); box.appendChild(el); return el; };
+    if (!step) { while (k < items.length) add(); done(); return; }
     const one = () => {
       add().scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       if (k >= items.length) { done(); return; }
-      api.foot({ label: btn, onClick: one, extraLabel: items.length - k > 1 ? 'Показать всё' : null, onExtra: () => { while (k < items.length - 1) add(); one(); } });
+      api.foot({ label: btn, onClick: one });
     };
     one();
   };
-  const htmlPh = (html) => (box, api, done) => { box.innerHTML = html; done(); };
+  const htmlPh = (html) => { const f = (box, api, done) => { box.innerHTML = html; done(); }; f.instant = true; return f; };
 
   // Пошаговый разбор предложения: каждое нажатие добавляет разметку и пояснение
   const demoPh = (text, steps, { title } = {}) => (box, api, done) => {
     const S = P(text);
     if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
     let cur = M.emptyMarks();
-    const board = new M.Board(box, S, { readOnly: true, marks: cur });
+    const board = new M.Board(box, S, { readOnly: true, marks: cur, useLinks: true });
     board.el.classList.add('demo-board');
     const notes = h('<ol class="demo-notes"></ol>');
     box.appendChild(notes);
@@ -120,9 +135,11 @@
   function ann(S, spec = {}) {
     const m = M.emptyMarks();
     const base = (w) => { const mm = w.match(/^(.*)@(\d)$/); return mm ? [mm[1], +mm[2]] : [w, 1]; };
-    (spec.s || []).forEach((x) => { const [w, b] = base(x); idxs(S, w).forEach((i) => (m.mem[i] = { t: 's', b })); });
-    (spec.p || []).forEach((x) => { const [w, b] = base(x); idxs(S, w).forEach((i) => (m.mem[i] = { t: 'p', b })); });
-    for (const k of ['def', 'circ', 'obj', 'rings', 'boxes']) (spec[k] || []).forEach((w) => m[k].push(...idxs(S, w)));
+    const link = (ii) => ii.slice(1).forEach((i) => m.links.push(i));
+    (spec.s || []).forEach((x) => { const [w, b] = base(x); const ii = idxs(S, w); ii.forEach((i) => (m.mem[i] = { t: 's', b })); link(ii); });
+    (spec.p || []).forEach((x) => { const [w, b] = base(x); const ii = idxs(S, w); ii.forEach((i) => (m.mem[i] = { t: 'p', b })); link(ii); });
+    for (const k of ['def', 'circ', 'obj']) (spec[k] || []).forEach((w) => { const ii = idxs(S, w); m[k].push(...ii); link(ii); });
+    for (const k of ['rings', 'boxes']) (spec[k] || []).forEach((w) => m[k].push(...idxs(S, w)));
     (spec.x || []).forEach((w) => m.cross.push(...idxs(S, w)));
     Object.entries(spec.o || {}).forEach(([w, t]) => idxs(S, w).forEach((i) => (m.labels[i] = 'o:' + t)));
     Object.entries(spec.lab || {}).forEach(([w, t]) => { const ii = idxs(S, w); m.labels[ii[0]] = t; });
@@ -149,7 +166,7 @@
   const markedPh = (text, spec, { title, note, commas } = {}) => (box, api, done) => {
     if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
     const S = P(text);
-    const b = new M.Board(box, S, { readOnly: true, marks: ann(S, spec) });
+    const b = new M.Board(box, S, { readOnly: true, marks: ann(S, spec), useLinks: true });
     if (commas) b.showCommas(commas);
     if (note) box.appendChild(h(`<div class="rv demo-note">${note}</div>`));
     done();
@@ -163,13 +180,12 @@
       box.appendChild(w);
       if (title) w.appendChild(h(`<div class="demo-title">${title}</div>`));
       const S = P(text);
-      new M.Board(w, S, { readOnly: true, marks: ann(S, spec) });
+      new M.Board(w, S, { readOnly: true, marks: ann(S, spec), useLinks: true });
       if (note) w.appendChild(h(`<div class="demo-note">${note}</div>`));
-      w.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      if (k >= list.length) { done(); return; }
-      api.foot({ label: btn, onClick: one, extraLabel: list.length - k > 1 ? 'Показать всё' : null, onExtra: () => { while (k < list.length - 1) one(); one(); } });
     };
-    one();
+    // все примеры сразу
+    while (k < list.length) one();
+    done();
   };
 
   /* Вопросы с вариантами: [{q, options, correct, why}] */
@@ -237,8 +253,47 @@
     api.foot({ label: 'Проверить', onClick: check });
   };
 
+  /* Ответ с объяснением: по каждой цифре ученик решает, нужна ли запятая, и выбирает причину.
+     opts: { nums: [1,2…], answer: '145', yes: {label, reasons}, no: {label, reasons}, onDone(ok) } */
+  function reasonAnswer(host, api, o) {
+    const yes = o.yes || { label: 'запятая', reasons: [] }, no = o.no || { label: 'нет', reasons: [] };
+    const st = {};
+    const box = h(`<div class="reasons"><div class="rs-h">${o.title || 'Объясни каждую цифру — ответ соберётся сам'}</div>${o.nums.map((n) => `<div class="rs-row" data-n="${n}"><b class="rs-n">${n}</b>
+      <div class="rs-seg"><button data-v="1">${yes.label}</button><button data-v="0">${no.label}</button></div>
+      <select class="rs-sel" disabled><option value="">почему?</option></select></div>`).join('')}<div class="rs-ans">Твой ответ: <b>—</b></div></div>`);
+    host.appendChild(box);
+    const ansEl = box.querySelector('.rs-ans b');
+    const answer = () => o.nums.filter((n) => st[n] && st[n].v === 1).join('');
+    const ready = () => o.nums.every((n) => st[n] && st[n].r);
+    const upd = () => { ansEl.textContent = answer() || '—'; api.foot({ label: 'Проверить', enabled: ready(), onClick: check }); };
+    box.querySelectorAll('.rs-row').forEach((row) => {
+      const n = +row.dataset.n, sel = row.querySelector('select');
+      row.querySelectorAll('.rs-seg button').forEach((b) => b.addEventListener('click', () => {
+        const v = +b.dataset.v;
+        st[n] = { v, r: '' };
+        row.querySelectorAll('.rs-seg button').forEach((x) => x.classList.toggle('on', x === b));
+        const list = v ? yes.reasons : no.reasons;
+        sel.innerHTML = '<option value="">почему?</option>' + list.map((r) => `<option>${r}</option>`).join('');
+        sel.disabled = false;
+        if (list.length === 0) st[n].r = '—';
+        upd();
+      }));
+      sel.addEventListener('change', () => { if (st[n]) { st[n].r = sel.value; upd(); } });
+    });
+    let tries = 0;
+    function check() {
+      const v = answer();
+      if (v === o.answer) { box.querySelectorAll('button, select').forEach((x) => (x.disabled = true)); api.good(tries ? 8 : 15, 0, ansEl, `Ответ <b>${o.answer}</b> — верно! Сверь свои объяснения с разбором.`); App.confetti(80); o.onDone(true); return; }
+      tries++;
+      api.bad(['Где-то запятая лишняя или пропущена. Проверь причины ещё раз.']);
+      if (tries >= 2) api.foot({ label: 'Проверить', enabled: ready(), onClick: check, extraLabel: '👀 Ответ', onExtra: () => { box.querySelectorAll('button, select').forEach((x) => (x.disabled = true)); api.feedback('info', `Верный ответ: <b>${o.answer}</b>. Разбор ниже 👇`); o.onDone(false); } });
+    }
+    upd();
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
   /* Схема предложения: '[ ], и [ ].' и т. п. */
   const scheme = (s, cap = '') => `<div class="scheme"><code>${s}</code>${cap ? `<span>${cap}</span>` : ''}</div>`;
 
-  App.Kit = { norm, P, W, R, marks, merge, shell, phases, revealPh, htmlPh, demoPh, flipPh, slide, ann, st, markedPh, examplesPh, choicePh, sortPh, answerPh, scheme };
+  App.Kit = { reasonAnswer, norm, P, W, R, marks, merge, shell, phases, revealPh, htmlPh, demoPh, flipPh, slide, ann, st, markedPh, examplesPh, choicePh, sortPh, answerPh, scheme };
 })();
