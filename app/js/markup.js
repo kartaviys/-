@@ -170,6 +170,7 @@ const Markup = (() => {
         const ch = m.gm[k] || '';
         g.querySelector('.gch').textContent = ch;
         g.classList.toggle('brk', !!ch);
+        g.style.width = ch ? (0.5 * ch.length + 0.4) + 'em' : '';
         let joined = [];
         if (k > 0 && k < n) {
           const a = this.layers(k - 1), b = this.layers(k);

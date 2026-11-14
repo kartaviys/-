@@ -542,7 +542,7 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 }
 
 /* В уроке всплывающие сообщения — над кнопками, чтобы не закрывать прогресс */
-body.in-lesson #toasts { top: calc(96px + var(--safe-t)); }
+body.in-lesson #toasts { top: auto; bottom: calc(110px + var(--safe-b)); }
 
 /* Тренировка: больше места предложению */
 .train .tooltip { display: none; }
@@ -625,3 +625,5 @@ body.in-lesson .toast { font-size: .85rem; padding: 8px 14px; }
 .qcard.on .qb { display: block; }
 .qcard em { position: absolute; right: 10px; bottom: 6px; font-style: normal; font-size: .72rem; color: var(--muted); }
 .qcard[data-seen] em { color: var(--ok); }
+
+.gap .gch { white-space: nowrap; letter-spacing: -.05em; }
