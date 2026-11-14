@@ -75,6 +75,21 @@
     },
   };
 
+  // причины для объяснения каждой цифры (номера предложения)
+  const SPP = { yes: { label: ', запятая', reasons: ['начало или конец придаточной части', 'однородные придаточные без союза', 'граница частей / блоков сложного предложения', 'однородные члены без союза', 'стык союзов — дальше нет «то, но, так»'] },
+    no: { label: 'нет', reasons: ['однородные придаточные соединены союзом И', 'стык союзов — дальше есть «то, но, так»', 'союз или союзное слово внутри придаточного', 'однородные члены с одиночным союзом И', 'нет условий для запятой'] } };
+  const REASONS = {
+    16: { title: 'Сколько запятых в каждом предложении? Объясни', yes: { label: 'одна', reasons: ['однородные члены без союза', 'противительный союз', 'двойной союз', 'повторяющийся союз', 'пары однородных членов', 'ССП без общей части'] },
+      no: { label: 'нет / больше', reasons: ['одиночный союз И, ИЛИ — запятых нет', 'общий второстепенный член', 'неоднородные определения', 'две запятые и больше'] } },
+    18: { yes: { label: ', запятая', reasons: ['вводное слово / конструкция', 'обращение', 'междометие', 'граница частей сложного предложения'] },
+      no: { label: 'нет', reasons: ['член предложения, не вводное', 'союз, частица или наречие', 'слово не бывает вводным', 'нет условий для запятой'] } },
+    17: { yes: { label: ', запятая', reasons: ['деепричастный оборот / одиночное деепричастие — обособляется всегда', 'определение после определяемого слова', 'определение относится к личному местоимению', 'определение с обстоятельственным значением', 'другое'] },
+      no: { label: 'нет', reasons: ['определение перед определяемым словом', 'однородные обороты соединены одиночным союзом', 'союз И соединяет однородные сказуемые', 'нет условий для обособления'] } },
+    19: SPP, 20: SPP,
+    21: { title: 'Какое правило в каждом предложении?', yes: { label: 'то же правило', reasons: ['приложение', 'тире между подлежащим и сказуемым', 'однородные члены', 'обобщающее слово', 'БСП', 'ССП', 'СПП', 'обособленное определение', 'обособленное обстоятельство', 'вводное слово', 'обращение', 'прямая речь', 'вставная конструкция', 'неполное предложение'] },
+      no: { label: 'другое', reasons: ['приложение', 'тире между подлежащим и сказуемым', 'однородные члены', 'обобщающее слово', 'БСП', 'ССП', 'СПП', 'обособленное определение', 'обособленное обстоятельство', 'вводное слово', 'обращение', 'прямая речь', 'вставная конструкция', 'неполное предложение', 'нужного знака нет'] } },
+  };
+  App.REASONS = REASONS;
   const normAns = (s) => [...new Set(s.replace(/\D/g, ''))].sort().join('');
   const slide = (block, fn) => { fn.block = block; return fn; };
 
@@ -101,24 +116,8 @@
 
     ((App.THEORY || {})[n] || []).forEach((f) => slides.push(f));
 
-    slides.push(slide('Алгоритм', (body, api) => {
-      body.appendChild(h(`<div class="slide"><div class="step-chip">Алгоритм</div><h2>Как выполнять задание</h2><p class="lead">Он будет рядом в каждом упражнении. Следующий шаг откроется, когда отметишь предыдущий.</p><div class="phase al"></div><div class="phase sym"></div></div>`));
-      const box = body.querySelector('.al'), sym = body.querySelector('.sym');
-      let k = 0;
-      const one = () => {
-        box.appendChild(h(`<div class="rv algo-li"><b>${k + 1}</b><span>${algo[k]}</span></div>`)).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        k++;
-        if (k < algo.length) { api.foot({ label: 'Дальше ▸', onClick: one, extraLabel: 'Показать всё', onExtra: () => { while (k < algo.length - 1) { box.appendChild(h(`<div class="rv algo-li"><b>${k + 1}</b><span>${algo[k]}</span></div>`)); k++; } one(); } }); return; }
-        sym.innerHTML = `<div class="sec-h yellow">Условные обозначения в приложении</div>${cfg.symbols.map(([g, t]) => `<div class="rv mem-row">${g}<span>${t}</span></div>`).join('')}`;
-        sym.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        api.foot({ label: 'К упражнениям' });
-      };
-      one();
-    }));
-
     data.ex.forEach((ex, k) => slides.push(slide(`Упражнение ${k + 1}/10`, (body, api) => {
       const el = h(`<div class="slide train">
-        <div class="step-chip">Упражнение ${k + 1} из 10</div>
         <div class="algo-panel"></div>
         <div class="etask small"><span class="etask-n">${n}</span><div>${ex.task || cfg.task}</div></div>
         <div class="boards"></div>
@@ -148,26 +147,16 @@
         else answerStage();
       };
       const answerStage = () => {
-        extra.innerHTML = '<div class="answer-box"><label>Ответ:</label><input class="ans" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="цифры"></div>';
-        const inp = extra.querySelector('input');
-        inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        const go = () => {
-          const v = normAns(inp.value);
-          if (!v) return inp.focus();
-          if (v === ex.answer) { api.good(tries ? 10 : 20, tries ? 4 : 8, inp, `Ответ <b>${ex.answer}</b> — верно!`); App.confetti(80); reveal(); return; }
-          tries++; api.ctx.errors++;
-          api.bad([tries === 1 ? 'Сверься с алгоритмом и своей разметкой — где-то знак лишний или пропущен.' : 'Ещё раз пройди по каждой цифре: есть ли условие для запятой?']);
-          if (tries >= 2) api.foot({ label: 'Проверить', onClick: go, extraLabel: '👀 Ответ', onExtra: () => { api.feedback('info', `Верный ответ: <b>${ex.answer}</b>. Разбор ниже 👇`); reveal(); } });
-        };
-        inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
-        api.foot({ label: 'Проверить', onClick: go, extraLabel: '📜', onExtra: () => App.openAlgo(algoHtml) });
+        // перед проверкой ученик объясняет каждую цифру
+        const nums = ex.sents ? ex.sents.map((_, i) => i + 1) : texts.join(' ').match(/\((\d+)\)/g).map((x) => +x.slice(1, -1));
+        App.Kit.reasonAnswer(extra, api, Object.assign({ nums, answer: ex.answer, onDone: (ok) => { if (!ok) api.ctx.errors++; reveal(); } }, REASONS[n]));
       };
       const reveal = () => {
         toolHost.innerHTML = '';
         boards.forEach((b) => { b.readOnly = true; b.el.classList.add('ro'); b.setTool(null); });
-        extra.innerHTML = `<div class="explain card"><div class="ans-big">Ответ: <b>${ex.answer}</b></div>
+        extra.insertAdjacentHTML('beforeend', `<div class="explain card"><div class="ans-big">Ответ: <b>${ex.answer}</b></div>
           ${ex.imgs.length ? `<h3>Разметка преподавателя</h3><div class="ref-imgs">${ex.imgs.map((src) => `<button class="ref-img"><img src="${src}" alt="Эталонная разметка" loading="lazy"><span>🔍 крупнее</span></button>`).join('')}</div>` : ''}
-          <h3>Разбор</h3>${ex.explain.map((x) => `<p>${x}</p>`).join('')}</div>`;
+          <h3>Разбор</h3>${ex.explain.map((x) => `<p>${x}</p>`).join('')}</div>`);
         extra.querySelectorAll('.ref-img').forEach((b) => b.addEventListener('click', () => App.openAlgo(b.querySelector('img').getAttribute('src'))));
         extra.querySelector('.explain').scrollIntoView({ behavior: 'smooth', block: 'start' });
         api.foot({ label: k < data.ex.length - 1 ? 'Следующее упражнение ▸' : 'Итоги' });
@@ -184,11 +173,10 @@
         <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
         <h2>${r.first ? `Задание ${n} пройдено!` : 'Отличная тренировка!'}</h2>
         <p class="lead">${r.first ? 'Ещё один ключ 🗝️ от ворот замка — твой! Дорога ведёт дальше.' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
-        <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>+${api.ctx.coins}</b><span>${coin}</span></div><div><b>${e}</b><span>ошибок</span></div></div>
-        <div class="card tip-card">🏙️ Загляни в <b>город</b> — монет уже может хватить на новое здание!</div>
+        <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>${e}</b><span>ошибок</span></div></div>
       </div>`));
       api.confetti(180); api.sound('level');
-      api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏙️ В город', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="city"]').click(); } });
+      api.foot({ label: 'На карту пути', onClick: () => api.close() });
     }));
 
     return { slides, algoImg: algoHtml };

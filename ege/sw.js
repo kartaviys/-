@@ -1,8 +1,8 @@
 /* Офлайн-кэш: приложение работает без интернета после первого открытия */
-const CACHE = 'egequest-v8';
+const CACHE = 'egequest-v10';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
-  'js/markup.js?v=8', 'js/app.js?v=8', 'js/task1.js?v=8', 'js/kit.js?v=8', 'js/task17.js?v=8', 'js/theory16.js?v=8', 'js/theory18.js?v=8', 'js/theory19.js?v=8', 'js/zachet.js?v=8', 'js/practice-data.js?v=8', 'js/practice.js?v=8', 'css/style.css?v=8',
+  'js/markup.js?v=10', 'js/app.js?v=10', 'js/task1.js?v=10', 'js/kit.js?v=10', 'js/task17.js?v=10', 'js/theory16.js?v=10', 'js/theory18.js?v=10', 'js/theory19.js?v=10', 'js/zachet.js?v=10', 'js/games.js?v=10', 'js/practice-data.js?v=10', 'js/practice.js?v=10', 'css/style.css?v=10',
   'assets/algorithm17.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
 ];
 self.addEventListener('install', (e) => {

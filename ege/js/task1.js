@@ -180,7 +180,7 @@
       <p class="lead">В тексте пропущено слово, которое <b>связывает</b> предложения по смыслу. Нужно самому подобрать его — без вариантов ответа — и записать.</p>
       <div class="mission card">
         <div class="mission-row"><span>🧭</span><div><b>Миссия</b><br>Освой алгоритм, разбери текст по шагам и пройди испытание — первый ключ 🗝️ от замка твой</div></div>
-        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>опыт и монеты ${coin} для твоего города</div></div>
+        <div class="mission-row"><span>🎁</span><div><b>Награда</b><br>опыт</div></div>
         <div class="mission-row"><span>🔥</span><div><b>Комбо</b><br>3 верных ответа подряд — опыт удваивается</div></div>
       </div>
     </div>`));
@@ -341,7 +341,7 @@
       <h2>Теперь сам!</h2>
       <p class="lead">Два новых текста. Подсказок по шагам больше не будет — действуй по алгоритму. Ответ проверяется сразу, попытка одна.</p>
       <div class="mission card">
-        <div class="mission-row"><span>🎯</span><div>Верный ответ — 40 XP и 20 ${coin}</div></div>
+        <div class="mission-row"><span>🎯</span><div>Верный ответ — 40 XP</div></div>
         <div class="mission-row"><span>📜</span><div>Схема и шпаргалка — кнопка 📜 вверху</div></div>
       </div>
     </div>`));
@@ -380,14 +380,13 @@
       <p class="lead">${r.first ? 'Первый ключ 🗝️ от ворот Замка Грамотности у тебя. Дорога ведёт дальше!' : 'Повторение — мать учения. Навык закреплён 💪'}</p>
       <div class="loot">
         <div><b>+${api.ctx.xp}</b><span>XP</span></div>
-        <div><b>+${api.ctx.coins}</b><span>${coin}</span></div>
+        
         <div><b>${e}</b><span>ошибок</span></div>
       </div>
-      <div class="card tip-card">🏙️ Загляни в <b>город</b> — монет уже может хватить на первое здание!</div>
     </div>`));
     api.confetti(180);
     api.sound('level');
-    api.foot({ label: 'На карту пути', onClick: () => api.close(), extraLabel: '🏙️ В город', onExtra: () => { api.close(); document.querySelector('.tabbar [data-tab="city"]').click(); } });
+    api.foot({ label: 'На карту пути', onClick: () => api.close() });
   });
 
   App.LESSONS[1] = { slides, algoImg: ALGO_HTML };

@@ -33,22 +33,6 @@ const App = (() => {
   const GOOD = ['Огонь! 🔥', 'Чётко! 😎', 'Мозг на максималках 🧠', 'Вот это уровень!', 'Филолог от бога ✨', 'Красота! 💜', 'Ты в ударе! ⚡', 'В яблочко! 🎯', 'ЕГЭ уже нервничает 😏', 'Так держать! 🚀', 'Запятые тебя боятся 💪', 'Легенда! 👑', 'Это было чисто! 🧼', 'Изи! 😌'];
   const BAD = ['Почти! Посмотри ещё раз 👀', 'Ошибка — это тоже опыт 💡', 'Спокойно, разберёмся 🙌', 'Ещё попытка — и всё получится!', 'Мозг учится прямо сейчас 🧩', 'Не сдаёмся! 💜'];
 
-  const BUILDINGS = [
-    { id: 'tent', e: '⛺', name: 'Палатка', price: 20, inc: 2, pop: 1, lvl: 1, desc: 'Скромное начало великого города' },
-    { id: 'tree', e: '🌳', name: 'Дубовая роща', price: 15, inc: 1, pop: 0, lvl: 1, desc: 'Свежий воздух для мозга' },
-    { id: 'house', e: '🏠', name: 'Домик', price: 40, inc: 4, pop: 3, lvl: 1, desc: 'Сюда въезжают первые жители' },
-    { id: 'bakery', e: '🥐', name: 'Пекарня', price: 60, inc: 6, pop: 2, lvl: 2, desc: 'Круассаны — топливо для подготовки' },
-    { id: 'fountain', e: '⛲', name: 'Фонтан', price: 70, inc: 3, pop: 0, lvl: 2, desc: 'Сюда бросают монетки на удачу перед экзаменом' },
-    { id: 'library', e: '📚', name: 'Библиотека', price: 120, inc: 5, pop: 2, lvl: 2, xp: 0.1, desc: '+10% опыта за все задания' },
-    { id: 'school', e: '🏫', name: 'Школа', price: 150, inc: 8, pop: 5, lvl: 3, desc: 'Здесь учат ставить запятые правильно' },
-    { id: 'tower', e: '🕰️', name: 'Башня часов', price: 180, inc: 10, pop: 1, lvl: 3, desc: 'Тикает до ЕГЭ. Приносит доход' },
-    { id: 'theater', e: '🎭', name: 'Театр', price: 220, inc: 12, pop: 4, lvl: 4, desc: 'Драма, комедия и сочинения по ним' },
-    { id: 'observ', e: '🔭', name: 'Обсерватория', price: 260, inc: 14, pop: 2, lvl: 5, xp: 0.1, desc: '+10% опыта: смотришь на задания свысока' },
-    { id: 'ferris', e: '🎡', name: 'Колесо обозрения', price: 300, inc: 16, pop: 3, lvl: 6, desc: 'Видно весь путь до замка' },
-    { id: 'palace', e: '🏛️', name: 'Дворец Слова', price: 500, inc: 25, pop: 10, lvl: 8, xp: 0.15, desc: '+15% опыта. Сердце столицы грамотности' },
-  ];
-  const PLOTS = 12;
-  const INCOME_CAP_H = 12;
 
   const ACH = [
     { id: 'first', e: '🌱', name: 'Первый шаг', d: 'Первая верная проверка' },
@@ -56,9 +40,7 @@ const App = (() => {
     { id: 'clean', e: '💎', name: 'Без единой ошибки', d: 'Пройти задание на 3 звезды' },
     { id: 't1', e: '🔑', name: 'Первый ключ', d: 'Пройти задание 1' },
     { id: 't17', e: '🗝️', name: 'Мастер обособления', d: 'Пройти задание 17' },
-    { id: 'builder', e: '🔨', name: 'Строитель', d: 'Построить первое здание' },
-    { id: 'mayor', e: '🎩', name: 'Мэр', d: 'Построить 5 зданий' },
-    { id: 'rich', e: '💰', name: 'Богач', d: 'Накопить 200 монет' },
+    { id: 'game', e: '🎲', name: 'Игрок', d: 'Сыграть в мини-игру' },
     { id: 'lvl3', e: '⭐', name: 'Уровень 3', d: 'Достичь 3-го уровня' },
     { id: 'streak3', e: '🔥', name: 'Серия 3 дня', d: 'Заниматься 3 дня подряд' },
   ];
@@ -83,7 +65,7 @@ const App = (() => {
     while (total >= acc + need) { acc += need; lvl++; need = 100 + (lvl - 1) * 50; }
     return { lvl, into: total - acc, need, title: LEVEL_TITLES[Math.min(lvl - 1, LEVEL_TITLES.length - 1)] };
   }
-  const xpBonus = () => Object.values(S.city.plots).reduce((s, id) => s + (BUILDINGS.find((b) => b.id === id)?.xp || 0), 0);
+  const xpBonus = () => 0;
   const today = () => { const d = new Date(); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
 
   function touchStreak() {
@@ -201,40 +183,40 @@ const App = (() => {
     const before = levelInfo().lvl;
     const gx = Math.round(xp * (1 + xpBonus()));
     S.totalXp += gx;
-    S.coins += coins;
     touchStreak();
     save();
     if (!quiet) {
       if (gx) floatText(`+${gx} XP`, anchor);
-      if (coins) setTimeout(() => floatText(`+${coins} ${coin}`, anchor), 250);
       if (phrase && xp >= 10) toast(pick(GOOD), 'good');
-      sound(coins ? 'coin' : 'ok');
+      sound('ok');
     }
     topbar(true);
-    if (S.coins >= 200) unlock('rich');
     const after = levelInfo().lvl;
-    if (after > before) setTimeout(() => levelUp(after), 600);
+    // в уроке новый уровень показываем только после прохождения задания
+    if (after > before) { if (document.body.classList.contains('in-lesson')) pendingLevel = after; else setTimeout(() => levelUp(after), 600); }
     return gx;
   }
 
+  let pendingLevel = 0, pendingToasts = [];
   function levelUp(lvl) {
-    S.coins += 25;
-    save();
     if (lvl >= 3) unlock('lvl3');
     sound('level'); confetti(160); buzz([30, 40, 60]);
     const li = levelInfo();
-    modal(`<div class="lvlup"><div class="lvl-badge big">${lvl}</div><h2>Новый уровень!</h2><p>Теперь ты — <b>${li.title}</b></p><p class="muted">Бонус: +25 ${coin} и новые здания в городе</p><button class="btn primary" data-close>Круто! 🎉</button></div>`);
+    modal(`<div class="lvlup"><div class="lvl-badge big">${lvl}</div><h2>Новый уровень!</h2><p>Теперь ты — <b>${li.title}</b></p><p class="muted">Так держать — впереди новые задания!</p><button class="btn primary" data-close>Круто! 🎉</button></div>`);
     topbar(true);
   }
 
   function unlock(id) {
     if (S.ach[id]) return;
     S.ach[id] = Date.now();
-    S.coins += 15;
+    S.totalXp += 10;
     save();
     const a = ACH.find((x) => x.id === id);
-    setTimeout(() => { toast(`${a.e} Достижение: <b>${a.name}</b> · +15 ${coin}`, 'achv'); sound('coin'); }, 900);
-    topbar(true);
+    const msg = `${a.e} Достижение: <b>${a.name}</b> · +10 XP`;
+    // во время урока не перекрываем задание — покажем после
+    if (document.body.classList.contains('in-lesson')) pendingToasts.push(msg);
+    else setTimeout(() => { toast(msg, 'achv'); sound('coin'); }, 900);
+    topbar();
   }
 
   /* ===== Верхняя панель ===== */
@@ -245,9 +227,7 @@ const App = (() => {
     $('.tb-title').textContent = li.title;
     $('.tb-xpbar i').style.width = Math.round((li.into / li.need) * 100) + '%';
     $('.tb-xptext').textContent = `${li.into} / ${li.need} XP`;
-    $('.tb-coins b').textContent = S.coins;
     $('.tb-streak b').textContent = S.streak.count;
-    if (pulse) { const c = $('.tb-coins'); c.classList.remove('pulse'); void c.offsetWidth; c.classList.add('pulse'); }
   }
 
   /* ===== Навигация ===== */
@@ -258,7 +238,7 @@ const App = (() => {
     const v = $('#view');
     v.innerHTML = '';
     v.scrollTop = 0;
-    ({ map: renderMap, city: renderCity, profile: renderProfile })[t](v);
+    ({ map: renderMap, games: (x) => App.renderGames(x), profile: renderProfile })[t](v);
   }
 
   /* ===== Путь к замку ===== */
@@ -388,7 +368,7 @@ const App = (() => {
         if (opened) return toast('Этот сундук уже открыт');
         if (!avail) return toast(`🎁 Сундук откроется после ${ci + 1}-го пройденного задания`);
         S.chests.push(ci); save();
-        reward(30, 50, { anchor: ch });
+        reward(30, 0, { anchor: ch });
         confetti(90);
         go('map');
       });
@@ -411,85 +391,6 @@ const App = (() => {
     if (!open) return modal(`<div class="center"><div class="big-emoji">🔒</div><h2>Задание ${n}. ${TASKS[n]}</h2><p>Станции открываются по порядку. Сначала пройди задание <b>№${ROUTE[curIdx]}</b> — и дорога поведёт дальше.</p><button class="btn primary" data-close>Понятно</button></div>`);
     if (n === 27) return modal(`<div class="center"><div class="big-emoji">🏰</div><h2>Сочинение — финальный босс</h2><p>Ворота замка откроются, когда ты соберёшь ключи от всех 26 заданий.</p><p class="muted">Ключей: ${doneCount()} / 26 🗝️</p><button class="btn primary" data-close>Вперёд!</button></div>`);
     modal(`<div class="center"><div class="big-emoji">🔒</div><h2>Задание ${n}. ${TASKS[n]}</h2><p>Ты дошёл до этой станции! 🎉 Урок по ней уже в разработке и скоро появится здесь.</p><button class="btn primary" data-close>Понятно</button></div>`);
-  }
-
-  /* ===== Город ===== */
-  const income = () => Object.values(S.city.plots).reduce((s, id) => s + (BUILDINGS.find((b) => b.id === id)?.inc || 0), 0);
-  const population = () => Object.values(S.city.plots).reduce((s, id) => s + (BUILDINGS.find((b) => b.id === id)?.pop || 0), 0);
-  function pending() {
-    const hours = Math.min(INCOME_CAP_H, (Date.now() - S.city.lastCollect) / 3.6e6);
-    return Math.floor(income() * hours);
-  }
-
-  function renderCity(v) {
-    const count = Object.keys(S.city.plots).length;
-    const pend = pending();
-    v.appendChild(h(`<div class="card city-head">
-      <div class="eyebrow">Твой город</div><h2>Город Грамотеев</h2>
-      <div class="city-stats">
-        <div><b>${population()}</b><span>жителей</span></div>
-        <div><b>${count}/${PLOTS}</b><span>зданий</span></div>
-        <div><b>${income()}</b><span>${coin}/час</span></div>
-        <div><b>+${Math.round(xpBonus() * 100)}%</b><span>к опыту</span></div>
-      </div>
-      <button class="btn ${pend > 0 ? 'gold' : 'ghost'} collect" ${pend > 0 ? '' : 'disabled'}>${pend > 0 ? `Собрать доход: +${pend} ${coin}` : count ? 'Доход копится… загляни позже' : 'Построй первое здание 👇'}</button>
-      <div class="muted small">Монеты дают за задания. Здания приносят доход каждый час (копится до ${INCOME_CAP_H} ч).</div>
-    </div>`));
-    $('.collect', v).addEventListener('click', (e) => {
-      const p = pending();
-      if (!p) return;
-      S.city.lastCollect = Date.now();
-      S.coins += p; save();
-      floatText(`+${p} ${coin}`, e.currentTarget); sound('coin'); buzz(20);
-      topbar(true); go('city');
-    });
-    const grid = h('<div class="city-grid"></div>');
-    for (let i = 0; i < PLOTS; i++) {
-      const id = S.city.plots[i];
-      const b = BUILDINGS.find((x) => x.id === id);
-      const cell = h(b
-        ? `<button class="plot built"><span class="pe">${b.e}</span><span class="pn">${b.name}</span><span class="pi">+${b.inc} ${coin}/ч</span></button>`
-        : `<button class="plot empty"><span class="plus">+</span><span class="pn">Участок</span></button>`);
-      cell.addEventListener('click', () => (b ? buildingInfo(b) : shop(i)));
-      grid.appendChild(cell);
-    }
-    v.appendChild(grid);
-    if (count < 1 && S.coins < 15) v.appendChild(h(`<div class="card hint-card">💡 Пройди задание 17 на пути к замку, чтобы заработать первые монеты.</div>`));
-  }
-
-  function buildingInfo(b) {
-    modal(`<div class="center"><div class="big-emoji">${b.e}</div><h2>${b.name}</h2><p>${b.desc}</p>
-      <div class="chips"><span class="chip">+${b.inc} ${coin}/час</span>${b.pop ? `<span class="chip">+${b.pop} жит.</span>` : ''}${b.xp ? `<span class="chip violet">+${b.xp * 100}% XP</span>` : ''}</div>
-      <button class="btn primary" data-close>Красота</button></div>`);
-  }
-
-  function shop(plot) {
-    const lvl = levelInfo().lvl;
-    const items = BUILDINGS.map((b) => {
-      const locked = lvl < b.lvl, poor = S.coins < b.price;
-      return `<button class="shop-item ${locked ? 'locked' : ''} ${poor ? 'poor' : ''}" data-id="${b.id}" ${locked ? 'disabled' : ''}>
-        <span class="se">${b.e}</span>
-        <span class="sbody"><b>${b.name}</b><small>${b.desc}</small><small class="sinc">+${b.inc} ${coin}/ч${b.xp ? ` · +${b.xp * 100}% XP` : ''}</small></span>
-        <span class="sprice">${locked ? `🔒 ур. ${b.lvl}` : `${b.price} ${coin}`}</span>
-      </button>`;
-    }).join('');
-    const m = modal(`<h2>Что построим?</h2><p class="muted">У тебя ${S.coins} ${coin}</p><div class="shop">${items}</div><button class="btn ghost" data-close>Закрыть</button>`, { cls: 'sheet' });
-    m.el.addEventListener('click', (e) => {
-      const it = e.target.closest('.shop-item');
-      if (!it) return;
-      const b = BUILDINGS.find((x) => x.id === it.dataset.id);
-      if (S.coins < b.price) { toast(`Не хватает ${b.price - S.coins} ${coin}. Реши ещё пару заданий! 💪`, 'bad'); sound('err'); return; }
-      if (!Object.keys(S.city.plots).length) S.city.lastCollect = Date.now();
-      S.coins -= b.price;
-      S.city.plots[plot] = b.id;
-      save();
-      m.close();
-      unlock('builder');
-      if (Object.keys(S.city.plots).length >= 5) unlock('mayor');
-      sound('level'); confetti(70); buzz(30);
-      toast(`${b.e} ${b.name} построен${b.id === 'tent' || b.id === 'tree' ? 'а' : ''}! Город растёт 🏙️`, 'good');
-      topbar(true); go('city');
-    });
   }
 
   /* ===== Профиль ===== */
@@ -530,9 +431,10 @@ const App = (() => {
       <button class="btn ghost danger reset">Сбросить прогресс</button></div>`);
     $('input', set).addEventListener('change', (e) => { S.sound = e.target.checked; save(); });
     $('.reset', set).addEventListener('click', () => {
-      ask('Точно сбросить весь прогресс, монеты и город?', 'Сбросить', () => { S = fresh(); save(); topbar(); onboarding(); go('map'); });
+      ask('Точно сбросить весь прогресс?', 'Сбросить', () => { S = fresh(); save(); topbar(); onboarding(); go('map'); });
     });
     v.appendChild(set);
+    if (App.proCard) v.insertBefore(App.proCard(), v.children[1] || null);
   }
 
   function pickAvatar(cb) {
@@ -551,7 +453,7 @@ const App = (() => {
     const m = modal(`<div class="center onb">
       <div class="big-emoji">🏰</div>
       <h2>Добро пожаловать в ЕГЭ Квест!</h2>
-      <p>Впереди дорога к <b>Замку Грамотности</b>: 26 заданий и сочинение. За каждый верный шаг — <b>опыт</b> и <b>монеты</b>, на них ты строишь свой город.</p>
+      <p>Впереди дорога к <b>Замку Грамотности</b>: 26 заданий и сочинение. За пройденные блоки ты получаешь <b>опыт</b> и растёшь в уровнях.</p>
       <input class="pf-name" placeholder="Как тебя зовут?" maxlength="20">
       <div class="av-grid small">${AVATARS.map((a, i) => `<button data-a="${a}" class="${i === 0 ? 'on' : ''}">${a}</button>`).join('')}</div>
       <button class="btn primary go">Начать путь 🚀</button>
@@ -562,7 +464,7 @@ const App = (() => {
       if (e.target.closest('.go')) {
         S.name = m.el.querySelector('.pf-name').value.trim();
         S.onboarded = true; save(); m.close(); topbar();
-        toast(`Стартовый бонус: 30 ${coin}`, 'good'); go('map');
+        go('map');
       }
     });
   }
@@ -573,8 +475,9 @@ const App = (() => {
     const root = $('#lesson');
     root.innerHTML = `<div class="l-head">
         <button class="l-close" aria-label="Закрыть">✕</button>
+        <button class="l-back" aria-label="Назад">‹</button>
         <div class="l-progbox"><div class="l-prog"><i></i></div></div>
-        <div class="l-bank" title="Копилка опыта"><span>🐷</span><b>0</b><small>XP</small></div>
+        <div class="l-bank" title="Копилка опыта"><b>0</b><small>XP</small></div>
         <button class="l-algo" title="Алгоритм">📜</button>
         <span class="l-combo"></span>
       </div>
@@ -596,9 +499,17 @@ const App = (() => {
       requestAnimationFrame(step);
     };
     const toBank = (anchor, gx) => flyXP(anchor || main, gx, bank, () => bankTo(ctx.xp));
+    // опыт копится тихо и улетает в копилку один раз — в конце блока
+    let pending = 0;
+    const flush = (bonus = 0) => {
+      const gx = (bonus ? reward(bonus, 0, { quiet: true }) : 0);
+      ctx.xp += gx;
+      const total = pending + gx; pending = 0;
+      if (total > 0) toBank(main, total);
+    };
+    const awarded = new Set();
     const blockOf = (i) => (L.slides[i] && L.slides[i].block) || null;
     const blocks = [...new Set(L.slides.map((f) => f.block).filter(Boolean))];
-    const CHEER = ['Ты молодец! 💪', 'Так держать! 🚀', 'Отличный темп! ⚡', 'Мозг прокачивается! 🧠', 'Ещё чуть-чуть — и ты эксперт! ✨', 'Горжусь тобой! 💜'];
 
     const api = {
       ctx, S, mainEl: main,
@@ -618,43 +529,39 @@ const App = (() => {
       good(xp, coins, anchor, text) {
         ctx.combo++;
         const mult = ctx.combo >= 3 ? 2 : 1;
-        const gx = reward(xp * mult, coins, { anchor: anchor || main, phrase: false, quiet: true });
-        ctx.xp += gx; ctx.coins += coins;
-        toBank(anchor, gx);
+        const gx = reward(xp * mult, 0, { quiet: true });
+        ctx.xp += gx; pending += gx;
         S.stats.correct++; save();
         if (!S.ach.first) unlock('first');
         combo.textContent = ctx.combo >= 2 ? `🔥 x${ctx.combo}` : '';
         combo.classList.toggle('hot', ctx.combo >= 3);
         buzz(15);
-        api.feedback('ok', `<b>${pick(GOOD)}</b> <span class="fb-rew">+${gx} XP${coins ? ` · +${coins} ${coin}` : ''}${mult > 1 ? ' · комбо x2!' : ''}</span>${text ? `<div>${text}</div>` : ''}`);
+        api.feedback('ok', `<b>${pick(GOOD)}</b>${text ? `<div>${text}</div>` : ''}`);
       },
       bad(msgs) {
         ctx.combo = 0; ctx.errors++;
         combo.textContent = ''; combo.classList.remove('hot');
         S.stats.wrong++; save();
-        const gx = reward(2, 0, { quiet: true });
-        ctx.xp += gx; bankTo(ctx.xp);
         sound('err'); buzz([20, 40, 20]);
         root.classList.remove('shake'); void root.offsetWidth; root.classList.add('shake');
-        api.feedback('bad', `<b>${pick(BAD)}</b> <span class="fb-rew">+2 XP за попытку</span>${(msgs || []).map((m) => `<div>• ${m}</div>`).join('')}`);
+        api.feedback('bad', `<b>${pick(BAD)}</b>${(msgs || []).map((m) => `<div>• ${m}</div>`).join('')}`);
       },
       spendHint(cost, text) {
-        if (S.coins < cost) { toast(`Нужно ${cost} ${coin} для подсказки`, 'bad'); return false; }
-        S.coins -= cost; save(); topbar(true);
         modal(`<div class="center"><div class="big-emoji">💡</div><p>${text}</p><button class="btn primary" data-close>Понял(а)</button></div>`);
         return true;
       },
       openAlgo,
       toast, confetti, sound, modal, reward, unlock,
-      fly: (anchor, xp, coins = 0) => { const gx = reward(xp, coins, { quiet: true }); ctx.xp += gx; ctx.coins += coins; toBank(anchor, gx); return gx; },
+      fly: (anchor, xp) => { const gx = reward(xp, 0, { quiet: true }); ctx.xp += gx; pending += gx; return gx; },
       finish(stars) {
         const first = !S.done[n];
         const prev = S.done[n] || { stars: 0, times: 0 };
         S.done[n] = { stars: Math.max(prev.stars, stars), times: prev.times + 1 };
         save();
-        const bx = first ? 60 : 20, bc = first ? 40 : 10;
-        const gx = reward(bx, bc, { quiet: true });
-        ctx.xp += gx; ctx.coins += bc; bankTo(ctx.xp);
+        const bx = first ? 60 : 20, bc = 0;
+        const before = ctx.xp;
+        flush(bx);
+        const gx = ctx.xp - before;
         delete S.prog[n];
         // общий урок на несколько станций (19–20) закрывает их все
         (L.alsoDone || []).forEach((x) => { const p = S.done[x] || { stars: 0, times: 0 }; S.done[x] = { stars: Math.max(p.stars, stars), times: p.times + 1 }; delete S.prog[x]; });
@@ -671,12 +578,11 @@ const App = (() => {
       const prev = idx;
       idx = i;
       if (i >= L.slides.length) return close();
-      // блок пройден: бонус улетает в копилку + поддерживающие слова
+      // блок пройден: накопленный опыт + бонус улетают в копилку (за вводный блок без теории — ничего)
       const pb = blockOf(prev), nb = blockOf(i);
-      if (i > prev && pb && pb !== nb) {
-        const left = blocks.length - blocks.indexOf(pb) - 1;
-        api.fly(main, 10, 3);
-        toast(`✅ Блок «${pb}» пройден! ${pick(CHEER)}${left > 0 ? ` Осталось блоков: ${left}` : ''}`, 'good');
+      if (i > prev && pb && pb !== nb && !awarded.has(pb)) {
+        awarded.add(pb);
+        flush(pb === 'Задание' ? 0 : 10);
       }
       if (!S.done[n] && i > (S.prog[n] || 0) && i < L.slides.length - 1) { S.prog[n] = i; save(); }
       body.innerHTML = '';
@@ -693,7 +599,10 @@ const App = (() => {
       root.innerHTML = '';
       document.body.classList.remove('in-lesson');
       go(tab);
+      if (pendingLevel) { const l = pendingLevel; pendingLevel = 0; setTimeout(() => levelUp(l), 400); }
+      pendingToasts.splice(0).forEach((m, k) => setTimeout(() => toast(m, 'achv'), 1200 + k * 2600));
     }
+    $('.l-back', root).onclick = () => { if (idx > 0) show(idx - 1); };
     $('.l-close', root).onclick = () => {
       if (idx === 0 || idx >= L.slides.length - 1) close();
       else ask('Выйти из задания? Мы запомним, где ты остановился — сможешь продолжить.', 'Выйти', close);
@@ -702,7 +611,7 @@ const App = (() => {
     const saved = S.prog[n] || 0;
     if (saved > 0 && !S.done[n]) {
       show(0);
-      const m = modal(`<div class="center"><div class="big-emoji">📍</div><h2>Продолжим?</h2><p>Ты уже прошёл <b>${saved} из ${L.slides.length - 1}</b> шагов этого задания${blockOf(saved) ? ` и остановился на блоке «${blockOf(saved)}»` : ''}.</p><button class="btn primary go-on">Продолжить с места 🚀</button><button class="btn ghost" data-close>Начать сначала</button></div>`);
+      const m = modal(`<div class="center"><div class="big-emoji">📍</div><h2>Продолжим?</h2><p>Ты уже прошёл <b>${saved} из ${L.slides.length - 1}</b> шагов этого задания${blockOf(saved) ? ` и остановился на блоке «${blockOf(saved)}»` : ''}.</p><button class="btn primary go-on">Продолжить 🚀</button><button class="btn ghost" data-close>Начать сначала</button></div>`);
       m.el.querySelector('.go-on').addEventListener('click', () => { m.close(); idx = saved; show(saved); });
     } else show(0);
   }
@@ -719,7 +628,6 @@ const App = (() => {
 
   function start() {
     document.querySelectorAll('.tabbar button').forEach((b) => b.addEventListener('click', () => { sound('tap'); go(b.dataset.tab); }));
-    $('.tb-coins').addEventListener('click', () => go('city'));
     $('.tb-avatar').addEventListener('click', () => go('profile'));
     topbar();
     go('map');
@@ -729,5 +637,6 @@ const App = (() => {
     try { if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (_) {}
   }
 
-  return { start, LESSONS, TASKS, coin, h, $, pick, openAlgo, confetti };
+  const core = { reward, sound, buzz, confetti, pick, GOOD, BAD, modal, toast, save, unlock, topbar, get S() { return S; } };
+  return { start, LESSONS, TASKS, coin, h, $, pick, openAlgo, confetti, core };
 })();
