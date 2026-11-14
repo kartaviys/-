@@ -66,10 +66,36 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
         const val ONE_SHOT = "run_now"
         const val DAILY = "run_daily"
 
+        const val ATTENTION = "attention"
+
         fun ensureChannel(ctx: Context) {
             val nm = ctx.getSystemService(NotificationManager::class.java)
             nm.createNotificationChannel(NotificationChannel(CHANNEL, "Автоотклик", NotificationManager.IMPORTANCE_LOW))
+            nm.createNotificationChannel(NotificationChannel(ATTENTION, "Агенту нужна помощь (капча, вход)", NotificationManager.IMPORTANCE_HIGH)
+                .apply { enableVibration(true) })
         }
+
+        /** Громкое уведомление: агент ждёт человека (капча, вход, код). Тап возвращает в окно агента. */
+        fun attention(ctx: Context, reason: String) {
+            ensureChannel(ctx)
+            val intent = Intent(ctx, AgentActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            val pi = PendingIntent.getActivity(ctx, 3, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            val n = NotificationCompat.Builder(ctx, ATTENTION)
+                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setContentTitle("Агенту нужна помощь")
+                .setContentText(reason)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(reason))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .build()
+            try { ctx.getSystemService(NotificationManager::class.java).notify(4, n) } catch (_: SecurityException) { }
+        }
+
+        fun clearAttention(ctx: Context) = ctx.getSystemService(NotificationManager::class.java).cancel(4)
 
         fun notify(ctx: Context, title: String, text: String, openAgent: Boolean = false) {
             val target = if (openAgent) Intent(ctx, AgentActivity::class.java).putExtra(AgentActivity.EXTRA_AUTOSTART, true)

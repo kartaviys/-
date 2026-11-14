@@ -48,6 +48,7 @@ class AgentActivity : ComponentActivity() {
     private lateinit var web: WebView
     private lateinit var info: TextView
     private lateinit var startBtn: Button
+    private lateinit var limitField: android.widget.EditText
     private lateinit var doneBtn: Button
     private lateinit var skipBtn: Button
     private var agent: BrowserAgent? = null
@@ -80,11 +81,22 @@ class AgentActivity : ComponentActivity() {
             }
         }
 
+        limitField = android.widget.EditText(this).apply {
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            setText(Prefs.get(this@AgentActivity, "agent_limit"))
+            hint = "50"
+        }
         startBtn = button("Старт") { toggle() }
         doneBtn = button("Готово") { humanWait?.complete(true) }.apply { isEnabled = false }
         skipBtn = button("Пропустить") { humanWait?.complete(false) }.apply { isEnabled = false }
         val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         root.addView(info)
+        root.addView(LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(dp(8), 0, dp(8), 0)
+            addView(label("Лимит откликов за сессию:", 13f))
+            addView(limitField, LinearLayout.LayoutParams(dp(90), LinearLayout.LayoutParams.WRAP_CONTENT))
+        })
         root.addView(web, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
         root.addView(row(startBtn, doneBtn, skipBtn))
         setContentView(root)
@@ -117,6 +129,7 @@ class AgentActivity : ComponentActivity() {
             setStatus("Остановлено.")
             return
         }
+        limitField.text.toString().trim().toIntOrNull()?.let { Prefs.set(this, "agent_limit", it.toString()) }
         startBtn.text = "Стоп"
         session = lifecycleScope.launch {
             try {
@@ -141,8 +154,10 @@ class AgentActivity : ComponentActivity() {
         doneBtn.isEnabled = true; skipBtn.isEnabled = true
         info.text = "✋ $reason\nСделайте это в окне ниже и нажмите «Готово» или «Пропустить»."
         RunLog.add(this@AgentActivity, "  нужен человек: $reason")
+        RunWorker.attention(this@AgentActivity, reason)
         try { wait.await() } finally {
             doneBtn.isEnabled = false; skipBtn.isEnabled = false; humanWait = null
+            RunWorker.clearAttention(this@AgentActivity)
         }
     }
 
@@ -207,11 +222,11 @@ class AgentActivity : ComponentActivity() {
     private suspend fun runSession() {
         val a = agent ?: return
         val db = Db(this)
-        val limit = Prefs.int(this, "max_applications")
+        val limit = Prefs.int(this, "agent_limit").coerceAtLeast(1)
         val dailyCap = Prefs.int(this, "daily_limit")
         var done = 0
         RunLog.clear(this)
-        log("Агент: старт сессии")
+        log("Агент: старт сессии, лимит $limit откликов")
 
         // 1. hh.ru через сайт
         val hh = Sources.byKey("hh")

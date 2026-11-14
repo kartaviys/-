@@ -36,7 +36,8 @@ No placeholders in square brackets, no markdown, no bullet lists. Return only th
     }
 
     fun write(llm: Llm, v: JSONObject, lang: String, resumeText: String, name: String, cvUrl: String): String {
-        val user = "Имя кандидата для подписи: $name\n\n=== ВАКАНСИЯ ===\n${brief(v)}\n\n" +
+        val sign = name.ifBlank { "возьми имя кандидата из резюме; если его там нет — подпись не ставь" }
+        val user = "Имя кандидата для подписи: $sign\n\n=== ВАКАНСИЯ ===\n${brief(v)}\n\n" +
             "=== РЕЗЮМЕ КАНДИДАТА ===\n${resumeText.take(8000)}"
         var letter = llm.complete(if (lang == "en") SYSTEM_EN else SYSTEM_RU, user, maxTokens = 2000)
         if (lang == "en" && cvUrl.isNotBlank()) letter += "\n\nCV (PDF): $cvUrl"

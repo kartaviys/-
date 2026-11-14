@@ -43,9 +43,36 @@ class MainActivity : ComponentActivity() {
         }
 
         val box = vbox()
+
+        // ---------- Быстрый старт: только ключ нейросети и вход на hh ----------
+        box.addView(header("🚀 Быстрый старт — 3 шага"))
+        box.addView(label("1. Вставьте ключ нейросети (Claude «sk-ant-…» или DeepSeek «sk-…»):", 13f))
+        val keyField = android.widget.EditText(this).apply {
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            hint = if (Prefs.get(this@MainActivity, "anthropic_key").isNotBlank() || Prefs.get(this@MainActivity, "deepseek_key").isNotBlank())
+                "ключ уже сохранён ✅ (можно заменить)" else "sk-ant-… или sk-…"
+        }
+        box.addView(keyField)
+        box.addView(button("Сохранить ключ") {
+            val key = keyField.text.toString().trim()
+            when {
+                key.isEmpty() -> toast("Вставьте ключ")
+                key.startsWith("sk-ant-") -> { Prefs.set(this, "anthropic_key", key); toast("Ключ Claude сохранён ✅") }
+                else -> { Prefs.set(this, "deepseek_key", key); toast("Ключ DeepSeek сохранён ✅") }
+            }
+            if (key.isNotEmpty()) { keyField.setText(""); keyField.hint = "ключ уже сохранён ✅ (можно заменить)" }
+        })
+        box.addView(label("2. Войдите в свой аккаунт hh.ru:", 13f))
+        box.addView(button("Войти на hh.ru") { openWeb(WebActivity.MODE_LOGIN) })
+        box.addView(label("3. Запустите агента — он сам возьмёт резюме из профиля hh, найдёт вакансии и откликнется:", 13f))
+        box.addView(button("🤖 Запустить агента") {
+            startActivity(Intent(this, AgentActivity::class.java).putExtra(AgentActivity.EXTRA_AUTOSTART, true))
+        })
+        box.addView(label("Всё остальное ниже — необязательно: API hh, PDF резюме, другие площадки, расписание.", 12f))
+
         status = label("", 13f)
         box.addView(status)
-        box.addView(header("Настройка"))
+        box.addView(header("Дополнительно"))
         box.addView(row(
             button("Настройки") { startActivity(Intent(this, SettingsActivity::class.java)) },
             button("Войти через API hh") { openWeb(WebActivity.MODE_OAUTH) },
@@ -103,10 +130,14 @@ class MainActivity : ComponentActivity() {
         }
         val hhOk = HhApi(this).isAuthorized
         status.text = buildString {
-            append(if (hhOk) "✅ API hh подключено" else "ℹ API hh не подключено — hh работает через «Агента»").append("\n")
-            append(if (Prefs.get(this@MainActivity, "ru_resume_id").isNotBlank()) "✅ Резюме выбрано" else "❌ Резюме hh не выбрано").append("\n")
-            append(if (Prefs.get(this@MainActivity, "ru_resume_text").isNotBlank()) "✅ Текст резюме RU загружен" else "❌ Текст резюме RU пуст").append("\n")
-            append(if (Prefs.get(this@MainActivity, "en_resume_text").isNotBlank()) "✅ Текст резюме EN загружен" else "— Текст резюме EN пуст").append("\n")
+            val c = this@MainActivity
+            val llmOk = Prefs.get(c, "anthropic_key").isNotBlank() || Prefs.get(c, "deepseek_key").isNotBlank()
+            append(if (llmOk) "✅ Ключ нейросети сохранён" else "❌ Нет ключа нейросети (шаг 1)").append("\n")
+            append(if (hhOk) "✅ API hh подключено" else "ℹ hh работает через сайт — откликается «Агент»").append("\n")
+            if (hhOk) append(if (Prefs.get(c, "ru_resume_id").isNotBlank()) "✅ Резюме для API выбрано\n" else "❌ Резюме для API не выбрано («Мои резюме на hh»)\n")
+            append(if (Prefs.get(c, "ru_resume_text").isNotBlank()) "✅ Резюме RU есть" else "ℹ Резюме RU возьмёт агент из профиля hh")
+            append(" · ")
+            append(if (Prefs.get(c, "en_resume_text").isNotBlank()) "✅ EN есть" else "EN — из профиля hh, если есть").append("\n")
             append("Откликов сегодня: $today · Анкет ждут: $pending")
             if (running) append("\n⏳ Идёт запуск…")
         }

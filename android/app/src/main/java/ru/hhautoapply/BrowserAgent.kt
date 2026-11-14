@@ -65,6 +65,27 @@ class BrowserAgent(
         delay(1800 + Random.nextLong(1200))
     }
 
+    /**
+     * Капча и антибот-проверки. Автопроверку (Cloudflare «Just a moment») просто ждём,
+     * настоящую капчу решает человек. true — можно продолжать, false — пропустить.
+     */
+    suspend fun passBlockers(): Boolean {
+        repeat(6) {
+            when (call("window.__ag.blocker()")) {
+                "auto" -> { status("Сайт проверяет браузер, жду…"); delay(4000) }
+                "human" -> {
+                    RunLog.add(ctx, "  капча — жду человека")
+                    return human("Капча: решите её в окне ниже и нажмите «Готово»")
+                }
+                else -> return true
+            }
+        }
+        return human("Сайт долго проверяет браузер. Если видите капчу — решите её и нажмите «Готово»")
+    }
+
+    /** Открыть страницу и пройти антибот-проверку. */
+    suspend fun open(url: String): Boolean { load(url); return passBlockers() }
+
     suspend fun currentUrl(): String = withContext(Dispatchers.Main) { web.url.orEmpty() }
 
     private fun q(s: String) = JSONObject.quote(s)
@@ -117,6 +138,7 @@ class BrowserAgent(
         var repeats = 0
         val resumeTitle = Prefs.get(ctx, if (g.language == "en") "en_title" else "ru_title")
         for (step in 1..maxSteps) {
+            if (!passBlockers()) return Outcome.SKIPPED
             val snap = try { JSONObject(call("window.__ag.snapshot()")) } catch (e: Exception) {
                 delay(2000); continue
             }
@@ -179,10 +201,36 @@ class BrowserAgent(
 
     /** Проверка входа на hh.ru; если не вошли — просим войти. */
     suspend fun ensureHhLogin(): Boolean {
-        load("https://hh.ru/applicant/resumes")
+        if (!open("https://hh.ru/applicant/resumes")) return false
         val url = currentUrl()
-        if (!url.contains("login") && !url.contains("/account/")) return true
-        return human("Войдите в свой аккаунт hh.ru в этом окне, затем нажмите «Готово»")
+        if (url.contains("login") || url.contains("/account/")) {
+            if (!human("Войдите в свой аккаунт hh.ru в этом окне, затем нажмите «Готово»")) return false
+            if (!open("https://hh.ru/applicant/resumes")) return false
+        }
+        importHhResumes()
+        return true
+    }
+
+    /**
+     * Минимальная настройка: если тексты/названия резюме не заданы, берём их прямо из профиля hh.
+     * Язык резюме определяется по его тексту: русское — для русских вакансий, английское — для английских.
+     */
+    private suspend fun importHhResumes() {
+        val need = listOf("ru_resume_text", "en_resume_text", "ru_title", "en_title").any { Prefs.get(ctx, it).isBlank() }
+        if (!need) return
+        val list = try { JSONArray(call("window.__ag.hhResumes()")) } catch (_: Exception) { JSONArray() }
+        if (list.length() == 0) { RunLog.add(ctx, "hh: резюме в профиле не найдены"); return }
+        status("Импортирую резюме из профиля hh…")
+        for (i in 0 until minOf(list.length(), 4)) {
+            val r = list.getJSONObject(i)
+            if (!open("https://hh.ru/resume/${r.getString("id")}")) continue
+            val text = call("window.__ag.bodyText()")
+            val lang = Text.detectLanguage(text)
+            val title = r.getString("title")
+            if (Prefs.get(ctx, "${lang}_title").isBlank()) Prefs.set(ctx, "${lang}_title", title)
+            if (Prefs.get(ctx, "${lang}_resume_text").isBlank()) Prefs.set(ctx, "${lang}_resume_text", text)
+            RunLog.add(ctx, "hh: резюме «$title» ($lang) импортировано")
+        }
     }
 
     fun hhSearchUrl(query: String, page: Int): String = Uri.parse("https://hh.ru/search/vacancy").buildUpon()
@@ -203,10 +251,7 @@ class BrowserAgent(
         for (query in queries) {
             for (page in 0 until pages) {
                 status("hh: ищу «${query.take(40)}…», стр. ${page + 1}")
-                load(hhSearchUrl(query, page))
-                if (call("window.__ag.bodyText()").contains("не робот", true)) {
-                    if (!human("hh просит подтвердить, что вы не робот — пройдите проверку и нажмите «Готово»")) return out.values.toList()
-                }
+                if (!open(hhSearchUrl(query, page))) return out.values.toList()
                 val arr = try { JSONArray(call("window.__ag.hhLinks()")) } catch (_: Exception) { JSONArray() }
                 if (arr.length() == 0) break
                 for (i in 0 until arr.length()) {
@@ -221,7 +266,7 @@ class BrowserAgent(
 
     /** Открывает вакансию и возвращает (работодатель, описание, в архиве?). */
     suspend fun hhOpen(id: String): Triple<String, String, Boolean> {
-        load("https://hh.ru/vacancy/$id")
+        if (!open("https://hh.ru/vacancy/$id")) return Triple("", "", true)
         val employer = call("window.__ag.textOf('[data-qa=\"vacancy-company-name\"]')")
         val desc = call("window.__ag.textOf('[data-qa=\"vacancy-description\"]')").ifBlank { call("window.__ag.bodyText()") }
         val body = call("window.__ag.bodyText()")
@@ -246,6 +291,7 @@ class BrowserAgent(
         val clicked = call("window.__ag.clickSel('[data-qa=\"vacancy-response-link-top\"], [data-qa=\"vacancy-response-link-bottom\"]')")
         if (clicked != "ok") return runGoal(g, confirmSubmit)
         delay(2500)
+        if (!passBlockers()) return Outcome.SKIPPED
         if (has("[data-qa=\"relocation-warning-confirm\"]")) {
             call("window.__ag.clickSel('[data-qa=\"relocation-warning-confirm\"]')"); delay(2000)
         }
@@ -262,6 +308,7 @@ class BrowserAgent(
         if (confirmSubmit && !confirm("Отправить отклик на «${g.title}»?")) return Outcome.SKIPPED
         if (call("window.__ag.clickSel('[data-qa=\"vacancy-response-submit-popup\"]')") != "ok") return runGoal(g, confirmSubmit)
         delay(3000)
+        if (!passBlockers()) return Outcome.SKIPPED
         // Иногда после отклика hh просит письмо отдельной формой
         if (call("window.__ag.fillSel('[data-qa=\"vacancy-response-letter-input\"]', ${q(g.letter)})") == "ok") {
             call("window.__ag.clickSel('[data-qa=\"vacancy-response-letter-submit\"]')"); delay(2000)

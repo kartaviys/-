@@ -73,6 +73,32 @@ window.__ag = (function () {
     },
     scroll(dir) { window.scrollBy(0, dir === 'up' ? -700 : 700); return 'ok'; },
 
+    // Капча / антибот-проверка: '' если нет, иначе 'auto' (проходит сама, напр. Cloudflare) или 'human'
+    blocker() {
+      const frames = [...document.querySelectorAll('iframe')].map(f => (f.src || '') + ' ' + (f.title || '')).join(' ').toLowerCase();
+      const body = (document.body ? document.body.innerText : '').toLowerCase().slice(0, 4000);
+      const title = (document.title || '').toLowerCase();
+      if (/checking your browser|проверка браузера|just a moment\.\.\.|checking if the site connection is secure/.test(title + ' ' + body.slice(0, 300))) return 'auto';
+      const captchaEl = document.querySelector('.g-recaptcha, .h-captcha, .smart-captcha, [class*="captcha" i], [id*="captcha" i], input[name*="captcha" i], .cf-turnstile');
+      const captchaFrame = /recaptcha|hcaptcha|smartcaptcha|captcha|turnstile|challenges\.cloudflare/.test(frames);
+      const captchaText = /не робот|подтвердите, что вы человек|i'm not a robot|i am not a robot|verify you are human|введите символы с картинки|enter the characters/.test(body);
+      return (captchaEl && vis(captchaEl)) || captchaFrame || captchaText ? 'human' : '';
+    },
+
+    // Список резюме в профиле hh: ссылки вида /resume/<hash>
+    hhResumes() {
+      const out = [], seen = new Set();
+      for (const a of document.querySelectorAll('a[href*="/resume/"]')) {
+        const m = (a.getAttribute('href') || '').match(/\/resume\/([0-9a-f]{20,})/i);
+        if (!m || seen.has(m[1])) continue;
+        const t = clean(a.innerText);
+        if (t.length < 3) continue;
+        seen.add(m[1]);
+        out.push({ id: m[1], title: t.slice(0, 120) });
+      }
+      return JSON.stringify(out);
+    },
+
     // ---------- hh.ru ----------
     has(sel) { return !!document.querySelector(sel); },
     clickSel(sel) {

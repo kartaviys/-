@@ -16,6 +16,7 @@ object Prefs {
         )),
         Section("Браузерный агент", listOf(
             Field("agent_confirm", "Спрашивать подтверждение перед каждой отправкой (LinkedIn — всегда)", FieldType.BOOL, "false"),
+            Field("agent_limit", "Сколько откликов агент делает за одну сессию", FieldType.NUMBER, "50"),
             Field("agent_max_steps", "Максимум шагов агента на одну вакансию", FieldType.NUMBER, "20"),
         )),
         Section("hh.ru API (приложение с dev.hh.ru)", listOf(
@@ -69,15 +70,15 @@ object Prefs {
         Section("Резюме", listOf(
             Field("ru_resume_id", "ID русского резюме на hh (кнопка «Мои резюме»)"),
             Field("en_resume_id", "ID английского резюме на hh"),
-            Field("ru_title", "Название русского резюме на hh", default = "Senior Data Scientist"),
-            Field("en_title", "Название английского резюме на hh", default = "Senior Data Scientist (EN)"),
+            Field("ru_title", "Название русского резюме на hh (агент заполнит сам из профиля hh)"),
+            Field("en_title", "Название английского резюме на hh (агент заполнит сам из профиля hh)"),
             Field("en_cv_url", "Ссылка на PDF англ. резюме (добавится в письмо, необязательно)"),
-            Field("ru_resume_text", "Текст русского резюме (заполняется из PDF)", FieldType.MULTILINE),
-            Field("en_resume_text", "Текст английского резюме (заполняется из PDF)", FieldType.MULTILINE),
+            Field("ru_resume_text", "Текст русского резюме (заполняется из PDF или агентом из профиля hh)", FieldType.MULTILINE),
+            Field("en_resume_text", "Текст английского резюме (заполняется из PDF или агентом из профиля hh)", FieldType.MULTILINE),
         )),
         Section("Профиль для анкет", listOf(
-            Field("name", "Имя Фамилия"),
-            Field("name_en", "Name Surname"),
+            Field("name", "Имя Фамилия (если пусто — возьмётся из резюме)"),
+            Field("name_en", "Name Surname (если пусто — возьмётся из резюме)"),
             Field("email", "Email"),
             Field("phone", "Телефон"),
             Field("city", "Город", default = "Москва"),
