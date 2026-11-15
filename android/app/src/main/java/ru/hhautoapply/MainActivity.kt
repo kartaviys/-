@@ -136,7 +136,7 @@ class MainActivity : ComponentActivity() {
         val hhOk = HhApi(this).isAuthorized
         status.text = buildString {
             val c = this@MainActivity
-            val llmOk = Prefs.get(c, "anthropic_key").isNotBlank() || Prefs.get(c, "deepseek_key").isNotBlank()
+            val llmOk = Prefs.get(c, "anthropic_key").isNotBlank() || Prefs.get(c, "deepseek_key").isNotBlank() || Prefs.get(c, "custom_base_url").isNotBlank()
             append(if (llmOk) "✅ Ключ нейросети сохранён" else "❌ Нет ключа нейросети (шаг 1)").append("\n")
             append(if (hhOk) "✅ API hh подключено" else "ℹ hh работает через сайт — откликается «Агент»").append("\n")
             if (hhOk) append(if (Prefs.get(c, "ru_resume_id").isNotBlank()) "✅ Резюме для API выбрано\n" else "❌ Резюме для API не выбрано («Мои резюме на hh»)\n")

@@ -77,30 +77,55 @@ class ClaudeProvider(apiKey: String, private val model: String) : Provider {
     }
 }
 
-class DeepSeekProvider(private val apiKey: String, private val model: String) : Provider {
-    override val name = "deepseek"
-    override val priceIn = 0.28
-    override val priceOut = 0.42
-    private val http = OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).build()
+/**
+ * Любой OpenAI-совместимый API (/chat/completions): DeepSeek, своя локальная модель (Ollama, LM Studio,
+ * llama.cpp server), OpenRouter, Groq, Mistral, Gemini и т.п.
+ */
+class OpenAiCompatProvider(
+    override val name: String,
+    baseUrl: String,
+    private val apiKey: String,
+    private val model: String,
+    override val priceIn: Double,
+    override val priceOut: Double,
+    timeoutSec: Long = 120,
+) : Provider {
+    private val endpoint = baseUrl.trim().trimEnd('/').let { if (it.endsWith("/chat/completions")) it else "$it/chat/completions" }
+    private val http = OkHttpClient.Builder().readTimeout(timeoutSec, TimeUnit.SECONDS).callTimeout(timeoutSec + 30, TimeUnit.SECONDS).build()
+    @Volatile private var jsonModeSupported = true
 
     override fun complete(system: String, user: String, wantJson: Boolean, maxTokens: Long): Triple<String, Long, Long> {
+        return try {
+            send(system, user, wantJson && jsonModeSupported, maxTokens)
+        } catch (e: LlmException) {
+            // Некоторые локальные серверы не знают response_format — повторяем без него
+            if (wantJson && jsonModeSupported && e.message.orEmpty().contains(" 400")) {
+                jsonModeSupported = false
+                send(system, user, false, maxTokens)
+            } else throw e
+        }
+    }
+
+    private fun send(system: String, user: String, jsonMode: Boolean, maxTokens: Long): Triple<String, Long, Long> {
         val body = JSONObject()
             .put("model", model)
             .put("max_tokens", maxTokens)
+            .put("stream", false)
             .put("messages", JSONArray()
                 .put(JSONObject().put("role", "system").put("content", system))
                 .put(JSONObject().put("role", "user").put("content", user)))
-        if (wantJson) body.put("response_format", JSONObject().put("type", "json_object"))
-        val req = Request.Builder()
-            .url("https://api.deepseek.com/chat/completions")
-            .header("Authorization", "Bearer $apiKey")
+        if (jsonMode) body.put("response_format", JSONObject().put("type", "json_object"))
+        val req = Request.Builder().url(endpoint)
+            .apply { if (apiKey.isNotBlank()) header("Authorization", "Bearer $apiKey") }
             .post(body.toString().toRequestBody("application/json".toMediaType()))
             .build()
         http.newCall(req).execute().use { r ->
             val txt = r.body?.string().orEmpty()
-            if (!r.isSuccessful) throw LlmException("DeepSeek ${r.code}: ${txt.take(300)}")
+            if (!r.isSuccessful) throw LlmException("$name ${r.code}: ${txt.take(300)}")
             val o = JSONObject(txt)
-            val content = o.getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content")
+            var content = o.getJSONArray("choices").getJSONObject(0).getJSONObject("message").optString("content")
+            // Модели с «размышлениями» (Qwen3, DeepSeek-R1) иногда пишут <think>…</think> — убираем
+            content = content.replace(Regex("<think>.*?</think>", RegexOption.DOT_MATCHES_ALL), "").trim()
             val u = o.optJSONObject("usage")
             return Triple(content, u?.optLong("prompt_tokens") ?: 0, u?.optLong("completion_tokens") ?: 0)
         }
@@ -115,15 +140,27 @@ class Llm(private val ctx: Context, private val log: (String) -> Unit) {
     private val usage = mutableMapOf<String, DoubleArray>() // in, out, cost
 
     init {
-        for (name in Prefs.list(ctx, "providers")) {
+        val order = Prefs.list(ctx, "providers").toMutableList()
+        // Своя модель указана, но не добавлена в порядок — добавляем последней (запасной)
+        if (Prefs.get(ctx, "custom_base_url").isNotBlank() && order.none { it.equals("custom", true) || it.equals("local", true) }) order += "custom"
+        for (name in order) {
             when (name.lowercase()) {
                 "claude" -> Prefs.get(ctx, "anthropic_key").trim().takeIf { it.isNotEmpty() }
                     ?.let { providers += ClaudeProvider(it, Prefs.get(ctx, "claude_model").trim()) }
                 "deepseek" -> Prefs.get(ctx, "deepseek_key").trim().takeIf { it.isNotEmpty() }
-                    ?.let { providers += DeepSeekProvider(it, Prefs.get(ctx, "deepseek_model").trim()) }
+                    ?.let { providers += OpenAiCompatProvider("deepseek", "https://api.deepseek.com", it, Prefs.get(ctx, "deepseek_model").trim(), 0.28, 0.42) }
+                "custom", "local" -> Prefs.get(ctx, "custom_base_url").trim().takeIf { it.isNotEmpty() }?.let { url ->
+                    fun price(k: String) = Prefs.get(ctx, k).replace(',', '.').toDoubleOrNull() ?: 0.0
+                    providers += OpenAiCompatProvider(
+                        Prefs.get(ctx, "custom_name").trim().ifBlank { "своя модель" }, url,
+                        Prefs.get(ctx, "custom_key").trim(), Prefs.get(ctx, "custom_model").trim(),
+                        price("custom_price_in"), price("custom_price_out"),
+                        timeoutSec = Prefs.int(ctx, "custom_timeout").coerceIn(30, 1800).toLong(),
+                    )
+                }
             }
         }
-        if (providers.isEmpty()) throw LlmException("Не указан ни один ключ нейросети в настройках")
+        if (providers.isEmpty()) throw LlmException("Не настроена ни одна нейросеть: укажите ключ Claude/DeepSeek или адрес своей модели в настройках (и добавьте её в «Порядок провайдеров»)")
     }
 
     val claude: ClaudeProvider? get() = providers.filterIsInstance<ClaudeProvider>().firstOrNull()

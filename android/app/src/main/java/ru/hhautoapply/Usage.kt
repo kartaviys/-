@@ -89,6 +89,7 @@ object Usage {
         sb.append("\nЗа 7 дней: ${money(w.cost)} (${tokens(w.input + w.output)} токенов)\n")
         sb.append("За 30 дней: ${money(mo.cost)} (${tokens(mo.input + mo.output)} токенов)\n")
         sb.append("\nЦены (за 1M токенов): Claude Haiku 5.5 — $0.10 вход / $0.50 выход; DeepSeek — ≈$0.28 / $0.42. " +
+            "Своя модель — по ценам из настроек (локальная — бесплатно). " +
             "Это оценка по ответам API; точная сумма — в кабинете провайдера.")
         return sb.toString().ifBlank { "Расходов пока нет." }
     }

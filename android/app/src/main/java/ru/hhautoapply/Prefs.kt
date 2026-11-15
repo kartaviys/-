@@ -28,11 +28,21 @@ object Prefs {
         Section("Нейросеть", listOf(
             Field("anthropic_key", "Ключ Claude (sk-ant-…)", FieldType.SECRET),
             Field("deepseek_key", "Ключ DeepSeek (необязательно, запасной)", FieldType.SECRET),
-            Field("providers", "Порядок провайдеров через запятую", default = "claude,deepseek"),
+            Field("providers", "Порядок провайдеров через запятую: claude, deepseek, custom (своя модель)", default = "claude,deepseek,custom"),
             Field("strategy", "Стратегия: fallback или round_robin (вперемешку)", default = "fallback"),
             Field("claude_model", "Модель Claude", default = "claude-haiku-5-5"),
             Field("deepseek_model", "Модель DeepSeek", default = "deepseek-chat"),
             Field("daily_budget", "Дневной бюджет на нейросеть, $ (0 — без ограничения)", default = "1"),
+        )),
+        Section("Своя модель (локальная или любой OpenAI-совместимый API)", listOf(
+            Field("custom_base_url", "Адрес API. Ollama на ПК: http://192.168.1.10:11434/v1 · LM Studio: http://192.168.1.10:1234/v1 · " +
+                "Ollama в Termux на телефоне: http://127.0.0.1:11434/v1 · OpenRouter: https://openrouter.ai/api/v1"),
+            Field("custom_model", "Название модели (например qwen2.5:7b, gemma3:12b)"),
+            Field("custom_key", "Ключ API (для локальной модели не нужен)", FieldType.SECRET),
+            Field("custom_name", "Как подписывать в расходах", default = "своя модель"),
+            Field("custom_timeout", "Таймаут ответа, сек (локальные модели медленные)", FieldType.NUMBER, "300"),
+            Field("custom_price_in", "Цена за 1M входных токенов, $ (для локальной — 0)", default = "0"),
+            Field("custom_price_out", "Цена за 1M выходных токенов, $ (для локальной — 0)", default = "0"),
         )),
         Section("Поиск", listOf(
             Field("queries", "Запросы для hh — по одному на строку, простыми словами, в порядке важности", FieldType.MULTILINE, default = listOf(
