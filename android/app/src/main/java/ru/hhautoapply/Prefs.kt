@@ -67,7 +67,8 @@ object Prefs {
                 default = "data scien, дата сайент, дата-сайент, анализу данных, ml, machine learning, машинн, ai, ии, искусственн, llm, genai, nlp, естественного языка, natural language, data analyst, аналитик данных, applied scien, research scien, research engineer, ml researcher, ai researcher, исследователь машинн, исследователь ml, исследователь ai, deep learning, нейросет, нейронн, prompt, промпт, generative, генеративн, рекомендательн, recommender, recsys, ranking, ранжирован, decision scien, лингвист, linguist, conversational"),
             Field("title_exclude", "Исключить, если в названии (через запятую)",
                 default = "junior, intern, стажер, стажёр, младший, lead, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, image, изображен"),
-            Field("area", "Регион (113 — Россия, 1 — Москва, 2 — СПб)", FieldType.NUMBER, "113"),
+            Field("area", "Регион hh (пусто — все регионы; 113 — Россия, 1 — Москва, 2 — СПб)", FieldType.NUMBER, ""),
+            Field("experience_filter", "Фильтр по опыту на hh (только 3+ лет)", FieldType.BOOL, "false"),,
             Field("period", "Вакансии за последние N дней", FieldType.NUMBER, "7"),
             Field("remote_only", "Только удалёнка", FieldType.BOOL, "false"),
         )),
@@ -102,7 +103,7 @@ object Prefs {
             Field("github", "GitHub"),
         )),
         Section("Анкеты", listOf(
-            Field("salary_answer", "Ответ на любой вопрос про зарплату", default = "25000"),
+            Field("salary_answer", "Ответ на любой вопрос про зарплату", default = "250000"),
             Field("auto_submit", "Отправлять анкеты автоматически", FieldType.BOOL, "false"),
         )),
         Section("Запуск", listOf(
@@ -132,6 +133,14 @@ object Prefs {
     fun migrate(ctx: Context) {
         val q = sp(ctx).getString("queries", null)
         if (q != null && q.contains(" OR ")) sp(ctx).edit().remove("queries").apply()
+        val e = sp(ctx).edit()
+        // v2: зарплата 250 000; поиск без привязки к региону и без фильтра опыта
+        if (sp(ctx).getString("mig_v2", null) == null) {
+            if (sp(ctx).getString("salary_answer", null) == "25000") e.putString("salary_answer", "250000")
+            if (sp(ctx).getString("area", null) in setOf("113", "1")) e.putString("area", "")
+            e.putString("mig_v2", "done")
+        }
+        e.apply()
     }
 
     fun profileJson(ctx: Context): String {

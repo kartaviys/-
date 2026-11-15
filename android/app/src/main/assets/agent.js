@@ -99,6 +99,18 @@ window.__ag = (function () {
       return JSON.stringify(out);
     },
 
+    // Заполнить пустые поля про зарплату (по подписи/плейсхолдеру/имени поля)
+    fillSalary(value) {
+      const re = /зарплат|заработн|з\/п|оклад|доход|ожидани|вознагражден|salary|compensation|expected pay|desired pay/i;
+      let n = 0;
+      for (const e of document.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]), textarea')) {
+        if (!vis(e) || (e.value || '').trim() === String(value)) continue;
+        const q = labelOf(e) + ' ' + (e.name || '') + ' ' + (e.id || '');
+        if (re.test(q)) { setValue(e, value); n++; }
+      }
+      return String(n);
+    },
+
     // ---------- hh.ru ----------
     has(sel) { return !!document.querySelector(sel); },
     clickSel(sel) {

@@ -15,9 +15,27 @@ android {
         versionName = "1.0"
     }
 
+    // Постоянный ключ подписи (готовит CI: из секретов репозитория или из кэша сборки),
+    // чтобы новая версия ставилась поверх старой с сохранением входов и настроек.
+    val ksPath = System.getenv("HH_KEYSTORE_PATH")
+    if (ksPath != null) {
+        signingConfigs {
+            create("persistent") {
+                storeFile = file(ksPath)
+                storePassword = System.getenv("HH_KEYSTORE_PASSWORD")
+                keyAlias = "hhautoapply"
+                keyPassword = System.getenv("HH_KEYSTORE_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (ksPath != null) signingConfig = signingConfigs.getByName("persistent")
+        }
+        debug {
+            if (ksPath != null) signingConfig = signingConfigs.getByName("persistent")
         }
     }
     compileOptions {

@@ -32,6 +32,43 @@ jobs:
         with:
           gradle-version: "8.14.3"
 
+      # Постоянный ключ подписи: секрет HH_KEYSTORE_B64 (если добавлен) или ключ из кэша сборки,
+      # созданный один раз. Так обновления ставятся поверх без удаления приложения.
+      - name: Restore signing key
+        uses: actions/cache@v4
+        with:
+          path: android/signing
+          key: hh-autoapply-signing-v1
+
+      - name: Prepare signing key
+        env:
+          KS_B64: ${{ secrets.HH_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.HH_KEYSTORE_PASSWORD }}
+        run: |
+          mkdir -p signing
+          if [ -n "$KS_B64" ] && [ -n "$KS_PASS" ]; then
+            echo "$KS_B64" | base64 -d > signing/release.jks
+            PASS="$KS_PASS"
+            echo "Signing key: repository secret"
+          else
+            if [ ! -f signing/ci.jks ]; then
+              openssl rand -hex 16 | tr -d '\n' > signing/ci.pass
+              PASS=$(cat signing/ci.pass)
+              echo "::add-mask::$PASS"
+              keytool -genkeypair -keystore signing/ci.jks -storepass "$PASS" -keypass "$PASS" \
+                -alias hhautoapply -keyalg RSA -keysize 2048 -validity 36500 -dname "CN=HH Autoapply" >/dev/null
+              echo "Signing key: generated and cached"
+            else
+              echo "Signing key: restored from cache"
+            fi
+            PASS=$(cat signing/ci.pass)
+            cp signing/ci.jks signing/release.jks
+          fi
+          echo "::add-mask::$PASS"
+          echo "HH_KEYSTORE_PASSWORD=$PASS" >> "$GITHUB_ENV"
+          echo "HH_KEYSTORE_PATH=$PWD/signing/release.jks" >> "$GITHUB_ENV"
+          keytool -list -v -keystore signing/release.jks -storepass "$PASS" | grep -m1 "SHA256:" || true
+
       - name: Build APK
         run: gradle assembleDebug --no-daemon --stacktrace
 

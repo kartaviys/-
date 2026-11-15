@@ -99,12 +99,14 @@ object AgentEngine {
         prompt.value = p
         RunWorker.attention(ctx, text)
         RunLog.add(ctx, "  ✋ $text")
-        // Ждём до 15 минут; если никто не ответил — пропускаем и идём дальше
-        val r = withTimeoutOrNull(15 * 60_000L) { d.await() } ?: false.also { RunLog.add(ctx, "  нет ответа 15 минут — пропуск") }
-        prompt.value = null
-        answer = null
-        RunWorker.clearAttention(ctx)
-        return r
+        try {
+            // Ждём до 15 минут; если никто не ответил — пропускаем и идём дальше
+            return withTimeoutOrNull(15 * 60_000L) { d.await() } ?: false.also { RunLog.add(ctx, "  нет ответа 15 минут — пропуск") }
+        } finally {
+            // и при отмене (например, капча исчезла сама) убираем вопрос и уведомление
+            if (answer === d) { prompt.value = null; answer = null }
+            RunWorker.clearAttention(ctx)
+        }
     }
 
     // ---------- сессия ----------
@@ -187,39 +189,56 @@ object AgentEngine {
             return false
         }
 
-        // 1. hh.ru через сайт: запрос → страница → сразу откликаемся → следующая страница → следующий запрос
+        // 1. hh.ru через сайт: сначала рекомендованные hh вакансии по резюме, потом запросы.
+        //    Порядок: страница → сразу откликаемся → следующая страница → следующий запрос.
         val hh = Sources.byKey("hh")
         if (hh != null && Sources.isOn(ctx, hh) && !HhMode.useApi(ctx)) {
             if (a.ensureHhLogin()) {
                 val include = Prefs.list(ctx, "title_include")
                 val exclude = Prefs.list(ctx, "title_exclude")
+
+                suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, useInclude: Boolean) {
+                    val fresh = list.filter { Text.titleOk(it.title, if (useInclude) include else emptyList(), exclude) && !db.seen(it.id) }
+                    RunLog.add(ctx, "hh $label: вакансий ${list.size}, новых подходящих ${fresh.size}")
+                    for (v in fresh) {
+                        coroutineContext.ensureActive()
+                        if (capReached()) return
+                        status.value = "hh: «${v.title}» (откликов $done из $limit)"
+                        val (employer, desc, archived) = a.hhOpen(v.id)
+                        val url = "https://hh.ru/vacancy/${v.id}"
+                        if (archived) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "archived"); continue }
+                        if (Text.isCvHeavy(desc)) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "computer vision"); continue }
+                        val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
+                        status.value = "hh: пишу письмо — «${v.title}»"
+                        val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                            RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
+                        }
+                        val outcome = a.hhApply(AgentGoal(v.title, employer, letter, lang), needConfirm(ctx, "hh"))
+                        val st = statusOf(outcome)
+                        db.record(v.id, v.title, employer, url, url, lang, st, "hh_site", letter)
+                        RunLog.add(ctx, "• [hh] [$lang] ${v.title} — $employer → ${Db.STATUS_RU[st]}")
+                        if (st == "applied") { done++; pause(ctx) }
+                    }
+                }
+
+                // 1a. Рекомендации hh под каждое резюме (то, что hh показывает на главной «Вакансии для вас»)
+                recs@ for (hash in Prefs.list(ctx, "hh_resume_hashes")) {
+                    for (page in 0 until 5) {
+                        coroutineContext.ensureActive()
+                        if (capReached()) break@recs
+                        val list = a.hhRecommendedPage(hash, page) ?: break@recs
+                        if (list.isEmpty()) break
+                        applyAll(list, "рекомендации, стр. ${page + 1}", useInclude = false)
+                    }
+                }
+                // 1b. Поиск по запросам
                 queries@ for (query in Prefs.list(ctx, "queries", Regex("\n"))) {
                     for (page in 0 until 5) {
                         coroutineContext.ensureActive()
                         if (capReached()) break@queries
                         val list = a.hhSearchPage(query, page) ?: break@queries
                         if (list.isEmpty()) break
-                        val fresh = list.filter { Text.titleOk(it.title, include, exclude) && !db.seen(it.id) }
-                        RunLog.add(ctx, "hh «$query», стр. ${page + 1}: вакансий ${list.size}, новых подходящих ${fresh.size}")
-                        for (v in fresh) {
-                            coroutineContext.ensureActive()
-                            if (capReached()) break@queries
-                            status.value = "hh: «${v.title}» (откликов $done из $limit)"
-                            val (employer, desc, archived) = a.hhOpen(v.id)
-                            val url = "https://hh.ru/vacancy/${v.id}"
-                            if (archived) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "archived"); continue }
-                            if (Text.isCvHeavy(desc)) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "computer vision"); continue }
-                            val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
-                            status.value = "hh: пишу письмо — «${v.title}»"
-                            val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
-                                RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
-                            }
-                            val outcome = a.hhApply(AgentGoal(v.title, employer, letter, lang), needConfirm(ctx, "hh"))
-                            val st = statusOf(outcome)
-                            db.record(v.id, v.title, employer, url, url, lang, st, "hh_site", letter)
-                            RunLog.add(ctx, "• [hh] [$lang] ${v.title} — $employer → ${Db.STATUS_RU[st]}")
-                            if (st == "applied") { done++; pause(ctx) }
-                        }
+                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = true)
                     }
                 }
             } else RunLog.add(ctx, "hh: вход не выполнен — пропускаю")

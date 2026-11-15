@@ -4,6 +4,9 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.WebView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -75,7 +78,20 @@ class BrowserAgent(
                 "auto" -> { status("Сайт проверяет браузер, жду…"); delay(4000) }
                 "human" -> {
                     RunLog.add(ctx, "  капча — жду человека")
-                    return human("Капча: решите её в окне ниже и нажмите «Готово»")
+                    // Ждём либо кнопку, либо пока капча исчезнет сама (тогда продолжаем без нажатия «Готово»)
+                    return coroutineScope {
+                        val solved = async {
+                            do { delay(3000) } while (call("window.__ag.blocker()") != "")
+                            true
+                        }
+                        val manual = async { human("Капча: решите её в окне ниже — агент продолжит сам, как только она исчезнет") }
+                        val r = select<Boolean> {
+                            solved.onAwait { it }
+                            manual.onAwait { it }
+                        }
+                        solved.cancel(); manual.cancel()
+                        r
+                    }
                 }
                 else -> return true
             }
@@ -139,6 +155,7 @@ class BrowserAgent(
         val resumeTitle = Prefs.get(ctx, if (g.language == "en") "en_title" else "ru_title")
         for (step in 1..maxSteps) {
             if (!passBlockers()) return Outcome.SKIPPED
+            call("window.__ag.fillSalary(${q(salary)})")
             val snap = try { JSONObject(call("window.__ag.snapshot()")) } catch (e: Exception) {
                 delay(2000); continue
             }
@@ -216,10 +233,12 @@ class BrowserAgent(
      * Язык резюме определяется по его тексту: русское — для русских вакансий, английское — для английских.
      */
     private suspend fun importHhResumes() {
-        val need = listOf("ru_resume_text", "en_resume_text", "ru_title", "en_title").any { Prefs.get(ctx, it).isBlank() }
-        if (!need) return
         val list = try { JSONArray(call("window.__ag.hhResumes()")) } catch (_: Exception) { JSONArray() }
         if (list.length() == 0) { RunLog.add(ctx, "hh: резюме в профиле не найдены"); return }
+        // Хэши резюме — для «рекомендованных вакансий» hh
+        Prefs.set(ctx, "hh_resume_hashes", (0 until list.length()).joinToString(",") { list.getJSONObject(it).getString("id") })
+        val need = listOf("ru_resume_text", "en_resume_text", "ru_title", "en_title").any { Prefs.get(ctx, it).isBlank() }
+        if (!need) return
         status("Импортирую резюме из профиля hh…")
         for (i in 0 until minOf(list.length(), 4)) {
             val r = list.getJSONObject(i)
@@ -236,15 +255,27 @@ class BrowserAgent(
     fun hhSearchUrl(query: String, page: Int): String = Uri.parse("https://hh.ru/search/vacancy").buildUpon()
         .appendQueryParameter("text", query)
         .appendQueryParameter("search_field", "name")
-        .appendQueryParameter("experience", "between3And6")
-        .appendQueryParameter("experience", "moreThan6")
-        .appendQueryParameter("area", Prefs.get(ctx, "area").trim())
+        .apply {
+            if (Prefs.bool(ctx, "experience_filter")) {
+                appendQueryParameter("experience", "between3And6"); appendQueryParameter("experience", "moreThan6")
+            }
+            Prefs.get(ctx, "area").trim().takeIf { it.isNotEmpty() }?.let { appendQueryParameter("area", it) }
+        }
         .appendQueryParameter("search_period", Prefs.get(ctx, "period").trim())
         .appendQueryParameter("order_by", "publication_time")
         .appendQueryParameter("items_on_page", "50")
         .appendQueryParameter("page", page.toString())
         .apply { if (Prefs.bool(ctx, "remote_only")) appendQueryParameter("schedule", "remote") }
         .build().toString()
+
+    /** Подходящие вакансии, которые hh сам рекомендует под резюме («Вакансии для вас»). */
+    suspend fun hhRecommendedPage(resumeHash: String, page: Int): List<HhVacancy>? {
+        status("hh: рекомендованные вакансии, стр. ${page + 1}")
+        val url = "https://hh.ru/search/vacancy?resume=$resumeHash&order_by=publication_time&items_on_page=50&page=$page"
+        if (!open(url)) return null
+        val arr = try { JSONArray(call("window.__ag.hhLinks()")) } catch (_: Exception) { JSONArray() }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+    }
 
     /** Одна страница поиска hh. null — не удалось пройти проверку (капча без ответа). */
     suspend fun hhSearchPage(query: String, page: Int): List<HhVacancy>? {
@@ -313,6 +344,7 @@ class BrowserAgent(
         }
         val letterOk = call("window.__ag.fillSel('[data-qa=\"vacancy-response-popup-form-letter-input\"]', ${q(g.letter)})") == "ok"
         if (!letterOk) return runGoal(g, confirmSubmit)
+        call("window.__ag.fillSalary(${q(salary)})")
         if (confirmSubmit && !confirm("Отправить отклик на «${g.title}»?")) return Outcome.SKIPPED
         if (call("window.__ag.clickSel('[data-qa=\"vacancy-response-submit-popup\"]')") != "ok") return runGoal(g, confirmSubmit)
         delay(3000)

@@ -97,10 +97,12 @@ class HhApi(private val ctx: Context) {
         val url = "$api/vacancies".toHttpUrl().newBuilder()
             .addQueryParameter("text", text)
             .addQueryParameter("search_field", "name")
-            .addQueryParameter("experience", "between3And6")
-            .addQueryParameter("experience", "moreThan6")
-            .addQueryParameter("area", Prefs.get(ctx, "area").trim())
             .addQueryParameter("period", Prefs.get(ctx, "period").trim())
+        if (Prefs.bool(ctx, "experience_filter")) {
+            url.addQueryParameter("experience", "between3And6").addQueryParameter("experience", "moreThan6")
+        }
+        Prefs.get(ctx, "area").trim().takeIf { it.isNotEmpty() }?.let { url.addQueryParameter("area", it) }
+        url
             .addQueryParameter("order_by", "publication_time")
             .addQueryParameter("per_page", "100")
             .addQueryParameter("page", page.toString())
