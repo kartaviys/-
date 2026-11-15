@@ -78,7 +78,7 @@ object Prefs {
             Field("title_exclude", "Исключить, если в названии (через запятую)",
                 default = "junior, intern, стажер, стажёр, младший, lead, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, image, изображен"),
             Field("area", "Регион hh (пусто — все регионы; 113 — Россия, 1 — Москва, 2 — СПб)", FieldType.NUMBER, ""),
-            Field("experience_filter", "Фильтр по опыту на hh (только 3+ лет)", FieldType.BOOL, "false"),,
+            Field("experience_filter", "Фильтр по опыту на hh (только 3+ лет)", FieldType.BOOL, "false"),
             Field("period", "Вакансии за последние N дней", FieldType.NUMBER, "7"),
             Field("remote_only", "Только удалёнка", FieldType.BOOL, "false"),
         )),
