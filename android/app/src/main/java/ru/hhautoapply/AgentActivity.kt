@@ -24,6 +24,7 @@ class AgentActivity : ComponentActivity() {
         const val EXTRA_URL = "url"
         const val EXTRA_SOURCE = "source"
         const val EXTRA_AUTOSTART = "autostart"
+        const val EXTRA_TARGET = "target"   // "hh" (по умолчанию) или "linkedin"
     }
 
     private lateinit var info: TextView
@@ -35,15 +36,17 @@ class AgentActivity : ComponentActivity() {
     private lateinit var webBox: FrameLayout
     private var confirmDialog: AlertDialog? = null
     private val single get() = intent.getStringExtra(EXTRA_URL) != null
+    private val target get() = intent.getStringExtra(EXTRA_TARGET) ?: "hh"
+    private val limitKey get() = if (target == "linkedin") "linkedin_limit" else "agent_limit"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "Агент"
+        title = if (target == "linkedin") "Агент LinkedIn" else "Агент"
         Prefs.migrate(this)
 
         info = label("", 13f).apply { setPadding(dp(8), dp(4), dp(8), dp(2)) }
         promptView = label("", 14f).apply { setPadding(dp(8), dp(2), dp(8), dp(2)) }
-        limitField = EditText(this).apply { inputType = InputType.TYPE_CLASS_NUMBER; setText(Prefs.get(this@AgentActivity, "agent_limit")) }
+        limitField = EditText(this).apply { inputType = InputType.TYPE_CLASS_NUMBER; setText(Prefs.get(this@AgentActivity, limitKey)) }
         startBtn = button("Старт") { toggle() }
         doneBtn = button("Готово") { AgentEngine.answer(true) }.apply { isEnabled = false }
         skipBtn = button("Пропустить") { AgentEngine.answer(false) }.apply { isEnabled = false }
@@ -100,9 +103,9 @@ class AgentActivity : ComponentActivity() {
     }
 
     private fun start() {
-        limitField.text.toString().trim().toIntOrNull()?.let { Prefs.set(this, "agent_limit", it.toString()) }
+        limitField.text.toString().trim().toIntOrNull()?.let { Prefs.set(this, limitKey, it.toString()) }
         if (!single) RunLog.clear(this)
-        RunWorker.startAgent(this, single, intent.getStringExtra(EXTRA_SOURCE).orEmpty())
+        RunWorker.startAgent(this, single, intent.getStringExtra(EXTRA_SOURCE).orEmpty(), target)
         info.text = "Запускаю агента…"
     }
 

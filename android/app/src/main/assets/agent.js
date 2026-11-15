@@ -111,6 +111,34 @@ window.__ag = (function () {
       return String(n);
     },
 
+    // ---------- LinkedIn ----------
+    // Вакансии на странице поиска: ссылки /jobs/view/<id> и карточки с data-job-id
+    liLinks() {
+      const out = [], seen = new Set();
+      const add = (id, t) => { if (!id || seen.has(id)) return; t = clean(t); if (t.length < 3) return; seen.add(id); out.push({ id, title: t.slice(0, 150) }); };
+      for (const a of document.querySelectorAll('a[href*="/jobs/view/"]')) {
+        const m = (a.getAttribute('href') || '').match(/\/jobs\/view\/(?:[^/?]*-)?(\d{6,})/);
+        if (m) add(m[1], a.getAttribute('aria-label') || a.innerText);
+      }
+      for (const c of document.querySelectorAll('[data-job-id], [data-occludable-job-id]')) {
+        const id = c.getAttribute('data-job-id') || c.getAttribute('data-occludable-job-id');
+        const t = c.querySelector('a, strong, h3');
+        if (/^\d{6,}$/.test(id || '')) add(id, t ? (t.getAttribute('aria-label') || t.innerText) : '');
+      }
+      return JSON.stringify(out);
+    },
+    // Кнопка «Easy Apply» (на английском и русском интерфейсе)
+    liEasyApply() {
+      const re = /easy apply|простая подача|откликнуться быстро|быстрый отклик/i;
+      const b = [...document.querySelectorAll('button, a[role=button]')].find(x => vis(x) && re.test(clean(x.innerText || x.getAttribute('aria-label'))));
+      if (!b) return 'missing';
+      b.scrollIntoView({ block: 'center' }); b.click(); return 'ok';
+    },
+    liApplied() {
+      const t = clean(document.body ? document.body.innerText : '').slice(0, 6000);
+      return /\bApplied\b \d|Application submitted|Вы откликнулись|Отклик отправлен|Заявка отправлена/i.test(t) ? 'true' : 'false';
+    },
+
     // ---------- hh.ru ----------
     has(sel) { return !!document.querySelector(sel); },
     clickSel(sel) {

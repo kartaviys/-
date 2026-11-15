@@ -356,4 +356,60 @@ class BrowserAgent(
         if (currentUrl().contains("vacancy_response")) return runGoal(g, confirmSubmit)
         return if (hhApplied()) Outcome.DONE else runGoal(g, confirmSubmit)
     }
+
+    // ---------- LinkedIn ----------
+    private val desktopUa = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+
+    /** LinkedIn в мобильном браузере гонит в приложение — открываем десктопную версию. */
+    suspend fun desktopMode(on: Boolean) = withContext(Dispatchers.Main) {
+        web.settings.userAgentString = if (on) desktopUa else null
+        web.settings.useWideViewPort = on
+        web.settings.loadWithOverviewMode = on
+    }
+
+    suspend fun liEnsureLogin(): Boolean {
+        if (!open("https://www.linkedin.com/feed/")) return false
+        val url = currentUrl()
+        if (url.contains("/login") || url.contains("authwall") || url.contains("/signup") || url.contains("uas/")) {
+            if (!human("Войдите в LinkedIn в этом окне (email и пароль), затем нажмите «Готово»")) return false
+            if (!open("https://www.linkedin.com/feed/")) return false
+        }
+        return true
+    }
+
+    fun liSearchUrl(query: String, page: Int): String = Uri.parse("https://www.linkedin.com/jobs/search/").buildUpon()
+        .appendQueryParameter("keywords", query)
+        .appendQueryParameter("f_AL", "true")            // только Easy Apply
+        .appendQueryParameter("sortBy", "DD")            // сначала свежие
+        .appendQueryParameter("f_TPR", "r${Prefs.int(ctx, "linkedin_days").coerceIn(1, 30) * 86400}")
+        .apply {
+            Prefs.get(ctx, "linkedin_location").trim().takeIf { it.isNotEmpty() }?.let { appendQueryParameter("location", it) }
+            if (Prefs.bool(ctx, "linkedin_remote")) appendQueryParameter("f_WT", "2")
+            if (Prefs.bool(ctx, "linkedin_senior_only")) appendQueryParameter("f_E", "4")
+            if (page > 0) appendQueryParameter("start", (page * 25).toString())
+        }
+        .build().toString()
+
+    suspend fun liSearchPage(query: String, page: Int): List<HhVacancy>? {
+        status("LinkedIn: ищу «${query.take(40)}», стр. ${page + 1}")
+        if (!open(liSearchUrl(query, page))) return null
+        // Список подгружается по мере прокрутки — немного прокручиваем
+        repeat(3) { call("window.__ag.scroll('down')"); delay(900) }
+        val arr = try { JSONArray(call("window.__ag.liLinks()")) } catch (_: Exception) { JSONArray() }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+    }
+
+    /** Открывает вакансию: (компания, описание, уже откликались?). */
+    suspend fun liOpen(id: String): Triple<String, String, Boolean> {
+        if (!open("https://www.linkedin.com/jobs/view/$id/")) return Triple("", "", true)
+        val company = call("window.__ag.textOf('.job-details-jobs-unified-top-card__company-name, .jobs-unified-top-card__company-name, .topcard__org-name-link')")
+        val desc = call("window.__ag.textOf('#job-details, .jobs-description__content, .description__text')").ifBlank { call("window.__ag.bodyText()") }
+        return Triple(company, desc, call("window.__ag.liApplied()") == "true")
+    }
+
+    /** Easy Apply: нажимаем кнопку, дальше шаги формы проходит универсальный агент. */
+    suspend fun liApply(g: AgentGoal, confirmSubmit: Boolean): Outcome {
+        if (call("window.__ag.liEasyApply()") == "ok") delay(2500)
+        return runGoal(g, confirmSubmit)
+    }
 }

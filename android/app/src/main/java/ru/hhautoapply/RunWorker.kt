@@ -36,7 +36,8 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
         val mode = inputData.getString(KEY_MODE) ?: "api"
         setForeground(foregroundInfo(if (mode == "agent") "Агент откликается на вакансии…" else "Идёт отклик на вакансии…"))
         if (mode == "agent") {
-            return@withContext runAgent(inputData.getBoolean(KEY_SINGLE, false), inputData.getString(KEY_SOURCE).orEmpty())
+            return@withContext runAgent(inputData.getBoolean(KEY_SINGLE, false), inputData.getString(KEY_SOURCE).orEmpty(),
+                inputData.getString(KEY_TARGET) ?: "hh")
         }
         val dry = inputData.getBoolean(KEY_DRY, true)
         if (inputData.getBoolean(KEY_DAILY, false)) RunLog.clear(app)
@@ -46,6 +47,10 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
             // hh через сайт или есть анкеты — сразу запускаем агента в этой же фоновой задаче (экран не нужен)
             val hhSite = Sources.byKey("hh")?.let { Sources.isOn(app, it) } == true && !HhMode.useApi(app)
             if (!dry && !isStopped && (hhSite || Db(app).pendingBrowser().isNotEmpty())) runAgent(false, "")
+            // LinkedIn-агент в ежедневном автозапуске — только если включён в настройках
+            if (!dry && !isStopped && inputData.getBoolean(KEY_DAILY, false) && Prefs.bool(app, "linkedin_daily_auto")) {
+                runAgent(false, "linkedin", "linkedin")
+            }
             Result.success()
         } catch (e: kotlinx.coroutines.CancellationException) {
             throw e
@@ -57,7 +62,7 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
     }
 
     /** Агент в фоне: статус выводится в постоянное уведомление. */
-    private suspend fun runAgent(single: Boolean, source: String): Result = coroutineScope {
+    private suspend fun runAgent(single: Boolean, source: String, target: String = "hh"): Result = coroutineScope {
         val app = applicationContext
         val updater = launch {
             AgentEngine.status.collect { text ->
@@ -65,7 +70,7 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
             }
         }
         try {
-            val summary = AgentEngine.run(app, single, source)
+            val summary = AgentEngine.run(app, single, source, target)
             notify(app, "Агент закончил", summary)
             Result.success()
         } catch (e: kotlinx.coroutines.CancellationException) {
@@ -102,6 +107,7 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
         const val KEY_MODE = "mode"
         const val KEY_SINGLE = "single"
         const val KEY_SOURCE = "source"
+        const val KEY_TARGET = "target"
         const val AGENT = "agent_now"
         const val KEY_DAILY = "daily"
         const val CHANNEL = "run"
@@ -170,9 +176,9 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
         fun stop(ctx: Context) = WorkManager.getInstance(ctx).cancelUniqueWork(ONE_SHOT)
 
         /** Запуск агента в фоне (работает и при выключенном экране). */
-        fun startAgent(ctx: Context, single: Boolean = false, source: String = "") {
+        fun startAgent(ctx: Context, single: Boolean = false, source: String = "", target: String = "hh") {
             val req = OneTimeWorkRequestBuilder<RunWorker>()
-                .setInputData(workDataOf(KEY_MODE to "agent", KEY_SINGLE to single, KEY_SOURCE to source))
+                .setInputData(workDataOf(KEY_MODE to "agent", KEY_SINGLE to single, KEY_SOURCE to source, KEY_TARGET to target))
                 .setConstraints(network)
                 .build()
             WorkManager.getInstance(ctx).enqueueUniqueWork(AGENT, ExistingWorkPolicy.KEEP, req)

@@ -61,6 +61,10 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         writableDatabase.update("applications", v, "vacancy_id = ?", arrayOf(vacancyId))
     }
 
+    fun appliedTodayIn(channel: String): Int = readableDatabase.rawQuery(
+        "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND channel = ? AND created_at >= ?", arrayOf(channel, today()),
+    ).use { it.moveToFirst(); it.getInt(0) }
+
     fun appliedToday(): Int = readableDatabase.rawQuery(
         "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND created_at >= ?", arrayOf(today()),
     ).use { it.moveToFirst(); it.getInt(0) }
@@ -103,6 +107,8 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
             "external" to "сайт работодателя",
             "earlier" to "откликались раньше",
             "filter" to "фильтр: компьютерное зрение",
+            "hh_site" to "hh через сайт (агент)",
+            "linkedin_agent" to "LinkedIn (агент)",
         )
     }
 }

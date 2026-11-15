@@ -117,7 +117,7 @@ object AgentEngine {
     }
 
     private fun needConfirm(ctx: Context, sourceKey: String) =
-        Prefs.bool(ctx, "agent_confirm") || sourceKey == "linkedin" // LinkedIn — всегда с подтверждением (риск бана)
+        if (sourceKey == "linkedin") Prefs.bool(ctx, "linkedin_confirm") else Prefs.bool(ctx, "agent_confirm")
 
     private suspend fun letterFor(ctx: Context, llm: Llm, title: String, employer: String, description: String, lang: String): String =
         withContext(Dispatchers.IO) {
@@ -126,9 +126,9 @@ object AgentEngine {
             Letters.write(llm, v, lang, resume, Prefs.get(ctx, if (lang == "en") "name_en" else "name"), Prefs.get(ctx, "en_cv_url"))
         }
 
-    private suspend fun pause(ctx: Context) {
-        val lo = maxOf(15, Prefs.int(ctx, "delay_min"))
-        val hi = maxOf(lo, Prefs.int(ctx, "delay_max"))
+    private suspend fun pause(ctx: Context, linkedin: Boolean = false) {
+        val lo = if (linkedin) maxOf(30, Prefs.int(ctx, "linkedin_delay_min")) else maxOf(15, Prefs.int(ctx, "delay_min"))
+        val hi = maxOf(lo, Prefs.int(ctx, if (linkedin) "linkedin_delay_max" else "delay_max"))
         val sec = (lo..hi).random()
         status.value = "Пауза $sec с, чтобы не выглядеть как бот…"
         delay(sec * 1000L)
@@ -138,7 +138,7 @@ object AgentEngine {
      * Запуск агента. single=true — один отклик на странице, которая сейчас открыта в браузере агента.
      * Возвращает краткий итог.
      */
-    suspend fun run(ctx: Context, single: Boolean, source: String = ""): String {
+    suspend fun run(ctx: Context, single: Boolean, source: String = "", target: String = "hh"): String {
         if (running.value) return "Агент уже работает"
         running.value = true
         try {
@@ -148,7 +148,11 @@ object AgentEngine {
                 { reason -> ask(ctx, Prompt.Human(reason), reason) },
                 { q -> ask(ctx, Prompt.Confirm(q), q) })
             agent = a
-            return if (single) runSingle(ctx, a, llm, source) else runSession(ctx, a, llm)
+            return when {
+                single -> runSingle(ctx, a, llm, source)
+                target == "linkedin" -> try { a.desktopMode(true); runLinkedIn(ctx, a, llm) } finally { a.desktopMode(false) }
+                else -> runSession(ctx, a, llm)
+            }
         } catch (e: BudgetException) {
             status.value = "⛔ ${e.message}"
             RunLog.add(ctx, "⛔ ${e.message}")
@@ -174,6 +178,56 @@ object AgentEngine {
         val msg = "Готово: ${Db.STATUS_RU[st]} — $title"
         status.value = "$msg. Можно открыть следующую вакансию и снова нажать «Старт»."
         return msg
+    }
+
+    /** LinkedIn-агент: поиск (Easy Apply) → вакансия → письмо → шаги Easy Apply. Отдельные лимиты и паузы. */
+    private suspend fun runLinkedIn(ctx: Context, a: BrowserAgent, llm: Llm): String {
+        val db = Db(ctx)
+        val limit = Prefs.int(ctx, "linkedin_limit").coerceAtLeast(1)
+        val dailyCap = Prefs.int(ctx, "linkedin_daily_limit").coerceAtLeast(1)
+        val exclude = Prefs.list(ctx, "title_exclude")
+        var done = 0
+        RunLog.add(ctx, "LinkedIn-агент: старт, лимит $limit (в сутки $dailyCap)")
+        fun capReached(): Boolean {
+            if (done >= limit) return true
+            if (db.appliedTodayIn("linkedin_agent") >= dailyCap) { RunLog.add(ctx, "LinkedIn: дневной лимит ($dailyCap) достигнут"); return true }
+            return false
+        }
+        if (!a.liEnsureLogin()) { RunLog.add(ctx, "LinkedIn: вход не выполнен"); return "LinkedIn: вход не выполнен" }
+        queries@ for (query in Prefs.list(ctx, "linkedin_queries", Regex("\n"))) {
+            for (page in 0 until 4) {
+                coroutineContext.ensureActive()
+                if (capReached()) break@queries
+                val list = a.liSearchPage(query, page) ?: break@queries
+                if (list.isEmpty()) break
+                val fresh = list.filter { Text.titleOk(it.title, emptyList(), exclude) && !db.seen("li:${it.id}") }
+                RunLog.add(ctx, "LinkedIn «$query», стр. ${page + 1}: вакансий ${list.size}, новых ${fresh.size}")
+                for (v in fresh) {
+                    coroutineContext.ensureActive()
+                    if (capReached()) break@queries
+                    val id = "li:${v.id}"
+                    val url = "https://www.linkedin.com/jobs/view/${v.id}/"
+                    status.value = "LinkedIn: «${v.title}» (откликов $done из $limit)"
+                    val (company, desc, applied) = a.liOpen(v.id)
+                    if (applied) { db.record(id, v.title, company, url, url, "", "applied", "linkedin_agent", error = "уже откликались"); continue }
+                    if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, url, "", "", "skipped", "linkedin_agent", error = "computer vision"); continue }
+                    val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
+                    status.value = "LinkedIn: пишу письмо — «${v.title}»"
+                    val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                        RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
+                    }
+                    val outcome = a.liApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "linkedin"))
+                    val st = statusOf(outcome)
+                    db.record(id, v.title, company, url, url, lang, st, "linkedin_agent", letter)
+                    RunLog.add(ctx, "• [LinkedIn] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}")
+                    if (st == "applied") { done++; pause(ctx, linkedin = true) }
+                }
+            }
+        }
+        val summary = "LinkedIn-агент закончил: откликов $done."
+        RunLog.add(ctx, summary)
+        status.value = "$summary Подробности — в «Журнале»."
+        return summary
     }
 
     private suspend fun runSession(ctx: Context, a: BrowserAgent, llm: Llm): String {

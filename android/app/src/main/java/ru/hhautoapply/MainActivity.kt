@@ -92,9 +92,12 @@ class MainActivity : ComponentActivity() {
             button("Пробный прогон") { RunWorker.runNow(this, dry = true) },
             button("Откликнуться") { confirmLive() },
         ))
-        box.addView(button("🤖 Агент: откликаться через сайты (hh без API и «Анкеты»)") {
-            startActivity(Intent(this, AgentActivity::class.java))
-        })
+        box.addView(row(
+            button("🤖 Агент hh") { startActivity(Intent(this, AgentActivity::class.java)) },
+            button("🤖 Агент LinkedIn") {
+                startActivity(Intent(this, AgentActivity::class.java).putExtra(AgentActivity.EXTRA_TARGET, "linkedin"))
+            },
+        ))
         box.addView(row(
             button("Анкеты") { openWeb(WebActivity.MODE_FORMS) },
             button("Журнал") { showJournal() },

@@ -19,6 +19,22 @@ object Prefs {
             Field("agent_limit", "Сколько откликов агент делает за одну сессию", FieldType.NUMBER, "50"),
             Field("agent_max_steps", "Максимум шагов агента на одну вакансию", FieldType.NUMBER, "20"),
         )),
+        Section("LinkedIn-агент", listOf(
+            Field("linkedin_queries", "Запросы для LinkedIn — по одному на строку", FieldType.MULTILINE, default = listOf(
+                "data scientist", "machine learning engineer", "ml engineer", "ai engineer", "nlp engineer",
+                "llm engineer", "applied scientist", "data analyst",
+            ).joinToString("\n")),
+            Field("linkedin_location", "Локация (пусто — по всему миру; например Germany, European Union, Italy)"),
+            Field("linkedin_remote", "Только удалёнка (Remote)", FieldType.BOOL, "true"),
+            Field("linkedin_senior_only", "Только уровень Mid-Senior", FieldType.BOOL, "false"),
+            Field("linkedin_days", "Вакансии за последние N дней", FieldType.NUMBER, "7"),
+            Field("linkedin_limit", "Откликов за одну сессию", FieldType.NUMBER, "20"),
+            Field("linkedin_daily_limit", "Откликов в LinkedIn в сутки (больше — риск блокировки)", FieldType.NUMBER, "30"),
+            Field("linkedin_delay_min", "Пауза между откликами от, сек", FieldType.NUMBER, "45"),
+            Field("linkedin_delay_max", "Пауза между откликами до, сек", FieldType.NUMBER, "120"),
+            Field("linkedin_confirm", "Спрашивать подтверждение перед отправкой (рекомендуется)", FieldType.BOOL, "true"),
+            Field("linkedin_daily_auto", "Запускать LinkedIn-агента в ежедневном автозапуске", FieldType.BOOL, "false"),
+        )),
         Section("hh.ru API (приложение с dev.hh.ru)", listOf(
             Field("hh_client_id", "Client ID"),
             Field("hh_client_secret", "Client Secret", FieldType.SECRET),
