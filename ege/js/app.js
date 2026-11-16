@@ -18,11 +18,11 @@ const App = (() => {
   // Маршрут по главам; задания открываются строго по порядку, первым — №17
   const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
   const GROUPS = [
-    { name: 'Лес пунктуации', e: '🌲', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
-    { name: 'Орфографические холмы', e: '⛰️', tasks: range(9, 15), label: 'задания 9–15' },
-    { name: 'Озеро языковых норм', e: '🏞️', tasks: range(4, 8), label: 'задания 4–8' },
-    { name: 'Текстовые горы', e: '🏔️', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
-    { name: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
+    { name: 'Лес пунктуации', short: 'Пунктуация', e: '🌲', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
+    { name: 'Орфографические холмы', short: 'Орфография', e: '⛰️', tasks: range(9, 15), label: 'задания 9–15' },
+    { name: 'Озеро языковых норм', short: 'Речевые нормы', e: '🏞️', tasks: range(4, 8), label: 'задания 4–8' },
+    { name: 'Текстовые горы', short: 'Текст', e: '🏔️', tasks: [1, 2, 3, ...range(22, 26)], label: 'задания 1–3, 22–26' },
+    { name: 'Сочинение', short: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
   ];
   const ROUTE = GROUPS.flatMap((g) => g.tasks);
   // заданий ЕГЭ на пути — 27 (зачёт в счёт не идёт)
@@ -132,11 +132,11 @@ const App = (() => {
     setTimeout(() => el.remove(), 2800);
   }
 
-  function modal(html, { onClose, cls = '' } = {}) {
+  function modal(html, { onClose, cls = '', sticky = false } = {}) {
     const m = h(`<div class="modal-bg"><div class="modal ${cls}">${html}</div></div>`);
     $('#modal-root').appendChild(m);
     const close = () => { m.classList.add('out'); setTimeout(() => m.remove(), 200); onClose && onClose(); };
-    m.addEventListener('click', (e) => { if (e.target === m || e.target.closest('[data-close]')) close(); });
+    m.addEventListener('click', (e) => { if ((e.target === m && !sticky) || e.target.closest('[data-close]')) close(); });
     return { el: m.firstElementChild, close };
   }
 
@@ -257,7 +257,7 @@ const App = (() => {
       <div><div class="eyebrow">Твой путь к 100 баллам</div><h2>Дорога к Замку Грамотности</h2></div>
       <div class="prog-row"><div class="pbar"><i style="width:${(dc / EGE.length) * 100}%"></i></div><b>${dc}/${EGE.length}</b></div>
       <div class="muted small">Каждое задание — ключ 🗝️ от ворот замка.</div>
-      <div class="group-chips">${GROUPS.map((g, gi) => { const n = g.tasks.filter((t) => S.done[t]).length; return `<span class="gchip ${n === g.tasks.length ? 'full' : ''}">${g.e} ${gi + 1}. ${g.name} <b>${n}/${g.tasks.length}</b></span>`; }).join('')}</div>
+      <div class="group-chips">${GROUPS.map((g, gi) => { const n = g.tasks.filter((t) => S.done[t]).length; return `<span class="gchip ${n === g.tasks.length ? 'full' : ''}">${gi + 1}. ${g.short} <b>${n}/${g.tasks.length}</b></span>`; }).join('')}</div>
     </div>`);
     v.appendChild(head);
     v.appendChild(pointsCard());
@@ -345,7 +345,7 @@ const App = (() => {
           <span class="st-num">${isCastle ? '✍️' : n === 100 ? '🏆' : n}</span>
           ${!ready && !isDone ? '<span class="st-lock">🔒</span>' : ''}
           ${isCur ? '<span class="st-avatar">📍</span>' : ''}
-          <span class="st-label">${isCastle ? '27 · ' : ''}${TASKS[n]}${PTS[n] && n !== 100 ? `<span class="st-pts">${PTS[n]}&nbsp;${PTS[n] === 1 ? 'балл' : PTS[n] < 5 ? 'балла' : 'баллов'}</span>` : ''}${stars ? `<em>${stars}</em>` : ''}${!isDone && ready && S.prog[n] && LESSONS[n] ? `<em class="st-pct">${Math.round((S.prog[n] / (LESSONS[n].slides.length - 1)) * 100)}%</em>` : ''}</span>
+          <span class="st-label">${isCastle ? '27 · ' : ''}${TASKS[n]}${stars ? `<em>${stars}</em>` : ''}${!isDone && ready && S.prog[n] && LESSONS[n] ? `<em class="st-pct">${Math.round((S.prog[n] / (LESSONS[n].slides.length - 1)) * 100)}%</em>` : ''}</span>
         </button>`);
       st.addEventListener('click', () => openStation(n));
       wrap.appendChild(st);
@@ -460,7 +460,7 @@ const App = (() => {
       { sel: '.chest', t: 'Сундуки', d: 'По пути встречаются сундуки 🎁 с бонусным опытом — открываются после пройденных заданий.' },
       { sel: '.tb-xp', t: 'Опыт и уровень', d: 'За верные ответы и пройденные блоки копится опыт (XP). Опыт повышает уровень — от «Новичка» до «Короля ЕГЭ».' },
       { sel: '.tb-streak', t: 'Серия дней', d: 'Занимайся каждый день — огонёк считает дни подряд. За серии дают достижения.' },
-      { sel: '.tabbar [data-tab="games"]', t: 'Мини-игры', d: 'Лабиринт, алхимия, классификации и другие игры — чтобы закрепить правила в игровом формате.' },
+      { sel: '.tabbar [data-tab="games"]', t: 'Мини-игры', d: 'Лабиринт, алхимия, классификации и другие активности помогут закрепить правила в игровом формате.' },
       { sel: '.tabbar [data-tab="profile"]', t: 'Профиль', d: 'Твои достижения, статистика, информация о версии PRO и установка приложения на телефон.' },
     ].filter((x) => $(x.sel));
     let k = 0;
@@ -596,6 +596,7 @@ const App = (() => {
         const mult = ctx.combo >= 3 ? 2 : 1;
         const gx = reward(xp * mult, 0, { quiet: true });
         ctx.xp += gx; pending += gx;
+        ctx.correct = (ctx.correct || 0) + 1;
         S.stats.correct++; S.run = (S.run || 0) + 1; save();
         [5, 10, 25].forEach((k) => { if (S.run >= k) unlock('run' + k); });
         [50, 200, 500].forEach((k) => { if (S.stats.correct >= k) unlock('ok' + k); });
@@ -720,7 +721,7 @@ const App = (() => {
       const m = modal(`<h2>Оглавление</h2><div class="toc">${groups.map((g) => {
         const first = g.items[0], pr = g.items.some((i) => kinds[i] === 'practice'), th = g.items.some((i) => kinds[i] !== 'practice');
         const st = g.items.includes(idx) ? 'cur' : first <= open ? 'open' : 'lock';
-        return `<button class="toc-i ${st}" data-i="${first}" ${st === 'lock' ? 'disabled' : ''}><span class="toc-k">${pr ? '✍️' : '📖'}</span><span class="toc-t">${g.b}<small>${pr && th ? 'теория + практика' : pr ? 'практика' : 'теория'} · ${g.items.length > 1 ? `слайдов: ${g.items.length}` : '1 слайд'}</small></span><span class="toc-s">${st === 'lock' ? '🔒' : st === 'cur' ? '📍' : first < maxIdx ? '✓' : ''}</span></button>`;
+        return `<button class="toc-i ${st}" data-i="${first}" ${st === 'lock' ? 'disabled' : ''}><span class="toc-k">${pr ? '✍️' : '📖'}</span><span class="toc-t">${g.b}<small>${pr && th ? 'теория + практика' : pr ? 'практика' : 'теория'}</small></span><span class="toc-s">${st === 'lock' ? '🔒' : st === 'cur' ? '📍' : first < maxIdx ? '✓' : ''}</span></button>`;
       }).join('')}</div><button class="btn ghost" data-close>Закрыть</button>`, { cls: 'wide' });
       m.el.querySelectorAll('.toc-i:not([disabled])').forEach((b) => b.addEventListener('click', () => { m.close(); const i = +b.dataset.i; if (i !== idx) { maxIdx = Math.max(maxIdx, open); show(i); } }));
     }

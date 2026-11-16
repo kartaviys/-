@@ -105,8 +105,8 @@
 
   /* ===== ПРО ===== */
   const CMP = [
-    ['Теория и задания 1–27', '✓', '✓'], ['Тренировки и зачёты', '✓', '✓'], ['Мини-игры', 'базовые', 'по каждому заданию'],
-    ['Проверка сочинений экспертом ЕГЭ', '—', '✓'], ['Материал: как готовиться к сочинению', '—', '✓'], ['Учёт ошибок и их отработка', '—', '✓'],
+    ['Теория и задания 1–26', '✓', '✓'], ['Задание 27 (сочинение)', '—', '✓'], ['Тренировки и зачёты', '✓', '✓'], ['Мини-игры', 'базовые', 'по каждому заданию'],
+    ['Проверка сочинений экспертом ЕГЭ', '—', '✓'], ['Материал: как готовиться к сочинению', '—', '✓'], ['Индивидуальный учёт ошибок и их отработка', '—', '✓'],
     ['Пробники раз в месяц', '—', '✓'], ['Система повторения', '—', '✓'], ['Реклама', 'есть', 'нет'],
   ];
   function openPro() {
@@ -128,16 +128,16 @@
   App.proAd = () => {
     const m = C.modal(`<div class="ad">
       <div class="ad-bars">${[0, 1, 2, 3].map(() => '<i><b></b></i>').join('')}</div>
-      <button class="ad-x" data-close aria-label="Пропустить">✕</button>
+      <button class="ad-x hidden" data-close aria-label="Закрыть">✕</button>
       <div class="ad-stage"></div>
-    </div>`, { cls: 'ad-modal' });
+    </div>`, { cls: 'ad-modal', sticky: true });
     const st = m.el.querySelector('.ad-stage'), bars = [...m.el.querySelectorAll('.ad-bars b')];
     let k = -1, timer = null;
     const frames = [
       () => `<div class="ad-f"><div class="ad-big"><span class="ad-num" data-to="54">0</span><small>баллов</small></div><p>Столько даёт <b>тестовая часть</b> ЕГЭ — задания 1–26.</p><div class="ad-pie" style="--p:54"></div></div>`,
       () => `<div class="ad-f"><p class="ad-q">А где остальные <b>46 баллов</b>?</p><div class="ad-opts"><button data-a="0">В заданиях 1–26</button><button data-a="1">В сочинении</button><button data-a="0">Дают за явку 😄</button></div></div>`,
       () => `<div class="ad-f"><div class="ad-emoji">✍️</div><p><b>46 баллов — сочинение!</b> Это почти половина результата. Его нужно отрабатывать: писать, получать проверку и исправлять ошибки.</p></div>`,
-      () => `<div class="ad-f"><div class="ad-emoji">⭐</div><p class="ad-q">В версии <b>ПРО</b>:</p><ul class="ad-list"><li>✓ проверка твоих сочинений</li><li>✓ материал: как готовиться к сочинению</li><li>✓ пробники и учёт ошибок</li></ul><button class="btn gold ad-more">Узнать о ПРО</button></div>`,
+      () => `<div class="ad-f"><div class="ad-emoji">⭐</div><p class="ad-q">В версии <b>ПРО</b>:</p><ul class="ad-list"><li>✓ проверка твоих сочинений</li><li>✓ материал: как готовиться к сочинению</li><li>✓ пробники и учёт ошибок</li></ul><button class="btn gold ad-more">Узнать о ПРО</button><button class="btn ghost ad-skip" data-close>Не сейчас</button></div>`,
     ];
     const go = (n) => {
       clearTimeout(timer);
@@ -153,6 +153,8 @@
       st.querySelectorAll('.ad-opts button').forEach((b) => b.addEventListener('click', () => {
         if (b.dataset.a === '1') { b.classList.add('right'); setTimeout(() => go(2), 700); } else { b.classList.add('wrong'); b.disabled = true; }
       }));
+      // закрыть ролик можно только в конце
+      if (k === frames.length - 1) m.el.querySelector('.ad-x').classList.remove('hidden');
       const more = st.querySelector('.ad-more');
       if (more) more.addEventListener('click', () => { m.close(); openPro(); });
     };

@@ -30,17 +30,20 @@
   }
   const merge = (a, b) => {
     const r = M.clone(a);
-    for (const k of ['def', 'circ', 'obj', 'cross', 'bars', 'rings', 'boxes', 'links']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
+    for (const k of ['def', 'def2', 'circ', 'obj', 'cross', 'bars', 'rings', 'rl', 'boxes', 'links']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
     r.arrows = [...(r.arrows || []), ...(b.arrows || [])];
     r.mem = Object.assign({}, r.mem, b.mem);
     r.labels = Object.assign({}, r.labels, b.labels);
+    r.lspan = Object.assign({}, r.lspan, b.lspan);
     r.gm = Object.assign({}, r.gm, b.gm);
-    for (const [k, v] of Object.entries(b.labels || {})) if (v === null) delete r.labels[k];
+    for (const [k, v] of Object.entries(b.labels || {})) if (v === null) { delete r.labels[k]; delete r.lspan[k]; }
     return r;
   };
 
   /* ===== Компоненты слайдов ===== */
   function shell(body, { chip, title, lead }) {
+    // номер блока в плашке не пишем — он путался с номером слайда в шапке
+    if (chip) { chip = chip.replace(/^Блок \d+\s*(·\s*)?/, ''); chip = chip ? chip[0].toUpperCase() + chip.slice(1) : 'Теория'; }
     const el = h(`<div class="slide">${chip ? `<div class="step-chip">${chip}</div>` : ''}${title ? `<h2>${title}</h2>` : ''}${lead ? `<p class="lead">${lead}</p>` : ''}<div class="phases"></div></div>`);
     body.appendChild(el);
     return el.querySelector('.phases');
@@ -80,13 +83,13 @@
   const htmlPh = (html) => { const f = (box, api, done) => { box.innerHTML = html; done(); }; f.instant = true; return f; };
 
   // Пошаговый разбор предложения: каждое нажатие добавляет разметку и пояснение
-  const demoPh = (text, steps, { title } = {}) => (box, api, done) => {
+  const demoPh = (text, steps, { title, plain } = {}) => (box, api, done) => {
     const S = P(text);
     if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
     let cur = M.emptyMarks();
     const board = new M.Board(box, S, { readOnly: true, marks: cur, useLinks: true });
     board.el.classList.add('demo-board');
-    const notes = h('<ol class="demo-notes"></ol>');
+    const notes = h(`<ol class="demo-notes${plain ? ' plain' : ''}"></ol>`);
     box.appendChild(notes);
     let k = 0;
     const one = () => {
@@ -109,7 +112,7 @@
     box.appendChild(grid);
     let opened = 0;
     const left = () => cards.length - opened;
-    const upd = () => api.foot({ label: `Переверни карточки (${left()})`, enabled: false, extraLabel: 'Открыть все', onExtra: () => grid.querySelectorAll('.flip:not(.on)').forEach((b) => b.click()) });
+    const upd = () => api.foot({ label: `Переверни карточки (${left()})`, enabled: false });
     grid.querySelectorAll('.flip').forEach((b) => b.addEventListener('click', () => {
       if (b.classList.contains('on')) return;
       b.classList.add('on'); opened++; api.sound('tap');
@@ -119,6 +122,17 @@
   };
 
   const slide = (block, fn) => { fn.block = block; return fn; };
+  /* Первый слайд задания — по образцу 17: пример номера и что нужно знать */
+  const intro = (n, title, task, know, note = '') => slide('Задание', (body, api) => {
+    body.appendChild(h(`<div class="slide intro">
+      <div class="hero"><div class="hero-num">${n}</div><div class="hero-castle">🏰</div></div>
+      <div class="step-chip">Задание ${n} · пунктуация</div>
+      <h2>${title}</h2>
+      <div class="etask"><span class="etask-n">${n}</span><div>${task}</div></div>
+      <div class="card know"><b>Что нужно знать</b><ul>${know.map((k) => `<li>${k}</li>`).join('')}</ul></div>${note}
+    </div>`));
+    api.foot({ label: 'Начинаем! 🚀' });
+  });
 
   /* ===== Разметка по словам =====
      ann(S, spec): s/p — подлежащие/сказуемые ('слово@2' — основа №2), def/circ/obj — слова и фразы,
@@ -139,10 +153,13 @@
     (spec.s || []).forEach((x) => { const [w, b] = base(x); const ii = idxs(S, w); ii.forEach((i) => (m.mem[i] = { t: 's', b })); link(ii); });
     (spec.p || []).forEach((x) => { const [w, b] = base(x); const ii = idxs(S, w); ii.forEach((i) => (m.mem[i] = { t: 'p', b })); link(ii); });
     for (const k of ['def', 'circ', 'obj']) (spec[k] || []).forEach((w) => { const ii = idxs(S, w); m[k].push(...ii); link(ii); });
-    for (const k of ['rings', 'boxes']) (spec[k] || []).forEach((w) => m[k].push(...idxs(S, w)));
+    (spec.rings || []).forEach((w) => { const ii = idxs(S, w); m.rings.push(...ii); ii.slice(1).forEach((i) => m.rl.push(i)); });
+    (spec.boxes || []).forEach((w) => m.boxes.push(...idxs(S, w)));
+    for (const k of ['def2']) (spec[k] || []).forEach((w) => { const ii = idxs(S, w); m[k].push(...ii); link(ii); });
     (spec.x || []).forEach((w) => m.cross.push(...idxs(S, w)));
     Object.entries(spec.o || {}).forEach(([w, t]) => idxs(S, w).forEach((i) => (m.labels[i] = 'o:' + t)));
-    Object.entries(spec.lab || {}).forEach(([w, t]) => { const ii = idxs(S, w); m.labels[ii[0]] = t; });
+    // подпись к фразе из нескольких слов встаёт по центру фразы
+    Object.entries(spec.lab || {}).forEach(([w, t]) => { const ii = idxs(S, w); m.labels[ii[0]] = t; if (ii.length > 1 && t) m.lspan[ii[0]] = ii.length; });
     (spec.arr || []).forEach(([a, b, q]) => m.arrows.push([idxs(S, a)[0], idxs(S, b)[0], q]));
     (spec.br || []).forEach((x) => {
       const mm = x.match(/^([\[\(\{]*)(.*?)([\]\)\}]*)$/);
@@ -193,18 +210,20 @@
     if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
     const area = h('<div class="qa"></div>');
     box.appendChild(area);
-    let i = 0;
+    let i = 0, okN = 0;
     const ask = () => {
       const it = items[i];
       area.innerHTML = `<div class="q-count">${i + 1} из ${items.length}</div><div class="q">${it.q}</div><div class="opts ${grid || (it.options.length === 2 ? 'grid2' : '')}">${it.options.map((o, j) => `<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
       api.foot({ label: 'Выбери ответ', enabled: false });
       let miss = false;
       area.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
-        if (+b.dataset.j !== it.correct) { miss = true; b.classList.add('wrong'); b.disabled = true; api.bad([it.why || 'Подумай ещё — правило выше поможет.']); return; }
-        b.classList.add('right'); area.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
-        api.good(miss ? 2 : 5, miss ? 0 : 2, b, it.why);
+        const right = area.querySelectorAll('.opt')[it.correct];
+        area.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
+        // при ошибке сразу показываем верный вариант и объясняем, почему верен он
+        if (+b.dataset.j !== it.correct) { b.classList.add('wrong'); right.classList.add('right'); api.bad([`Верный ответ — «${it.options[it.correct]}». ${it.why || ''}`]); }
+        else { okN++; b.classList.add('right'); api.good(miss ? 2 : 5, 0, b, it.why); }
         const last = i === items.length - 1;
-        api.foot({ label: last ? 'Дальше' : 'Следующий ▸', onClick: () => { api.feedback(null); if (last) { area.innerHTML = `<div class="conclusion">Готово! ${items.length} из ${items.length} ✅</div>`; done(); } else { i++; ask(); } } });
+        api.foot({ label: last ? 'Дальше' : 'Следующий ▸', onClick: () => { api.feedback(null); if (last) { area.innerHTML = `<div class="conclusion">Готово! Верных ответов: ${okN} из ${items.length} ✅</div>`; done(); } else { i++; ask(); } } });
       }));
     };
     ask();
@@ -236,10 +255,10 @@
       };
       const check = () => {
         const ok = need.size === sel.size && [...need].every((k) => sel.has(k));
-        if (ok) { api.good(tries ? 2 : 5, 0, area.querySelector('.csent'), need.size ? 'Запятые на месте!' : 'Верно — запятые здесь не нужны.'); reveal(true); return; }
+        if (ok) { api.good(tries ? 2 : 5, 0, area.querySelector('.csent')); api.feedback(null); reveal(true); return; }
         tries++;
         api.bad([sel.size > need.size ? 'Есть лишняя запятая.' : sel.size < need.size ? 'Не хватает запятой.' : 'Запятая стоит не там.']);
-        if (tries >= 2) api.foot({ label: 'Проверить', onClick: check, extraLabel: '👀 Показать', onExtra: () => { api.feedback('info', 'Посмотри, где должны стоять запятые 👇'); reveal(false); } });
+        if (tries >= 2) api.foot({ label: "Проверить", onClick: check, extraLabel: "👀 Показать", onExtra: () => { api.feedback('info', 'Посмотри, где должны стоять запятые 👇'); reveal(false); } });
       };
       api.foot({ label: 'Проверить', onClick: check });
     };
@@ -266,10 +285,10 @@
       api.fly(bin, 2);
       bin.querySelector('.bin-in').insertAdjacentHTML('beforeend', `<i>${txt}</i>`);
       left.splice(left.indexOf(sel), 1); sel = null; draw();
-      if (!left.length) done(); else api.foot({ label: `Осталось: ${left.length}`, enabled: false });
+      if (!left.length) done();
     }));
     draw();
-    api.foot({ label: `Осталось: ${left.length}`, enabled: false });
+    api.foot({ label: 'Распредели все карточки', enabled: false });
   };
 
   /* Ввод ответа-цифр с разбором после */
@@ -331,5 +350,5 @@
   /* Схема предложения: '[ ], и [ ].' и т. п. */
   const scheme = (s, cap = '') => `<div class="scheme"><code>${s}</code>${cap ? `<span>${cap}</span>` : ''}</div>`;
 
-  App.Kit = { commaPh, reasonAnswer, norm, P, W, R, marks, merge, shell, phases, revealPh, htmlPh, demoPh, flipPh, slide, ann, st, markedPh, examplesPh, choicePh, sortPh, answerPh, scheme };
+  App.Kit = { intro, commaPh, reasonAnswer, norm, P, W, R, marks, merge, shell, phases, revealPh, htmlPh, demoPh, flipPh, slide, ann, st, markedPh, examplesPh, choicePh, sortPh, answerPh, scheme };
 })();

@@ -134,7 +134,7 @@
       <div class="stars">${[1, 2, 3].map((i) => `<span class="${i <= stars ? 'on' : ''}" style="animation-delay:${i * 0.25}s">★</span>`).join('')}</div>
       <h2>${r.first ? 'Зачёт по пунктуации сдан! 🏆' : 'Отличная тренировка!'}</h2>
       <p class="lead">${r.first ? 'Весь блок пунктуации пройден. Впереди — орфография!' : 'Знания закреплены 💪'}</p>
-      <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>${e}</b><span>ошибок</span></div></div>
+      <div class="loot"><div><b>+${api.ctx.xp}</b><span>XP</span></div><div><b>${api.ctx.correct || 0}</b><span>верных ответов</span></div><div><b>${e}</b><span>ошибок</span></div></div>
     </div>`));
     api.confetti(220); api.sound('level');
     api.foot({ label: 'На карту пути', onClick: () => api.close() });
