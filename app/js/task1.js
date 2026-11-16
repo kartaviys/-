@@ -380,7 +380,7 @@
       <div class="loot">
         <div><b>+${api.ctx.xp}</b><span>XP</span></div>
         
-        <div><b>${e}</b><span>ошибок</span></div>
+        <div><b>${api.ctx.correct || 0}</b><span>верных</span></div><div><b>${e}</b><span>ошибок</span></div>
       </div>
     </div>`));
     api.confetti(180);

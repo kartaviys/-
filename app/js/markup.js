@@ -1,8 +1,8 @@
 /* Движок разметки предложения: основы, обороты, главные слова, стрелки, границы */
 const Markup = (() => {
   const NS = 'http://www.w3.org/2000/svg';
-  // все члены предложения подчёркиваются одним цветом — фиолетовым
-  const BASE_COLORS = { 1: '#7c3aed', 2: '#7c3aed', 3: '#7c3aed', 4: '#7c3aed', 5: '#7c3aed', 6: '#7c3aed' };
+  // цвет основы: 1-я — фиолетовая, остальные — свои цвета (второстепенные члены всегда фиолетовые)
+  const BASE_COLORS = { 1: '#7c3aed', 2: '#f59e0b', 3: '#ec4899', 4: '#14b8a6', 5: '#0ea5e9', 6: '#84cc16' };
   // Подписи над словами: чем выражен член предложения
   const LABELS = ['ПО', 'ДО', 'прил.', 'прич.', 'деепр.', 'прил.+з.с.', 'несмотря на + з.с.', 'невзирая на + з.с.'];
   let uid = 0;
@@ -10,7 +10,7 @@ const Markup = (() => {
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, rings: [], gm: {}, boxes: [], links: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], def2: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, lspan: {}, rings: [], rl: [], gm: {}, boxes: [], links: [] });
   // Вопросы для подписи над стрелкой
   const QUESTIONS = ['какой?', 'какая?', 'какое?', 'какие?', 'что делая?', 'что сделав?', 'как?', 'где?', 'когда?', 'куда?', 'почему?', 'вопреки чему?', 'что?', 'чего?'];
   const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
@@ -146,6 +146,7 @@ const Markup = (() => {
       if (mem) out.push({ k: 'mem', t: mem.t, b: mem.b });
       if (m.obj.includes(wi)) out.push({ k: 'obj' });
       if (m.def.includes(wi)) out.push({ k: 'def' });
+      if ((m.def2 || []).includes(wi)) out.push({ k: 'def2' });
       if (m.circ.includes(wi)) out.push({ k: 'circ' });
       return out;
     }
@@ -199,16 +200,25 @@ const Markup = (() => {
         }
         g.querySelector('.lines').innerHTML = this.linesHtml(joined, a);
       }
+      // кружок вокруг нескольких слов («не только», «но и») рисуется одним овалом
+      const rg = this.ringGroups();
+      for (let wi = 0; wi < n; wi++) this.wordEls[wi].classList.toggle('ringg', rg.some((g) => g.length > 1 && g.includes(wi)));
       this.el.classList.toggle('has-arrows', m.arrows.length > 0);
       this.alignPatterns();
       this.drawArrows();
     }
 
     /* Волнистая и точка-тире продолжаются без «склеек» между словами */
+    ringGroups() {
+      const m = this.marks, rl = m.rl || [], gs = [];
+      [...m.rings].sort((a, b) => a - b).forEach((i) => { const g = gs[gs.length - 1]; if (g && g[g.length - 1] === i - 1 && rl.includes(i)) g.push(i); else gs.push([i]); });
+      return gs;
+    }
+
     alignPatterns() {
       const sr = this.sentEl.getBoundingClientRect();
       if (!sr.width) return;
-      this.sentEl.querySelectorAll('.ln.l-def, .ln.l-circ').forEach((el) => {
+      this.sentEl.querySelectorAll('.ln.l-def, .ln.l-def2, .ln.l-circ').forEach((el) => {
         el.style.backgroundPositionX = `${-(el.getBoundingClientRect().left - sr.left)}px`;
       });
     }
@@ -250,7 +260,24 @@ const Markup = (() => {
         }
         if (label) h += `<text x="${f(mx)}" y="${f(my - 4)}" text-anchor="middle" class="arr-q${dep ? ' dep' : ''}">${esc(label)}</text>`;
       }
+      // овалы вокруг союзов из нескольких слов
+      for (const g of this.ringGroups()) {
+        if (g.length < 2) continue;
+        const a = this.wordEls[g[0]].querySelector('.w').getBoundingClientRect(), b = this.wordEls[g[g.length - 1]].querySelector('.w').getBoundingClientRect();
+        if (Math.abs(a.top - b.top) > 10) continue;
+        const x = a.left - br.left - 5, y = a.top - br.top - 2, w = b.right - a.left + 10, hh = a.height + 4;
+        h += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}" rx="${(hh / 2).toFixed(1)}" class="ring-oval"/>`;
+      }
       this.svg.innerHTML = h;
+      // подпись над оборотом из нескольких слов — по центру оборота
+      this.wordEls.forEach((t) => { const l = t.querySelector('.lbl'); l.style.left = ''; });
+      for (const [k, n] of Object.entries(this.marks.lspan || {})) {
+        const i = +k, j = i + n - 1, ea = this.wordEls[i], eb = this.wordEls[j];
+        if (!ea || !eb) continue;
+        const a = ea.querySelector('.w').getBoundingClientRect(), b = eb.querySelector('.w').getBoundingClientRect();
+        if (Math.abs(a.top - b.top) > 10) continue;
+        ea.querySelector('.lbl').style.left = ((a.left + b.right) / 2 - a.left) + 'px';
+      }
     }
 
     setTool(t) { this.tool = t; this.pending = null; this.closeMenu(); this.render(); }
@@ -335,11 +362,12 @@ const Markup = (() => {
           else {
             this.snap();
             const a = [this.pending, wi];
-            if (!this.marks.arrows.some((x) => x[0] === a[0] && x[1] === a[1])) this.marks.arrows.push(a);
+            let ai = this.marks.arrows.findIndex((x) => x[0] === a[0] && x[1] === a[1]);
+            if (ai < 0) { this.marks.arrows.push(a); ai = this.marks.arrows.length - 1; }
             this.pending = null;
             this.changed();
             this.onTap('mark');
-            this.openQMenu(this.marks.arrows.length - 1, wi);
+            this.openQMenu(ai, wi);
             return;
           }
           this.render();
@@ -404,23 +432,29 @@ const Markup = (() => {
     }
     /* Подпись вопроса над только что проведённой стрелкой */
     openQMenu(ai, wi) {
+      // вопрос к стрелке ученик вписывает сам — без готовых вариантов
       this.closeMenu();
       const t = this.wordEls[wi], br = this.el.getBoundingClientRect(), r = t.getBoundingClientRect();
       const menu = document.createElement('div');
       menu.className = 'lbl-menu q-menu';
-      menu.innerHTML = '<div class="qm-h">Какой вопрос задаём?</div>' + QUESTIONS.map((q) => `<button data-q="${esc(q)}">${esc(q)}</button>`).join('') + '<button data-q="" class="del">без вопроса</button>';
+      const cur = (this.marks.arrows[ai] || [])[2] || '';
+      menu.innerHTML = `<div class="qm-h">Впиши вопрос к стрелке</div><input class="qm-in" maxlength="24" autocomplete="off" placeholder="вопрос" value="${esc(cur)}"><button class="qm-ok">Готово</button>`;
       menu.style.top = r.bottom - br.top + 4 + 'px';
       menu.style.left = Math.max(0, Math.min(br.width - 250, r.left - br.left - 20)) + 'px';
       menu.addEventListener('pointerdown', (e) => e.stopPropagation());
-      menu.addEventListener('click', (e) => {
-        const b = e.target.closest('button');
-        if (!b) return;
+      const inp = menu.querySelector('input');
+      const done = () => {
         const a = this.marks.arrows[ai];
-        if (a) { if (b.dataset.q) a[2] = b.dataset.q; else a.length = 2; }
+        let q = inp.value.trim().replace(/\s+/g, ' ');
+        if (q && !q.endsWith('?')) q += '?';
+        if (a) { if (q) a[2] = q; else a.length = 2; }
         this.closeMenu(); this.changed();
-      });
+      };
+      menu.querySelector('.qm-ok').addEventListener('click', done);
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') done(); });
       this.el.appendChild(menu);
       this.menu = menu;
+      setTimeout(() => inp.focus(), 30);
     }
 
     /* Меню скобок в промежутке между словами */
@@ -490,8 +524,10 @@ const Markup = (() => {
   function toolbar(host, board, tools, onTool) {
     const wrap = document.createElement('div');
     wrap.className = 'toolbar';
+    const hasBase = tools.includes('subj') || tools.includes('pred');
     const drawTools = tools.filter((t) => TOOL_DEFS[t]);
     wrap.innerHTML = `
+      ${hasBase ? `<div class="bases"><span>Основа:</span>${[1, 2, 3, 4].map((b) => `<button class="bdot${b === 1 ? ' on' : ''}" data-b="${b}" style="--c:${BASE_COLORS[b]}">${b}</button>`).join('')}</div>` : ''}
       <div class="tools">${drawTools.map((t) => `<button class="tool" data-t="${t}" style="--c:${BASE_COLORS[1]}">${TOOL_DEFS[t].glyph}<span>${TOOL_DEFS[t].label}</span></button>`).join('')}
         <button class="tool util" data-u="undo"><b class="g-er">↶</b><span>Отменить</span></button>
         <button class="tool util" data-u="clear"><b class="g-er">⟲</b><span>Сбросить</span></button>
@@ -546,7 +582,17 @@ const Markup = (() => {
       const i = +k;
       if (!all.has(i) && !opt.has(i)) { wrong.add(i); msgs.add('Есть лишние подчёркивания: эти слова не входят в грамматическую основу.'); }
     }
-    return { ok: !wrong.size, wrong: [...wrong], msgs: [...msgs] };
+    let colorErr = false;
+    // free: основа без подлежащего — её цвет не обязан отличаться от других
+    const used = spec.groups.map((g) => {
+      const bs = new Set([...g.s, ...g.p].map((i) => m.mem[i] && m.mem[i].b).filter(Boolean));
+      if (bs.size > 1) { colorErr = true; msgs.add('Слова одной основы подчеркни одним цветом.'); }
+      return [...bs][0];
+    });
+    for (let a = 0; a < used.length; a++)
+      for (let b = a + 1; b < used.length; b++)
+        if (used[a] && used[a] === used[b] && !spec.groups[a].free && !spec.groups[b].free) { colorErr = true; msgs.add('Разные основы подчеркни разными цветами 🎨 (переключи «Основа: 1 / 2»).'); }
+    return { ok: !wrong.size && !colorErr, wrong: [...wrong], msgs: [...msgs] };
   }
 
   function checkSet(student, expected, optional, names) {
@@ -557,11 +603,19 @@ const Markup = (() => {
     return { ok: d.ok, wrong: [...d.missing, ...d.extra], msgs };
   }
 
+  const DEF_Q = /^(как(ой|ая|ое|ие|ого|ую|им|их|ом|ою|ими|ому)|чей|чья|чье|чьи|чьего|чьей|чьих|чьему|чьим|который|которая|которое|которые|которого|которой)/;
+  const CIRC_Q = /^(что\s*(делая|сделав)|как|когда|почему|отчего|где|куда|откуда|зачем|вопреки|несмотря|невзирая|при как|каким образом|в каком|с какой|по какой|с какого|до каких|сколько)/;
   function checkArrows(m, expected, also = []) {
     const msgs = new Set(), wrong = new Set();
     for (const e of expected) {
       const from = [].concat(e.from);
-      const ok = m.arrows.some((a) => from.includes(a[0]) && e.to.includes(a[1]));
+      const hit = m.arrows.find((a) => from.includes(a[0]) && e.to.includes(a[1]));
+      const ok = !!hit;
+      if (hit && e.k) {
+        const q = norm(hit[2] || '').replace(/\?/g, '').trim();
+        if (!q) { msgs.add('Над стрелкой не хватает вопроса — впиши его (нажми ещё раз на главное слово, потом на слово оборота).'); wrong.add(hit[1]); }
+        else if (!(e.k === 'def' ? DEF_Q : CIRC_Q).test(q) || (e.k === 'circ' && DEF_Q.test(q) && !/^каким образом/.test(q))) { msgs.add(e.k === 'def' ? 'К определению задаём вопрос «какой? чей?» (в нужной форме).' : 'К обстоятельству задаём вопросы «как? когда? почему? что делая? что сделав?» и т. п.'); wrong.add(hit[1]); }
+      }
       if (!ok) {
         const rev = m.arrows.some((a) => from.includes(a[1]) && e.to.includes(a[0]));
         msgs.add(rev ? 'Стрелка идёт ОТ главного слова К обороту — разверни её.' : 'Не хватает стрелки от главного слова к обороту.');
@@ -598,7 +652,7 @@ const Markup = (() => {
   }
 
   /* Подписи: у каждого оборота хотя бы одна верная подпись, лишних неверных нет */
-  function checkLabels(m, obs) {
+  function checkLabels(m, obs, also = []) {
     const msgs = new Set(), wrong = new Set();
     for (const ob of obs) {
       const ws = [...ob.words, ...(ob.opt || [])];
@@ -606,7 +660,7 @@ const Markup = (() => {
     }
     for (const k of Object.keys(m.labels)) {
       const wi = +k;
-      const fits = obs.some((ob) => [...ob.words, ...(ob.opt || [])].includes(wi) && ob.lab.includes(m.labels[wi]));
+      const fits = [...obs, ...also].some((ob) => [...ob.words, ...(ob.opt || [])].includes(wi) && ob.lab.includes(m.labels[wi]));
       if (!fits) { msgs.add(`Подпись «${m.labels[wi]}» стоит не там или не та. ПО — причастный оборот, ДО — деепричастный.`); wrong.add(wi); }
     }
     return { ok: !msgs.size, wrong: [...wrong], msgs: [...msgs] };
