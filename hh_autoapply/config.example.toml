@@ -38,17 +38,17 @@ queries = [  # простые запросы, по одному, в порядк
   "компьютерный лингвист",
 ]
 search_field = "name"                  # искать только в названии вакансии
-experience = ["between3And6", "moreThan6"]   # уровень Senior
-area = 113                             # 113 — вся Россия; 1 — Москва; 2 — СПб
-period = 7                             # вакансии за последние N дней
-max_pages = 3                          # до 100 вакансий на страницу
+# experience = ["between3And6", "moreThan6"]   # раскомментируйте, чтобы искать только 3+ лет опыта
+# area = 113                           # регион: 113 — Россия, 1 — Москва, 2 — СПб (по умолчанию — все)
+# period = 7                           # только за последние N дней (по умолчанию — без ограничения)
+max_pages = 20                         # страниц на запрос (до 100 вакансий на страницу)
 # schedule = "remote"                  # раскомментируйте, если нужна только удалёнка
 
 [filters]
 # Название должно содержать хотя бы одно слово из include (с начала слова) и ни одного из exclude.
 # Компьютерное зрение (CV) исключено. Плюс вакансии, где в описании >= 3 упоминаний CV, тоже пропускаются.
 title_include = ["data scien", "дата сайент", "дата-сайент", "анализу данных", "ml", "machine learning", "машинн", "ai", "ии", "искусственн", "llm", "genai", "nlp", "естественного языка", "natural language", "data analyst", "аналитик данных", "applied scien", "research scien", "research engineer", "ml researcher", "ai researcher", "исследователь машинн", "исследователь ml", "исследователь ai", "deep learning", "нейросет", "нейронн", "prompt", "промпт", "generative", "генеративн", "рекомендательн", "recommender", "recsys", "ranking", "ранжирован", "decision scien", "лингвист", "linguist", "conversational"]
-title_exclude = ["junior", "intern", "стажер", "стажёр", "младший", "lead", "head", "руководител", "cv", "computer vision", "зрени", "opencv", "видеоаналит", "image", "изображен"]
+title_exclude = ["junior", "intern", "стажер", "стажёр", "младший", "lead", "head", "руководител", "cv", "computer vision", "зрени", "opencv", "видеоаналит", "image", "изображен", "data engineer", "инженер данных", "дата инженер", "дата-инженер", "big data engineer", "dwh", "etl", "bi-", "bi разработчик", "bi developer", "bi analyst", "power bi", "1с", "1c", "бизнес-аналитик", "бизнес аналитик", "системный аналитик", "system analyst", "business analyst", "devops", "backend", "frontend", "fullstack", "тестировщик", "qa", "mlops"]
 
 [resumes]
 ru_resume_id = ""          # id резюме на hh.ru (команда: python -m hh_autoapply resumes)
