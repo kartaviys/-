@@ -92,6 +92,12 @@ class Runner(private val ctx: Context, private val dryRun: Boolean, private val 
             }
             log("• [$lang] [$channel] $title — $employer")
 
+            val (fit, why) = Letters.assess(llm, title, v.optString("description"), Prefs.get(ctx, "target_roles"), ruText.ifBlank { enText })
+            if (!fit) {
+                log("  ✗ не подходит: $why")
+                db.record(id, title, employer, url, "", lang, "skipped", channel, error = "не подходит: $why")
+                continue
+            }
             val letter = try {
                 Letters.write(llm, v, lang, if (lang == "en") enText else ruText,
                     Prefs.get(ctx, if (lang == "en") "name_en" else "name"), Prefs.get(ctx, "en_cv_url"))
@@ -176,6 +182,10 @@ class Runner(private val ctx: Context, private val dryRun: Boolean, private val 
                     if (p.description.isBlank() && src.details != null) p.description = src.details.invoke(net, p)
                     if (Text.isCvHeavy(p.description)) {
                         db.record(dbId, p.title, p.company, p.url, "", "", "skipped", src.key, error = "computer vision"); continue
+                    }
+                    val (fit, why) = Letters.assess(llm, p.title, p.description, Prefs.get(ctx, "target_roles"), ruText.ifBlank { enText })
+                    if (!fit) {
+                        db.record(dbId, p.title, p.company, p.url, "", "", "skipped", src.key, error = "не подходит: $why"); continue
                     }
                     val lang = Text.detectLanguage(p.title + " " + p.description)
                     val v = JSONObject()

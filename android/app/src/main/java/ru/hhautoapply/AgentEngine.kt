@@ -128,6 +128,19 @@ object AgentEngine {
             Letters.write(llm, v, lang, resume, Prefs.get(ctx, if (lang == "en") "name_en" else "name"), Prefs.get(ctx, "en_cv_url"))
         }
 
+    /** Подходит ли вакансия под целевые роли (нейросеть). Не подходит — пишем в журнал как «пропущена» с причиной. */
+    private suspend fun fits(ctx: Context, llm: Llm, db: Db, id: String, title: String, company: String, url: String,
+                             desc: String, channel: String): Boolean {
+        status.value = "Проверяю, подходит ли «$title»…"
+        val resume = Prefs.get(ctx, "ru_resume_text").ifBlank { Prefs.get(ctx, "en_resume_text") }
+        val (ok, reason) = withContext(Dispatchers.IO) { Letters.assess(llm, title, desc, Prefs.get(ctx, "target_roles"), resume) }
+        if (!ok) {
+            db.record(id, title, company, url, url, "", "skipped", channel, error = "не подходит: $reason")
+            RunLog.add(ctx, "  ✗ $title — не подходит: $reason")
+        }
+        return ok
+    }
+
     private suspend fun pause(ctx: Context, linkedin: Boolean = false) {
         val lo = if (linkedin) maxOf(30, Prefs.int(ctx, "linkedin_delay_min")) else maxOf(15, Prefs.int(ctx, "delay_min"))
         val hi = maxOf(lo, Prefs.int(ctx, if (linkedin) "linkedin_delay_max" else "delay_max"))
@@ -204,6 +217,7 @@ object AgentEngine {
         val limit = Prefs.int(ctx, "habr_limit").coerceAtLeast(1)
         val dailyCap = Prefs.int(ctx, "habr_daily_limit").coerceAtLeast(1)
         val exclude = Prefs.list(ctx, "title_exclude")
+        val include = Prefs.list(ctx, "title_include")
         val maxPages = Prefs.int(ctx, "max_pages").coerceIn(1, 40)
         var done = 0
         RunLog.add(ctx, "Агент Хабр Карьеры: старт, лимит $limit (в сутки $dailyCap)")
@@ -224,7 +238,7 @@ object AgentEngine {
                 }
                 if (list.isEmpty()) break
                 val fresh = list.filter {
-                    !it.junior && titleMatches(it.title, query) && Text.titleOk(it.title, emptyList(), exclude) && !db.seen("habr:${it.id}")
+                    !it.junior && titleMatches(it.title, query) && Text.titleOk(it.title, include, exclude) && !db.seen("habr:${it.id}")
                 }
                 RunLog.add(ctx, "Хабр «$query», стр. ${page + 1}/$totalPages: вакансий ${list.size}, новых подходящих ${fresh.size}")
                 for (v in fresh) {
@@ -236,6 +250,7 @@ object AgentEngine {
                     val company = company0.ifBlank { v.company }
                     if (a.habrApplied()) { db.markAppliedElsewhere(id, v.title, v.url, "habr_agent"); continue } // отклик уже есть
                     if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, v.url, "", "", "skipped", "habr_agent", error = "computer vision"); continue }
+                    if (!fits(ctx, llm, db, id, v.title, company, v.url, desc, "habr_agent")) continue
                     val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                     status.value = "Хабр: пишу письмо — «${v.title}»"
                     val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
@@ -263,6 +278,7 @@ object AgentEngine {
         val limit = Prefs.int(ctx, "linkedin_limit").coerceAtLeast(1)
         val dailyCap = Prefs.int(ctx, "linkedin_daily_limit").coerceAtLeast(1)
         val exclude = Prefs.list(ctx, "title_exclude")
+        val include = Prefs.list(ctx, "title_include")
         var done = 0
         RunLog.add(ctx, "LinkedIn-агент: старт, лимит $limit (в сутки $dailyCap)")
         fun capReached(): Boolean {
@@ -275,7 +291,7 @@ object AgentEngine {
 
         suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, requireEasy: Boolean) {
             list.filter { it.applied }.forEach { db.markAppliedElsewhere("li:${it.id}", it.title, "https://www.linkedin.com/jobs/view/${it.id}/", "linkedin_agent") }
-            val fresh = list.filter { !it.applied && Text.titleOk(it.title, emptyList(), exclude) && !db.seen("li:${it.id}") }
+            val fresh = list.filter { !it.applied && Text.titleOk(it.title, include, exclude) && !db.seen("li:${it.id}") }
             RunLog.add(ctx, "LinkedIn $label: вакансий ${list.size}, новых ${fresh.size}")
             for (v in fresh) {
                 coroutineContext.ensureActive()
@@ -286,6 +302,7 @@ object AgentEngine {
                 val (company, desc, applied) = a.liOpen(v.id)
                 if (applied) { db.markAppliedElsewhere(id, v.title, url, "linkedin_agent"); continue }
                 if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, url, "", "", "skipped", "linkedin_agent", error = "computer vision"); continue }
+                if (!fits(ctx, llm, db, id, v.title, company, url, desc, "linkedin_agent")) continue
                 val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                 status.value = "LinkedIn: пишу письмо — «${v.title}»"
                 val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
@@ -364,6 +381,7 @@ object AgentEngine {
                         if (archived) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "archived"); continue }
                         if (a.hhApplied()) { db.markAppliedElsewhere(v.id, v.title, url, "hh_site"); continue } // отклик уже есть — письмо не пишем
                         if (Text.isCvHeavy(desc)) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "computer vision"); continue }
+                        if (!fits(ctx, llm, db, v.id, v.title, employer, url, desc, "hh_site")) continue
                         val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                         status.value = "hh: пишу письмо — «${v.title}»"
                         val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
@@ -387,7 +405,7 @@ object AgentEngine {
                         if (list.isEmpty()) break
                         // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
                         if (list.count { pageSeen.add(it.id) } == 0) break
-                        applyAll(list, "рекомендации, стр. ${page + 1}", useInclude = false)
+                        applyAll(list, "рекомендации, стр. ${page + 1}", useInclude = true)
                     }
                 }
                 // 1b. Поиск по запросам
@@ -400,7 +418,7 @@ object AgentEngine {
                         if (list.isEmpty()) break
                         // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
                         if (list.count { pageSeen.add(it.id) } == 0) break
-                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = false) // hh уже ищет по названию
+                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = true)
                     }
                 }
             } else RunLog.add(ctx, "hh: вход не выполнен — пропускаю")
@@ -415,6 +433,9 @@ object AgentEngine {
             val src = Sources.byKey(app.channel)?.name ?: app.channel
             status.value = "$src: «${app.title}» (откликов $done из $limit)"
             resumeLang = app.language.ifBlank { "ru" }
+            if (!Text.titleOk(app.title, emptyList(), Prefs.list(ctx, "title_exclude"))) {
+                db.setStatus(app.vacancyId, "skipped"); continue
+            }
             if (!a.open(app.formUrl)) { db.setStatus(app.vacancyId, "manual"); continue }
             val outcome = a.runGoal(AgentGoal(app.title, app.employer, app.letter, resumeLang), needConfirm(ctx, app.channel))
             val st = statusOf(outcome)

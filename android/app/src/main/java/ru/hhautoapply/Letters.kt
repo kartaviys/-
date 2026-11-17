@@ -35,6 +35,28 @@ No placeholders in square brackets, no markdown, no bullet lists. Return only th
         return sb.toString()
     }
 
+    /**
+     * Проверка перед откликом: подходит ли вакансия под целевые роли кандидата. Дешёвый короткий запрос.
+     * Возвращает (подходит, причина). При сбое нейросети — (true, "") чтобы не блокировать работу.
+     */
+    fun assess(llm: Llm, title: String, description: String, targetRoles: String, resumeText: String): Pair<Boolean, String> {
+        val system = """Ты помогаешь соискателю отбирать вакансии. Тебе даны его целевые роли и вакансия.
+Реши, стоит ли откликаться: роль по сути должна совпадать с одной из подходящих (смотри на суть работы в описании,
+а не только на слова в названии) и не попадать в «не подходят». Если вакансия смешанная, но основная работа —
+из «не подходят» (например, Data Engineer, который «немного делает ML») — не подходит.
+Ответ — JSON: {"fit": true|false, "reason": "кратко, до 12 слов, по-русски"}"""
+        val user = "ЦЕЛЕВЫЕ РОЛИ:\n$targetRoles\n\nКРАТКО О КАНДИДАТЕ:\n${resumeText.take(1200)}\n\n" +
+            "ВАКАНСИЯ: $title\n${Text.stripHtml(description).take(3000)}"
+        return try {
+            val o = llm.completeJson(system, user, maxTokens = 400)
+            o.optBoolean("fit", true) to o.optString("reason")
+        } catch (e: BudgetException) {
+            throw e
+        } catch (e: Exception) {
+            true to ""
+        }
+    }
+
     fun write(llm: Llm, v: JSONObject, lang: String, resumeText: String, name: String, cvUrl: String): String {
         val sign = name.ifBlank { "возьми имя кандидата из резюме; если его там нет — подпись не ставь" }
         val user = "Имя кандидата для подписи: $sign\n\n=== ВАКАНСИЯ ===\n${brief(v)}\n\n" +

@@ -102,7 +102,14 @@ object Prefs {
             Field("title_include", "Название содержит одно из (через запятую)",
                 default = "data scien, дата сайент, дата-сайент, анализу данных, ml, machine learning, машинн, ai, ии, искусственн, llm, genai, nlp, естественного языка, natural language, data analyst, аналитик данных, applied scien, research scien, research engineer, ml researcher, ai researcher, исследователь машинн, исследователь ml, исследователь ai, deep learning, нейросет, нейронн, prompt, промпт, generative, генеративн, рекомендательн, recommender, recsys, ranking, ранжирован, decision scien, лингвист, linguist, conversational"),
             Field("title_exclude", "Исключить, если в названии (через запятую)",
-                default = "junior, intern, стажер, стажёр, младший, lead, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, image, изображен"),
+                default = "junior, intern, стажер, стажёр, младший, lead, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, image, изображен, data engineer, инженер данных, дата инженер, дата-инженер, big data engineer, dwh, etl, bi-, bi разработчик, bi developer, bi analyst, power bi, 1с, 1c, бизнес-аналитик, бизнес аналитик, системный аналитик, system analyst, business analyst, devops, backend, frontend, fullstack, тестировщик, qa , mlops"),
+            Field("target_roles", "Какие вакансии мне подходят (нейросеть проверяет каждую вакансию по этому описанию перед откликом)", FieldType.MULTILINE,
+                default = "Подходят: Data Scientist (в т.ч. классический ML), ML-инженер / Machine Learning Engineer, AI-инженер, " +
+                    "NLP-инженер, LLM-инженер, ML-разработчик, ML-аналитик, Data Analyst / аналитик данных, " +
+                    "специалист по внедрению AI/ИИ, Applied / Research Scientist.\n" +
+                    "Не подходят: Data Engineer и инженер данных, DWH/ETL, BI-разработчик и BI-аналитик, бизнес-, системный и " +
+                    "продуктовый аналитик без ML, backend/frontend/fullstack-разработчик, DevOps/MLOps, тестировщик, " +
+                    "компьютерное зрение (CV), junior и стажёр, руководители (lead/head/CTO)."),
             Field("area", "Регион hh (пусто — все регионы; 113 — Россия, 1 — Москва, 2 — СПб)", FieldType.NUMBER, ""),
             Field("experience_filter", "Фильтр по опыту на hh (только 3+ лет)", FieldType.BOOL, "false"),
             Field("period", "Вакансии за последние N дней (пусто — без ограничения)", FieldType.NUMBER, ""),
@@ -176,6 +183,15 @@ object Prefs {
             if (sp(ctx).getString("salary_answer", null) == "25000") e.putString("salary_answer", "250000")
             if (sp(ctx).getString("area", null) in setOf("113", "1")) e.putString("area", "")
             e.putString("mig_v2", "done")
+        }
+        // v4: в исключения названий добавлены дата-инженеры, DWH/ETL, BI, бизнес/системные аналитики и т.п.
+        if (sp(ctx).getString("mig_v4", null) == null) {
+            sp(ctx).getString("title_exclude", null)?.let { cur ->
+                val have = cur.split(",").map { it.trim().lowercase() }.toSet()
+                val add = listOf("data engineer", "инженер данных", "дата инженер", "дата-инженер", "big data engineer", "dwh", "etl", "bi-", "bi разработчик", "bi developer", "bi analyst", "power bi", "1с", "1c", "бизнес-аналитик", "бизнес аналитик", "системный аналитик", "system analyst", "business analyst", "devops", "backend", "frontend", "fullstack", "тестировщик", "qa ", "mlops").filter { it.lowercase() !in have }
+                if (add.isNotEmpty()) e.putString("title_exclude", (cur.trimEnd(',', ' ') + ", " + add.joinToString(", ")))
+            }
+            e.putString("mig_v4", "done")
         }
         // v3: hh — только поиск по названию, без ограничения по дате
         if (sp(ctx).getString("mig_v3", null) == null) {
