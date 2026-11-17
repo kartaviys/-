@@ -118,6 +118,10 @@ window.__ag = (function () {
       const signIn = document.querySelector('a[href*="sign_in"], a[href*="account.habr.com/login"], a[href*="/users/auth"]');
       return (login || (signIn && vis(signIn))) ? 'false' : 'true';
     },
+    habrApplied() {
+      const body = clean(document.body ? document.body.innerText : '').slice(0, 8000);
+      return /Вы откликнулись|Отклик отправлен|Вы уже откликнулись/i.test(body) ? 'true' : 'false';
+    },
     // 'ok' — нажали «Откликнуться»; 'external' — отклик на сайте компании; 'applied' — уже откликались; 'missing'
     habrRespond() {
       const body = clean(document.body ? document.body.innerText : '').slice(0, 8000);
@@ -134,15 +138,17 @@ window.__ag = (function () {
     // Вакансии на странице поиска: ссылки /jobs/view/<id> и карточки с data-job-id
     liLinks() {
       const out = [], seen = new Set();
-      const add = (id, t) => { if (!id || seen.has(id)) return; t = clean(t); if (t.length < 3) return; seen.add(id); out.push({ id, title: t.slice(0, 150) }); };
+      const appliedIn = el => { const c = el && (el.closest('li, [data-job-id], [data-occludable-job-id]') || el); const ct = c ? clean(c.innerText) : '';
+        return /Applied\b|Вы откликнулись|Отклик отправлен|Заявка отправлена/.test(ct) && ct.length < 2000; };
+      const add = (id, t, el) => { if (!id || seen.has(id)) return; t = clean(t); if (t.length < 3) return; seen.add(id); out.push({ id, title: t.slice(0, 150), applied: appliedIn(el) }); };
       for (const a of document.querySelectorAll('a[href*="/jobs/view/"]')) {
         const m = (a.getAttribute('href') || '').match(/\/jobs\/view\/(?:[^/?]*-)?(\d{6,})/);
-        if (m) add(m[1], a.getAttribute('aria-label') || a.innerText);
+        if (m) add(m[1], a.getAttribute('aria-label') || a.innerText, a);
       }
       for (const c of document.querySelectorAll('[data-job-id], [data-occludable-job-id]')) {
         const id = c.getAttribute('data-job-id') || c.getAttribute('data-occludable-job-id');
         const t = c.querySelector('a, strong, h3');
-        if (/^\d{6,}$/.test(id || '')) add(id, t ? (t.getAttribute('aria-label') || t.innerText) : '');
+        if (/^\d{6,}$/.test(id || '')) add(id, t ? (t.getAttribute('aria-label') || t.innerText) : '', c);
       }
       return JSON.stringify(out);
     },
@@ -176,7 +182,13 @@ window.__ag = (function () {
         const t = clean(a.innerText);
         if (t.length < 3) continue;
         seen.add(m[1]);
-        out.push({ id: m[1], title: t.slice(0, 150) });
+        // Карточка вакансии в выдаче: если на ней отметка об отклике — помечаем, открывать не будем
+        const up = a.parentElement;
+        const card = (up && up.closest('[data-qa^="vacancy-serp__vacancy"], [class*="vacancy-card"], [class*="serp-item_"], article')) ||
+          (up && up.parentElement && up.parentElement.parentElement);
+        const ct = card ? clean(card.innerText) : '';
+        const applied = /Вы откликнулись|Отклик отправлен|Резюме доставлено/i.test(ct) && ct.length < 3000;
+        out.push({ id: m[1], title: t.slice(0, 150), applied });
       }
       return JSON.stringify(out);
     },

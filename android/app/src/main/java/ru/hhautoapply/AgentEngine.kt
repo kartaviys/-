@@ -234,6 +234,7 @@ object AgentEngine {
                     status.value = "Хабр: «${v.title}» (откликов $done из $limit)"
                     val (company0, desc) = a.habrOpen(v.id)
                     val company = company0.ifBlank { v.company }
+                    if (a.habrApplied()) { db.markAppliedElsewhere(id, v.title, v.url, "habr_agent"); continue } // отклик уже есть
                     if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, v.url, "", "", "skipped", "habr_agent", error = "computer vision"); continue }
                     val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                     status.value = "Хабр: пишу письмо — «${v.title}»"
@@ -273,7 +274,8 @@ object AgentEngine {
         val maxPages = Prefs.int(ctx, "linkedin_pages").coerceIn(1, 40)
 
         suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, requireEasy: Boolean) {
-            val fresh = list.filter { Text.titleOk(it.title, emptyList(), exclude) && !db.seen("li:${it.id}") }
+            list.filter { it.applied }.forEach { db.markAppliedElsewhere("li:${it.id}", it.title, "https://www.linkedin.com/jobs/view/${it.id}/", "linkedin_agent") }
+            val fresh = list.filter { !it.applied && Text.titleOk(it.title, emptyList(), exclude) && !db.seen("li:${it.id}") }
             RunLog.add(ctx, "LinkedIn $label: вакансий ${list.size}, новых ${fresh.size}")
             for (v in fresh) {
                 coroutineContext.ensureActive()
@@ -282,7 +284,7 @@ object AgentEngine {
                 val url = "https://www.linkedin.com/jobs/view/${v.id}/"
                 status.value = "LinkedIn: «${v.title}» (откликов $done из $limit)"
                 val (company, desc, applied) = a.liOpen(v.id)
-                if (applied) { db.record(id, v.title, company, url, url, "", "applied", "linkedin_agent", error = "уже откликались"); continue }
+                if (applied) { db.markAppliedElsewhere(id, v.title, url, "linkedin_agent"); continue }
                 if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, url, "", "", "skipped", "linkedin_agent", error = "computer vision"); continue }
                 val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                 status.value = "LinkedIn: пишу письмо — «${v.title}»"
@@ -349,7 +351,9 @@ object AgentEngine {
                 val exclude = Prefs.list(ctx, "title_exclude")
 
                 suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, useInclude: Boolean) {
-                    val fresh = list.filter { Text.titleOk(it.title, if (useInclude) include else emptyList(), exclude) && !db.seen(it.id) }
+                    // Отмечены в выдаче как «Вы откликнулись» — не открываем, просто запоминаем
+                    list.filter { it.applied }.forEach { db.markAppliedElsewhere(it.id, it.title, "https://hh.ru/vacancy/${it.id}", "hh_site") }
+                    val fresh = list.filter { !it.applied && Text.titleOk(it.title, if (useInclude) include else emptyList(), exclude) && !db.seen(it.id) }
                     RunLog.add(ctx, "hh $label: вакансий ${list.size}, новых подходящих ${fresh.size}")
                     for (v in fresh) {
                         coroutineContext.ensureActive()
@@ -358,6 +362,7 @@ object AgentEngine {
                         val (employer, desc, archived) = a.hhOpen(v.id)
                         val url = "https://hh.ru/vacancy/${v.id}"
                         if (archived) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "archived"); continue }
+                        if (a.hhApplied()) { db.markAppliedElsewhere(v.id, v.title, url, "hh_site"); continue } // отклик уже есть — письмо не пишем
                         if (Text.isCvHeavy(desc)) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "computer vision"); continue }
                         val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                         status.value = "hh: пишу письмо — «${v.title}»"

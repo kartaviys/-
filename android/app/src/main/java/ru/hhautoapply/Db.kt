@@ -42,7 +42,23 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         }
 
     /** Уже обработана: повторно не трогаем. dry_run и failed можно пробовать снова. */
-    fun seen(vacancyId: String) = status(vacancyId) in setOf("applied", "manual", "needs_browser", "skipped")
+    fun seen(vacancyId: String): Boolean {
+        val row = readableDatabase.rawQuery("SELECT status, created_at FROM applications WHERE vacancy_id = ?", arrayOf(vacancyId)).use {
+            if (it.moveToFirst()) it.getString(0) to (it.getString(1) ?: "") else null
+        } ?: return false
+        return when (row.first) {
+            "applied", "manual", "needs_browser", "skipped", "saved", "hidden" -> true
+            // неудачную попытку повторяем не раньше чем через 3 дня, чтобы не ходить на одну вакансию каждую сессию
+            "failed" -> row.second >= SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date(System.currentTimeMillis() - 3 * 86_400_000L))
+            else -> false // dry_run — пробный прогон, реальный отклик ещё не отправлялся
+        }
+    }
+
+    /** Отметить вакансию как уже откликнутую ранее (вне приложения), не трогая записи с письмом. */
+    fun markAppliedElsewhere(vacancyId: String, title: String, url: String, channel: String) {
+        if (status(vacancyId) == "applied") return
+        record(vacancyId, title, "", url, url, "", "applied", channel, error = "откликались ранее")
+    }
 
     fun record(
         vacancyId: String, title: String, employer: String, url: String, formUrl: String,
@@ -62,11 +78,11 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
     }
 
     fun appliedTodayIn(channel: String): Int = readableDatabase.rawQuery(
-        "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND channel = ? AND created_at >= ?", arrayOf(channel, today()),
+        "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND channel = ? AND created_at >= ? AND channel != 'earlier' AND (error IS NULL OR error != 'откликались ранее')", arrayOf(channel, today()),
     ).use { it.moveToFirst(); it.getInt(0) }
 
     fun appliedToday(): Int = readableDatabase.rawQuery(
-        "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND created_at >= ?", arrayOf(today()),
+        "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND created_at >= ? AND channel != 'earlier' AND (error IS NULL OR error != 'откликались ранее')", arrayOf(today()),
     ).use { it.moveToFirst(); it.getInt(0) }
 
     fun list(where: String = "1=1", args: Array<String> = emptyArray(), limit: Int = 5000): List<Application> =

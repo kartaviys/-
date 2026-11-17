@@ -214,7 +214,7 @@ class BrowserAgent(
     }
 
     // ---------- hh.ru через сайт ----------
-    data class HhVacancy(val id: String, val title: String)
+    data class HhVacancy(val id: String, val title: String, val applied: Boolean = false)
 
     /** Проверка входа на hh.ru; если не вошли — просим войти. */
     suspend fun ensureHhLogin(): Boolean {
@@ -274,7 +274,7 @@ class BrowserAgent(
         val url = "https://hh.ru/search/vacancy?resume=$resumeHash&order_by=publication_time&items_on_page=50&page=$page"
         if (!open(url)) return null
         val arr = try { JSONArray(call("window.__ag.hhLinks()")) } catch (_: Exception) { JSONArray() }
-        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title"), it.optBoolean("applied")) }
     }
 
     /** Одна страница поиска hh. null — не удалось пройти проверку (капча без ответа). */
@@ -282,7 +282,7 @@ class BrowserAgent(
         status("hh: ищу «${query.take(40)}», стр. ${page + 1}")
         if (!open(hhSearchUrl(query, page))) return null
         val arr = try { JSONArray(call("window.__ag.hhLinks()")) } catch (_: Exception) { JSONArray() }
-        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title"), it.optBoolean("applied")) }
     }
 
     suspend fun hhCollect(queries: List<String>, pages: Int = 2): List<HhVacancy> {
@@ -315,7 +315,8 @@ class BrowserAgent(
 
     private suspend fun has(sel: String) = call("window.__ag.has(${q(sel)})") == "true"
 
-    private suspend fun hhApplied(): Boolean {
+    /** На открытой странице вакансии hh уже есть отклик. */
+    suspend fun hhApplied(): Boolean {
         if (has("[data-qa=\"vacancy-response-link-view-topic\"]")) return true
         val body = call("window.__ag.bodyText()")
         return listOf("Резюме доставлено", "Отклик отправлен", "Вы откликнулись").any { body.contains(it, true) }
@@ -396,7 +397,7 @@ class BrowserAgent(
         // Список подгружается по мере прокрутки — немного прокручиваем
         repeat(3) { call("window.__ag.scroll('down')"); delay(900) }
         val arr = try { JSONArray(call("window.__ag.liLinks()")) } catch (_: Exception) { JSONArray() }
-        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title"), it.optBoolean("applied")) }
     }
 
     /** Вакансии, которые LinkedIn рекомендует вам («Recommended for you»). */
@@ -406,7 +407,7 @@ class BrowserAgent(
         if (!open(url)) return null
         repeat(3) { call("window.__ag.scroll('down')"); delay(900) }
         val arr = try { JSONArray(call("window.__ag.liLinks()")) } catch (_: Exception) { JSONArray() }
-        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title"), it.optBoolean("applied")) }
     }
 
     /** Открывает вакансию: (компания, описание, уже откликались?). */
@@ -439,6 +440,8 @@ class BrowserAgent(
         val desc = call("window.__ag.textOf('.vacancy-description__text')").ifBlank { call("window.__ag.bodyText()") }
         return company to desc
     }
+
+    suspend fun habrApplied(): Boolean = call("window.__ag.habrApplied()") == "true"
 
     /** Отклик на Хабре: «Откликнуться» → письмо/вопросы и отправку проходит универсальный агент. */
     suspend fun habrApply(g: AgentGoal, confirmSubmit: Boolean): Pair<Outcome, String> {
