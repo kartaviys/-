@@ -45,13 +45,12 @@ class MainActivity : ComponentActivity() {
 
         val box = vbox()
 
-        // ---------- Быстрый старт: только ключ нейросети и вход на hh ----------
-        box.addView(header("🚀 Быстрый старт — 3 шага"))
-        box.addView(label("1. Вставьте ключ нейросети (Claude «sk-ant-…» или DeepSeek «sk-…»):", 13f))
+        // ---------- 1. Нейросеть ----------
+        box.addView(header("1. Ключ нейросети"))
         val keyField = android.widget.EditText(this).apply {
             inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
             hint = if (Prefs.get(this@MainActivity, "anthropic_key").isNotBlank() || Prefs.get(this@MainActivity, "deepseek_key").isNotBlank())
-                "ключ уже сохранён ✅ (можно заменить)" else "sk-ant-… или sk-…"
+                "ключ уже сохранён ✅ (можно заменить)" else "Claude «sk-ant-…» или DeepSeek «sk-…»"
         }
         box.addView(keyField)
         box.addView(button("Сохранить ключ") {
@@ -63,49 +62,61 @@ class MainActivity : ComponentActivity() {
             }
             if (key.isNotEmpty()) { keyField.setText(""); keyField.hint = "ключ уже сохранён ✅ (можно заменить)" }
         })
-        box.addView(label("2. Войдите в свой аккаунт hh.ru:", 13f))
-        box.addView(button("Войти на hh.ru") { openWeb(WebActivity.MODE_LOGIN) })
-        box.addView(label("3. Запустите агента — он сам возьмёт резюме из профиля hh, найдёт вакансии и откликнется:", 13f))
-        box.addView(button("🤖 Запустить агента") {
-            startActivity(Intent(this, AgentActivity::class.java).putExtra(AgentActivity.EXTRA_AUTOSTART, true))
-        })
-        box.addView(label("Всё остальное ниже — необязательно: API hh, PDF резюме, другие площадки, расписание.", 12f))
 
-        status = label("", 13f)
-        box.addView(status)
-        box.addView(header("Дополнительно"))
+        // ---------- 2. hh.ru ----------
+        box.addView(header("2. hh.ru"))
         box.addView(row(
-            button("Настройки") { startActivity(Intent(this, SettingsActivity::class.java)) },
-            button("Войти через API hh") { openWeb(WebActivity.MODE_OAUTH) },
+            button("Войти на hh.ru") { openLogin("https://hh.ru/account/login", "hh.ru") },
+            button("🤖 Агент hh") { openAgent("hh") },
         ))
+
+        // ---------- 3. LinkedIn ----------
+        box.addView(header("3. LinkedIn"))
         box.addView(row(
-            button("Войти на hh.ru (для тестов)") { openWeb(WebActivity.MODE_LOGIN) },
-            button("Мои резюме на hh") { chooseResumes() },
+            button("Войти в LinkedIn") { openLogin("https://www.linkedin.com/login", "LinkedIn") },
+            button("🤖 Агент LinkedIn") { openAgent("linkedin") },
         ))
-        box.addView(button("Источники вакансий: вкл/выкл и инструкции") { startActivity(Intent(this, SourcesActivity::class.java)) })
+
         box.addView(row(
-            button("PDF резюме RU") { pickLang = "ru"; pickPdf.launch(arrayOf("application/pdf")) },
-            button("PDF резюме EN") { pickLang = "en"; pickPdf.launch(arrayOf("application/pdf")) },
-        ))
-        box.addView(header("Запуск"))
-        box.addView(row(
-            button("Пробный прогон") { RunWorker.runNow(this, dry = true) },
-            button("Откликнуться") { confirmLive() },
-        ))
-        box.addView(row(
-            button("🤖 Агент hh") { startActivity(Intent(this, AgentActivity::class.java)) },
-            button("🤖 Агент LinkedIn") {
-                startActivity(Intent(this, AgentActivity::class.java).putExtra(AgentActivity.EXTRA_TARGET, "linkedin"))
-            },
-        ))
-        box.addView(row(
-            button("Анкеты") { openWeb(WebActivity.MODE_FORMS) },
             button("Журнал") { showJournal() },
             button("💰 Расходы") {
                 AlertDialog.Builder(this).setTitle("Расходы на нейросеть").setMessage(Usage.report(this))
                     .setPositiveButton("Закрыть", null).show()
             },
-            button("Стоп") { RunWorker.stop(this); RunWorker.stopAgent(this) },
+            button("Настройки") { startActivity(Intent(this, SettingsActivity::class.java)) },
+        ))
+        status = label("", 13f)
+        box.addView(status)
+
+        // ---------- Дополнительно (свёрнуто) ----------
+        val extra = vbox(0).apply { visibility = android.view.View.GONE }
+        val toggle = button("▸ Дополнительно: другие площадки, API hh, PDF резюме, анкеты") {}
+        toggle.setOnClickListener {
+            val show = extra.visibility != android.view.View.VISIBLE
+            extra.visibility = if (show) android.view.View.VISIBLE else android.view.View.GONE
+            toggle.text = (if (show) "▾" else "▸") + " Дополнительно: другие площадки, API hh, PDF резюме, анкеты"
+        }
+        box.addView(toggle)
+        box.addView(extra)
+        extra.addView(button("Источники вакансий (Хабр, Telegram, удалёнка…): вкл/выкл и инструкции") {
+            startActivity(Intent(this, SourcesActivity::class.java))
+        })
+        extra.addView(row(
+            button("PDF резюме RU") { pickLang = "ru"; pickPdf.launch(arrayOf("application/pdf")) },
+            button("PDF резюме EN") { pickLang = "en"; pickPdf.launch(arrayOf("application/pdf")) },
+        ))
+        extra.addView(label("Официальный API hh (если hh одобрит приложение):", 12f))
+        extra.addView(row(
+            button("Войти через API hh") { openWeb(WebActivity.MODE_OAUTH) },
+            button("Мои резюме на hh") { chooseResumes() },
+        ))
+        extra.addView(row(
+            button("Пробный прогон") { RunWorker.runNow(this, dry = true) },
+            button("Откликнуться (всё)") { confirmLive() },
+        ))
+        extra.addView(row(
+            button("Анкеты") { openWeb(WebActivity.MODE_FORMS) },
+            button("Стоп всё") { RunWorker.stop(this); RunWorker.stopAgent(this) },
         ))
         box.addView(header("Лог"))
         logView = TextView(this).apply { textSize = 12f; setTextIsSelectable(true) }
@@ -156,6 +167,15 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun openWeb(mode: String) = startActivity(Intent(this, WebActivity::class.java).putExtra(WebActivity.EXTRA_MODE, mode))
+
+    private fun openLogin(url: String, site: String) = startActivity(Intent(this, WebActivity::class.java)
+        .putExtra(WebActivity.EXTRA_MODE, WebActivity.MODE_LOGIN)
+        .putExtra(WebActivity.EXTRA_URL, url)
+        .putExtra(WebActivity.EXTRA_SOURCE, site))
+
+    private fun openAgent(target: String) = startActivity(Intent(this, AgentActivity::class.java)
+        .putExtra(AgentActivity.EXTRA_TARGET, target)
+        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 
     private fun confirmLive() {
         AlertDialog.Builder(this)

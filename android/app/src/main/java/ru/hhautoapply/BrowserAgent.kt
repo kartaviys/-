@@ -261,7 +261,7 @@ class BrowserAgent(
             }
             Prefs.get(ctx, "area").trim().takeIf { it.isNotEmpty() }?.let { appendQueryParameter("area", it) }
         }
-        .appendQueryParameter("search_period", Prefs.get(ctx, "period").trim())
+        .apply { Prefs.get(ctx, "period").trim().takeIf { it.isNotEmpty() && it != "0" }?.let { appendQueryParameter("search_period", it) } }
         .appendQueryParameter("order_by", "publication_time")
         .appendQueryParameter("items_on_page", "50")
         .appendQueryParameter("page", page.toString())
@@ -399,6 +399,16 @@ class BrowserAgent(
         return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
     }
 
+    /** Вакансии, которые LinkedIn рекомендует вам («Recommended for you»). */
+    suspend fun liRecommendedPage(page: Int): List<HhVacancy>? {
+        status("LinkedIn: рекомендованные вакансии, стр. ${page + 1}")
+        val url = "https://www.linkedin.com/jobs/collections/recommended/" + if (page > 0) "?start=${page * 24}" else ""
+        if (!open(url)) return null
+        repeat(3) { call("window.__ag.scroll('down')"); delay(900) }
+        val arr = try { JSONArray(call("window.__ag.liLinks()")) } catch (_: Exception) { JSONArray() }
+        return (0 until arr.length()).map { arr.getJSONObject(it) }.map { HhVacancy(it.getString("id"), it.getString("title")) }
+    }
+
     /** Открывает вакансию: (компания, описание, уже откликались?). */
     suspend fun liOpen(id: String): Triple<String, String, Boolean> {
         if (!open("https://www.linkedin.com/jobs/view/$id/")) return Triple("", "", true)
@@ -408,8 +418,9 @@ class BrowserAgent(
     }
 
     /** Easy Apply: нажимаем кнопку, дальше шаги формы проходит универсальный агент. */
-    suspend fun liApply(g: AgentGoal, confirmSubmit: Boolean): Outcome {
+    suspend fun liApply(g: AgentGoal, confirmSubmit: Boolean, requireEasyApply: Boolean = false): Outcome {
         if (call("window.__ag.liEasyApply()") == "ok") delay(2500)
+        else if (requireEasyApply) return Outcome.FAILED // нет Easy Apply (отклик на сайте компании) — пропускаем
         return runGoal(g, confirmSubmit)
     }
 }

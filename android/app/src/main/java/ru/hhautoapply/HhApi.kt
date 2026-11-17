@@ -97,7 +97,8 @@ class HhApi(private val ctx: Context) {
         val url = "$api/vacancies".toHttpUrl().newBuilder()
             .addQueryParameter("text", text)
             .addQueryParameter("search_field", "name")
-            .addQueryParameter("period", Prefs.get(ctx, "period").trim())
+        Prefs.get(ctx, "period").trim().takeIf { it.isNotEmpty() && it != "0" }?.let { url.addQueryParameter("period", it) }
+        url
         if (Prefs.bool(ctx, "experience_filter")) {
             url.addQueryParameter("experience", "between3And6").addQueryParameter("experience", "moreThan6")
         }

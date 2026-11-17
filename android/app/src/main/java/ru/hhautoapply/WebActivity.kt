@@ -116,7 +116,11 @@ class WebActivity : ComponentActivity() {
 
         when (mode) {
             MODE_OAUTH -> startOauth()
-            MODE_LOGIN -> { info.text = "Войдите в свой аккаунт hh.ru и нажмите «Готово»."; web.loadUrl("https://hh.ru/account/login") }
+            MODE_LOGIN -> {
+                val site = intent.getStringExtra(EXTRA_SOURCE) ?: "hh.ru"
+                info.text = "Войдите в свой аккаунт $site и нажмите «Готово». Вход запомнится — агент будет работать от вашего имени."
+                web.loadUrl(intent.getStringExtra(EXTRA_URL) ?: "https://hh.ru/account/login")
+            }
             MODE_FORMS -> startForms()
             MODE_ASSIST -> startAssist()
         }

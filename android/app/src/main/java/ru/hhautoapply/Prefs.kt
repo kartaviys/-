@@ -28,6 +28,7 @@ object Prefs {
             Field("linkedin_remote", "Только удалёнка (Remote)", FieldType.BOOL, "true"),
             Field("linkedin_senior_only", "Только уровень Mid-Senior", FieldType.BOOL, "false"),
             Field("linkedin_days", "Вакансии за последние N дней", FieldType.NUMBER, "7"),
+            Field("linkedin_pages", "Сколько страниц результатов проходить на каждый запрос (по 25; 40 — все)", FieldType.NUMBER, "40"),
             Field("linkedin_limit", "Откликов за одну сессию", FieldType.NUMBER, "20"),
             Field("linkedin_daily_limit", "Откликов в LinkedIn в сутки (больше — риск блокировки)", FieldType.NUMBER, "30"),
             Field("linkedin_delay_min", "Пауза между откликами от, сек", FieldType.NUMBER, "45"),
@@ -95,7 +96,8 @@ object Prefs {
                 default = "junior, intern, стажер, стажёр, младший, lead, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, image, изображен"),
             Field("area", "Регион hh (пусто — все регионы; 113 — Россия, 1 — Москва, 2 — СПб)", FieldType.NUMBER, ""),
             Field("experience_filter", "Фильтр по опыту на hh (только 3+ лет)", FieldType.BOOL, "false"),
-            Field("period", "Вакансии за последние N дней", FieldType.NUMBER, "7"),
+            Field("period", "Вакансии за последние N дней (пусто — без ограничения)", FieldType.NUMBER, ""),
+            Field("max_pages", "Сколько страниц результатов проходить на каждый запрос (по 50 вакансий; 40 — все)", FieldType.NUMBER, "40"),
             Field("remote_only", "Только удалёнка", FieldType.BOOL, "false"),
         )),
         Section("Источники (кроме hh)", listOf(
@@ -165,6 +167,11 @@ object Prefs {
             if (sp(ctx).getString("salary_answer", null) == "25000") e.putString("salary_answer", "250000")
             if (sp(ctx).getString("area", null) in setOf("113", "1")) e.putString("area", "")
             e.putString("mig_v2", "done")
+        }
+        // v3: hh — только поиск по названию, без ограничения по дате
+        if (sp(ctx).getString("mig_v3", null) == null) {
+            if (sp(ctx).getString("period", null) == "7") e.putString("period", "")
+            e.putString("mig_v3", "done")
         }
         e.apply()
     }

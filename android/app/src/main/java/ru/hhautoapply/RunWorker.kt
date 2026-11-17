@@ -181,7 +181,8 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
                 .setInputData(workDataOf(KEY_MODE to "agent", KEY_SINGLE to single, KEY_SOURCE to source, KEY_TARGET to target))
                 .setConstraints(network)
                 .build()
-            WorkManager.getInstance(ctx).enqueueUniqueWork(AGENT, ExistingWorkPolicy.KEEP, req)
+            // REPLACE: старая «застрявшая» заявка не должна поглощать новую (работающего агента окно останавливает заранее)
+            WorkManager.getInstance(ctx).enqueueUniqueWork(AGENT, ExistingWorkPolicy.REPLACE, req)
         }
 
         fun stopAgent(ctx: Context) {

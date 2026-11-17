@@ -35,6 +35,8 @@ object AgentEngine {
 
     val status = MutableStateFlow("Агент не запущен")
     val running = MutableStateFlow(false)
+    /** Какой агент сейчас работает: "hh" или "linkedin" ("" — никакой). */
+    val target = MutableStateFlow("")
     val prompt = MutableStateFlow<Prompt?>(null)
     private var answer: CompletableDeferred<Boolean>? = null
 
@@ -139,8 +141,13 @@ object AgentEngine {
      * Возвращает краткий итог.
      */
     suspend fun run(ctx: Context, single: Boolean, source: String = "", target: String = "hh"): String {
-        if (running.value) return "Агент уже работает"
+        if (running.value) {
+            val msg = "Уже работает агент ${if (this.target.value == "linkedin") "LinkedIn" else "hh"} — сначала остановите его"
+            RunLog.add(ctx, msg)
+            return msg
+        }
         running.value = true
+        this.target.value = if (single) "single" else target
         try {
             val llm = Llm(ctx) { RunLog.add(ctx, it) }
             val w = ensureWeb(ctx)
@@ -161,6 +168,7 @@ object AgentEngine {
         } finally {
             agent = null
             running.value = false
+            this.target.value = ""
             prompt.value = null
         }
     }
@@ -194,34 +202,55 @@ object AgentEngine {
             return false
         }
         if (!a.liEnsureLogin()) { RunLog.add(ctx, "LinkedIn: вход не выполнен"); return "LinkedIn: вход не выполнен" }
+        val maxPages = Prefs.int(ctx, "linkedin_pages").coerceIn(1, 40)
+
+        suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, requireEasy: Boolean) {
+            val fresh = list.filter { Text.titleOk(it.title, emptyList(), exclude) && !db.seen("li:${it.id}") }
+            RunLog.add(ctx, "LinkedIn $label: вакансий ${list.size}, новых ${fresh.size}")
+            for (v in fresh) {
+                coroutineContext.ensureActive()
+                if (capReached()) return
+                val id = "li:${v.id}"
+                val url = "https://www.linkedin.com/jobs/view/${v.id}/"
+                status.value = "LinkedIn: «${v.title}» (откликов $done из $limit)"
+                val (company, desc, applied) = a.liOpen(v.id)
+                if (applied) { db.record(id, v.title, company, url, url, "", "applied", "linkedin_agent", error = "уже откликались"); continue }
+                if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, url, "", "", "skipped", "linkedin_agent", error = "computer vision"); continue }
+                val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
+                status.value = "LinkedIn: пишу письмо — «${v.title}»"
+                val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                    RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
+                }
+                val outcome = a.liApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "linkedin"), requireEasy)
+                val st = if (outcome == Outcome.FAILED && requireEasy) "skipped" else statusOf(outcome)
+                db.record(id, v.title, company, url, url, lang, st, "linkedin_agent", letter)
+                RunLog.add(ctx, "• [LinkedIn] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}")
+                if (st == "applied") { done++; pause(ctx, linkedin = true) }
+            }
+        }
+
+        // 1. Рекомендации LinkedIn (берём только вакансии с Easy Apply)
+        val pageSeen = mutableSetOf<String>()
+        recs@ for (page in 0 until maxPages) {
+            coroutineContext.ensureActive()
+            if (capReached()) break@recs
+            val list = a.liRecommendedPage(page) ?: break@recs
+            if (list.isEmpty()) break
+            // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
+            if (list.count { pageSeen.add(it.id) } == 0) break
+            applyAll(list, "рекомендации, стр. ${page + 1}", requireEasy = true)
+        }
+        // 2. Ваши запросы (поиск только Easy Apply), все страницы
         queries@ for (query in Prefs.list(ctx, "linkedin_queries", Regex("\n"))) {
-            for (page in 0 until 4) {
+            val pageSeen = mutableSetOf<String>()
+            for (page in 0 until maxPages) {
                 coroutineContext.ensureActive()
                 if (capReached()) break@queries
                 val list = a.liSearchPage(query, page) ?: break@queries
                 if (list.isEmpty()) break
-                val fresh = list.filter { Text.titleOk(it.title, emptyList(), exclude) && !db.seen("li:${it.id}") }
-                RunLog.add(ctx, "LinkedIn «$query», стр. ${page + 1}: вакансий ${list.size}, новых ${fresh.size}")
-                for (v in fresh) {
-                    coroutineContext.ensureActive()
-                    if (capReached()) break@queries
-                    val id = "li:${v.id}"
-                    val url = "https://www.linkedin.com/jobs/view/${v.id}/"
-                    status.value = "LinkedIn: «${v.title}» (откликов $done из $limit)"
-                    val (company, desc, applied) = a.liOpen(v.id)
-                    if (applied) { db.record(id, v.title, company, url, url, "", "applied", "linkedin_agent", error = "уже откликались"); continue }
-                    if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, url, "", "", "skipped", "linkedin_agent", error = "computer vision"); continue }
-                    val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
-                    status.value = "LinkedIn: пишу письмо — «${v.title}»"
-                    val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
-                        RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
-                    }
-                    val outcome = a.liApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "linkedin"))
-                    val st = statusOf(outcome)
-                    db.record(id, v.title, company, url, url, lang, st, "linkedin_agent", letter)
-                    RunLog.add(ctx, "• [LinkedIn] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}")
-                    if (st == "applied") { done++; pause(ctx, linkedin = true) }
-                }
+                // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
+                if (list.count { pageSeen.add(it.id) } == 0) break
+                applyAll(list, "«$query», стр. ${page + 1}", requireEasy = false)
             }
         }
         val summary = "LinkedIn-агент закончил: откликов $done."
@@ -277,22 +306,28 @@ object AgentEngine {
 
                 // 1a. Рекомендации hh под каждое резюме (то, что hh показывает на главной «Вакансии для вас»)
                 recs@ for (hash in Prefs.list(ctx, "hh_resume_hashes")) {
-                    for (page in 0 until 5) {
+                    val pageSeen = mutableSetOf<String>()
+                    for (page in 0 until Prefs.int(ctx, "max_pages").coerceIn(1, 40)) {
                         coroutineContext.ensureActive()
                         if (capReached()) break@recs
                         val list = a.hhRecommendedPage(hash, page) ?: break@recs
                         if (list.isEmpty()) break
+                        // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
+                        if (list.count { pageSeen.add(it.id) } == 0) break
                         applyAll(list, "рекомендации, стр. ${page + 1}", useInclude = false)
                     }
                 }
                 // 1b. Поиск по запросам
                 queries@ for (query in Prefs.list(ctx, "queries", Regex("\n"))) {
-                    for (page in 0 until 5) {
+                    val pageSeen = mutableSetOf<String>()
+                    for (page in 0 until Prefs.int(ctx, "max_pages").coerceIn(1, 40)) {
                         coroutineContext.ensureActive()
                         if (capReached()) break@queries
                         val list = a.hhSearchPage(query, page) ?: break@queries
                         if (list.isEmpty()) break
-                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = true)
+                        // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
+                        if (list.count { pageSeen.add(it.id) } == 0) break
+                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = false) // hh уже ищет по названию
                     }
                 }
             } else RunLog.add(ctx, "hh: вход не выполнен — пропускаю")
