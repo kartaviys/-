@@ -363,7 +363,7 @@ class BrowserAgent(
 
     /** LinkedIn в мобильном браузере гонит в приложение — открываем десктопную версию. */
     suspend fun desktopMode(on: Boolean) = withContext(Dispatchers.Main) {
-        web.settings.userAgentString = if (on) desktopUa else null
+        web.settings.userAgentString = if (on) desktopUa else Text.chromeUa(ctx)
         web.settings.useWideViewPort = on
         web.settings.loadWithOverviewMode = on
     }

@@ -54,6 +54,7 @@ object AgentEngine {
         web ?: WebView(ctx.applicationContext).also { w ->
             w.settings.javaScriptEnabled = true
             w.settings.domStorageEnabled = true
+            w.settings.userAgentString = Text.chromeUa(ctx)
             CookieManager.getInstance().setAcceptCookie(true)
             CookieManager.getInstance().setAcceptThirdPartyCookies(w, true)
             w.webViewClient = object : WebViewClient() {

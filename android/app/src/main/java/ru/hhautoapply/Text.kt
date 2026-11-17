@@ -3,6 +3,15 @@ package ru.hhautoapply
 import android.text.Html
 
 object Text {
+    /**
+     * User-Agent обычного мобильного Chrome. Встроенный браузер Android помечает себя «; wv» —
+     * LinkedIn, Google и некоторые другие сайты такому браузеру отдают пустую страницу.
+     */
+    fun chromeUa(ctx: android.content.Context): String =
+        android.webkit.WebSettings.getDefaultUserAgent(ctx)
+            .replace("; wv", "")
+            .replace(Regex("Version/\\d+(\\.\\d+)* "), "")
+
     private val tech = Regex(
         "\\b(python|sql|ml|ai|nlp|cv|llm|pytorch|tensorflow|pandas|numpy|spark|hadoop|airflow|docker|" +
             "kubernetes|k8s|git|linux|tableau|power\\s*bi|clickhouse|postgresql|postgres|mysql|greenplum|kafka|" +

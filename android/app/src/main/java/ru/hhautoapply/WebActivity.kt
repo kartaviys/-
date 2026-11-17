@@ -84,6 +84,7 @@ class WebActivity : ComponentActivity() {
         web = WebView(this)
         web.settings.javaScriptEnabled = true
         web.settings.domStorageEnabled = true
+        web.settings.userAgentString = Text.chromeUa(this)
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(web, true)
         web.webViewClient = Client()
@@ -110,7 +111,10 @@ class WebActivity : ComponentActivity() {
                 button("В журнал ✓") { assistRecord() },
                 button("Назад") { if (web.canGoBack()) web.goBack() else finish() },
             ))
-            else -> root.addView(button("Готово") { CookieManager.getInstance().flush(); finish() })
+            else -> root.addView(row(
+                button("Обновить") { web.reload() },
+                button("Готово") { CookieManager.getInstance().flush(); finish() },
+            ))
         }
         setContentView(root)
 
@@ -375,6 +379,13 @@ class WebActivity : ComponentActivity() {
             if (handleRedirect(uri)) return true
             // Не даём сайту открыть внешнее приложение (intent://, hhru:// и т.п.)
             return uri.scheme != "http" && uri.scheme != "https"
+        }
+
+        override fun onReceivedError(view: WebView, request: WebResourceRequest, error: android.webkit.WebResourceError) {
+            if (!request.isForMainFrame) return
+            info.text = "Страница не открылась: ${error.description}.\n" +
+                "Если это LinkedIn — он заблокирован в РФ: включите VPN для всего телефона. Если в VPN есть " +
+                "«раздельное туннелирование» (выбор приложений) — добавьте в список «HH Автоотклик». Затем «Обновить»."
         }
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
