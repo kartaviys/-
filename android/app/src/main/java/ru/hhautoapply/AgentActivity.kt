@@ -39,6 +39,8 @@ class AgentActivity : ComponentActivity() {
     private lateinit var limitField: EditText
     private lateinit var queriesField: EditText
     private lateinit var webBox: FrameLayout
+    private var queriesBox: LinearLayout? = null
+    private var toggleQueries: Button? = null
     private var confirmDialog: AlertDialog? = null
 
     private val single get() = intent.getStringExtra(EXTRA_URL) != null
@@ -85,6 +87,7 @@ class AgentActivity : ComponentActivity() {
         if (!single) {
             // Что искать — прямо здесь, можно редактировать перед стартом
             val queriesBox = vbox(0).apply { setPadding(dp(8), 0, dp(8), 0) }
+            this.queriesBox = queriesBox
             queriesBox.addView(label("Что искать на $agentName — по одной вакансии на строку (ищется по названию):", 12f))
             queriesBox.addView(queriesField)
             queriesBox.addView(LinearLayout(this).apply {
@@ -93,6 +96,7 @@ class AgentActivity : ComponentActivity() {
                 addView(limitField, LinearLayout.LayoutParams(dp(90), LinearLayout.LayoutParams.WRAP_CONTENT))
             })
             val toggleQueries = button("✏️ Что искать и лимит (скрыть)") {}
+            this.toggleQueries = toggleQueries
             toggleQueries.setOnClickListener {
                 val show = queriesBox.visibility != View.VISIBLE
                 queriesBox.visibility = if (show) View.VISIBLE else View.GONE
@@ -113,7 +117,7 @@ class AgentActivity : ComponentActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { AgentEngine.status.collect { info.text = it } }
-                launch { AgentEngine.running.collect { refreshStartButton() } }
+                launch { AgentEngine.running.collect { refreshStartButton(); if (it) collapseQueries() } }
                 launch { AgentEngine.target.collect { refreshStartButton() } }
                 launch { AgentEngine.prompt.collect { showPrompt(it) } }
             }
@@ -137,6 +141,16 @@ class AgentActivity : ComponentActivity() {
         saveFields()
         AgentEngine.detach() // браузер остаётся жить в фоне
         android.webkit.CookieManager.getInstance().flush()
+    }
+
+    /** Свернуть «Что искать», чтобы браузер (капча, вход) был на весь экран. */
+    private fun collapseQueries() {
+        val box = queriesBox ?: return
+        if (box.visibility == View.VISIBLE) {
+            saveFields()
+            box.visibility = View.GONE
+            toggleQueries?.text = "✏️ Что искать и лимит (показать)"
+        }
     }
 
     /** Чей агент сейчас работает: этот — «Стоп», другой — подсказка. */
@@ -194,6 +208,7 @@ class AgentActivity : ComponentActivity() {
         when (p) {
             null -> { promptView.text = ""; doneBtn.isEnabled = false; skipBtn.isEnabled = false }
             is AgentEngine.Prompt.Human -> {
+                collapseQueries()
                 promptView.text = "✋ ${p.reason}\nСделайте это в окне ниже и нажмите «Готово» (или «Пропустить»)."
                 doneBtn.isEnabled = true; skipBtn.isEnabled = true
             }
