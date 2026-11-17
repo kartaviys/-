@@ -56,3 +56,4 @@ for (const [name, url] of Object.entries(SITES)) {
   await page.close();
 }
 await browser.close();
+// rerun
