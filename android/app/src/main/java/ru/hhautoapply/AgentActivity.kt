@@ -45,10 +45,11 @@ class AgentActivity : ComponentActivity() {
 
     private val single get() = intent.getStringExtra(EXTRA_URL) != null
     private val target get() = intent.getStringExtra(EXTRA_TARGET) ?: "hh"
-    private val limitKey get() = when (target) { "linkedin" -> "linkedin_limit"; "habr" -> "habr_limit"; else -> "agent_limit" }
-    private val queriesKey get() = when (target) { "linkedin" -> "linkedin_queries"; "habr" -> "habr_queries"; else -> "queries" }
+    private val site get() = Sites.byKey(target)
+    private val limitKey get() = when (target) { "linkedin" -> "linkedin_limit"; "habr" -> "habr_limit"; "hh" -> "agent_limit"; else -> "limit_$target" }
+    private val queriesKey get() = when (target) { "linkedin" -> "linkedin_queries"; "habr" -> "habr_queries"; "hh" -> "queries"; else -> "q_$target" }
     private val agentName get() = agentTitle(target)
-    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; else -> "hh" }
+    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "hh", "", "single" -> "hh"; else -> Sites.byKey(t)?.name ?: t }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +70,14 @@ class AgentActivity : ComponentActivity() {
 
         info = label("", 13f).apply { setPadding(dp(8), dp(4), dp(8), dp(2)) }
         promptView = label("", 14f).apply { setPadding(dp(8), dp(2), dp(8), dp(2)) }
-        limitField = EditText(this).apply { inputType = InputType.TYPE_CLASS_NUMBER; setText(Prefs.get(this@AgentActivity, limitKey)) }
+        limitField = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER
+            setText(site?.let { Sites.limit(this@AgentActivity, it).toString() } ?: Prefs.get(this@AgentActivity, limitKey))
+        }
         queriesField = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
             minLines = 3; maxLines = 6
-            setText(Prefs.get(this@AgentActivity, queriesKey))
+            setText(site?.let { Sites.queries(this@AgentActivity, it).joinToString("\n") } ?: Prefs.get(this@AgentActivity, queriesKey))
             textSize = 14f
         }
         startBtn = button("Старт") { toggle() }
@@ -88,8 +92,15 @@ class AgentActivity : ComponentActivity() {
             // Что искать — прямо здесь, можно редактировать перед стартом
             val queriesBox = vbox(0).apply { setPadding(dp(8), 0, dp(8), 0) }
             this.queriesBox = queriesBox
-            queriesBox.addView(label("Что искать на $agentName — по одной вакансии на строку (ищется по названию):", 12f))
-            queriesBox.addView(queriesField)
+            val s0 = site
+            if (s0 != null && s0.noQuery) {
+                queriesBox.addView(label("Сайт компании: поиск по запросу там не работает — агент берёт всю ленту вакансий и сам отбирает подходящие (фильтр названий + проверка нейросетью).", 12f))
+            } else {
+                queriesBox.addView(label("Что искать на $agentName — по одной вакансии на строку (ищется по названию):", 12f))
+                queriesBox.addView(queriesField)
+            }
+            if (s0 != null && !s0.verified) queriesBox.addView(label("⚠️ Формат этого сайта не проверен заранее: если агент не найдёт ссылки на вакансии по шаблону, их выберет нейросеть.", 11f))
+            if (s0 != null && s0.note.isNotBlank()) queriesBox.addView(label("ℹ️ ${s0.note}", 11f))
             queriesBox.addView(LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
                 addView(label("Лимит откликов за сессию:", 13f))
@@ -168,6 +179,7 @@ class AgentActivity : ComponentActivity() {
     private fun saveFields() {
         if (single || !::queriesField.isInitialized) return
         limitField.text.toString().trim().toIntOrNull()?.let { Prefs.set(this, limitKey, it.toString()) }
+        if (site?.noQuery == true) return
         val q = queriesField.text.toString().lines().map { it.trim() }.filter { it.isNotEmpty() }
         if (q.isNotEmpty()) Prefs.set(this, queriesKey, q.joinToString("\n"))
     }

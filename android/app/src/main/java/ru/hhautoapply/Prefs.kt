@@ -18,6 +18,7 @@ object Prefs {
             Field("agent_confirm", "Спрашивать подтверждение перед каждой отправкой (LinkedIn — всегда)", FieldType.BOOL, "false"),
             Field("agent_limit", "Сколько откликов агент делает за одну сессию", FieldType.NUMBER, "50"),
             Field("agent_max_steps", "Максимум шагов агента на одну вакансию", FieldType.NUMBER, "20"),
+            Field("site_daily_limit", "Откликов в сутки на каждом из остальных сайтов (SuperJob, компании, США, ОАЭ, Европа)", FieldType.NUMBER, "30"),
         )),
         Section("Хабр Карьера — агент", listOf(
             Field("habr_queries", "Что искать на Хабр Карьере — по одной вакансии на строку (по названию)", FieldType.MULTILINE, default = listOf(

@@ -91,6 +91,12 @@ class MainActivity : ComponentActivity() {
             button("🤖 Агент LinkedIn") { openAgent("linkedin") },
         ))
 
+        // ---------- 6. Все остальные агенты ----------
+        box.addView(header("6. Ещё ${Sites.all.size} агентов"))
+        box.addView(label("SuperJob, GeekJob, Работа.ру, GetMatch · Яндекс, Сбер, Т-Банк, Ozon, VK, Авито, МТС, Касперский · " +
+            "США: Dice, Built In, Wellfound, Indeed, Glassdoor · ОАЭ: Bayt, Naukrigulf, GulfTalent, Indeed · Европа: StepStone, Relocate.me", 12f))
+        box.addView(button("🌍 Все агенты") { startActivity(Intent(this, AgentsActivity::class.java)) })
+
         box.addView(row(
             button("Журнал") { showJournal() },
             button("💰 Расходы") {
@@ -283,7 +289,7 @@ class MainActivity : ComponentActivity() {
                 val apps = all.filter(filters[fi].second)
                 if (apps.isEmpty()) { toast("Здесь пусто"); return@pick }
                 val names = apps.map {
-                    "${Db.STATUS_RU[it.status] ?: it.status} · ${Sources.byKey(it.channel)?.name ?: Db.CHANNEL_RU[it.channel] ?: it.channel}\n${it.title} — ${it.employer}\n${it.createdAt}"
+                    "${Db.STATUS_RU[it.status] ?: it.status} · ${Sites.byKey(it.channel)?.name ?: Sources.byKey(it.channel)?.name ?: Db.CHANNEL_RU[it.channel] ?: it.channel}\n${it.title} — ${it.employer}\n${it.createdAt}"
                 }.toTypedArray()
                 pick(filters[fi].first, names) { i -> showApplication(apps[i]) }
             }
@@ -295,7 +301,7 @@ class MainActivity : ComponentActivity() {
         AlertDialog.Builder(this)
             .setTitle(a.title)
             .setMessage(
-                "${a.employer}\n${Db.STATUS_RU[a.status] ?: a.status} · ${Db.CHANNEL_RU[a.channel] ?: Sources.byKey(a.channel)?.name ?: a.channel}\n" +
+                "${a.employer}\n${Db.STATUS_RU[a.status] ?: a.status} · ${Db.CHANNEL_RU[a.channel] ?: Sites.byKey(a.channel)?.name ?: Sources.byKey(a.channel)?.name ?: a.channel}\n" +
                     "Язык: $lang · ${a.createdAt}\n\n${a.letter.ifBlank { "(письма нет)" }}",
             )
             .setPositiveButton("Открыть вакансию") { _, _ -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(a.url))) }

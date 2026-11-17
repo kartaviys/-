@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".SettingsActivity" android:label="Настройки" />
         <activity android:name=".SourcesActivity" android:label="Источники вакансий" />
+        <activity android:name=".AgentsActivity" android:label="Все агенты" />
         <activity android:name=".AgentActivity" android:label="Агент" android:launchMode="singleTop" android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity android:name=".WebActivity" android:label="Браузер" android:configChanges="orientation|screenSize|keyboardHidden" />
 

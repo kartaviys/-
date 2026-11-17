@@ -111,6 +111,49 @@ window.__ag = (function () {
       return String(n);
     },
 
+    // ---------- Общий агент сайтов ----------
+    // Ссылки на вакансии по шаблону (регулярное выражение по полному адресу)
+    siteLinks(pattern) {
+      const re = new RegExp(pattern, 'i');
+      const out = [], seen = new Set();
+      for (const a of document.querySelectorAll('a[href]')) {
+        const href = a.href || '';
+        const m = href.match(re);
+        if (!m) continue;
+        const key = m[0];
+        if (seen.has(key)) {
+          // у той же вакансии может быть ссылка с текстом — дополним пустое название
+          const ex = out.find(o => o.key === key);
+          if (ex && !ex.title) ex.title = clean(a.innerText || a.getAttribute('aria-label')).slice(0, 150);
+          continue;
+        }
+        seen.add(key);
+        const card = a.closest('li, article, [class*="card" i], [class*="vacanc" i], [class*="job" i]');
+        const ct = card ? clean(card.innerText).slice(0, 1500) : '';
+        out.push({ key, id: m[1] || '', url: href.split('#')[0], title: clean(a.innerText || a.getAttribute('aria-label') || a.title).slice(0, 150),
+          applied: /Вы откликнулись|Отклик отправлен|Applied\b|Application sent|Already applied/.test(ct) });
+      }
+      for (const o of out) if (!o.title) { o.title = ''; }
+      return JSON.stringify(out);
+    },
+    // Все ссылки страницы (для случая, когда шаблон не сработал — выберет нейросеть)
+    allLinks() {
+      const out = [], seen = new Set();
+      for (const a of document.querySelectorAll('a[href]')) {
+        const href = (a.href || '').split('#')[0];
+        const t = clean(a.innerText || a.getAttribute('aria-label')).slice(0, 100);
+        if (!/^https?:/.test(href) || t.length < 4 || seen.has(href)) continue;
+        seen.add(href);
+        out.push({ url: href, title: t });
+        if (out.length >= 160) break;
+      }
+      return JSON.stringify(out);
+    },
+    pageApplied() {
+      const t = clean(document.body ? document.body.innerText : '').slice(0, 8000);
+      return /Вы откликнулись|Вы уже откликнулись|Отклик отправлен|You applied|Applied on|Application submitted|already applied/i.test(t) ? 'true' : 'false';
+    },
+
     // ---------- Хабр Карьера ----------
     habrLoggedIn() {
       const login = [...document.querySelectorAll('a, button')].find(x => vis(x) &&

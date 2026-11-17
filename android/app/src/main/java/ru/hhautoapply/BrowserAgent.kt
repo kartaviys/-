@@ -452,4 +452,44 @@ class BrowserAgent(
             else -> { delay(2000); runGoal(g, confirmSubmit) to "" }
         }
     }
+
+    // ---------- Общий агент сайтов ----------
+    data class SiteLink(val id: String, val url: String, val title: String, val applied: Boolean)
+
+    private fun idOf(url: String) = Integer.toHexString(url.substringBefore("?").substringBefore("#").trimEnd('/').hashCode())
+
+    /** Страница выдачи сайта → ссылки на вакансии. Шаблон не сработал — ссылки выбирает нейросеть. null — не открылась. */
+    suspend fun siteSearch(def: SiteDef, query: String, page: Int, llm: Llm): List<SiteLink>? {
+        status("${def.name}: ${if (query.isBlank()) "лента вакансий" else "ищу «${query.take(40)}»"}, стр. ${page + 1}")
+        if (!open(def.search(query, page))) return null
+        repeat(4) { call("window.__ag.scroll('down')"); delay(1000) }
+        val arr = try { JSONArray(call("window.__ag.siteLinks(${q(def.link.pattern)})")) } catch (_: Exception) { JSONArray() }
+        val found = (0 until arr.length()).map { arr.getJSONObject(it) }.map {
+            val url = it.optString("url")
+            SiteLink(it.optString("id").ifBlank { idOf(url) }, url, it.optString("title"), it.optBoolean("applied"))
+        }
+        if (found.isNotEmpty()) return found
+        return pickLinksWithLlm(llm, def)
+    }
+
+    private suspend fun pickLinksWithLlm(llm: Llm, def: SiteDef): List<SiteLink> {
+        val all = try { JSONArray(call("window.__ag.allLinks()")) } catch (_: Exception) { JSONArray() }
+        if (all.length() == 0) return emptyList()
+        val items = (0 until all.length()).map { all.getJSONObject(it) }
+        val listing = items.mapIndexed { i, o -> "$i. ${o.optString("title")} — ${o.optString("url").take(140)}" }.joinToString("\n")
+        val sys = "Перед тобой ссылки со страницы поиска вакансий сайта ${def.name}. Выбери только ссылки, которые ведут на " +
+            "страницу ОДНОЙ конкретной вакансии (не категории, не компании, не страницы поиска/пагинации, не статьи и не вход). " +
+            "Ответ — JSON: {\"links\": [номера]}"
+        return try {
+            val o = withContext(Dispatchers.IO) { llm.completeJson(sys, listing, 600) }
+            val idx = o.optJSONArray("links") ?: JSONArray()
+            (0 until idx.length()).mapNotNull { items.getOrNull(idx.optInt(it, -1)) }.map {
+                val url = it.optString("url")
+                SiteLink(idOf(url), url, it.optString("title"), false)
+            }.also { RunLog.add(ctx, "${def.name}: шаблон ссылок не сработал — нейросеть нашла вакансий: ${it.size}") }
+        } catch (e: BudgetException) { throw e } catch (_: Exception) { emptyList() }
+    }
+
+    suspend fun pageApplied(): Boolean = call("window.__ag.pageApplied()") == "true"
+    suspend fun pageTitle(): String = withContext(Dispatchers.Main) { web.title.orEmpty() }
 }

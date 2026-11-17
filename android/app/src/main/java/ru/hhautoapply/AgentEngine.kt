@@ -156,7 +156,7 @@ object AgentEngine {
      */
     suspend fun run(ctx: Context, single: Boolean, source: String = "", target: String = "hh"): String {
         if (running.value) {
-            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; else -> "hh" }
+            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "hh" -> "hh"; else -> Sites.byKey(this.target.value)?.name ?: "hh" }
             val msg = "Уже работает агент $name — сначала остановите его"
             RunLog.add(ctx, msg)
             return msg
@@ -174,6 +174,7 @@ object AgentEngine {
                 single -> runSingle(ctx, a, llm, source)
                 target == "linkedin" -> try { a.desktopMode(true); runLinkedIn(ctx, a, llm) } finally { a.desktopMode(false) }
                 target == "habr" -> runHabr(ctx, a, llm)
+                Sites.byKey(target) != null -> runSite(ctx, a, llm, Sites.byKey(target)!!)
                 else -> runSession(ctx, a, llm)
             }
         } catch (e: BudgetException) {
@@ -209,6 +210,69 @@ object AgentEngine {
         val norm = { x: String -> x.lowercase().replace('-', ' ').replace('ё', 'е') }
         val t = norm(title)
         return norm(query).split(' ').filter { it.isNotBlank() }.all { t.contains(it) }
+    }
+
+    /** Общий агент сайта (SuperJob, сайты компаний, США, ОАЭ, Европа): поиск → вакансия → проверка → письмо → отклик. */
+    private suspend fun runSite(ctx: Context, a: BrowserAgent, llm: Llm, def: SiteDef): String {
+        val db = Db(ctx)
+        val limit = Sites.limit(ctx, def).coerceAtLeast(1)
+        val dailyCap = Prefs.int(ctx, "site_daily_limit").coerceAtLeast(1)
+        val include = Prefs.list(ctx, "title_include")
+        val exclude = Prefs.list(ctx, "title_exclude")
+        val maxPages = if (def.paged) Prefs.int(ctx, "max_pages").coerceIn(1, 40) else 1
+        var done = 0
+        RunLog.add(ctx, "Агент ${def.name}: старт, лимит $limit (в сутки $dailyCap)")
+        fun capReached(): Boolean {
+            if (done >= limit) return true
+            if (db.appliedTodayIn(def.key) >= dailyCap) { RunLog.add(ctx, "${def.name}: дневной лимит ($dailyCap) достигнут"); return true }
+            return false
+        }
+        val queries = if (def.noQuery) listOf("") else Sites.queries(ctx, def)
+        queries@ for (query in queries) {
+            val pageSeen = mutableSetOf<String>()
+            for (page in 0 until maxPages) {
+                coroutineContext.ensureActive()
+                if (capReached()) break@queries
+                val links = a.siteSearch(def, query, page, llm) ?: break@queries
+                if (links.isEmpty()) break
+                if (links.count { pageSeen.add(it.id) } == 0) break
+                links.filter { it.applied }.forEach { db.markAppliedElsewhere("${def.key}:${it.id}", it.title, it.url, def.key) }
+                val fresh = links.filter {
+                    !it.applied && !db.seen("${def.key}:${it.id}") &&
+                        (it.title.isBlank() || Text.titleOk(it.title, include, exclude))
+                }
+                RunLog.add(ctx, "${def.name} ${if (query.isBlank()) "лента" else "«$query»"}, стр. ${page + 1}: вакансий ${links.size}, новых подходящих ${fresh.size}")
+                for (v in fresh) {
+                    coroutineContext.ensureActive()
+                    if (capReached()) break@queries
+                    val id = "${def.key}:${v.id}"
+                    status.value = "${def.name}: «${v.title.ifBlank { "вакансия" }}» (откликов $done из $limit)"
+                    if (!a.open(v.url)) { db.record(id, v.title, "", v.url, v.url, "", "manual", def.key, error = "не открылась"); continue }
+                    if (a.pageApplied()) { db.markAppliedElsewhere(id, v.title, v.url, def.key); continue }
+                    val title = v.title.ifBlank { a.pageTitle() }.take(150)
+                    if (!Text.titleOk(title, if (v.title.isBlank()) emptyList() else include, exclude)) {
+                        db.record(id, title, "", v.url, v.url, "", "skipped", def.key, error = "не подходит по названию"); continue
+                    }
+                    val desc = a.call("window.__ag.bodyText()")
+                    if (Text.isCvHeavy(desc)) { db.record(id, title, "", v.url, "", "", "skipped", def.key, error = "computer vision"); continue }
+                    if (!fits(ctx, llm, db, id, title, "", v.url, desc, def.key)) continue
+                    val lang = Text.detectLanguage("$title $desc").also { resumeLang = it }
+                    status.value = "${def.name}: пишу письмо — «$title»"
+                    val letter = try { letterFor(ctx, llm, title, "", desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                        RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
+                    }
+                    val outcome = a.runGoal(AgentGoal(title, "", letter, lang), needConfirm(ctx, def.key))
+                    val st = statusOf(outcome)
+                    db.record(id, title, "", v.url, v.url, lang, st, def.key, letter)
+                    RunLog.add(ctx, "• [${def.name}] [$lang] $title → ${Db.STATUS_RU[st]}")
+                    if (st == "applied") { done++; pause(ctx) }
+                }
+            }
+        }
+        val summary = "Агент ${def.name} закончил: откликов $done."
+        RunLog.add(ctx, summary)
+        status.value = "$summary Подробности — в «Журнале»."
+        return summary
     }
 
     /** Агент Хабр Карьеры: ваш список «Что искать» → все страницы → вакансия → письмо → «Откликнуться». */
