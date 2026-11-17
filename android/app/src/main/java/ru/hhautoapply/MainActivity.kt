@@ -70,8 +70,22 @@ class MainActivity : ComponentActivity() {
             button("🤖 Агент hh") { openAgent("hh") },
         ))
 
-        // ---------- 3. LinkedIn ----------
-        box.addView(header("3. LinkedIn"))
+        // ---------- 3. Хабр Карьера ----------
+        box.addView(header("3. Хабр Карьера"))
+        box.addView(row(
+            button("Войти на Хабр Карьеру") { openLogin("https://career.habr.com/", "Хабр Карьера (кнопка «Войти» вверху)") },
+            button("🤖 Агент Хабр") { openAgent("habr") },
+        ))
+
+        // ---------- 4. ODS — просто сохраняем вакансии ----------
+        box.addView(header("4. ODS — сохранять вакансии"))
+        box.addView(row(
+            button("Обновить вакансии ODS") { refreshOds() },
+            button("📌 Сохранённые") { showSaved() },
+        ))
+
+        // ---------- 5. LinkedIn ----------
+        box.addView(header("5. LinkedIn"))
         box.addView(row(
             button("Войти в LinkedIn") { openLogin("https://www.linkedin.com/login", "LinkedIn") },
             button("🤖 Агент LinkedIn") { openAgent("linkedin") },
@@ -173,6 +187,28 @@ class MainActivity : ComponentActivity() {
         .putExtra(WebActivity.EXTRA_URL, url)
         .putExtra(WebActivity.EXTRA_SOURCE, site))
 
+    private fun refreshOds() {
+        toast("Обновляю вакансии ODS…")
+        lifecycleScope.launch {
+            try {
+                val r = withContext(Dispatchers.IO) { Ods.refresh(this@MainActivity) { RunLog.add(this@MainActivity, it) } }
+                toast("ODS: новых вакансий ${r.added} (просмотрено постов ${r.seen})")
+                if (r.added > 0) showSaved()
+            } catch (e: Exception) {
+                toast("ODS: ошибка — ${e.message}")
+            }
+        }
+    }
+
+    private fun showSaved() {
+        lifecycleScope.launch {
+            val apps = withContext(Dispatchers.IO) { Db(this@MainActivity).list("status = 'saved'") }
+            if (apps.isEmpty()) { toast("Сохранённых вакансий пока нет — нажмите «Обновить вакансии ODS»"); return@launch }
+            val names = apps.map { "${it.title}\n${it.employer}" }.toTypedArray()
+            pick("Сохранённые вакансии ODS (${apps.size})", names) { i -> showApplication(apps[i]) }
+        }
+    }
+
     private fun openAgent(target: String) = startActivity(Intent(this, AgentActivity::class.java)
         .putExtra(AgentActivity.EXTRA_TARGET, target)
         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -231,7 +267,7 @@ class MainActivity : ComponentActivity() {
 
     private fun showJournal() {
         lifecycleScope.launch {
-            val all = withContext(Dispatchers.IO) { Db(this@MainActivity).list() }
+            val all = withContext(Dispatchers.IO) { Db(this@MainActivity).list("status != 'hidden'") }
             if (all.isEmpty()) { toast("Журнал пуст"); return@launch }
             // Фильтры журнала со счётчиками
             val filters = listOf<Pair<String, (Application) -> Boolean>>(
@@ -239,6 +275,7 @@ class MainActivity : ComponentActivity() {
                 "Отправленные" to { a -> a.status == "applied" },
                 "Пробные (письма без отправки)" to { a -> a.status == "dry_run" },
                 "Ждут анкету" to { a -> a.status == "needs_browser" },
+                "Сохранённые ODS" to { a -> a.status == "saved" },
                 "Пропущенные и ошибки" to { a -> a.status in setOf("manual", "skipped", "failed") },
             )
             val labels = filters.map { (name, f) -> "$name — ${all.count(f)}" }.toTypedArray()

@@ -87,6 +87,23 @@ object Sources {
             }
     }
 
+    /**
+     * Одна страница поиска Хабр Карьеры (API сайта). Возвращает вакансии и число страниц.
+     * Отклики «на сайте компании» (externalLink) пропускаем — на Хабре на них не откликнуться.
+     */
+    fun habrPage(net: Net, query: String, page: Int): Pair<List<JobPost>, Int> {
+        val d = net.json("https://career.habr.com/api/frontend/vacancies?q=${enc(query)}&sort=date&per_page=50&page=${page + 1}")
+        val list = d.optJSONArray("list")?.objects().orEmpty()
+            .filter { it.opt("externalLink").let { e -> e == null || e == JSONObject.NULL || e.toString().isBlank() } }
+            .map { v ->
+                val qual = v.optString("qualification")
+                JobPost("habr", v.optString("id"), v.optString("title"), v.optJSONObject("company")?.optString("title").orEmpty(),
+                    "https://career.habr.com" + v.optString("href"), "",
+                    junior = qual.equals("Junior", true) || qual.equals("Intern", true))
+            }
+        return list to (d.optJSONObject("meta")?.optInt("totalPages") ?: 1)
+    }
+
     private fun habrDetails(net: Net, p: JobPost): String {
         val html = net.get(p.url, "text/html")
         val start = html.indexOf("vacancy-description__text")
@@ -228,7 +245,7 @@ object Sources {
                 "3. На главном экране: «Войти через API hh», затем «Мои резюме на hh».\n" +
                 "4. Для вакансий с тестом: «Войти на hh.ru (для тестов)».",
             { q -> "https://hh.ru/search/vacancy?text=${enc(q)}" }),
-        Source("habr", "Хабр Карьера", Kind.AUTO, "Россия", true,
+        Source("habr", "Хабр Карьера (сбор в «Анкеты»)", Kind.AUTO, "Россия", false,
             "Вакансии собираются автоматически (поиск по «Запросам для российских площадок»), junior отсекаются.\n\n" +
                 "1. Включите источник.\n2. Один раз войдите на career.habr.com через «Открыть» — откликаться можно только залогиненным.\n" +
                 "3. Найденные вакансии появятся в «Анкетах»: там ИИ заполнит форму отклика, вы подтверждаете.",

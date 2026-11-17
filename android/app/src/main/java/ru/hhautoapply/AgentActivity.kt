@@ -43,10 +43,10 @@ class AgentActivity : ComponentActivity() {
 
     private val single get() = intent.getStringExtra(EXTRA_URL) != null
     private val target get() = intent.getStringExtra(EXTRA_TARGET) ?: "hh"
-    private val isLinkedIn get() = target == "linkedin"
-    private val limitKey get() = if (isLinkedIn) "linkedin_limit" else "agent_limit"
-    private val queriesKey get() = if (isLinkedIn) "linkedin_queries" else "queries"
-    private val agentName get() = if (isLinkedIn) "LinkedIn" else "hh"
+    private val limitKey get() = when (target) { "linkedin" -> "linkedin_limit"; "habr" -> "habr_limit"; else -> "agent_limit" }
+    private val queriesKey get() = when (target) { "linkedin" -> "linkedin_queries"; "habr" -> "habr_queries"; else -> "queries" }
+    private val agentName get() = agentTitle(target)
+    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; else -> "hh" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,7 +146,7 @@ class AgentActivity : ComponentActivity() {
         val mine = other == target || (single && other == "single")
         startBtn.text = when {
             running && mine -> "Стоп"
-            running -> "Остановить ${if (other == "linkedin") "LinkedIn" else "hh"} и запустить $agentName"
+            running -> "Остановить ${agentTitle(other)} и запустить $agentName"
             else -> "Старт"
         }
     }

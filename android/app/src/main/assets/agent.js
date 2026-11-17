@@ -111,6 +111,25 @@ window.__ag = (function () {
       return String(n);
     },
 
+    // ---------- Хабр Карьера ----------
+    habrLoggedIn() {
+      const login = [...document.querySelectorAll('a, button')].find(x => vis(x) &&
+        /^(войти|вход|sign in|log in)$/i.test(clean(x.innerText)) );
+      const signIn = document.querySelector('a[href*="sign_in"], a[href*="account.habr.com/login"], a[href*="/users/auth"]');
+      return (login || (signIn && vis(signIn))) ? 'false' : 'true';
+    },
+    // 'ok' — нажали «Откликнуться»; 'external' — отклик на сайте компании; 'applied' — уже откликались; 'missing'
+    habrRespond() {
+      const body = clean(document.body ? document.body.innerText : '').slice(0, 8000);
+      if (/Вы откликнулись|Отклик отправлен|Вы уже откликнулись/i.test(body)) return 'applied';
+      const btns = [...document.querySelectorAll('button, a')].filter(x => vis(x) && /откликнуться/i.test(clean(x.innerText)));
+      if (btns.length === 0) return 'missing';
+      const ext = btns.find(x => /на сайте|сайте компании/i.test(clean(x.innerText)) || (x.tagName === 'A' && /^https?:/.test(x.getAttribute('href') || '') && !/habr\.com/.test(x.getAttribute('href') || '')));
+      const own = btns.find(x => x !== ext);
+      if (!own) return 'external';
+      own.scrollIntoView({ block: 'center' }); own.click(); return 'ok';
+    },
+
     // ---------- LinkedIn ----------
     // Вакансии на странице поиска: ссылки /jobs/view/<id> и карточки с data-job-id
     liLinks() {

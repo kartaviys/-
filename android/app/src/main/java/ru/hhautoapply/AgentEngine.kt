@@ -142,7 +142,8 @@ object AgentEngine {
      */
     suspend fun run(ctx: Context, single: Boolean, source: String = "", target: String = "hh"): String {
         if (running.value) {
-            val msg = "Уже работает агент ${if (this.target.value == "linkedin") "LinkedIn" else "hh"} — сначала остановите его"
+            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; else -> "hh" }
+            val msg = "Уже работает агент $name — сначала остановите его"
             RunLog.add(ctx, msg)
             return msg
         }
@@ -158,6 +159,7 @@ object AgentEngine {
             return when {
                 single -> runSingle(ctx, a, llm, source)
                 target == "linkedin" -> try { a.desktopMode(true); runLinkedIn(ctx, a, llm) } finally { a.desktopMode(false) }
+                target == "habr" -> runHabr(ctx, a, llm)
                 else -> runSession(ctx, a, llm)
             }
         } catch (e: BudgetException) {
@@ -186,6 +188,72 @@ object AgentEngine {
         val msg = "Готово: ${Db.STATUS_RU[st]} — $title"
         status.value = "$msg. Можно открыть следующую вакансию и снова нажать «Старт»."
         return msg
+    }
+
+    /** Название содержит все слова запроса (дефис = пробел): Хабр ищет и по описанию, а нам нужно по названию. */
+    private fun titleMatches(title: String, query: String): Boolean {
+        val norm = { x: String -> x.lowercase().replace('-', ' ').replace('ё', 'е') }
+        val t = norm(title)
+        return norm(query).split(' ').filter { it.isNotBlank() }.all { t.contains(it) }
+    }
+
+    /** Агент Хабр Карьеры: ваш список «Что искать» → все страницы → вакансия → письмо → «Откликнуться». */
+    private suspend fun runHabr(ctx: Context, a: BrowserAgent, llm: Llm): String {
+        val db = Db(ctx)
+        val net = Net()
+        val limit = Prefs.int(ctx, "habr_limit").coerceAtLeast(1)
+        val dailyCap = Prefs.int(ctx, "habr_daily_limit").coerceAtLeast(1)
+        val exclude = Prefs.list(ctx, "title_exclude")
+        val maxPages = Prefs.int(ctx, "max_pages").coerceIn(1, 40)
+        var done = 0
+        RunLog.add(ctx, "Агент Хабр Карьеры: старт, лимит $limit (в сутки $dailyCap)")
+        fun capReached(): Boolean {
+            if (done >= limit) return true
+            if (db.appliedTodayIn("habr_agent") >= dailyCap) { RunLog.add(ctx, "Хабр: дневной лимит ($dailyCap) достигнут"); return true }
+            return false
+        }
+        if (!a.habrEnsureLogin()) { RunLog.add(ctx, "Хабр: вход не выполнен"); return "Хабр: вход не выполнен" }
+        queries@ for (query in Prefs.list(ctx, "habr_queries", Regex("\n"))) {
+            var page = 0
+            while (page < maxPages) {
+                coroutineContext.ensureActive()
+                if (capReached()) break@queries
+                status.value = "Хабр: ищу «$query», стр. ${page + 1}"
+                val (list, totalPages) = try { withContext(Dispatchers.IO) { Sources.habrPage(net, query, page) } } catch (e: Exception) {
+                    RunLog.add(ctx, "Хабр: ошибка поиска — ${e.message}"); break
+                }
+                if (list.isEmpty()) break
+                val fresh = list.filter {
+                    !it.junior && titleMatches(it.title, query) && Text.titleOk(it.title, emptyList(), exclude) && !db.seen("habr:${it.id}")
+                }
+                RunLog.add(ctx, "Хабр «$query», стр. ${page + 1}/$totalPages: вакансий ${list.size}, новых подходящих ${fresh.size}")
+                for (v in fresh) {
+                    coroutineContext.ensureActive()
+                    if (capReached()) break@queries
+                    val id = "habr:${v.id}"
+                    status.value = "Хабр: «${v.title}» (откликов $done из $limit)"
+                    val (company0, desc) = a.habrOpen(v.id)
+                    val company = company0.ifBlank { v.company }
+                    if (Text.isCvHeavy(desc)) { db.record(id, v.title, company, v.url, "", "", "skipped", "habr_agent", error = "computer vision"); continue }
+                    val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
+                    status.value = "Хабр: пишу письмо — «${v.title}»"
+                    val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                        RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
+                    }
+                    val (outcome, note) = a.habrApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "habr"))
+                    val st = if (outcome == Outcome.FAILED && note.isNotBlank()) "skipped" else statusOf(outcome)
+                    db.record(id, v.title, company, v.url, v.url, lang, st, "habr_agent", letter, note)
+                    RunLog.add(ctx, "• [Хабр] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}${if (note.isNotBlank()) " ($note)" else ""}")
+                    if (st == "applied" && note.isBlank()) { done++; pause(ctx) }
+                }
+                page++
+                if (page >= totalPages) break
+            }
+        }
+        val summary = "Агент Хабр Карьеры закончил: откликов $done."
+        RunLog.add(ctx, summary)
+        status.value = "$summary Подробности — в «Журнале»."
+        return summary
     }
 
     /** LinkedIn-агент: поиск (Easy Apply) → вакансия → письмо → шаги Easy Apply. Отдельные лимиты и паузы. */

@@ -100,6 +100,7 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
             "manual" to "✋ Пропущен / вручную",
             "skipped" to "⏭ Пропущен",
             "failed" to "❌ Ошибка",
+            "saved" to "📌 Сохранена (ODS)",
         )
         val CHANNEL_RU = mapOf(
             "api" to "через API hh",
@@ -109,6 +110,8 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
             "filter" to "фильтр: компьютерное зрение",
             "hh_site" to "hh через сайт (агент)",
             "linkedin_agent" to "LinkedIn (агент)",
+            "habr_agent" to "Хабр Карьера (агент)",
+            "ods" to "ODS #jobs",
         )
     }
 }

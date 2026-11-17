@@ -47,6 +47,11 @@ class RunWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, p
             // hh через сайт или есть анкеты — сразу запускаем агента в этой же фоновой задаче (экран не нужен)
             val hhSite = Sources.byKey("hh")?.let { Sources.isOn(app, it) } == true && !HhMode.useApi(app)
             if (!dry && !isStopped && (hhSite || Db(app).pendingBrowser().isNotEmpty())) runAgent(false, "")
+            // ODS: просто обновляем сохранённые вакансии (без нейросети)
+            if (inputData.getBoolean(KEY_DAILY, false)) try { Ods.refresh(app) { RunLog.add(app, it) } } catch (e: Exception) { RunLog.add(app, "ODS: ${e.message}") }
+            if (!dry && !isStopped && inputData.getBoolean(KEY_DAILY, false) && Prefs.bool(app, "habr_daily_auto")) {
+                runAgent(false, "habr", "habr")
+            }
             // LinkedIn-агент в ежедневном автозапуске — только если включён в настройках
             if (!dry && !isStopped && inputData.getBoolean(KEY_DAILY, false) && Prefs.bool(app, "linkedin_daily_auto")) {
                 runAgent(false, "linkedin", "linkedin")

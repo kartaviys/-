@@ -19,6 +19,15 @@ object Prefs {
             Field("agent_limit", "Сколько откликов агент делает за одну сессию", FieldType.NUMBER, "50"),
             Field("agent_max_steps", "Максимум шагов агента на одну вакансию", FieldType.NUMBER, "20"),
         )),
+        Section("Хабр Карьера — агент", listOf(
+            Field("habr_queries", "Что искать на Хабр Карьере — по одной вакансии на строку (по названию)", FieldType.MULTILINE, default = listOf(
+                "data scientist", "ml engineer", "ml-инженер", "machine learning", "ai engineer", "nlp", "llm",
+                "ml-аналитик", "аналитик данных", "data analyst",
+            ).joinToString("\n")),
+            Field("habr_limit", "Откликов за одну сессию", FieldType.NUMBER, "30"),
+            Field("habr_daily_limit", "Откликов на Хабре в сутки", FieldType.NUMBER, "60"),
+            Field("habr_daily_auto", "Запускать агента Хабра в ежедневном автозапуске", FieldType.BOOL, "false"),
+        )),
         Section("LinkedIn-агент", listOf(
             Field("linkedin_queries", "Запросы для LinkedIn — по одному на строку", FieldType.MULTILINE, default = listOf(
                 "data scientist", "machine learning engineer", "ml engineer", "ai engineer", "nlp engineer",

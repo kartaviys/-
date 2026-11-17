@@ -423,4 +423,30 @@ class BrowserAgent(
         else if (requireEasyApply) return Outcome.FAILED // нет Easy Apply (отклик на сайте компании) — пропускаем
         return runGoal(g, confirmSubmit)
     }
+
+    // ---------- Хабр Карьера ----------
+    suspend fun habrEnsureLogin(): Boolean {
+        if (!open("https://career.habr.com/")) return false
+        if (call("window.__ag.habrLoggedIn()") == "true") return true
+        if (!human("Войдите в Хабр Карьеру в этом окне (кнопка «Войти»), затем нажмите «Готово»")) return false
+        return open("https://career.habr.com/")
+    }
+
+    /** Открывает вакансию Хабра: (компания, описание). */
+    suspend fun habrOpen(id: String): Pair<String, String> {
+        if (!open("https://career.habr.com/vacancies/$id")) return "" to ""
+        val company = call("window.__ag.textOf('.company_name, .vacancy-company__title, .company-about__title')")
+        val desc = call("window.__ag.textOf('.vacancy-description__text')").ifBlank { call("window.__ag.bodyText()") }
+        return company to desc
+    }
+
+    /** Отклик на Хабре: «Откликнуться» → письмо/вопросы и отправку проходит универсальный агент. */
+    suspend fun habrApply(g: AgentGoal, confirmSubmit: Boolean): Pair<Outcome, String> {
+        return when (call("window.__ag.habrRespond()")) {
+            "applied" -> Outcome.DONE to "уже откликались"
+            "external" -> Outcome.FAILED to "отклик только на сайте компании"
+            "missing" -> runGoal(g, confirmSubmit) to ""
+            else -> { delay(2000); runGoal(g, confirmSubmit) to "" }
+        }
+    }
 }
