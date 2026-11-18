@@ -57,4 +57,48 @@ object Ods {
         log("ODS: просмотрено $seen постов, сохранено новых вакансий: $added")
         return Saved(added, seen)
     }
+
+    data class Enriched(val withContacts: Int, val checked: Int, val needLogin: Boolean, val busy: Boolean)
+
+    /**
+     * Контакты HR: открываем страницу каждой сохранённой вакансии на ods.ai (с вашим входом на ODS),
+     * при необходимости жмём «Показать контакты», сохраняем email / Telegram / телефон / LinkedIn / ссылку на отклик.
+     * Контакты пишутся в начало описания, основной контакт — в ссылку «Написать HR».
+     */
+    suspend fun enrichContacts(ctx: Context, limit: Int = 40, progress: (String) -> Unit = {}): Enriched {
+        val db = Db(ctx)
+        val myEmail = Prefs.get(ctx, "email").trim().lowercase()
+        val myTg = Prefs.get(ctx, "telegram").trim().removePrefix("@").lowercase()
+        val todo = db.list("status = 'saved' AND url LIKE 'https://ods.ai/jobs/%'")
+            .filter { !db.errorOf(it.vacancyId).startsWith("контакты:") }
+            .take(limit)
+        var found = 0
+        var checked = 0
+        for (a in todo) {
+            progress("ODS: контакты ${checked + 1}/${todo.size} — ${a.title}")
+            val c = AgentEngine.readContacts(ctx, a.url) ?: return Enriched(found, checked, false, true)
+            checked++
+            if (c.optBoolean("loginRequired")) return Enriched(found, checked, true, false)
+            fun arr(k: String) = c.optJSONArray(k)?.let { j -> (0 until j.length()).map { j.getString(it) } }.orEmpty()
+            val emails = arr("emails").filter { it.lowercase() != myEmail }
+            val tgs = arr("telegrams").filter { !it.lowercase().endsWith("/$myTg") || myTg.isBlank() }
+            val phones = arr("phones"); val li = arr("linkedin"); val apply = arr("apply")
+            val lines = buildList {
+                if (tgs.isNotEmpty()) add("Telegram: " + tgs.joinToString(", ") { it.replace("https://t.me/", "@") })
+                if (emails.isNotEmpty()) add("Email: " + emails.joinToString(", "))
+                if (phones.isNotEmpty()) add("Телефон: " + phones.joinToString(", "))
+                if (li.isNotEmpty()) add("LinkedIn: " + li.joinToString(", "))
+                if (apply.isNotEmpty()) add("Отклик: " + apply.joinToString(", "))
+            }
+            val primary = tgs.firstOrNull() ?: emails.firstOrNull()?.let { "mailto:$it" } ?: apply.firstOrNull() ?: a.url
+            val details = a.letter.substringAfter("📇 Контакты HR:", a.letter).let { if (it === a.letter) it else it.substringAfter("\n\n", "") }
+            if (lines.isNotEmpty()) {
+                found++
+                db.updateDetails(a.vacancyId, "📇 Контакты HR:\n" + lines.joinToString("\n") + "\n\n" + details, primary, "контакты: найдены")
+            } else {
+                db.updateDetails(a.vacancyId, details, a.url, "контакты: не найдены")
+            }
+        }
+        return Enriched(found, checked, false, false)
+    }
 }

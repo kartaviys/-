@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONObject
@@ -34,6 +35,7 @@ object AgentEngine {
     }
 
     val status = MutableStateFlow("Агент не запущен")
+    private val pageLoads = MutableStateFlow(0)
     val running = MutableStateFlow(false)
     /** Какой агент сейчас работает: "hh" или "linkedin" ("" — никакой). */
     val target = MutableStateFlow("")
@@ -60,7 +62,7 @@ object AgentEngine {
             w.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean =
                     request.url.scheme != "http" && request.url.scheme != "https"
-                override fun onPageFinished(view: WebView, url: String) { agent?.onPageFinished() }
+                override fun onPageFinished(view: WebView, url: String) { agent?.onPageFinished(); pageLoads.value = pageLoads.value + 1 }
             }
             w.webChromeClient = object : WebChromeClient() {
                 override fun onShowFileChooser(view: WebView, callback: ValueCallback<Array<Uri>>, params: FileChooserParams): Boolean {
@@ -93,6 +95,39 @@ object AgentEngine {
         val w = web ?: return
         (w.parent as? ViewGroup)?.removeView(w)
         keepSize(w)
+    }
+
+    // ---------- чтение контактов со страницы (ODS) — без нейросети ----------
+    private val agentJsCache = mutableMapOf<String, String>()
+
+    private suspend fun evalJs(ctx: Context, code: String): String = withContext(Dispatchers.Main) {
+        val w = web ?: return@withContext ""
+        kotlinx.coroutines.suspendCancellableCoroutine { cont ->
+            w.evaluateJavascript(code) { r -> if (cont.isActive) cont.resumeWith(Result.success(r ?: "null")) }
+        }
+    }
+
+    /** Открывает страницу во встроенном браузере (с вашими входами на сайты) и достаёт контакты HR. null — агент занят. */
+    suspend fun readContacts(ctx: Context, url: String): org.json.JSONObject? {
+        if (running.value) return null
+        val w = ensureWeb(ctx)
+        val js = agentJsCache.getOrPut("agent") { ctx.assets.open("agent.js").bufferedReader().readText() }
+        val before = pageLoads.value
+        withContext(Dispatchers.Main) { w.loadUrl(url) }
+        withTimeoutOrNull(30_000) { pageLoads.first { it > before } }
+        delay(2500)
+        suspend fun grab(): org.json.JSONObject {
+            evalJs(ctx, js)
+            val raw = evalJs(ctx, "window.__ag.contacts()")
+            return try { org.json.JSONObject(org.json.JSONTokener(raw).nextValue() as String) } catch (_: Exception) { org.json.JSONObject() }
+        }
+        var c = grab()
+        val empty = { o: org.json.JSONObject -> listOf("emails", "telegrams", "phones").all { (o.optJSONArray(it)?.length() ?: 0) == 0 } }
+        if (empty(c) && !c.optBoolean("loginRequired")) {
+            // Контакты часто открываются кнопкой «Показать контакты» / «Откликнуться»
+            if (evalJs(ctx, "window.__ag.contactsReveal()").contains("ok")) { delay(2500); c = grab() }
+        }
+        return c
     }
 
     // ---------- вопросы к человеку ----------

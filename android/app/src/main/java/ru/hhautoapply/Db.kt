@@ -72,6 +72,15 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         writableDatabase.insertWithOnConflict("applications", null, v, SQLiteDatabase.CONFLICT_REPLACE)
     }
 
+    /** Обновить письмо/описание, ссылку и примечание, не меняя статус (контакты HR для ODS). */
+    fun updateDetails(vacancyId: String, letter: String, formUrl: String, error: String) {
+        val v = ContentValues().apply { put("letter", letter); put("form_url", formUrl); put("error", error) }
+        writableDatabase.update("applications", v, "vacancy_id = ?", arrayOf(vacancyId))
+    }
+
+    fun errorOf(vacancyId: String): String =
+        readableDatabase.rawQuery("SELECT error FROM applications WHERE vacancy_id = ?", arrayOf(vacancyId)).use { if (it.moveToFirst()) it.getString(0) ?: "" else "" }
+
     fun setStatus(vacancyId: String, status: String) {
         val v = ContentValues().apply { put("status", status); put("created_at", now()) }
         writableDatabase.update("applications", v, "vacancy_id = ?", arrayOf(vacancyId))

@@ -111,6 +111,47 @@ window.__ag = (function () {
       return String(n);
     },
 
+    // ---------- Контакты HR на странице вакансии (ODS и др.) ----------
+    // Нажать «Показать контакты» / «Откликнуться» (кнопка на этой же странице, не внешняя ссылка)
+    contactsReveal() {
+      const re = /показать контакт|контакты|связаться|откликнуться|show contact|contacts|contact|respond|apply/i;
+      const b = [...document.querySelectorAll('button, [role=button], a')].find(x => {
+        if (!vis(x) || !re.test(clean(x.innerText))) return false;
+        const h = x.tagName === 'A' ? (x.getAttribute('href') || '') : '';
+        return !h || h.startsWith('#') || h.startsWith('javascript');
+      });
+      if (!b) return 'missing';
+      b.scrollIntoView({ block: 'center' }); b.click(); return 'ok';
+    },
+    // Email, Telegram, телефоны, LinkedIn, ссылки на отклик + признак «нужен вход»
+    contacts() {
+      const text = document.body ? document.body.innerText : '';
+      const uniq = a => [...new Set(a.map(x => x.trim()).filter(Boolean))];
+      const emails = (text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || []);
+      const tgText = (text.match(/(?:^|[\s(,:])@([A-Za-z][A-Za-z0-9_]{4,31})\b/g) || []).map(s => '@' + s.replace(/^[^@]*@/, ''));
+      const phones = (text.match(/(?:\+7|8)[\s(-]*\d{3}[\s)-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/g) || []);
+      const tg = [], li = [], apply = [];
+      for (const a of document.querySelectorAll('a[href]')) {
+        const h = a.href || '';
+        if (h.startsWith('mailto:')) emails.push(h.slice(7).split('?')[0]);
+        else if (h.startsWith('tel:')) phones.push(h.slice(4));
+        else if (/^https?:\/\/(t\.me|telegram\.me)\//.test(h) && !/\/s\/|\/joinchat|\/share/.test(h)) tg.push(h.split('?')[0]);
+        else if (/linkedin\.com\/in\//.test(h)) li.push(h.split('?')[0]);
+        else if (/apply|vacanc|career|job|hh\.ru\/vacancy|forms\.|docs\.google\.com\/forms|typeform/i.test(h) && !/ods\.ai/.test(h)) apply.push(h);
+      }
+      const block = (() => {
+        const m = text.match(/(контакт[^\n]{0,20}\n?[\s\S]{0,300}|contact[^\n]{0,20}\n?[\s\S]{0,300})/i);
+        return m ? clean(m[0]).slice(0, 300) : '';
+      })();
+      const loginRequired = /войдите|авторизуйтесь|зарегистрируйтесь|log ?in to|sign in to|чтобы увидеть контакт/i.test(text) &&
+        !emails.length && !tg.length && !tgText.length;
+      return JSON.stringify({
+        emails: uniq(emails).filter(e => !/ods\.ai|example\.|sentry/i.test(e)).slice(0, 5),
+        telegrams: uniq([...tg, ...tgText.map(t => 'https://t.me/' + t.slice(1))]).filter(t => !/odsjobs|opendatascience|ods_ai/i.test(t)).slice(0, 5),
+        phones: uniq(phones).slice(0, 3), linkedin: uniq(li).slice(0, 3), apply: uniq(apply).slice(0, 3), block, loginRequired,
+      });
+    },
+
     // ---------- Общий агент сайтов ----------
     // Ссылки на вакансии по шаблону (регулярное выражение по полному адресу)
     siteLinks(pattern) {

@@ -78,10 +78,14 @@ class MainActivity : ComponentActivity() {
         ))
 
         // ---------- 4. ODS — просто сохраняем вакансии ----------
-        box.addView(header("4. ODS — сохранять вакансии"))
+        box.addView(header("4. ODS — вакансии и контакты HR"))
         box.addView(row(
             button("Обновить вакансии ODS") { refreshOds() },
             button("📌 Сохранённые") { showSaved() },
+        ))
+        box.addView(row(
+            button("Войти на ODS") { openLogin("https://ods.ai/", "ODS (кнопка «Войти» вверху)") },
+            button("📇 Найти контакты HR") { enrichOds() },
         ))
 
         // ---------- 5. LinkedIn ----------
@@ -198,10 +202,31 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             try {
                 val r = withContext(Dispatchers.IO) { Ods.refresh(this@MainActivity) { RunLog.add(this@MainActivity, it) } }
-                toast("ODS: новых вакансий ${r.added} (просмотрено постов ${r.seen})")
-                if (r.added > 0) showSaved()
+                toast("ODS: новых вакансий ${r.added} (просмотрено постов ${r.seen}). Ищу контакты HR…")
+                enrichOds()
             } catch (e: Exception) {
                 toast("ODS: ошибка — ${e.message}")
+            }
+        }
+    }
+
+    /** Открывает страницы сохранённых вакансий на ods.ai и собирает контакты HR (нужен вход на ODS, если сайт попросит). */
+    private fun enrichOds() {
+        lifecycleScope.launch {
+            try {
+                val r = withContext(Dispatchers.IO) { Ods.enrichContacts(this@MainActivity) { RunLog.add(this@MainActivity, it) } }
+                when {
+                    r.busy -> toast("Сейчас работает агент — контакты ODS соберу, когда он закончит (нажмите «📇 Найти контакты HR» позже)")
+                    r.needLogin -> AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Нужен вход на ODS")
+                        .setMessage("Контакты HR на ods.ai видны только после входа. Нажмите «Войти», войдите своим аккаунтом ODS, затем снова «📇 Найти контакты HR».")
+                        .setPositiveButton("Войти") { _, _ -> openLogin("https://ods.ai/", "ODS (кнопка «Войти» вверху)") }
+                        .setNegativeButton("Позже", null).show()
+                    r.checked == 0 -> toast("ODS: новых вакансий для поиска контактов нет")
+                    else -> { toast("ODS: контакты HR найдены в ${r.withContacts} из ${r.checked} вакансий"); showSaved() }
+                }
+            } catch (e: Exception) {
+                toast("ODS контакты: ошибка — ${e.message}")
             }
         }
     }
@@ -210,7 +235,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             val apps = withContext(Dispatchers.IO) { Db(this@MainActivity).list("status = 'saved'") }
             if (apps.isEmpty()) { toast("Сохранённых вакансий пока нет — нажмите «Обновить вакансии ODS»"); return@launch }
-            val names = apps.map { "${it.title}\n${it.employer}" }.toTypedArray()
+            val names = apps.map { (if (it.letter.startsWith("📇")) "📇 " else "") + "${it.title}\n${it.employer}" }.toTypedArray()
             pick("Сохранённые вакансии ODS (${apps.size})", names) { i -> showApplication(apps[i]) }
         }
     }
@@ -298,6 +323,7 @@ class MainActivity : ComponentActivity() {
 
     private fun showApplication(a: Application) {
         val lang = if (a.language == "en") "английский" else "русский"
+        val hr = a.channel == "ods" && a.formUrl.isNotBlank() && a.formUrl != a.url
         AlertDialog.Builder(this)
             .setTitle(a.title)
             .setMessage(
@@ -305,7 +331,11 @@ class MainActivity : ComponentActivity() {
                     "Язык: $lang · ${a.createdAt}\n\n${a.letter.ifBlank { "(письма нет)" }}",
             )
             .setPositiveButton("Открыть вакансию") { _, _ -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(a.url))) }
-            .setNeutralButton("Копировать письмо") { _, _ ->
+            .setNeutralButton(if (hr) "Написать HR" else "Копировать письмо") { _, _ ->
+                if (hr) {
+                    try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(a.formUrl))) } catch (e: Exception) { toast("Не удалось открыть ${a.formUrl}") }
+                    return@setNeutralButton
+                }
                 getSystemService(android.content.ClipboardManager::class.java)
                     .setPrimaryClip(android.content.ClipData.newPlainText("letter", a.letter))
                 toast("Письмо скопировано")
