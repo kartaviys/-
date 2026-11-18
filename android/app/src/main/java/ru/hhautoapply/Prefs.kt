@@ -103,7 +103,7 @@ object Prefs {
             Field("title_include", "Название содержит одно из (через запятую)",
                 default = "data scien, дата сайент, дата-сайент, анализу данных, ml, machine learning, машинн, ai, ии, искусственн, llm, genai, nlp, естественного языка, natural language, data analyst, аналитик данных, applied scien, research scien, research engineer, ml researcher, ai researcher, исследователь машинн, исследователь ml, исследователь ai, deep learning, нейросет, нейронн, prompt, промпт, generative, генеративн, рекомендательн, recommender, recsys, ranking, ранжирован, decision scien, лингвист, linguist, conversational"),
             Field("title_exclude", "Исключить, если в названии (через запятую)",
-                default = "junior, intern, стажер, стажёр, младший, lead, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, image, изображен, data engineer, инженер данных, дата инженер, дата-инженер, big data engineer, dwh, etl, bi-, bi разработчик, bi developer, bi analyst, power bi, 1с, 1c, бизнес-аналитик, бизнес аналитик, системный аналитик, system analyst, business analyst, devops, backend, frontend, fullstack, тестировщик, qa , mlops"),
+                default = "junior, intern, стажер, стажёр, младший, head, руководител, cv, computer vision, зрени, opencv, видеоаналит, изображен, data engineer, инженер данных, дата инженер, дата-инженер, big data engineer, dwh, etl, bi-, bi разработчик, bi developer, bi analyst, power bi, 1с, 1c, бизнес-аналитик, бизнес аналитик, системный аналитик, system analyst, business analyst, devops, frontend, fullstack, тестировщик, mlops"),
             Field("target_roles", "Какие вакансии мне подходят (нейросеть проверяет каждую вакансию по этому описанию перед откликом)", FieldType.MULTILINE,
                 default = "Подходят: Data Scientist (в т.ч. классический ML), ML-инженер / Machine Learning Engineer, AI-инженер, " +
                     "NLP-инженер, LLM-инженер, ML-разработчик, ML-аналитик, Data Analyst / аналитик данных, " +
@@ -193,6 +193,14 @@ object Prefs {
                 if (add.isNotEmpty()) e.putString("title_exclude", (cur.trimEnd(',', ' ') + ", " + add.joinToString(", ")))
             }
             e.putString("mig_v4", "done")
+        }
+        // v5: исключения были слишком жёсткими — убираем lead, qa, backend, image
+        if (sp(ctx).getString("mig_v5", null) == null) {
+            sp(ctx).getString("title_exclude", null)?.let { cur ->
+                val drop = setOf("lead", "qa", "backend", "image")
+                e.putString("title_exclude", cur.split(",").map { it.trim() }.filter { it.isNotEmpty() && it.lowercase() !in drop }.joinToString(", "))
+            }
+            e.putString("mig_v5", "done")
         }
         // v3: hh — только поиск по названию, без ограничения по дате
         if (sp(ctx).getString("mig_v3", null) == null) {

@@ -22,8 +22,14 @@ import java.util.concurrent.TimeUnit
 
 open class LlmException(msg: String) : Exception(msg)
 
-/** Дневной бюджет исчерпан — сессию нужно остановить. */
-class BudgetException(msg: String) : LlmException(msg)
+/** Ошибка, после которой продолжать сессию бессмысленно — останавливаем агента и показываем причину. */
+open class StopSessionException(msg: String) : LlmException(msg)
+
+/** Дневной бюджет исчерпан. */
+class BudgetException(msg: String) : StopSessionException(msg)
+
+/** Нейросеть отказывает в доступе (401/403: неверный ключ, нет денег или запрос из неподдерживаемой страны). */
+class LlmAccessException(msg: String) : StopSessionException(msg)
 
 interface Provider {
     val name: String
@@ -175,6 +181,7 @@ class Llm(private val ctx: Context, private val log: (String) -> Unit) {
             throw BudgetException("Дневной бюджет на нейросеть исчерпан (${Usage.money(budget)}). Увеличьте его в настройках или продолжите завтра.")
         }
         var last: Exception? = null
+        var accessErrors = 0
         for (p in order) {
             try {
                 val (text, tin, tout) = p.complete(system, user, wantJson, maxTokens)
@@ -187,8 +194,20 @@ class Llm(private val ctx: Context, private val log: (String) -> Unit) {
                 last = LlmException("${p.name}: пустой ответ")
             } catch (e: Exception) {
                 last = e
-                log("[llm] ${p.name}: ошибка — ${e.message}; пробую следующего")
+                val m = e.message.orEmpty()
+                if (Regex("\\b(401|403)\\b").containsMatchIn(m) || m.contains("forbidden", true) || m.contains("authentication", true)) accessErrors++
+                log("[llm] ${p.name}: ошибка — $m; пробую следующего")
             }
+        }
+        if (accessErrors == order.size) {
+            val m = last?.message.orEmpty()
+            throw LlmAccessException(
+                if (m.contains("not allowed", true) || m.contains("forbidden", true))
+                    "Нейросеть отказала в доступе (403 «Request not allowed»). Для Claude это значит, что запрос пришёл из страны, " +
+                        "где Anthropic не работает (в т.ч. Россия). Включите VPN для всего телефона (или добавьте «HH Автоотклик» " +
+                        "в приложения VPN) — либо укажите ключ DeepSeek или свою модель в настройках."
+                else "Нейросеть отказала в доступе (${m.take(120)}). Проверьте ключ и баланс в настройках."
+            )
         }
         throw LlmException("Все провайдеры упали: ${last?.message}")
     }

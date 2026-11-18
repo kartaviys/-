@@ -101,6 +101,8 @@ class Runner(private val ctx: Context, private val dryRun: Boolean, private val 
             val letter = try {
                 Letters.write(llm, v, lang, if (lang == "en") enText else ruText,
                     Prefs.get(ctx, if (lang == "en") "name_en" else "name"), Prefs.get(ctx, "en_cv_url"))
+            } catch (e: StopSessionException) {
+                throw e
             } catch (e: Exception) {
                 log("  ! письмо не сгенерировано: ${e.message}")
                 db.record(id, title, employer, url, "", lang, "failed", channel, error = e.message.orEmpty())
@@ -199,6 +201,8 @@ class Runner(private val ctx: Context, private val dryRun: Boolean, private val 
                     log("• [${src.name}] [$lang] ${p.title} — ${p.company} → ${if (dryRun) "письмо готово" else "в «Анкеты»"}")
                     if (dryRun) log("  --- письмо ---\n$letter\n  -------------")
                     added++
+                } catch (e: StopSessionException) {
+                    throw e
                 } catch (e: Exception) {
                     log("  ! ${p.title}: ${e.message}")
                     db.record(dbId, p.title, p.company, p.url, p.url, "", "failed", src.key, error = e.message.orEmpty())

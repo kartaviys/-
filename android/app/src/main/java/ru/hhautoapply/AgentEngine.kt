@@ -177,7 +177,7 @@ object AgentEngine {
                 Sites.byKey(target) != null -> runSite(ctx, a, llm, Sites.byKey(target)!!)
                 else -> runSession(ctx, a, llm)
             }
-        } catch (e: BudgetException) {
+        } catch (e: StopSessionException) {
             status.value = "⛔ ${e.message}"
             RunLog.add(ctx, "⛔ ${e.message}")
             RunWorker.notify(ctx, "Агент остановлен", e.message.orEmpty())
@@ -258,7 +258,7 @@ object AgentEngine {
                     if (!fits(ctx, llm, db, id, title, "", v.url, desc, def.key)) continue
                     val lang = Text.detectLanguage("$title $desc").also { resumeLang = it }
                     status.value = "${def.name}: пишу письмо — «$title»"
-                    val letter = try { letterFor(ctx, llm, title, "", desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                    val letter = try { letterFor(ctx, llm, title, "", desc, lang) } catch (e: StopSessionException) { throw e } catch (e: Exception) {
                         RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
                     }
                     val outcome = a.runGoal(AgentGoal(title, "", letter, lang), needConfirm(ctx, def.key))
@@ -303,7 +303,8 @@ object AgentEngine {
                 }
                 if (list.isEmpty()) break
                 val fresh = list.filter {
-                    !it.junior && titleMatches(it.title, query) && Text.titleOk(it.title, include, exclude) && !db.seen("habr:${it.id}")
+                    !it.junior && (titleMatches(it.title, query) || Text.titleOk(it.title, include, emptyList())) &&
+                        Text.titleOk(it.title, emptyList(), exclude) && !db.seen("habr:${it.id}")
                 }
                 RunLog.add(ctx, "Хабр «$query», стр. ${page + 1}/$totalPages: вакансий ${list.size}, новых подходящих ${fresh.size}")
                 for (v in fresh) {
@@ -318,7 +319,7 @@ object AgentEngine {
                     if (!fits(ctx, llm, db, id, v.title, company, v.url, desc, "habr_agent")) continue
                     val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                     status.value = "Хабр: пишу письмо — «${v.title}»"
-                    val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                    val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: StopSessionException) { throw e } catch (e: Exception) {
                         RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
                     }
                     val (outcome, note) = a.habrApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "habr"))
@@ -370,7 +371,7 @@ object AgentEngine {
                 if (!fits(ctx, llm, db, id, v.title, company, url, desc, "linkedin_agent")) continue
                 val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                 status.value = "LinkedIn: пишу письмо — «${v.title}»"
-                val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                val letter = try { letterFor(ctx, llm, v.title, company, desc, lang) } catch (e: StopSessionException) { throw e } catch (e: Exception) {
                     RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
                 }
                 val outcome = a.liApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "linkedin"), requireEasy)
@@ -449,7 +450,7 @@ object AgentEngine {
                         if (!fits(ctx, llm, db, v.id, v.title, employer, url, desc, "hh_site")) continue
                         val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
                         status.value = "hh: пишу письмо — «${v.title}»"
-                        val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: BudgetException) { throw e } catch (e: Exception) {
+                        val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: StopSessionException) { throw e } catch (e: Exception) {
                             RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
                         }
                         val outcome = a.hhApply(AgentGoal(v.title, employer, letter, lang), needConfirm(ctx, "hh"))
@@ -483,7 +484,7 @@ object AgentEngine {
                         if (list.isEmpty()) break
                         // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
                         if (list.count { pageSeen.add(it.id) } == 0) break
-                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = true)
+                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = false) // hh уже нашёл запрос в названии
                     }
                 }
             } else RunLog.add(ctx, "hh: вход не выполнен — пропускаю")

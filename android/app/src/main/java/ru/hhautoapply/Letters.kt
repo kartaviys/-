@@ -41,16 +41,18 @@ No placeholders in square brackets, no markdown, no bullet lists. Return only th
      */
     fun assess(llm: Llm, title: String, description: String, targetRoles: String, resumeText: String): Pair<Boolean, String> {
         val system = """Ты помогаешь соискателю отбирать вакансии. Тебе даны его целевые роли и вакансия.
-Реши, стоит ли откликаться: роль по сути должна совпадать с одной из подходящих (смотри на суть работы в описании,
-а не только на слова в названии) и не попадать в «не подходят». Если вакансия смешанная, но основная работа —
-из «не подходят» (например, Data Engineer, который «немного делает ML») — не подходит.
+Реши, стоит ли откликаться. По умолчанию — откликаться: лучше лишний отклик, чем пропущенная хорошая вакансия.
+Отклоняй (fit=false) ТОЛЬКО если основная работа явно из «не подходят» (например, чистый Data Engineer / DWH / BI,
+бизнес-аналитик без ML, backend без ML, компьютерное зрение, стажёр/junior, руководитель отдела).
+Смешанные роли, где заметная часть работы — ML / Data Science / NLP / LLM / аналитика данных, — подходят.
+Если сомневаешься или описание короткое — fit=true.
 Ответ — JSON: {"fit": true|false, "reason": "кратко, до 12 слов, по-русски"}"""
         val user = "ЦЕЛЕВЫЕ РОЛИ:\n$targetRoles\n\nКРАТКО О КАНДИДАТЕ:\n${resumeText.take(1200)}\n\n" +
             "ВАКАНСИЯ: $title\n${Text.stripHtml(description).take(3000)}"
         return try {
             val o = llm.completeJson(system, user, maxTokens = 400)
             o.optBoolean("fit", true) to o.optString("reason")
-        } catch (e: BudgetException) {
+        } catch (e: StopSessionException) {
             throw e
         } catch (e: Exception) {
             true to ""

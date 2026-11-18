@@ -487,7 +487,7 @@ class BrowserAgent(
                 val url = it.optString("url")
                 SiteLink(idOf(url), url, it.optString("title"), false)
             }.also { RunLog.add(ctx, "${def.name}: шаблон ссылок не сработал — нейросеть нашла вакансий: ${it.size}") }
-        } catch (e: BudgetException) { throw e } catch (_: Exception) { emptyList() }
+        } catch (e: StopSessionException) { throw e } catch (_: Exception) { emptyList() }
     }
 
     suspend fun pageApplied(): Boolean = call("window.__ag.pageApplied()") == "true"
