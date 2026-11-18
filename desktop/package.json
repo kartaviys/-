@@ -1,0 +1,34 @@
+{
+  "name": "hh-autoapply-desktop",
+  "productName": "HH Autoapply",
+  "version": "1.0.0",
+  "description": "HH Автоотклик для Windows и macOS: агенты hh, Хабр Карьеры, LinkedIn и 22 сайтов + пульт с iPhone",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "server": "node src/standalone.js",
+    "test": "node test/run.js",
+    "prepare-assets": "node -e \"require('fs').mkdirSync('assets',{recursive:true});require('fs').copyFileSync('../android/app/src/main/assets/agent.js','assets/agent.js')\"",
+    "dist:win": "npm run prepare-assets && electron-builder --win --publish never",
+    "dist:mac": "npm run prepare-assets && electron-builder --mac --publish never"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "playwright-core": "^1.50.1"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "ru.hhautoapply.desktop",
+    "productName": "HH Autoapply",
+    "files": ["main.js", "src/**", "ui/**", "assets/**", "package.json"],
+    "asar": true,
+    "asarUnpack": ["node_modules/playwright-core/**"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }], "artifactName": "hh-autoapply-windows-setup.exe" },
+    "nsis": { "oneClick": true, "perMachine": false },
+    "mac": { "target": [{ "target": "dmg", "arch": ["universal"] }], "identity": null, "category": "public.app-category.productivity", "artifactName": "hh-autoapply-macos.dmg" }
+  }
+}

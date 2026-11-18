@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>HH Автоотклик</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --line:#d0d7de; --text:#1f2328; --muted:#636c76; --accent:#1f6feb; --ok:#1a7f37; --warn:#9a6700; --bad:#cf222e; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0d1117; --card:#161b22; --line:#30363d; --text:#e6edf3; --muted:#8d96a0; --accent:#4493f8; } }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--text); }
+  header { position:sticky; top:0; z-index:5; background:var(--card); border-bottom:1px solid var(--line); padding:10px 14px; }
+  header h1 { font-size:17px; margin:0 0 6px; }
+  nav { display:flex; gap:6px; overflow-x:auto; }
+  nav button { white-space:nowrap; }
+  main { max-width:1000px; margin:0 auto; padding:12px 14px 80px; }
+  button { font:inherit; padding:8px 12px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--text); cursor:pointer; }
+  button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  button.danger { color:var(--bad); }
+  button.on { outline:2px solid var(--accent); }
+  input, textarea, select { font:inherit; width:100%; padding:8px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--text); }
+  textarea { min-height:90px; resize:vertical; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; margin:8px 0; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .muted { color:var(--muted); font-size:13px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:8px; }
+  .status { font-size:14px; }
+  .prompt { background:#fff8c5; color:#3b2300; border:1px solid #d4a72c; border-radius:10px; padding:10px; margin-top:8px; }
+  .log { font:12px/1.4 ui-monospace, Menlo, Consolas, monospace; white-space:pre-wrap; max-height:340px; overflow:auto; background:var(--bg); border-radius:8px; padding:8px; }
+  h2 { font-size:16px; margin:16px 0 4px; }
+  .pill { font-size:12px; padding:1px 8px; border-radius:99px; border:1px solid var(--line); }
+  img.shot { max-width:100%; border:1px solid var(--line); border-radius:8px; margin-top:8px; }
+  details summary { cursor:pointer; color:var(--accent); }
+  .hidden { display:none; }
+  label { display:block; font-size:13px; color:var(--muted); margin:8px 0 2px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🤖 HH Автоотклик</h1>
+  <div id="statusLine" class="status muted">Загрузка…</div>
+  <div id="promptBox" class="prompt hidden">
+    <div id="promptText"></div>
+    <div class="row" style="margin-top:6px">
+      <button class="primary" onclick="answer(true)">Готово / Отправить</button>
+      <button onclick="answer(false)">Пропустить</button>
+      <button onclick="loadShot()">📷 Показать страницу</button>
+    </div>
+    <img id="shot" class="shot hidden" alt="">
+  </div>
+  <nav style="margin-top:8px">
+    <button data-tab="agents" class="on">Агенты</button>
+    <button data-tab="journal">Журнал</button>
+    <button data-tab="usage">💰 Расходы</button>
+    <button data-tab="settings">Настройки</button>
+    <button data-tab="phone">📱 Пульт с телефона</button>
+    <button data-tab="log">Лог</button>
+  </nav>
+</header>
+<main>
+  <section id="tab-agents">
+    <div id="pinBox" class="card hidden">
+      <b>Введите PIN</b> (он показан на компьютере во вкладке «Пульт с телефона»)
+      <div class="row" style="margin-top:6px"><input id="pinInput" inputmode="numeric" style="max-width:160px"><button class="primary" onclick="savePin()">Войти</button></div>
+    </div>
+    <div id="llmWarn" class="card hidden">⚠️ Нейросеть не настроена: откройте «Настройки» и вставьте ключ Claude или DeepSeek (или адрес своей модели).</div>
+    <div class="card muted">
+      У каждого сайта свой агент: свой список «Что искать» и лимит. Агент открывает сайт в Chrome/Edge на компьютере, ищет вакансии,
+      отсеивает неподходящие (фильтр названий + проверка нейросетью), пишет письмо и откликается. Одновременно работает один агент.
+      Сначала нажмите «Войти» и войдите в аккаунт в открывшемся окне браузера — вход запомнится.
+      ✅ — формат сайта проверен; ⚠️ — не проверен заранее (ссылки на вакансии при необходимости найдёт нейросеть).
+    </div>
+    <div id="agents"></div>
+  </section>
+
+  <section id="tab-journal" class="hidden">
+    <div class="row">
+      <select id="jFilter" style="max-width:280px" onchange="renderJournal()">
+        <option value="all">Все</option><option value="applied">Отправленные</option>
+        <option value="skipped">Пропущенные и ошибки</option><option value="manual">Требуют внимания</option>
+      </select>
+      <button onclick="loadJournal()">Обновить</button>
+    </div>
+    <div id="journal"></div>
+  </section>
+
+  <section id="tab-usage" class="hidden"><div id="usage" class="card"></div></section>
+
+  <section id="tab-settings" class="hidden">
+    <div class="card">
+      <b>Резюме в PDF</b> <span class="muted">— Claude достанет текст для писем; файл будет прикрепляться к анкетам</span>
+      <div class="row" style="margin-top:6px">
+        <label style="margin:0">RU <input type="file" accept="application/pdf" onchange="uploadResume(this,'ru')"></label>
+        <label style="margin:0">EN <input type="file" accept="application/pdf" onchange="uploadResume(this,'en')"></label>
+      </div>
+      <div class="muted">Или ничего не делайте: агент hh сам возьмёт резюме из вашего профиля hh.</div>
+    </div>
+    <div id="settingsForm"></div>
+    <div class="row" style="position:sticky;bottom:0;background:var(--bg);padding:8px 0"><button class="primary" onclick="saveSettings()">Сохранить настройки</button></div>
+  </section>
+
+  <section id="tab-phone" class="hidden"><div id="phone" class="card"></div></section>
+  <section id="tab-log" class="hidden"><div id="log" class="log card"></div></section>
+</main>
+
+<script>
+const params = new URLSearchParams(location.search);
+if (params.get('pin')) localStorage.setItem('pin', params.get('pin'));
+const pin = () => localStorage.getItem('pin') || '';
+async function api(path, opts = {}) {
+  const r = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', 'X-Pin': pin(), ...(opts.headers || {}) } });
+  if (r.status === 401) { document.getElementById('pinBox').classList.remove('hidden'); throw new Error('PIN'); }
+  const ct = r.headers.get('content-type') || '';
+  const data = ct.includes('json') ? await r.json() : null;
+  if (!r.ok) throw new Error(data?.error || r.statusText);
+  return data;
+}
+const post = (path, obj) => api(path, { method: 'POST', body: JSON.stringify(obj || {}) });
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function savePin() { localStorage.setItem('pin', document.getElementById('pinInput').value.trim()); location.reload(); }
+
+// ---------- вкладки ----------
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('main > section').forEach(s => s.classList.toggle('hidden', s.id !== 'tab-' + b.dataset.tab));
+  ({ journal: loadJournal, usage: loadUsage, settings: loadSettings, phone: renderPhone })[b.dataset.tab]?.();
+});
+
+// ---------- состояние ----------
+let state = {};
+async function refresh() {
+  try { state = await api('/api/state'); } catch { return; }
+  document.getElementById('pinBox').classList.add('hidden');
+  document.getElementById('llmWarn').classList.toggle('hidden', state.llmReady);
+  document.getElementById('statusLine').textContent =
+    (state.running ? `▶ ${state.targetName}: ${state.done}/${state.limit} · ` : '') + state.status + ` · Сегодня откликов: ${state.appliedToday} · ${state.usage}`;
+  const pb = document.getElementById('promptBox');
+  pb.classList.toggle('hidden', !state.prompt);
+  if (state.prompt) document.getElementById('promptText').textContent = (state.prompt.type === 'confirm' ? '❓ ' : '✋ ') + state.prompt.text;
+  else document.getElementById('shot').classList.add('hidden');
+  document.getElementById('log').textContent = state.log.join('\n');
+  document.querySelectorAll('[data-start]').forEach(b => {
+    const mine = state.running && state.target === b.dataset.start;
+    b.textContent = mine ? '■ Стоп' : (state.running ? `Остановить ${state.targetName} и запустить` : '▶ Старт');
+    b.classList.toggle('danger', mine); b.classList.toggle('primary', !mine);
+  });
+}
+async function answer(v) { await post('/api/answer', { value: v }); refresh(); }
+function loadShot() { const img = document.getElementById('shot'); img.src = '/api/screenshot?pin=' + encodeURIComponent(pin()) + '&t=' + Date.now(); img.classList.remove('hidden'); }
+
+// ---------- агенты ----------
+async function loadAgents() {
+  const list = await api('/api/agents');
+  const groups = {};
+  list.forEach(a => (groups[a.group] = groups[a.group] || []).push(a));
+  document.getElementById('agents').innerHTML = Object.entries(groups).map(([g, items]) => `<h2>${esc(g)}</h2><div class="grid">` +
+    items.map(a => `<div class="card">
+      <div class="row" style="justify-content:space-between"><b>${a.verified ? '✅' : '⚠️'} ${esc(a.name)}</b><span class="pill">лимит <input data-limit="${a.key}" value="${a.limit}" inputmode="numeric" style="width:56px;padding:2px 4px"></span></div>
+      ${a.note ? `<div class="muted">${esc(a.note)}</div>` : ''}
+      <details style="margin:6px 0"><summary>✏️ Что искать</summary>
+        ${a.noQuery ? '<div class="muted">Сайт компании: агент берёт всю ленту вакансий и сам отбирает подходящие.</div>'
+          : `<textarea data-queries="${a.key}" placeholder="по одной вакансии на строку">${esc(a.queries)}</textarea><div class="muted">По одной вакансии на строку, ищется по названию.</div>`}
+      </details>
+      <div class="row"><button onclick="login('${a.key}')">Войти</button><button class="primary" data-start="${a.key}" onclick="startStop('${a.key}')">▶ Старт</button></div>
+    </div>`).join('') + '</div>').join('');
+  refresh();
+}
+async function saveAgent(key) {
+  const q = document.querySelector(`[data-queries="${key}"]`); const l = document.querySelector(`[data-limit="${key}"]`);
+  await post('/api/agent/' + key, { queries: q ? q.value : undefined, limit: l ? l.value : undefined });
+}
+async function startStop(key) {
+  try {
+    if (state.running && state.target === key) { await post('/api/stop'); return refresh(); }
+    if (state.running) { await post('/api/stop'); for (let i = 0; i < 40 && (await api('/api/state')).running; i++) await new Promise(r => setTimeout(r, 500)); }
+    await saveAgent(key);
+    await post('/api/start', { target: key });
+  } catch (e) { alert(e.message); }
+  refresh();
+}
+async function login(key) { try { const r = await post('/api/login', { key }); alert(r.message); } catch (e) { alert(e.message); } }
+
+// ---------- журнал ----------
+let journal = [];
+const STATUS = { applied: '✅ Отклик отправлен', skipped: '⏭ Пропущен', failed: '❌ Ошибка', manual: '✋ Требует внимания' };
+async function loadJournal() { journal = await api('/api/journal'); renderJournal(); }
+function renderJournal() {
+  const f = document.getElementById('jFilter').value;
+  const items = journal.filter(a => f === 'all' || a.status === f || (f === 'skipped' && a.status === 'failed'));
+  document.getElementById('journal').innerHTML = items.length ? items.slice(0, 500).map(a => `<div class="card">
+    <div><b>${esc(a.title)}</b> ${a.employer ? '— ' + esc(a.employer) : ''}</div>
+    <div class="muted">${STATUS[a.status] || esc(a.status)} · ${esc(a.channel)} · ${esc((a.created_at || '').replace('T', ' ').slice(0, 16))}${a.error ? ' · ' + esc(a.error) : ''}</div>
+    ${a.letter ? `<details><summary>Письмо</summary><div style="white-space:pre-wrap">${esc(a.letter)}</div></details>` : ''}
+    ${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">Открыть вакансию</a>` : ''}
+  </div>`).join('') : '<div class="card muted">Пусто</div>';
+}
+
+// ---------- расходы ----------
+async function loadUsage() {
+  const u = await api('/api/usage');
+  const m = v => '$' + (v < 1 ? v.toFixed(4) : v.toFixed(2));
+  const k = v => v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? (v / 1e3).toFixed(1) + 'K' : v;
+  document.getElementById('usage').innerHTML = (u.days.map(d => `<div><b>${d.day}</b> — ${m(d.total.cost)}</div>` +
+    Object.entries(d.providers).map(([p, r]) => `<div class="muted">&nbsp;&nbsp;${esc(p)}: ${r.calls} запр., вход ${k(r.input)}, выход ${k(r.output)} ≈ ${m(r.cost)}</div>`).join('')).join('') || 'Расходов пока нет.') +
+    `<hr><div>За 7 дней: ${m(u.week.cost)} · за 30 дней: ${m(u.month.cost)}</div><div class="muted">Оценка по ответам API; точная сумма — в кабинете провайдера. Своя модель — по ценам из настроек (локальная — бесплатно).</div>`;
+}
+
+// ---------- настройки ----------
+async function loadSettings() {
+  const s = await api('/api/settings');
+  document.getElementById('settingsForm').innerHTML = s.schema.map(([title, fields]) => `<div class="card"><b>${esc(title)}</b>` +
+    fields.map(([key, label, type]) => `<label>${esc(label)}</label>` + (type === 'text'
+      ? `<textarea data-set="${key}">${esc(s.values[key])}</textarea>`
+      : `<input data-set="${key}" ${type === 'secret' ? 'type="password" autocomplete="off"' : ''} value="${esc(s.values[key])}">`)).join('') + '</div>').join('');
+}
+async function saveSettings() {
+  const obj = {}; document.querySelectorAll('[data-set]').forEach(el => obj[el.dataset.set] = el.value);
+  try { await post('/api/settings', obj); alert('Сохранено'); refresh(); } catch (e) { alert(e.message); }
+}
+async function uploadResume(input, lang) {
+  const f = input.files[0]; if (!f) return;
+  try {
+    const r = await fetch('/api/resume/' + lang, { method: 'POST', body: f, headers: { 'X-Pin': pin(), 'Content-Type': 'application/pdf' } });
+    const d = await r.json(); alert(d.message || d.error);
+  } catch (e) { alert(e.message); }
+}
+
+// ---------- пульт с телефона ----------
+function renderPhone() {
+  const r = state.remote || {};
+  document.getElementById('phone').innerHTML = r.pin ? `
+    <p>Управляйте агентами с iPhone или Android: в Safari/Chrome телефона откройте адрес ниже (телефон и компьютер — в одной Wi-Fi сети).</p>
+    ${r.enabled ? (r.urls.length ? r.urls.map(u => `<div><b>${esc(u)}?pin=${esc(r.pin)}</b></div>`).join('') : '<div>Не найден адрес в локальной сети — подключите компьютер к Wi-Fi.</div>')
+      : '<p>⚠️ Пульт с телефона выключен. Включите: «Настройки → Пульт с телефона → Разрешить… = true», сохраните и перезапустите приложение.</p>'}
+    <p>PIN: <b>${esc(r.pin)}</b></p>
+    <p class="muted">С телефона можно: запускать и останавливать агентов, менять «Что искать» и лимиты, смотреть журнал и расходы,
+    отвечать «Готово/Пропустить» и смотреть снимок страницы. Решать капчу и входить в аккаунты — на компьютере, в окне браузера.
+    Чтобы узнавать о капче сразу, включите уведомления в Telegram («Настройки»). На iPhone: «Поделиться → На экран „Домой“» — пульт будет как приложение.</p>`
+    : '<p>Эта вкладка показывает адрес и PIN только на компьютере.</p>';
+}
+
+loadAgents().catch(() => {});
+setInterval(refresh, 2000);
+document.addEventListener('change', e => { const k = e.target.dataset?.queries || e.target.dataset?.limit; if (k) saveAgent(k); });
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+name: HH Автоотклик — Windows и macOS
+
+on:
+  push:
+    paths:
+      - "desktop/**"
+      - "android/app/src/main/assets/agent.js"
+      - ".github/workflows/hh-autoapply-desktop.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hh-autoapply-desktop
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            script: dist:win
+            file: hh-autoapply-windows-setup.exe
+          - os: macos-latest
+            script: dist:mac
+            file: hh-autoapply-macos.dmg
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: node --check main.js && node -e "for (const f of require('fs').readdirSync('src')) require('child_process').execFileSync(process.execPath, ['--check', 'src/' + f])"
+      - run: npm run ${{ matrix.script }}
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.file }}
+          path: desktop/dist/${{ matrix.file }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      # Свой тег — не трогает релизы других приложений в репозитории
+      - name: Publish to release "hh-autoapply-desktop-latest"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -la dist
+          gh release delete hh-autoapply-desktop-latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
+          gh release create hh-autoapply-desktop-latest dist/* --repo "$GITHUB_REPOSITORY" \
+            --target "${GITHUB_SHA}" --prerelease \
+            --title "HH Автоотклик для Windows и macOS (последняя сборка)" \
+            --notes "Windows: hh-autoapply-windows-setup.exe. macOS: hh-autoapply-macos.dmg (Apple Silicon и Intel). Сборка из ${GITHUB_REF_NAME}, коммит ${GITHUB_SHA}."
