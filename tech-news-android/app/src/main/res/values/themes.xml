@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.TechPulse" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+    <color name="bg">#FF101418</color>
+    <color name="icon_bg">#FF0E1A2B</color>
+</resources>
