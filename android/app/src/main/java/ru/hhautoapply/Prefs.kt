@@ -29,6 +29,15 @@ object Prefs {
             Field("habr_daily_limit", "Откликов на Хабре в сутки", FieldType.NUMBER, "60"),
             Field("habr_daily_auto", "Запускать агента Хабра в ежедневном автозапуске", FieldType.BOOL, "false"),
         )),
+        Section("ODS → рассылка HR в Telegram", listOf(
+            Field("ods_tg_template", "Текст сообщения HR ({title} — вакансия, {url} — ссылка, {company}, {name} — ваше имя)", FieldType.MULTILINE,
+                "Добрый день! Пишу по поводу вакансии «{title}»: {url}\nПрошу рассмотреть мою кандидатуру. Резюме на русском и английском — во вложении.\n\n{name}"),
+            Field("limit_ods_tg", "Сообщений за одну рассылку", FieldType.NUMBER, "15"),
+            Field("ods_tg_daily_limit", "Сообщений в сутки (Telegram банит за массовые сообщения незнакомым)", FieldType.NUMBER, "25"),
+            Field("ods_tg_delay_min", "Пауза между сообщениями: от, сек", FieldType.NUMBER, "45"),
+            Field("ods_tg_delay_max", "Пауза между сообщениями: до, сек", FieldType.NUMBER, "120"),
+            Field("ods_tg_confirm", "Спрашивать подтверждение перед каждым сообщением", FieldType.BOOL, "false"),
+        )),
         Section("LinkedIn-агент", listOf(
             Field("linkedin_queries", "Запросы для LinkedIn — по одному на строку", FieldType.MULTILINE, default = listOf(
                 "data scientist", "machine learning engineer", "ml engineer", "ai engineer", "nlp engineer",

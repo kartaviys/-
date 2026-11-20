@@ -226,6 +226,75 @@ window.__ag = (function () {
       own.scrollIntoView({ block: 'center' }); own.click(); return 'ok';
     },
 
+    // ---------- Telegram Web (web.telegram.org/k) — сообщения HR из ODS ----------
+    // 'login' — нужен вход; 'chat' — чат открыт, есть поле ввода; 'blocked' — писать нельзя; 'loading'
+    tgState() {
+      const t = clean(document.body ? document.body.innerText : '').slice(0, 3000);
+      if (document.querySelector('#auth-pages, .page-sign, .page-signQR, .page-signImport') &&
+          [...document.querySelectorAll('#auth-pages, .page-sign, .page-signQR')].some(vis)) return 'login';
+      if (/log in to telegram|вход в telegram|войти в telegram|scan.*qr|отсканируйте/i.test(t) && !document.querySelector('.chat-input')) return 'login';
+      const input = [...document.querySelectorAll('.chat-input .input-message-input[contenteditable="true"], .input-message-input[contenteditable="true"]')].find(vis);
+      if (input) return 'chat';
+      if (/username not found|пользователь не найден|you can't|вы не можете|blocked|заблокирован/i.test(t)) return 'blocked';
+      return 'loading';
+    },
+    _tgInsert(el, text) {
+      el.focus();
+      const lines = text.split('\n');
+      lines.forEach((line, i) => {
+        if (i > 0) document.execCommand('insertLineBreak') || document.execCommand('insertParagraph');
+        if (line) document.execCommand('insertText', false, line);
+      });
+      if (!clean(el.innerText)) { el.innerText = text; el.dispatchEvent(new Event('input', { bubbles: true })); }
+    },
+    // Скрепка → «Документ/Файл» (откроется выбор файла — приложение подставит резюме)
+    tgAttach() {
+      const btn = [...document.querySelectorAll('.attach-file, button.btn-icon.attach-file, .chat-input [class*="attach"]')].find(vis);
+      if (!btn) return 'missing';
+      btn.click();
+      return 'ok';
+    },
+    tgPickDocument() {
+      const items = [...document.querySelectorAll('.btn-menu-item, .MenuItem, [role="menuitem"]')].filter(vis);
+      const doc = items.find(x => /document|file|документ|файл/i.test(clean(x.innerText)));
+      if (!doc) return 'missing';
+      doc.click();
+      return 'ok';
+    },
+    // Окно отправки файлов: подпись + «Отправить»
+    tgPopupReady() {
+      const pop = [...document.querySelectorAll('.popup-new-media, .popup-send-photo, .popup')].find(vis);
+      return pop && pop.querySelector('.input-message-input, [contenteditable="true"]') ? 'true' : 'false';
+    },
+    tgPopupSend(text) {
+      const pop = [...document.querySelectorAll('.popup-new-media, .popup-send-photo, .popup')].find(vis);
+      if (!pop) return 'missing';
+      const cap = [...pop.querySelectorAll('.input-message-input[contenteditable="true"], [contenteditable="true"]')].find(vis);
+      if (cap && text) this._tgInsert(cap, text);
+      const send = [...pop.querySelectorAll('button')].find(b => vis(b) && /send|отправить/i.test(clean(b.innerText))) || pop.querySelector('.btn-primary');
+      if (!send) return 'nosend';
+      setTimeout(() => send.click(), 400);
+      return 'ok';
+    },
+    // Просто текст в чат и «Отправить»
+    tgSendText(text) {
+      const input = [...document.querySelectorAll('.chat-input .input-message-input[contenteditable="true"], .input-message-input[contenteditable="true"]')].find(vis);
+      if (!input) return 'missing';
+      this._tgInsert(input, text);
+      setTimeout(() => {
+        const send = [...document.querySelectorAll('.btn-send, button.send, .chat-input button[class*="send"]')].find(vis);
+        if (send) send.click();
+        else input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true }));
+      }, 400);
+      return 'ok';
+    },
+    // Последние исходящие сообщения содержат marker (ссылку на вакансию)?
+    tgSent(marker) {
+      const out = [...document.querySelectorAll('.bubble.is-out, .message.is-out, .Message.own')].slice(-6);
+      return out.some(b => (b.innerText || '').includes(marker)) ? 'true' : 'false';
+    },
+    tgWasMessaged(marker) { return (document.body ? document.body.innerText : '').includes(marker) ? 'true' : 'false'; },
+
     // ---------- LinkedIn ----------
     // Вакансии на странице поиска: ссылки /jobs/view/<id> и карточки с data-job-id
     liLinks() {

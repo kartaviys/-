@@ -52,6 +52,9 @@ object AgentEngine {
 
     // ---------- браузер ----------
     @SuppressLint("SetJavaScriptEnabled")
+    /** true — выбор файла отдаёт оба PDF резюме (рассылка в Telegram). */
+    @Volatile var attachBoth = false
+
     suspend fun ensureWeb(ctx: Context): WebView = withContext(Dispatchers.Main) {
         web ?: WebView(ctx.applicationContext).also { w ->
             w.settings.javaScriptEnabled = true
@@ -67,6 +70,20 @@ object AgentEngine {
             w.webChromeClient = object : WebChromeClient() {
                 override fun onShowFileChooser(view: WebView, callback: ValueCallback<Array<Uri>>, params: FileChooserParams): Boolean {
                     val app = view.context.applicationContext
+                    // Рассылка HR в Telegram: оба резюме (русское и английское) одним выбором
+                    if (attachBoth) {
+                        // копии с понятными именами — так их и увидит HR: «Имя — резюме RU.pdf», «Name — CV EN.pdf»
+                        val dir = File(app.filesDir, "tg").apply { mkdirs() }
+                        val who = Prefs.get(app, "name").replace(Regex("[\\\\/:*?\"<>|]"), "").trim()
+                        val files = listOf("ru", "en").mapNotNull { lang ->
+                            val src = File(app.filesDir, "resume_$lang.pdf").takeIf { it.exists() } ?: return@mapNotNull null
+                            val nice = (if (who.isNotBlank()) "$who — " else "") + if (lang == "ru") "резюме RU.pdf" else "CV EN.pdf"
+                            File(dir, nice).also { src.copyTo(it, overwrite = true) }
+                        }
+                        val pick = if (params.mode == FileChooserParams.MODE_OPEN_MULTIPLE) files else files.take(1)
+                        callback.onReceiveValue(pick.map { FileProvider.getUriForFile(app, "${app.packageName}.files", it) }.toTypedArray().takeIf { it.isNotEmpty() })
+                        return true
+                    }
                     val file = listOf(File(app.filesDir, "resume_$resumeLang.pdf"), File(app.filesDir, "resume_ru.pdf")).firstOrNull { it.exists() }
                     callback.onReceiveValue(file?.let { arrayOf(FileProvider.getUriForFile(app, "${app.packageName}.files", it)) })
                     return true
@@ -160,7 +177,7 @@ object AgentEngine {
     }
 
     private fun needConfirm(ctx: Context, sourceKey: String) =
-        if (sourceKey == "linkedin") Prefs.bool(ctx, "linkedin_confirm") else Prefs.bool(ctx, "agent_confirm")
+        when (sourceKey) { "linkedin" -> Prefs.bool(ctx, "linkedin_confirm"); "ods_tg" -> Prefs.bool(ctx, "ods_tg_confirm"); else -> Prefs.bool(ctx, "agent_confirm") }
 
     private suspend fun letterFor(ctx: Context, llm: Llm, title: String, employer: String, description: String, lang: String): String =
         withContext(Dispatchers.IO) {
@@ -197,7 +214,7 @@ object AgentEngine {
      */
     suspend fun run(ctx: Context, single: Boolean, source: String = "", target: String = "hh"): String {
         if (running.value) {
-            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "hh" -> "hh"; else -> Sites.byKey(this.target.value)?.name ?: "hh" }
+            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "ods_tg" -> "ODS → Telegram"; "hh" -> "hh"; else -> Sites.byKey(this.target.value)?.name ?: "hh" }
             val msg = "Уже работает агент $name — сначала остановите его"
             RunLog.add(ctx, msg)
             return msg
@@ -215,6 +232,7 @@ object AgentEngine {
                 single -> runSingle(ctx, a, llm, source)
                 target == "linkedin" -> try { a.desktopMode(true); runLinkedIn(ctx, a, llm) } finally { a.desktopMode(false) }
                 target == "habr" -> runHabr(ctx, a, llm)
+                target == "ods_tg" -> runOdsTelegram(ctx, a)
                 Sites.byKey(target) != null -> runSite(ctx, a, llm, Sites.byKey(target)!!)
                 else -> runSession(ctx, a, llm)
             }
@@ -318,6 +336,73 @@ object AgentEngine {
         val summary = "Агент ${def.name} закончил: откликов $done."
         RunLog.add(ctx, summary)
         status.value = "$summary Подробности — в «Журнале»."
+        return summary
+    }
+
+    /**
+     * Рассылка HR из ODS через Telegram Web (как человек в браузере, не через API — бот не может начинать диалоги).
+     * Берёт сохранённые вакансии ODS с найденным Telegram HR, открывает чат с @ником, прикладывает оба резюме
+     * и отправляет сообщение по шаблону. Каждому — один раз; между сообщениями пауза, чтобы Telegram не счёл спамом.
+     */
+    private suspend fun runOdsTelegram(ctx: Context, a: BrowserAgent): String {
+        val db = Db(ctx)
+        val limit = Prefs.int(ctx, "limit_ods_tg").coerceAtLeast(1)
+        val dailyCap = Prefs.int(ctx, "ods_tg_daily_limit").coerceAtLeast(1)
+        val template = Prefs.get(ctx, "ods_tg_template")
+        val name = Prefs.get(ctx, "name")
+        val hasFiles = listOf("ru", "en").any { java.io.File(ctx.filesDir, "resume_$it.pdf").exists() }
+        val todo = db.list("status = 'saved' AND channel = 'ods' AND form_url LIKE 'https://t.me/%'")
+            .filter { db.errorOf(it.vacancyId) == "контакты: найдены" }
+        RunLog.add(ctx, "Рассылка HR (ODS → Telegram): к отправке ${todo.size}, лимит $limit (в сутки $dailyCap)" +
+            if (!hasFiles) " — ⚠️ PDF резюме не загружены (Настройки → Резюме), отправлю без вложений" else "")
+        if (todo.isEmpty()) {
+            status.value = "Нет HR с Telegram для рассылки. Сначала «Обновить вакансии ODS» и «📇 Найти контакты HR»."
+            return "Нет HR для рассылки"
+        }
+        if (!a.tgEnsureLogin()) { status.value = "Telegram: вход не выполнен"; return "Telegram: вход не выполнен" }
+        val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(java.util.Date())
+        fun sentToday() = db.list("channel = 'ods'").count { db.errorOf(it.vacancyId) == "контакты: написали HR $today" }
+        var done = 0
+        try {
+            attachBoth = true
+            for (v in todo) {
+                coroutineContext.ensureActive()
+                if (done >= limit) break
+                if (sentToday() >= dailyCap) { RunLog.add(ctx, "Telegram: дневной лимит ($dailyCap) достигнут"); break }
+                val handle = v.formUrl.removePrefix("https://t.me/").substringBefore("?").trim('/')
+                if (handle.isBlank()) continue
+                val text = template.replace("{title}", v.title).replace("{url}", v.url).replace("{company}", v.employer)
+                    .replace("{name}", name).trim()
+                Timing.begin(ctx, "ods_tg")
+                status.value = "Telegram: пишу @$handle — «${v.title}» ($done из $limit)"
+                if (needConfirm(ctx, "ods_tg") && !ask(ctx, Prompt.Confirm("Отправить @$handle сообщение по вакансии «${v.title}»?"),
+                        "Отправить @$handle сообщение по вакансии «${v.title}»?")) { Timing.end(ctx, false); continue }
+                val r = a.tgSend(handle, text, hasFiles, v.url)
+                val note = when (r) {
+                    BrowserAgent.TgResult.SENT, BrowserAgent.TgResult.ALREADY -> "контакты: написали HR $today"
+                    BrowserAgent.TgResult.BLOCKED -> "контакты: Telegram — писать нельзя"
+                    BrowserAgent.TgResult.NO_LOGIN -> { RunLog.add(ctx, "Telegram: слетел вход — стоп"); Timing.end(ctx, false); break }
+                    BrowserAgent.TgResult.FAILED -> "контакты: Telegram — не отправлено"
+                }
+                db.updateDetails(v.vacancyId, v.letter, v.formUrl, note)
+                val ms = Timing.end(ctx, r == BrowserAgent.TgResult.SENT)
+                RunLog.add(ctx, "• [ODS → Telegram] @$handle — ${v.title} → " + when (r) {
+                    BrowserAgent.TgResult.SENT -> "✅ отправлено"; BrowserAgent.TgResult.ALREADY -> "уже писали раньше"
+                    BrowserAgent.TgResult.BLOCKED -> "писать нельзя (нет ника / закрыты сообщения)"; else -> "❌ не отправлено"
+                } + " (${Timing.dur(ms)})")
+                if (r == BrowserAgent.TgResult.SENT) {
+                    done++
+                    // пауза побольше: Telegram ограничивает сообщения незнакомым людям
+                    val lo = maxOf(30, Prefs.int(ctx, "ods_tg_delay_min")); val hi = maxOf(lo, Prefs.int(ctx, "ods_tg_delay_max"))
+                    val sec = (lo..hi).random()
+                    status.value = "Пауза $sec с перед следующим сообщением…"
+                    delay(sec * 1000L)
+                }
+            }
+        } finally { attachBoth = false }
+        val summary = "Рассылка HR в Telegram закончена: отправлено $done."
+        RunLog.add(ctx, summary)
+        status.value = "$summary Подробности — в «📌 Сохранённые» и в логе."
         return summary
     }
 

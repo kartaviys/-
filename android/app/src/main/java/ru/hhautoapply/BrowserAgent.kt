@@ -477,6 +477,58 @@ class BrowserAgent(
         }
     }
 
+    // ---------- Telegram Web: сообщение HR ----------
+    enum class TgResult { SENT, ALREADY, NO_LOGIN, BLOCKED, FAILED }
+
+    /** Вход в Telegram Web (web.telegram.org/k). Нет входа — просим человека войти в окне агента. */
+    suspend fun tgEnsureLogin(): Boolean {
+        load("https://web.telegram.org/k/")
+        repeat(10) { if (call("window.__ag.tgState()") != "loading") return@repeat; delay(1500) }
+        if (call("window.__ag.tgState()") != "login") return true
+        if (!human("Войдите в Telegram Web в этом окне (по номеру телефона — код придёт в приложение Telegram), затем нажмите «Готово»")) return false
+        return call("window.__ag.tgState()") != "login"
+    }
+
+    /**
+     * Открыть чат с @handle и отправить text; withFiles — приложить резюме (скрепка → «Документ»).
+     * marker — уникальная строка из текста (ссылка на вакансию): по ней проверяем, что сообщение ушло и что раньше не писали.
+     */
+    suspend fun tgSend(handle: String, text: String, withFiles: Boolean, marker: String): TgResult {
+        status("Telegram: открываю чат @$handle")
+        val onTg = currentUrl().startsWith("https://web.telegram.org/")
+        if (onTg) { rawJs("location.hash = ${q("@$handle")}"); delay(2500) } else load("https://web.telegram.org/k/#@$handle")
+        var state = "loading"
+        for (i in 0 until 12) { state = call("window.__ag.tgState()"); if (state != "loading") break; delay(1500) }
+        when (state) {
+            "login" -> return TgResult.NO_LOGIN
+            "blocked" -> return TgResult.BLOCKED
+            "loading" -> return TgResult.FAILED // чат не открылся (нет такого ника / писать нельзя)
+        }
+        delay(1500) // история чата догружается
+        if (call("window.__ag.tgWasMessaged(${q(marker)})") == "true") return TgResult.ALREADY
+        if (withFiles) {
+            status("Telegram: прикрепляю резюме для @$handle")
+            if (call("window.__ag.tgAttach()") == "ok") {
+                delay(1200)
+                call("window.__ag.tgPickDocument()")
+                var ready = false
+                for (i in 0 until 10) { delay(1000); if (call("window.__ag.tgPopupReady()") == "true") { ready = true; break } }
+                if (ready) {
+                    call("window.__ag.tgPopupSend(${q(text)})")
+                    for (i in 0 until 15) { delay(1500); if (call("window.__ag.tgSent(${q(marker)})") == "true") return TgResult.SENT }
+                    return TgResult.FAILED
+                }
+                RunLog.add(ctx, "  Telegram: окно с файлами не открылось — отправляю текст без вложений")
+                rawJs("document.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}))")
+                delay(800)
+            } else RunLog.add(ctx, "  Telegram: кнопка-скрепка не найдена — отправляю текст без вложений")
+        }
+        status("Telegram: отправляю сообщение @$handle")
+        if (call("window.__ag.tgSendText(${q(text)})") != "ok") return TgResult.FAILED
+        for (i in 0 until 8) { delay(1500); if (call("window.__ag.tgSent(${q(marker)})") == "true") return TgResult.SENT }
+        return TgResult.FAILED
+    }
+
     // ---------- Общий агент сайтов ----------
     data class SiteLink(val id: String, val url: String, val title: String, val applied: Boolean)
 

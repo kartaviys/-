@@ -47,9 +47,10 @@ class AgentActivity : ComponentActivity() {
     private val target get() = intent.getStringExtra(EXTRA_TARGET) ?: "hh"
     private val site get() = Sites.byKey(target)
     private val limitKey get() = when (target) { "linkedin" -> "linkedin_limit"; "habr" -> "habr_limit"; "hh" -> "agent_limit"; else -> "limit_$target" }
-    private val queriesKey get() = when (target) { "linkedin" -> "linkedin_queries"; "habr" -> "habr_queries"; "hh" -> "queries"; else -> "q_$target" }
+    private val queriesKey get() = when (target) { "linkedin" -> "linkedin_queries"; "habr" -> "habr_queries"; "hh" -> "queries"; "ods_tg" -> "ods_tg_template"; else -> "q_$target" }
+    private val isTg get() = target == "ods_tg"
     private val agentName get() = agentTitle(target)
-    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "hh", "", "single" -> "hh"; else -> Sites.byKey(t)?.name ?: t }
+    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "ods_tg" -> "ODS → Telegram"; "hh", "", "single" -> "hh"; else -> Sites.byKey(t)?.name ?: t }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,7 @@ class AgentActivity : ComponentActivity() {
         }
         queriesField = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
-            minLines = 3; maxLines = 6
+            minLines = 3; maxLines = if (target == "ods_tg") 8 else 6
             setText(site?.let { Sites.queries(this@AgentActivity, it).joinToString("\n") } ?: Prefs.get(this@AgentActivity, queriesKey))
             textSize = 14f
         }
@@ -97,6 +98,10 @@ class AgentActivity : ComponentActivity() {
             val s0 = site
             if (s0 != null && s0.noQuery) {
                 queriesBox.addView(label("Сайт компании: поиск по запросу там не работает — агент берёт всю ленту вакансий и сам отбирает подходящие (фильтр названий + проверка нейросетью).", 12f))
+            } else if (isTg) {
+                queriesBox.addView(label("Сообщение HR. Подставится: {title} — вакансия, {url} — ссылка, {company}, {name} — ваше имя. " +
+                    "Оба PDF резюме (русское и английское) прикладываются автоматически. Нужен вход в Telegram Web — агент попросит.", 12f))
+                queriesBox.addView(queriesField)
             } else {
                 queriesBox.addView(label("Что искать на $agentName — по одной вакансии на строку (ищется по названию):", 12f))
                 queriesBox.addView(queriesField)
@@ -105,7 +110,7 @@ class AgentActivity : ComponentActivity() {
             if (s0 != null && s0.note.isNotBlank()) queriesBox.addView(label("ℹ️ ${s0.note}", 11f))
             queriesBox.addView(LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
-                addView(label("Лимит откликов за сессию:", 13f))
+                addView(label(if (isTg) "Сообщений за рассылку:" else "Лимит откликов за сессию:", 13f))
                 addView(limitField, LinearLayout.LayoutParams(dp(90), LinearLayout.LayoutParams.WRAP_CONTENT))
             })
             val toggleQueries = button("✏️ Что искать и лимит (скрыть)") {}
@@ -189,6 +194,7 @@ class AgentActivity : ComponentActivity() {
         if (single || !::queriesField.isInitialized) return
         limitField.text.toString().trim().toIntOrNull()?.let { Prefs.set(this, limitKey, it.toString()) }
         if (site?.noQuery == true) return
+        if (isTg) { queriesField.text.toString().trim().takeIf { it.isNotEmpty() }?.let { Prefs.set(this, queriesKey, it) }; return } // шаблон — как есть, с пустыми строками
         val q = queriesField.text.toString().lines().map { it.trim() }.filter { it.isNotEmpty() }
         if (q.isNotEmpty()) Prefs.set(this, queriesKey, q.joinToString("\n"))
     }

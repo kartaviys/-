@@ -151,6 +151,7 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
             "linkedin_agent" to "LinkedIn (агент)",
             "habr_agent" to "Хабр Карьера (агент)",
             "ods" to "ODS #jobs",
+            "ods_tg" to "ODS → Telegram (рассылка HR)",
         )
     }
 }

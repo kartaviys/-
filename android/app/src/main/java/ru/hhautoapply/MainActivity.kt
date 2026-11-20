@@ -87,6 +87,11 @@ class MainActivity : ComponentActivity() {
             button("Войти на ODS") { openLogin("https://ods.ai/", "ODS (кнопка «Войти» вверху)") },
             button("📇 Найти контакты HR") { enrichOds() },
         ))
+        // Рассылка HR — отдельной кнопкой, сама не запускается
+        box.addView(row(
+            button("Войти в Telegram") { openLogin("https://web.telegram.org/k/", "Telegram Web (вход по номеру, код придёт в Telegram)") },
+            button("✉️ Рассылка HR в Telegram") { openAgent("ods_tg") },
+        ))
 
         // ---------- 5. LinkedIn ----------
         box.addView(header("5. LinkedIn"))
@@ -237,7 +242,15 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             val apps = withContext(Dispatchers.IO) { Db(this@MainActivity).list("status = 'saved'") }
             if (apps.isEmpty()) { toast("Сохранённых вакансий пока нет — нажмите «Обновить вакансии ODS»"); return@launch }
-            val names = apps.map { (if (it.letter.startsWith("📇")) "📇 " else "") + "${it.title}\n${it.employer}" }.toTypedArray()
+            val notes = withContext(Dispatchers.IO) { Db(this@MainActivity).let { db -> apps.associate { it.vacancyId to db.errorOf(it.vacancyId) } } }
+            val names = apps.map {
+                val mark = when {
+                    notes[it.vacancyId].orEmpty().startsWith("контакты: написали HR") -> "✉️ "
+                    it.letter.startsWith("📇") -> "📇 "
+                    else -> ""
+                }
+                mark + "${it.title}\n${it.employer}"
+            }.toTypedArray()
             pick("Сохранённые вакансии ODS (${apps.size})", names) { i -> showApplication(apps[i]) }
         }
     }
