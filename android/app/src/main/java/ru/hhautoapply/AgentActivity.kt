@@ -68,8 +68,10 @@ class AgentActivity : ComponentActivity() {
     private fun buildUi() {
         title = if (single) "Агент: одна вакансия" else "Агент $agentName"
 
-        info = label("", 13f).apply { setPadding(dp(8), dp(4), dp(8), dp(2)) }
-        promptView = label("", 14f).apply { setPadding(dp(8), dp(2), dp(8), dp(2)) }
+        // Текст сверху сворачивается по нажатию: свёрнуто — 2 строки, чтобы окно сайта было видно
+        info = label("", 13f).apply { setPadding(dp(8), dp(4), dp(8), dp(2)); setOnClickListener { toggleText() } }
+        promptView = label("", 14f).apply { setPadding(dp(8), dp(2), dp(8), dp(2)); setOnClickListener { toggleText() } }
+        applyCollapse()
         limitField = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_NUMBER
             setText(site?.let { Sites.limit(this@AgentActivity, it).toString() } ?: Prefs.get(this@AgentActivity, limitKey))
@@ -222,13 +224,25 @@ class AgentActivity : ComponentActivity() {
         info.text = "Запускаю агента $agentName…"
     }
 
+    private var textCollapsed = true
+
+    private fun applyCollapse() {
+        for (v in listOf(info, promptView)) {
+            v.maxLines = if (textCollapsed) 2 else Int.MAX_VALUE
+            v.ellipsize = if (textCollapsed) android.text.TextUtils.TruncateAt.END else null
+        }
+    }
+
+    private fun toggleText() { textCollapsed = !textCollapsed; applyCollapse() }
+
     private fun showPrompt(p: AgentEngine.Prompt?) {
         confirmDialog?.dismiss(); confirmDialog = null
         when (p) {
             null -> { promptView.text = ""; doneBtn.isEnabled = false; skipBtn.isEnabled = false }
             is AgentEngine.Prompt.Human -> {
                 collapseQueries()
-                promptView.text = "✋ ${p.reason}\nСделайте это в окне ниже и нажмите «Готово» (или «Пропустить»)."
+                // коротко: что сделать — первой строкой; подробности — по нажатию (▾)
+                promptView.text = "✋ Нужна помощь — сделайте это в окне ниже и нажмите «Готово» (или «Пропустить»). ▾ подробнее\n${p.reason}"
                 doneBtn.isEnabled = true; skipBtn.isEnabled = true
             }
             is AgentEngine.Prompt.Confirm -> {

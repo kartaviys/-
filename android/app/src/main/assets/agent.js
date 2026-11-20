@@ -77,12 +77,14 @@ window.__ag = (function () {
     // Капча / антибот-проверка: '' если нет, иначе 'auto' (проходит сама, напр. Cloudflare) или 'human'
     blocker() {
       const frames = [...document.querySelectorAll('iframe')].map(f => (f.src || '') + ' ' + (f.title || '')).join(' ').toLowerCase();
-      const body = (document.body ? document.body.innerText : '').toLowerCase().slice(0, 4000);
+      const full = (document.body ? document.body.innerText : '').toLowerCase();
+      // всплывающее окно капчи (hh — нижняя шторка) часто в конце страницы — смотрим начало и конец текста
+      const body = full.length > 8000 ? full.slice(0, 4000) + ' ' + full.slice(-4000) : full;
       const title = (document.title || '').toLowerCase();
       if (/checking your browser|проверка браузера|just a moment\.\.\.|checking if the site connection is secure/.test(title + ' ' + body.slice(0, 300))) return 'auto';
       const captchaEl = document.querySelector('.g-recaptcha, .h-captcha, .smart-captcha, [class*="captcha" i], [id*="captcha" i], input[name*="captcha" i], .cf-turnstile');
       const captchaFrame = /recaptcha|hcaptcha|smartcaptcha|captcha|turnstile|challenges\.cloudflare/.test(frames);
-      const captchaText = /не робот|подтвердите, что вы человек|i'm not a robot|i am not a robot|verify you are human|введите символы с картинки|enter the characters/.test(body);
+      const captchaText = /не робот|подтвердите, что вы человек|i'm not a robot|i am not a robot|verify you are human|введите символы с картинки|введите текст с картинки|пройдите капчу|текст с картинки|enter the characters|solve the captcha/.test(body);
       return (captchaEl && vis(captchaEl)) || captchaFrame || captchaText ? 'human' : '';
     },
 
