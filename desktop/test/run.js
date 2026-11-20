@@ -87,6 +87,7 @@ const siteServer = http.createServer((req, res) => {
   assert.ok(a['testsite:101'].letter.includes('Тестовое письмо'), 'письмо сохранено');
   console.log('✓ агент сайта: откликнулся на 2 подходящие, Data Engineer и Junior отсеяны, повтор пропущен');
   console.log('  журнал:', Object.values(a).map(x => `${x.id}=${x.status}`).join(', '));
+  console.log("  по дням:", JSON.stringify(store.daily(1)));
   console.log('  расходы:', JSON.stringify(store.dayTotal()));
   await agent.ctx.close(); llmServer.close(); siteServer.close();
   console.log('ВСЕ ТЕСТЫ ПРОШЛИ');

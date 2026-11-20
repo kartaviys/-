@@ -353,17 +353,27 @@ class MainActivity : ComponentActivity() {
     }
 
     /** Журнал по дням: сколько откликов отправил каждый агент и сколько раз просил помощи (капча, вход…). */
-    private fun showDaily() {
+    private fun showDaily(day: String? = null) {
         lifecycleScope.launch {
-            val text = withContext(Dispatchers.IO) { Timing.dailyReport(this@MainActivity) }
-            AlertDialog.Builder(this@MainActivity).setTitle("📊 Статистика по дням (30 дней)").setMessage(text)
-                .setPositiveButton("Закрыть", null)
+            val text = withContext(Dispatchers.IO) { if (day == null) Timing.dailyReport(this@MainActivity) else Timing.dayReport(this@MainActivity, day) }
+            AlertDialog.Builder(this@MainActivity).setTitle(if (day == null) "📊 Статистика по дням (30 дней)" else "📊 Статистика за $day").setMessage(text)
+                .setPositiveButton("📅 Выбрать день") { _, _ -> pickStatsDay() }
                 .setNeutralButton("Копировать") { _, _ ->
                     getSystemService(android.content.ClipboardManager::class.java)
                         .setPrimaryClip(android.content.ClipData.newPlainText("stats", text))
                     toast("Скопировано")
-                }.show()
+                }
+                .setNegativeButton("Закрыть", null).show()
         }
+    }
+
+    /** Календарь: выбрать день и посмотреть, сколько найдено, отсеяно, релевантных и откликов. */
+    private fun pickStatsDay() {
+        val c = java.util.Calendar.getInstance()
+        android.app.DatePickerDialog(this, { _, y, m, d ->
+            showDaily(String.format(java.util.Locale.US, "%04d-%02d-%02d", y, m + 1, d))
+        }, c.get(java.util.Calendar.YEAR), c.get(java.util.Calendar.MONTH), c.get(java.util.Calendar.DAY_OF_MONTH))
+            .apply { datePicker.maxDate = System.currentTimeMillis() }.show()
     }
 
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_LONG).show()

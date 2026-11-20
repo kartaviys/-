@@ -205,6 +205,7 @@ class Agent extends EventEmitter {
   async fits(id, title, employer, url, desc, channel) {
     this.setStatus(`Проверяю, подходит ли «${title}»…`);
     const r = await assess(this.llm, this.store, title, desc);
+    this.store.addFunnel(channel, r.fit ? 'relevant' : 'llmRej');
     if (!r.fit) { this.store.record(id, { title, employer, url, status: 'skipped', channel, error: 'не подходит: ' + r.reason }); this.log(`  ✗ ${title} — не подходит: ${r.reason}`); }
     return r.fit;
   }
@@ -285,6 +286,7 @@ class Agent extends EventEmitter {
         cands.filter(c => c.applied).forEach(c => this.store.markAppliedElsewhere(c.dbId, c.title, c.url, channel));
         const fresh = cands.filter(c => !c.applied && !handled.has(c.dbId) && !this.store.seen(c.dbId) &&
           (!c.title || T.titleOk(c.title, c.useInclude === false ? [] : include, exclude)));
+        this.store.listing(channel, cands.filter(c => !c.applied && !this.store.seen(c.dbId)).map(c => [c.dbId, fresh.includes(c)]));
         this.log(`${def.name} ${s.label}, стр. ${s.page + 1}: вакансий ${items.length}, новых подходящих ${fresh.length}`);
         s.buf.push(...fresh);
         s.page++;

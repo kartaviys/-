@@ -175,6 +175,7 @@ object AgentEngine {
         status.value = "Проверяю, подходит ли «$title»…"
         val resume = Prefs.get(ctx, "ru_resume_text").ifBlank { Prefs.get(ctx, "en_resume_text") }
         val (ok, reason) = withContext(Dispatchers.IO) { Letters.assess(llm, title, desc, Prefs.get(ctx, "target_roles"), resume) }
+        Timing.assessed(ctx, channel, ok)
         if (!ok) {
             db.record(id, title, company, url, url, "", "skipped", channel, error = "не подходит: $reason")
             RunLog.add(ctx, "  ✗ $title — не подходит: $reason")
@@ -283,6 +284,7 @@ object AgentEngine {
                     !it.applied && !db.seen("${def.key}:${it.id}") &&
                         (it.title.isBlank() || Text.titleOk(it.title, include, exclude))
                 }
+                Timing.listing(ctx, def.key, links.filter { !it.applied && !db.seen("${def.key}:${it.id}") }.map { it.id to (it in fresh) })
                 RunLog.add(ctx, "${def.name} ${if (query.isBlank()) "лента" else "«$query»"}, стр. ${page + 1}: вакансий ${links.size}, новых подходящих ${fresh.size}")
                 for (v in fresh) {
                     coroutineContext.ensureActive()
@@ -350,6 +352,7 @@ object AgentEngine {
                     !it.junior && (titleMatches(it.title, query) || Text.titleOk(it.title, include, emptyList())) &&
                         Text.titleOk(it.title, emptyList(), exclude) && !db.seen("habr:${it.id}")
                 }
+                Timing.listing(ctx, "habr_agent", list.filter { !db.seen("habr:${it.id}") }.map { it.id to (it in fresh) })
                 RunLog.add(ctx, "Хабр «$query», стр. ${page + 1}/$totalPages: вакансий ${list.size}, новых подходящих ${fresh.size}")
                 for (v in fresh) {
                     coroutineContext.ensureActive()
@@ -404,6 +407,7 @@ object AgentEngine {
         suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, requireEasy: Boolean) {
             list.filter { it.applied }.forEach { db.markAppliedElsewhere("li:${it.id}", it.title, "https://www.linkedin.com/jobs/view/${it.id}/", "linkedin_agent") }
             val fresh = list.filter { !it.applied && Text.titleOk(it.title, include, exclude) && !db.seen("li:${it.id}") }
+            Timing.listing(ctx, "linkedin_agent", list.filter { !it.applied && !db.seen("li:${it.id}") }.map { it.id to (it in fresh) })
             RunLog.add(ctx, "LinkedIn $label: вакансий ${list.size}, новых ${fresh.size}")
             for (v in fresh) {
                 coroutineContext.ensureActive()
@@ -525,6 +529,7 @@ object AgentEngine {
                         val fresh = list.filter {
                             !it.applied && it.id !in handled && Text.titleOk(it.title, if (s.useInclude) include else emptyList(), exclude) && !db.seen(it.id)
                         }
+                        Timing.listing(ctx, "hh_site", list.filter { !it.applied && !db.seen(it.id) }.map { it.id to (it in fresh) })
                         RunLog.add(ctx, "hh ${s.label}, стр. ${s.page + 1}: вакансий ${list.size}, новых подходящих ${fresh.size}")
                         s.buf.addAll(fresh)
                         s.page++

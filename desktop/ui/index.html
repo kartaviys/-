@@ -89,7 +89,10 @@
 
   <section id="tab-usage" class="hidden"><div id="usage" class="card"></div></section>
   <section id="tab-timing" class="hidden"><div id="timing"></div></section>
-  <section id="tab-daily" class="hidden"><div id="daily"></div></section>
+  <section id="tab-daily" class="hidden">
+    <div class="card">📅 День: <input type="date" id="dailyDay"> <button id="dailyAll">Последние 30 дней</button></div>
+    <div id="daily"></div>
+  </section>
 
   <section id="tab-settings" class="hidden">
     <div class="card">
@@ -229,13 +232,23 @@ async function loadTiming() {
 
 // ---------- статистика по дням ----------
 async function loadDaily() {
-  const days = await api('/api/daily');
+  const dayInput = document.getElementById('dailyDay');
+  if (!dayInput.dataset.bound) {
+    dayInput.dataset.bound = '1';
+    dayInput.max = new Date().toISOString().slice(0, 10);
+    dayInput.onchange = loadDaily;
+    document.getElementById('dailyAll').onclick = () => { dayInput.value = ''; loadDaily(); };
+  }
+  const days = await api('/api/daily' + (dayInput.value ? '?day=' + dayInput.value : ''));
   const helpText = h => [h.captcha && `капча ${h.captcha}`, h.login && `вход ${h.login}`, h.confirm && `подтверждение ${h.confirm}`, h.other && `другое ${h.other}`]
     .filter(Boolean).join(', ') + (h.missed ? ` (без ответа ${h.missed})` : '');
-  document.getElementById('daily').innerHTML = days.length ? days.map(d => `<div class="card"><b>📅 ${d.day}</b> — откликов ${d.applied}` +
-    (d.help ? `, просьб о помощи ${d.help}` : '') + d.rows.map(r => `<div class="muted">&nbsp;&nbsp;• ${esc(r.name)}: откликов ${r.applied}` +
-      (r.seen ? ` · просмотрено ${r.seen}` : '') + (r.avg ? ` · ср. ${dur(r.avg)}` : '') + (r.helpTotal ? ` · помощь: ${helpText(r.help)}` : '') + '</div>').join('') + '</div>').join('')
-    : '<div class="card muted">Пока пусто — статистика копится с этой версии (отклики берутся из журнала).</div>';
+  document.getElementById('daily').innerHTML = days.length ? days.map(d => `<div class="card"><b>📅 ${d.day}</b> — найдено ${d.found}, релевантных ${d.relevant}, откликов ${d.applied}` +
+    (d.help ? `, просьб о помощи ${d.help}` : '') + d.rows.map(r => `<div style="margin-top:6px">• ${esc(r.name)}: откликов ${r.applied}</div>` +
+      ((r.found || r.seen) ? `<div class="muted">&nbsp;&nbsp;найдено ${r.found} → отсеяно по названию ${r.titleRej} → открыто ${r.seen}</div>` +
+        `<div class="muted">&nbsp;&nbsp;релевантных ${r.relevant} · отсеяла нейросеть ${r.llmRej}` + (r.otherRej ? ` · прочие пропуски ${r.otherRej}` : '') +
+        (r.avg ? ` · ср. отклик ${dur(r.avg)}` : '') + '</div>' : '') +
+      (r.helpTotal ? `<div class="muted">&nbsp;&nbsp;помощь: ${helpText(r.help)}</div>` : '')).join('') + '</div>').join('')
+    : `<div class="card muted">${dayInput.value ? 'В этот день агенты не работали.' : 'Пока пусто — статистика копится с этой версии (отклики берутся из журнала).'}</div>`;
 }
 
 // ---------- настройки ----------

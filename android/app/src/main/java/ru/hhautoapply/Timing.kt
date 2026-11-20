@@ -19,13 +19,18 @@ object Timing {
         var all: Long = 0, var allMs: Long = 0,
         // запросы помощи у человека: капча, вход, подтверждение отправки, другое; сколько остались без ответа
         var hCaptcha: Long = 0, var hLogin: Long = 0, var hConfirm: Long = 0, var hOther: Long = 0, var hMissed: Long = 0,
+        // воронка: найдено новых в выдаче → отсеяно по названию → (открыто = all) → отсеяно нейросетью / релевантные
+        var found: Long = 0, var titleRej: Long = 0, var relevant: Long = 0, var llmRej: Long = 0,
     ) {
         fun plus(o: Row) = Row(
             applied + o.applied, appliedMs + o.appliedMs,
             listOf(minMs, o.minMs).filter { it > 0 }.minOrNull() ?: 0, maxOf(maxMs, o.maxMs), if (o.lastMs > 0) o.lastMs else lastMs,
             all + o.all, allMs + o.allMs,
             hCaptcha + o.hCaptcha, hLogin + o.hLogin, hConfirm + o.hConfirm, hOther + o.hOther, hMissed + o.hMissed,
+            found + o.found, titleRej + o.titleRej, relevant + o.relevant, llmRej + o.llmRej,
         )
+        /** Открыты, но пропущены не нейросетью: уже откликались, в архиве, computer vision, не открылась… */
+        val otherRej get() = (all - relevant - llmRej).coerceAtLeast(0)
         val help get() = hCaptcha + hLogin + hConfirm + hOther
         val avgMs get() = if (applied > 0) appliedMs / applied else 0
         val perHour get() = if (allMs > 0) applied * 3_600_000.0 / allMs else 0.0
@@ -39,7 +44,8 @@ object Timing {
         return o.keys().asSequence().associateWith { k ->
             val r = o.getJSONObject(k)
             Row(r.optLong("a"), r.optLong("am"), r.optLong("min"), r.optLong("max"), r.optLong("last"), r.optLong("n"), r.optLong("nm"),
-                r.optLong("hc"), r.optLong("hl"), r.optLong("hq"), r.optLong("ho"), r.optLong("hm"))
+                r.optLong("hc"), r.optLong("hl"), r.optLong("hq"), r.optLong("ho"), r.optLong("hm"),
+                r.optLong("f"), r.optLong("fr"), r.optLong("r"), r.optLong("lr"))
         }.toMutableMap()
     }
 
@@ -72,7 +78,8 @@ object Timing {
         val o = JSONObject()
         for ((k, v) in m) o.put(k, JSONObject().put("a", v.applied).put("am", v.appliedMs).put("min", v.minMs).put("max", v.maxMs)
             .put("last", v.lastMs).put("n", v.all).put("nm", v.allMs)
-            .put("hc", v.hCaptcha).put("hl", v.hLogin).put("hq", v.hConfirm).put("ho", v.hOther).put("hm", v.hMissed))
+            .put("hc", v.hCaptcha).put("hl", v.hLogin).put("hq", v.hConfirm).put("ho", v.hOther).put("hm", v.hMissed)
+            .put("f", v.found).put("fr", v.titleRej).put("r", v.relevant).put("lr", v.llmRej))
         sp(ctx).edit().putString("t_$d", o.toString()).apply()
     }
 
@@ -84,6 +91,27 @@ object Timing {
             r.maxMs = maxOf(r.maxMs, ms)
         }
     }
+
+    /**
+     * Выдача: новые вакансии (ещё не в журнале) с отметкой, прошли ли фильтр названия.
+     * Каждая вакансия считается один раз за день, даже если встретилась в нескольких запросах или сессиях.
+     */
+    @Synchronized
+    fun listing(ctx: Context, channel: String, items: List<Pair<String, Boolean>>) {
+        if (items.isEmpty()) return
+        val key = "ids_" + day()
+        val counted = sp(ctx).getStringSet(key, null)?.toMutableSet() ?: mutableSetOf()
+        val new = items.filter { counted.add("$channel|${it.first}") }
+        if (new.isEmpty()) return
+        // старые дни не храним
+        val e = sp(ctx).edit()
+        sp(ctx).all.keys.filter { it.startsWith("ids_") && it != key }.forEach { e.remove(it) }
+        e.putStringSet(key, counted).apply()
+        update(ctx, channel) { r -> r.found += new.size; r.titleRej += new.count { !it.second } }
+    }
+
+    /** Итог проверки нейросетью «подходит ли». */
+    fun assessed(ctx: Context, channel: String, fit: Boolean) = update(ctx, channel) { r -> if (fit) r.relevant++ else r.llmRej++ }
 
     enum class Help(val ru: String) { CAPTCHA("капча"), LOGIN("вход"), CONFIRM("подтверждение"), OTHER("другое") }
 
@@ -120,43 +148,46 @@ object Timing {
         val cal = Calendar.getInstance()
         val sb = StringBuilder()
         repeat(days) {
-            val d = day(cal.time)
+            sb.append(dayBlock(ctx, day(cal.time), applied))
             cal.add(Calendar.DAY_OF_MONTH, -1)
-            val t = read(ctx, d)
-            val a = applied[d].orEmpty()
-            val channels = (a.keys + t.keys).distinct()
-            if (channels.isEmpty()) return@repeat
-            val total = a.values.sum()
-            val help = t.values.sumOf { it.help }
-            sb.append("📅 $d — откликов $total" + (if (help > 0) ", просьб о помощи $help" else "") + "\n")
-            for (ch in channels.sortedByDescending { a[it] ?: 0 }) {
-                val r = t[ch]
-                val parts = mutableListOf("откликов ${a[ch] ?: 0}")
-                if (r != null && r.all > 0) parts += "просмотрено ${r.all}"
-                if (r != null && r.applied > 0) parts += "ср. ${dur(r.avgMs)}"
-                if (r != null && r.help > 0) {
-                    val h = listOfNotNull(
-                        r.hCaptcha.takeIf { it > 0 }?.let { "капча $it" }, r.hLogin.takeIf { it > 0 }?.let { "вход $it" },
-                        r.hConfirm.takeIf { it > 0 }?.let { "подтверждение $it" }, r.hOther.takeIf { it > 0 }?.let { "другое $it" },
-                    ).joinToString(", ")
-                    parts += "помощь: $h" + (if (r.hMissed > 0) " (без ответа ${r.hMissed})" else "")
-                }
-                sb.append("   • ${name(ch)}: ${parts.joinToString(" · ")}\n")
-            }
-            sb.append('\n')
         }
         return sb.toString().ifBlank { "Пока пусто — статистика копится с этой версии (отклики берутся из журнала)." }
     }
 
-    /** По ресурсам за последние n дней (включая сегодня). */
-    fun byChannel(ctx: Context, n: Int): Map<String, Row> {
-        val cal = Calendar.getInstance()
-        val acc = mutableMapOf<String, Row>()
-        repeat(n) {
-            for ((k, r) in read(ctx, day(cal.time))) acc[k] = acc[k]?.plus(r) ?: r
-            cal.add(Calendar.DAY_OF_MONTH, -1)
+    /** Один день (yyyy-MM-dd) — для выбора по календарю. */
+    fun dayReport(ctx: Context, d: String): String {
+        val from = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(d) ?: Date()
+        val days = ((System.currentTimeMillis() - from.time) / 86_400_000L + 2).toInt().coerceAtLeast(1)
+        return dayBlock(ctx, d, Db(ctx).appliedByDay(days)).ifBlank { "📅 $d — агенты не работали, данных нет." }
+    }
+
+    private fun dayBlock(ctx: Context, d: String, applied: Map<String, Map<String, Int>>): String {
+        val t = read(ctx, d)
+        val a = applied[d].orEmpty()
+        val channels = (a.keys + t.keys).distinct()
+        if (channels.isEmpty()) return ""
+        val sum = t.values.fold(Row()) { x, y -> x.plus(y) }
+        val sb = StringBuilder()
+        sb.append("📅 $d — найдено ${sum.found}, релевантных ${sum.relevant}, откликов ${a.values.sum()}")
+        if (sum.help > 0) sb.append(", просьб о помощи ${sum.help}")
+        sb.append("\n")
+        for (ch in channels.sortedByDescending { a[it] ?: 0 }) {
+            val r = t[ch] ?: Row()
+            sb.append("• ${name(ch)}: откликов ${a[ch] ?: 0}\n")
+            if (r.found > 0 || r.all > 0) {
+                sb.append("   найдено ${r.found} → отсеяно по названию ${r.titleRej} → открыто ${r.all}\n")
+                sb.append("   релевантных ${r.relevant} · отсеяла нейросеть ${r.llmRej}" +
+                    (if (r.otherRej > 0) " · прочие пропуски ${r.otherRej}" else "") + (if (r.applied > 0) " · ср. отклик ${dur(r.avgMs)}" else "") + "\n")
+            }
+            if (r.help > 0) {
+                val h = listOfNotNull(
+                    r.hCaptcha.takeIf { it > 0 }?.let { "капча $it" }, r.hLogin.takeIf { it > 0 }?.let { "вход $it" },
+                    r.hConfirm.takeIf { it > 0 }?.let { "подтверждение $it" }, r.hOther.takeIf { it > 0 }?.let { "другое $it" },
+                ).joinToString(", ")
+                sb.append("   помощь: $h" + (if (r.hMissed > 0) " (без ответа ${r.hMissed})" else "") + "\n")
+            }
         }
-        return acc
+        return sb.append('\n').toString()
     }
 
     fun dur(ms: Long): String {

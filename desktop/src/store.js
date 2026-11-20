@@ -162,11 +162,30 @@ class Store {
     r[k] = (r[k] || 0) + 1;
     this._save('timing.json', this.timing);
   }
+  /** Выдача: новые вакансии [id, прошла фильтр названия]; каждая считается один раз за день. */
+  listing(channel, items) {
+    const d = Store.today();
+    if (this._idsDay !== d) { this._idsDay = d; this._ids = new Set(); }
+    const fresh = items.filter(([id]) => !this._ids.has(channel + '|' + id) && this._ids.add(channel + '|' + id));
+    if (!fresh.length) return;
+    this.addFunnel(channel, 'found', fresh.length);
+    this.addFunnel(channel, 'titleRej', fresh.filter(x => !x[1]).length);
+  }
+  /** Воронка: found (найдено), titleRej (отсеяно по названию), relevant (подошли по оценке нейросети), llmRej (отсеяла нейросеть). */
+  addFunnel(channel, kind, n = 1) {
+    if (!n) return;
+    const d = Store.today();
+    const day = this.timing[d] || (this.timing[d] = {});
+    const r = day[channel] || (day[channel] = { a: 0, am: 0, min: 0, max: 0, last: 0, n: 0, nm: 0 });
+    const k = { found: 'f', titleRej: 'fr', relevant: 'r', llmRej: 'lr' }[kind];
+    r[k] = (r[k] || 0) + n;
+    this._save('timing.json', this.timing);
+  }
   /** Журнал по дням: по ресурсам — отклики (из журнала), просмотрено, среднее время, просьбы о помощи. */
-  daily(n = 30) {
+  daily(n = 30, onlyDay = null) {
     const out = [];
-    for (let i = 0; i < n; i++) {
-      const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+    for (let i = 0; i < (onlyDay ? 1 : n); i++) {
+      const d = onlyDay || new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
       const applied = {};
       for (const a of Object.values(this.apps)) {
         if (a.status === 'applied' && !['откликались ранее', 'уже откликались'].includes(a.error) && (a.created_at || '').slice(0, 10) === d)
@@ -178,10 +197,13 @@ class Store {
       const rows = channels.map(ch => {
         const r = t[ch] || {};
         const help = { captcha: r.hc || 0, login: r.hl || 0, confirm: r.hq || 0, other: r.ho || 0, missed: r.hm || 0 };
+        const relevant = r.r || 0, llmRej = r.lr || 0;
         return { channel: ch, applied: applied[ch] || 0, seen: r.n || 0, avg: r.a ? Math.round(r.am / r.a) : 0, help,
-          helpTotal: help.captcha + help.login + help.confirm + help.other };
+          helpTotal: help.captcha + help.login + help.confirm + help.other,
+          found: r.f || 0, titleRej: r.fr || 0, relevant, llmRej, otherRej: Math.max(0, (r.n || 0) - relevant - llmRej) };
       }).sort((a, b) => b.applied - a.applied);
-      out.push({ day: d, applied: rows.reduce((s, r) => s + r.applied, 0), help: rows.reduce((s, r) => s + r.helpTotal, 0), rows });
+      const sum = k => rows.reduce((s, r) => s + r[k], 0);
+      out.push({ day: d, applied: sum('applied'), help: sum('helpTotal'), found: sum('found'), relevant: sum('relevant'), rows });
     }
     return out;
   }

@@ -151,7 +151,7 @@ function createServer({ store, agent, uiDir, dataDir }) {
       }
       if (p === '/api/journal') return json(res, 200, store.list().slice(0, 3000));
       if (p === '/api/usage') return json(res, 200, store.usageDays(14));
-      if (p === '/api/daily') return json(res, 200, store.daily(30).map(d => ({ ...d, rows: d.rows.map(r => ({ ...r, name: channelName(r.channel) })) })));
+      if (p === '/api/daily') return json(res, 200, store.daily(30, /^\d{4}-\d{2}-\d{2}$/.test(url.searchParams.get('day') || '') ? url.searchParams.get('day') : null).map(d => ({ ...d, rows: d.rows.map(r => ({ ...r, name: channelName(r.channel) })) })));
       if (p === '/api/timing') {
         const named = o => Object.entries(o).map(([ch, r]) => ({ channel: ch, name: channelName(ch), ...r })).sort((a, b) => b.a - a.a);
         return json(res, 200, { today: named(store.timingStats(1)), week: named(store.timingStats(7)), month: named(store.timingStats(30)) });
