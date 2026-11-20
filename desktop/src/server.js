@@ -24,6 +24,7 @@ const SCHEMA = [
     ['target_roles', 'Какие вакансии мне подходят (нейросеть проверяет каждую)', 'text'],
     ['title_include', 'Название содержит одно из (через запятую)', 'text'], ['title_exclude', 'Исключить, если в названии', 'text'],
     ['salary_answer', 'Ответ на любой вопрос о зарплате'],
+    ['candidate_facts', 'Факты о себе для анкет (агент всегда учитывает)', 'text'],
   ]],
   ['Резюме', [
     ['ru_title', 'Название русского резюме на hh'], ['en_title', 'Название английского резюме на hh'],
@@ -61,6 +62,7 @@ const SCHEMA = [
 
 const CHANNEL_OF = { hh: 'hh_site', habr: 'habr_agent', linkedin: 'linkedin_agent' };
 function channelName(ch) {
+  if (!ch || ch === 'single') return 'Одна вакансия (вручную)';
   const key = Object.keys(CHANNEL_OF).find(k => CHANNEL_OF[k] === ch) || ch;
   return S.agentDef(key)?.name || ch;
 }
@@ -149,6 +151,7 @@ function createServer({ store, agent, uiDir, dataDir }) {
       }
       if (p === '/api/journal') return json(res, 200, store.list().slice(0, 3000));
       if (p === '/api/usage') return json(res, 200, store.usageDays(14));
+      if (p === '/api/daily') return json(res, 200, store.daily(30).map(d => ({ ...d, rows: d.rows.map(r => ({ ...r, name: channelName(r.channel) })) })));
       if (p === '/api/timing') {
         const named = o => Object.entries(o).map(([ch, r]) => ({ channel: ch, name: channelName(ch), ...r })).sort((a, b) => b.a - a.a);
         return json(res, 200, { today: named(store.timingStats(1)), week: named(store.timingStats(7)), month: named(store.timingStats(30)) });

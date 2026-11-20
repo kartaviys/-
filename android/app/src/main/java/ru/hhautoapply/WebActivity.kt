@@ -327,6 +327,7 @@ class WebActivity : ComponentActivity() {
     private fun askLlm(model: Llm, c: FormCtx, fields: JSONArray): JSONObject {
         val system = Letters.FORM_SYSTEM
             .replace("%SALARY%", Prefs.get(this, "salary_answer"))
+            .replace("%FACTS%", Prefs.get(this, "candidate_facts"))
             .replace("%RESUME%", Prefs.get(this, if (c.language == "en") "en_title" else "ru_title"))
         val user = "ПОЛЯ ФОРМЫ:\n$fields\n\nПРОФИЛЬ КАНДИДАТА:\n${Prefs.profileJson(this)}\n\n" +
             "ВАКАНСИЯ: ${c.title} — ${c.employer}\n\nСОПРОВОДИТЕЛЬНОЕ ПИСЬМО:\n${c.letter}\n\nРЕЗЮМЕ:\n${resumeText(c.language).take(6000)}"

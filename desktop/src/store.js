@@ -35,6 +35,7 @@ const DEFAULTS = {
     'Не подходят: Data Engineer и инженер данных, DWH/ETL, BI-разработчик и BI-аналитик, бизнес-, системный и продуктовый аналитик ' +
     'без ML, backend/frontend/fullstack-разработчик, DevOps/MLOps, тестировщик, компьютерное зрение (CV), junior и стажёр, руководители (lead/head/CTO).',
   salary_answer: '250000',
+  candidate_facts: 'Военный билет есть. Готов к любому формату работы: офис, гибрид, удалёнка.',
   // резюме и профиль
   ru_resume_text: '', en_resume_text: '', ru_title: '', en_title: '', en_cv_url: '',
   name: '', name_en: '', email: '', phone: '', city: 'Москва', telegram: '', linkedin: '', github: '',
@@ -151,6 +152,38 @@ class Store {
     r.n++; r.nm += ms;
     if (applied) { r.a++; r.am += ms; r.last = ms; r.min = r.min ? Math.min(r.min, ms) : ms; r.max = Math.max(r.max, ms); }
     this._save('timing.json', this.timing);
+  }
+  /** Просьба о помощи: kind = captcha | login | confirm | other | missed (без ответа 15 минут). */
+  addHelp(channel, kind) {
+    const d = Store.today();
+    const day = this.timing[d] || (this.timing[d] = {});
+    const r = day[channel] || (day[channel] = { a: 0, am: 0, min: 0, max: 0, last: 0, n: 0, nm: 0 });
+    const k = { captcha: 'hc', login: 'hl', confirm: 'hq', other: 'ho', missed: 'hm' }[kind] || 'ho';
+    r[k] = (r[k] || 0) + 1;
+    this._save('timing.json', this.timing);
+  }
+  /** Журнал по дням: по ресурсам — отклики (из журнала), просмотрено, среднее время, просьбы о помощи. */
+  daily(n = 30) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+      const applied = {};
+      for (const a of Object.values(this.apps)) {
+        if (a.status === 'applied' && !['откликались ранее', 'уже откликались'].includes(a.error) && (a.created_at || '').slice(0, 10) === d)
+          applied[a.channel] = (applied[a.channel] || 0) + 1;
+      }
+      const t = this.timing[d] || {};
+      const channels = [...new Set([...Object.keys(applied), ...Object.keys(t)])];
+      if (!channels.length) continue;
+      const rows = channels.map(ch => {
+        const r = t[ch] || {};
+        const help = { captcha: r.hc || 0, login: r.hl || 0, confirm: r.hq || 0, other: r.ho || 0, missed: r.hm || 0 };
+        return { channel: ch, applied: applied[ch] || 0, seen: r.n || 0, avg: r.a ? Math.round(r.am / r.a) : 0, help,
+          helpTotal: help.captcha + help.login + help.confirm + help.other };
+      }).sort((a, b) => b.applied - a.applied);
+      out.push({ day: d, applied: rows.reduce((s, r) => s + r.applied, 0), help: rows.reduce((s, r) => s + r.helpTotal, 0), rows });
+    }
+    return out;
   }
   timingStats(n) {
     const acc = {};

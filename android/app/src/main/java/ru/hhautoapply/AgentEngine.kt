@@ -135,11 +135,16 @@ object AgentEngine {
         val d = CompletableDeferred<Boolean>()
         answer = d
         prompt.value = p
+        // статистика: сколько раз агент просил помощи (капча, вход, подтверждение…) — по ресурсу
+        val fallback = when (target.value) { "hh" -> "hh_site"; "habr" -> "habr_agent"; "linkedin" -> "linkedin_agent"; "single" -> "single"; else -> target.value }
+        Timing.addHelp(ctx, fallback, Timing.helpKind(text, p is Prompt.Confirm))
         RunWorker.attention(ctx, text)
         RunLog.add(ctx, "  ✋ $text")
         try {
             // Ждём до 15 минут; если никто не ответил — пропускаем и идём дальше
-            return withTimeoutOrNull(15 * 60_000L) { d.await() } ?: false.also { RunLog.add(ctx, "  нет ответа 15 минут — пропуск") }
+            return withTimeoutOrNull(15 * 60_000L) { d.await() } ?: false.also {
+                RunLog.add(ctx, "  нет ответа 15 минут — пропуск"); Timing.helpMissed(ctx, fallback)
+            }
         } finally {
             // и при отмене (например, капча исчезла сама) убираем вопрос и уведомление
             if (answer === d) { prompt.value = null; answer = null }

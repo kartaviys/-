@@ -109,6 +109,7 @@ class MainActivity : ComponentActivity() {
             },
             button("⏱ Скорость") { showTiming() },
         ))
+        box.addView(button("📊 Статистика по дням") { showDaily() })
         box.addView(button("Настройки") { startActivity(Intent(this, SettingsActivity::class.java)) })
         status = label("", 13f)
         box.addView(status)
@@ -349,6 +350,20 @@ class MainActivity : ComponentActivity() {
     private fun showTiming() {
         AlertDialog.Builder(this).setTitle("⏱ Скорость откликов по ресурсам").setMessage(Timing.report(this))
             .setPositiveButton("Закрыть", null).show()
+    }
+
+    /** Журнал по дням: сколько откликов отправил каждый агент и сколько раз просил помощи (капча, вход…). */
+    private fun showDaily() {
+        lifecycleScope.launch {
+            val text = withContext(Dispatchers.IO) { Timing.dailyReport(this@MainActivity) }
+            AlertDialog.Builder(this@MainActivity).setTitle("📊 Статистика по дням (30 дней)").setMessage(text)
+                .setPositiveButton("Закрыть", null)
+                .setNeutralButton("Копировать") { _, _ ->
+                    getSystemService(android.content.ClipboardManager::class.java)
+                        .setPrimaryClip(android.content.ClipData.newPlainText("stats", text))
+                    toast("Скопировано")
+                }.show()
+        }
     }
 
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_LONG).show()

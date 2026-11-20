@@ -89,6 +89,8 @@ FORM_SYSTEM = """Ты заполняешь анкету отклика на ва
 - Отвечай только фактами из резюме и профиля. Если ответа нет в данных — дай разумный
   нейтральный ответ (для текстовых вопросов 1–3 предложения от первого лица).
 - Любой вопрос про зарплату/ожидания по доходу: ответ строго "{salary}".
+- Всегда помни о кандидате: {facts} Вопрос про военный билет / воинский учёт — «да, военный билет есть».
+  Вопрос про формат работы (офис, гибрид, удалёнка, график) — кандидат готов к любому формату.
 - Поле для сопроводительного письма/комментария к отклику: вставь сопроводительное письмо целиком.
 - Поле загрузки файла (type=file) с резюме/CV: ответ "RESUME_FILE". Другие файлы: null.
 - Выбор резюме на hh.ru (радиокнопки с названиями резюме): выбери то, чьё название ближе к "{resume_title}".
@@ -108,7 +110,8 @@ class BrowserFiller:
         self.cfg = cfg
         self.llm = llm
         self.profile = profile
-        self.salary = str(cfg.get("salary_answer", "25000"))
+        self.salary = str(cfg.get("salary_answer", "250000"))
+        self.facts = str(cfg.get("candidate_facts", "Военный билет есть. Готов к любому формату работы: офис, гибрид, удалёнка."))
         self._pw = None
         self._ctx = None
 
@@ -179,7 +182,7 @@ class BrowserFiller:
                 page.close()
 
     def _ask_llm(self, fields, vacancy, letter, resume_text, resume_title) -> dict:
-        system = FORM_SYSTEM.format(salary=self.salary, resume_title=resume_title)
+        system = FORM_SYSTEM.format(salary=self.salary, resume_title=resume_title, facts=self.facts)
         user = (
             f"ПОЛЯ ФОРМЫ:\n{json.dumps(fields, ensure_ascii=False)}\n\n"
             f"ПРОФИЛЬ КАНДИДАТА:\n{json.dumps(self.profile, ensure_ascii=False)}\n\n"

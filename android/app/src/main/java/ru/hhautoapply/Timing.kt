@@ -17,12 +17,16 @@ object Timing {
     data class Row(
         var applied: Long = 0, var appliedMs: Long = 0, var minMs: Long = 0, var maxMs: Long = 0, var lastMs: Long = 0,
         var all: Long = 0, var allMs: Long = 0,
+        // запросы помощи у человека: капча, вход, подтверждение отправки, другое; сколько остались без ответа
+        var hCaptcha: Long = 0, var hLogin: Long = 0, var hConfirm: Long = 0, var hOther: Long = 0, var hMissed: Long = 0,
     ) {
         fun plus(o: Row) = Row(
             applied + o.applied, appliedMs + o.appliedMs,
             listOf(minMs, o.minMs).filter { it > 0 }.minOrNull() ?: 0, maxOf(maxMs, o.maxMs), if (o.lastMs > 0) o.lastMs else lastMs,
             all + o.all, allMs + o.allMs,
+            hCaptcha + o.hCaptcha, hLogin + o.hLogin, hConfirm + o.hConfirm, hOther + o.hOther, hMissed + o.hMissed,
         )
+        val help get() = hCaptcha + hLogin + hConfirm + hOther
         val avgMs get() = if (applied > 0) appliedMs / applied else 0
         val perHour get() = if (allMs > 0) applied * 3_600_000.0 / allMs else 0.0
     }
@@ -34,7 +38,8 @@ object Timing {
         val o = JSONObject(sp(ctx).getString("t_$d", null) ?: "{}")
         return o.keys().asSequence().associateWith { k ->
             val r = o.getJSONObject(k)
-            Row(r.optLong("a"), r.optLong("am"), r.optLong("min"), r.optLong("max"), r.optLong("last"), r.optLong("n"), r.optLong("nm"))
+            Row(r.optLong("a"), r.optLong("am"), r.optLong("min"), r.optLong("max"), r.optLong("last"), r.optLong("n"), r.optLong("nm"),
+                r.optLong("hc"), r.optLong("hl"), r.optLong("hq"), r.optLong("ho"), r.optLong("hm"))
         }.toMutableMap()
     }
 
@@ -60,20 +65,87 @@ object Timing {
     }
 
     @Synchronized
-    fun add(ctx: Context, channel: String, ms: Long, applied: Boolean) {
+    private fun update(ctx: Context, channel: String, f: (Row) -> Unit) {
         val d = day()
         val m = read(ctx, d)
-        val r = m.getOrPut(channel) { Row() }
+        f(m.getOrPut(channel) { Row() })
+        val o = JSONObject()
+        for ((k, v) in m) o.put(k, JSONObject().put("a", v.applied).put("am", v.appliedMs).put("min", v.minMs).put("max", v.maxMs)
+            .put("last", v.lastMs).put("n", v.all).put("nm", v.allMs)
+            .put("hc", v.hCaptcha).put("hl", v.hLogin).put("hq", v.hConfirm).put("ho", v.hOther).put("hm", v.hMissed))
+        sp(ctx).edit().putString("t_$d", o.toString()).apply()
+    }
+
+    fun add(ctx: Context, channel: String, ms: Long, applied: Boolean) = update(ctx, channel) { r ->
         r.all++; r.allMs += ms
         if (applied) {
             r.applied++; r.appliedMs += ms; r.lastMs = ms
             r.minMs = if (r.minMs == 0L) ms else minOf(r.minMs, ms)
             r.maxMs = maxOf(r.maxMs, ms)
         }
-        val o = JSONObject()
-        for ((k, v) in m) o.put(k, JSONObject().put("a", v.applied).put("am", v.appliedMs).put("min", v.minMs).put("max", v.maxMs)
-            .put("last", v.lastMs).put("n", v.all).put("nm", v.allMs))
-        sp(ctx).edit().putString("t_$d", o.toString()).apply()
+    }
+
+    enum class Help(val ru: String) { CAPTCHA("капча"), LOGIN("вход"), CONFIRM("подтверждение"), OTHER("другое") }
+
+    fun helpKind(text: String, confirm: Boolean): Help = when {
+        confirm -> Help.CONFIRM
+        Regex("капч|captcha|провер\\w* браузер|робот", RegexOption.IGNORE_CASE).containsMatchIn(text) -> Help.CAPTCHA
+        Regex("войдите|вход|логин|sign in|log in", RegexOption.IGNORE_CASE).containsMatchIn(text) -> Help.LOGIN
+        else -> Help.OTHER
+    }
+
+    /** Запрос помощи у человека. channel пустой — берём ресурс текущей вакансии или запасной. */
+    @Synchronized
+    fun addHelp(ctx: Context, fallbackChannel: String, kind: Help, missed: Boolean = false) {
+        val ch = if (curStart != 0L && curChannel.isNotBlank()) curChannel else fallbackChannel
+        update(ctx, ch) { r ->
+            when (kind) { Help.CAPTCHA -> r.hCaptcha++; Help.LOGIN -> r.hLogin++; Help.CONFIRM -> r.hConfirm++; Help.OTHER -> r.hOther++ }
+            if (missed) r.hMissed++
+        }
+    }
+
+    /** Отметить, что последний запрос помощи остался без ответа (15 минут). */
+    @Synchronized
+    fun helpMissed(ctx: Context, fallbackChannel: String) {
+        val ch = if (curStart != 0L && curChannel.isNotBlank()) curChannel else fallbackChannel
+        update(ctx, ch) { it.hMissed++ }
+    }
+
+    /**
+     * Журнал по дням: по каждому агенту — сколько откликов отправлено (из журнала откликов),
+     * сколько вакансий просмотрено и сколько раз просил помощи (капча, вход, подтверждение…).
+     */
+    fun dailyReport(ctx: Context, days: Int = 30): String {
+        val applied = Db(ctx).appliedByDay(days) // день → (ресурс → откликов)
+        val cal = Calendar.getInstance()
+        val sb = StringBuilder()
+        repeat(days) {
+            val d = day(cal.time)
+            cal.add(Calendar.DAY_OF_MONTH, -1)
+            val t = read(ctx, d)
+            val a = applied[d].orEmpty()
+            val channels = (a.keys + t.keys).distinct()
+            if (channels.isEmpty()) return@repeat
+            val total = a.values.sum()
+            val help = t.values.sumOf { it.help }
+            sb.append("📅 $d — откликов $total" + (if (help > 0) ", просьб о помощи $help" else "") + "\n")
+            for (ch in channels.sortedByDescending { a[it] ?: 0 }) {
+                val r = t[ch]
+                val parts = mutableListOf("откликов ${a[ch] ?: 0}")
+                if (r != null && r.all > 0) parts += "просмотрено ${r.all}"
+                if (r != null && r.applied > 0) parts += "ср. ${dur(r.avgMs)}"
+                if (r != null && r.help > 0) {
+                    val h = listOfNotNull(
+                        r.hCaptcha.takeIf { it > 0 }?.let { "капча $it" }, r.hLogin.takeIf { it > 0 }?.let { "вход $it" },
+                        r.hConfirm.takeIf { it > 0 }?.let { "подтверждение $it" }, r.hOther.takeIf { it > 0 }?.let { "другое $it" },
+                    ).joinToString(", ")
+                    parts += "помощь: $h" + (if (r.hMissed > 0) " (без ответа ${r.hMissed})" else "")
+                }
+                sb.append("   • ${name(ch)}: ${parts.joinToString(" · ")}\n")
+            }
+            sb.append('\n')
+        }
+        return sb.toString().ifBlank { "Пока пусто — статистика копится с этой версии (отклики берутся из журнала)." }
     }
 
     /** По ресурсам за последние n дней (включая сегодня). */
@@ -97,7 +169,7 @@ object Timing {
         }
     }
 
-    fun name(channel: String) = Db.CHANNEL_RU[channel] ?: Sites.byKey(channel)?.name ?: Sources.byKey(channel)?.name ?: channel
+    fun name(channel: String) = if (channel == "single" || channel.isBlank()) "Одна вакансия (вручную)" else Db.CHANNEL_RU[channel] ?: Sites.byKey(channel)?.name ?: Sources.byKey(channel)?.name ?: channel
 
     /** Строка для экрана агента: последний и средний отклик сегодня по этому ресурсу. */
     fun shortLine(ctx: Context, channel: String): String {

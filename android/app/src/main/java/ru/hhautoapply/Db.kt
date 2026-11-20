@@ -94,6 +94,20 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         "SELECT COUNT(*) FROM applications WHERE status = 'applied' AND created_at >= ? AND channel != 'earlier' AND (error IS NULL OR error != 'откликались ранее')", arrayOf(today()),
     ).use { it.moveToFirst(); it.getInt(0) }
 
+    /** Отправленные отклики по дням и ресурсам за последние days дней (без «откликались ранее»). */
+    fun appliedByDay(days: Int): Map<String, Map<String, Int>> {
+        val from = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date(System.currentTimeMillis() - (days - 1) * 86_400_000L))
+        return readableDatabase.rawQuery(
+            "SELECT substr(created_at, 1, 10) d, channel, COUNT(*) FROM applications WHERE status = 'applied' AND created_at >= ? " +
+                "AND channel != 'earlier' AND (error IS NULL OR (error != 'откликались ранее' AND error != 'уже откликались')) GROUP BY d, channel",
+            arrayOf(from),
+        ).use { c ->
+            val out = mutableMapOf<String, MutableMap<String, Int>>()
+            while (c.moveToNext()) out.getOrPut(c.getString(0)) { mutableMapOf() }[c.getString(1) ?: ""] = c.getInt(2)
+            out
+        }
+    }
+
     fun list(where: String = "1=1", args: Array<String> = emptyArray(), limit: Int = 5000): List<Application> =
         readableDatabase.rawQuery(
             "SELECT vacancy_id, title, employer, url, form_url, language, status, channel, letter, created_at " +

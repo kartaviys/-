@@ -54,6 +54,7 @@
     <button data-tab="journal">Журнал</button>
     <button data-tab="usage">💰 Расходы</button>
     <button data-tab="timing">⏱ Скорость</button>
+    <button data-tab="daily">📊 По дням</button>
     <button data-tab="settings">Настройки</button>
     <button data-tab="phone">📱 Пульт с телефона</button>
     <button data-tab="log">Лог</button>
@@ -88,6 +89,7 @@
 
   <section id="tab-usage" class="hidden"><div id="usage" class="card"></div></section>
   <section id="tab-timing" class="hidden"><div id="timing"></div></section>
+  <section id="tab-daily" class="hidden"><div id="daily"></div></section>
 
   <section id="tab-settings" class="hidden">
     <div class="card">
@@ -126,7 +128,7 @@ function savePin() { localStorage.setItem('pin', document.getElementById('pinInp
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
   document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
   document.querySelectorAll('main > section').forEach(s => s.classList.toggle('hidden', s.id !== 'tab-' + b.dataset.tab));
-  ({ journal: loadJournal, usage: loadUsage, timing: loadTiming, settings: loadSettings, phone: renderPhone })[b.dataset.tab]?.();
+  ({ journal: loadJournal, usage: loadUsage, timing: loadTiming, daily: loadDaily, settings: loadSettings, phone: renderPhone })[b.dataset.tab]?.();
 });
 
 // ---------- состояние ----------
@@ -223,6 +225,17 @@ async function loadTiming() {
   document.getElementById('timing').innerHTML = block('Сегодня', t.today) + block('За 7 дней', t.week) + block('За 30 дней', t.month) +
     '<div class="card muted">Время отклика — от открытия вакансии до отправки: проверка, письмо, анкета, ожидание капчи или вашего подтверждения. ' +
     '«Откл./час» учитывает и время на пропущенные вакансии; паузы между откликами не считаются.</div>';
+}
+
+// ---------- статистика по дням ----------
+async function loadDaily() {
+  const days = await api('/api/daily');
+  const helpText = h => [h.captcha && `капча ${h.captcha}`, h.login && `вход ${h.login}`, h.confirm && `подтверждение ${h.confirm}`, h.other && `другое ${h.other}`]
+    .filter(Boolean).join(', ') + (h.missed ? ` (без ответа ${h.missed})` : '');
+  document.getElementById('daily').innerHTML = days.length ? days.map(d => `<div class="card"><b>📅 ${d.day}</b> — откликов ${d.applied}` +
+    (d.help ? `, просьб о помощи ${d.help}` : '') + d.rows.map(r => `<div class="muted">&nbsp;&nbsp;• ${esc(r.name)}: откликов ${r.applied}` +
+      (r.seen ? ` · просмотрено ${r.seen}` : '') + (r.avg ? ` · ср. ${dur(r.avg)}` : '') + (r.helpTotal ? ` · помощь: ${helpText(r.help)}` : '') + '</div>').join('') + '</div>').join('')
+    : '<div class="card muted">Пока пусто — статистика копится с этой версии (отклики берутся из журнала).</div>';
 }
 
 // ---------- настройки ----------

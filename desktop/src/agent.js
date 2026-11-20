@@ -100,10 +100,15 @@ class Agent extends EventEmitter {
     this.state.prompt = { type, text };
     this.emit('change');
     this.log('  ✋ ' + text);
+    // статистика: просьбы о помощи по ресурсу (текущая вакансия или работающий агент)
+    const CH = { hh: 'hh_site', habr: 'habr_agent', linkedin: 'linkedin_agent' };
+    const channel = this._curChannel || CH[this.state.target] || this.state.target || 'single';
+    const kind = type === 'confirm' ? 'confirm' : /капч|captcha|провер\S* браузер|робот/i.test(text) ? 'captcha' : /войдите|вход|логин|sign in|log in/i.test(text) ? 'login' : 'other';
+    this.store.addHelp(channel, kind);
     this.notify(type === 'confirm' ? 'Подтвердите отправку' : 'Агенту нужна помощь', text);
     try { this.page?.bringToFront(); } catch {}
     return new Promise(resolve => {
-      const timer = setTimeout(() => { this.log('  нет ответа 15 минут — пропуск'); finish(false); }, 15 * 60000);
+      const timer = setTimeout(() => { this.log('  нет ответа 15 минут — пропуск'); this.store.addHelp(channel, 'missed'); finish(false); }, 15 * 60000);
       const finish = v => { clearTimeout(timer); if (this._answer === finish) { this._answer = null; this.state.prompt = null; this.emit('change'); } resolve(v); };
       this._answer = finish;
     });
@@ -117,6 +122,7 @@ class Agent extends EventEmitter {
   // ---------- универсальный агент: снимок → решение модели → действие ----------
   systemPrompt(resumeTitle) {
     const salary = this.store.get('salary_answer');
+    const facts = this.store.get('candidate_facts');
     return `Ты — агент, который управляет браузером, чтобы откликнуться на вакансию от лица кандидата.
 Каждый шаг тебе дают: цель, профиль кандидата, письмо, историю твоих действий и снимок страницы
 (список интерактивных элементов с id, у некоторых есть data-qa в поле qa, и видимый текст).
@@ -128,6 +134,9 @@ class Agent extends EventEmitter {
 - Чтобы вставить письмо целиком, используй type с text "{{LETTER}}" — оно подставится само.
 - Ответы на вопросы анкеты — только факты из резюме и профиля, коротко, от первого лица.
 - Любой вопрос о зарплате или ожиданиях по доходу: строго "${salary}".
+- Всегда помни о кандидате (используй в ответах на вопросы анкеты): ${facts}
+  Вопрос про военный билет / воинский учёт — ответ «да, военный билет есть». Вопрос про формат работы (офис, гибрид,
+  удалёнка, график) — кандидат готов к любому формату; выбирай вариант, который предлагает работодатель, или «любой».
 - Поле загрузки резюме/CV (input type=file): действие click по нему — файл прикрепится автоматически.
 - Вход/регистрация, капча, код из SMS/почты, оплата, паспорт, номер карты — action "human" с объяснением.
 - Не нажимай рекламу, другие вакансии, «В избранное», соцсети, «Скачать приложение».
@@ -224,7 +233,9 @@ class Agent extends EventEmitter {
   async processVacancy(v) {
     const t0 = Date.now();
     let ok = false;
+    this._curChannel = v.channel;
     try { ok = await this._processVacancy(v); return ok; } finally {
+      this._curChannel = null;
       const ms = Date.now() - t0;
       this.store.addTiming(v.channel, ms, ok);
       if (ok) this.log(`  ⏱ отклик за ${T.dur(ms)}`);

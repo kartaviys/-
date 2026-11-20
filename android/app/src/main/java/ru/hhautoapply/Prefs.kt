@@ -150,6 +150,8 @@ object Prefs {
         )),
         Section("Анкеты", listOf(
             Field("salary_answer", "Ответ на любой вопрос про зарплату", default = "250000"),
+            Field("candidate_facts", "Факты о себе для анкет (агент всегда их учитывает)", FieldType.MULTILINE,
+                "Военный билет есть. Готов к любому формату работы: офис, гибрид, удалёнка."),
             Field("auto_submit", "Отправлять анкеты автоматически", FieldType.BOOL, "false"),
         )),
         Section("Запуск", listOf(

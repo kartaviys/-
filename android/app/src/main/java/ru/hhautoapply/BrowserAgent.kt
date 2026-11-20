@@ -44,6 +44,7 @@ class BrowserAgent(
     private val agentJs by lazy { ctx.assets.open("agent.js").bufferedReader().readText() }
     private val maxSteps get() = Prefs.int(ctx, "agent_max_steps").coerceIn(5, 40)
     private val salary get() = Prefs.get(ctx, "salary_answer")
+    private val facts get() = Prefs.get(ctx, "candidate_facts")
     private val submitRe = Regex("^\\s*(отправить|откликнуться|подтвердить|submit|apply|send|finish|отправить отклик)", RegexOption.IGNORE_CASE)
 
     /** Вызывать из WebViewClient.onPageFinished. */
@@ -119,6 +120,9 @@ class BrowserAgent(
 - Чтобы вставить письмо целиком, используй type с text "{{LETTER}}" — оно подставится само.
 - Ответы на вопросы анкеты — только факты из резюме и профиля, коротко, от первого лица.
 - Любой вопрос о зарплате или ожиданиях по доходу: строго "$salary".
+- Всегда помни о кандидате (используй в ответах на вопросы анкеты): $facts
+  Вопрос про военный билет / воинский учёт — ответ «да, военный билет есть». Вопрос про формат работы (офис, гибрид,
+  удалёнка, график) — кандидат готов к любому формату; выбирай вариант, который предлагает работодатель, или «любой».
 - Поле загрузки резюме/CV (input type=file): действие click по нему — файл прикрепится автоматически.
 - Вход/регистрация, капча, код из SMS/почты, оплата, паспорт, номер карты — action "human" с объяснением.
 - Не нажимай рекламу, другие вакансии, «В избранное», соцсети, «Скачать приложение».
