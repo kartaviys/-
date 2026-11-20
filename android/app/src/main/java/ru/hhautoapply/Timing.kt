@@ -190,6 +190,17 @@ object Timing {
         return sb.append('\n').toString()
     }
 
+    /** По ресурсам за последние n дней (включая сегодня). */
+    fun byChannel(ctx: Context, n: Int): Map<String, Row> {
+        val cal = Calendar.getInstance()
+        val acc = mutableMapOf<String, Row>()
+        repeat(n) {
+            for ((k, r) in read(ctx, day(cal.time))) acc[k] = acc[k]?.plus(r) ?: r
+            cal.add(Calendar.DAY_OF_MONTH, -1)
+        }
+        return acc
+    }
+
     fun dur(ms: Long): String {
         if (ms <= 0) return "—"
         val s = (ms + 500) / 1000
