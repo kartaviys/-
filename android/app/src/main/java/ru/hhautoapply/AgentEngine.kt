@@ -218,6 +218,7 @@ object AgentEngine {
             RunWorker.notify(ctx, "Агент остановлен", e.message.orEmpty())
             return e.message.orEmpty()
         } finally {
+            Timing.end(ctx, applied = false) // последняя вакансия, если сессию прервали
             agent = null
             running.value = false
             this.target.value = ""
@@ -227,6 +228,7 @@ object AgentEngine {
 
     private suspend fun runSingle(ctx: Context, a: BrowserAgent, llm: Llm, source: String): String {
         status.value = "Читаю вакансию и пишу письмо…"
+        Timing.begin(ctx, source.ifBlank { "single" })
         val title = withContext(Dispatchers.Main) { web?.title.orEmpty() }
         val text = a.call("window.__ag.bodyText()")
         val lang = Text.detectLanguage("$title $text").also { resumeLang = it }
@@ -235,7 +237,7 @@ object AgentEngine {
         val url = a.currentUrl()
         val st = statusOf(outcome)
         Db(ctx).record("$source:${url.hashCode()}", title, "", url, url, lang, st, source, letter)
-        val msg = "Готово: ${Db.STATUS_RU[st]} — $title"
+        val msg = "Готово: ${Db.STATUS_RU[st]} — $title (${Timing.dur(Timing.end(ctx, st == "applied"))})"
         status.value = "$msg. Можно открыть следующую вакансию и снова нажать «Старт»."
         return msg
     }
@@ -281,6 +283,7 @@ object AgentEngine {
                     coroutineContext.ensureActive()
                     if (capReached()) break@queries
                     val id = "${def.key}:${v.id}"
+                    Timing.begin(ctx, def.key)
                     status.value = "${def.name}: «${v.title.ifBlank { "вакансия" }}» (откликов $done из $limit)"
                     if (!a.open(v.url)) { db.record(id, v.title, "", v.url, v.url, "", "manual", def.key, error = "не открылась"); continue }
                     if (a.pageApplied()) { db.markAppliedElsewhere(id, v.title, v.url, def.key); continue }
@@ -299,7 +302,8 @@ object AgentEngine {
                     val outcome = a.runGoal(AgentGoal(title, "", letter, lang), needConfirm(ctx, def.key))
                     val st = statusOf(outcome)
                     db.record(id, title, "", v.url, v.url, lang, st, def.key, letter)
-                    RunLog.add(ctx, "• [${def.name}] [$lang] $title → ${Db.STATUS_RU[st]}")
+                    val ms = Timing.end(ctx, st == "applied")
+                    RunLog.add(ctx, "• [${def.name}] [$lang] $title → ${Db.STATUS_RU[st]} (${Timing.dur(ms)})")
                     if (st == "applied") { done++; pause(ctx) }
                 }
             }
@@ -346,6 +350,7 @@ object AgentEngine {
                     coroutineContext.ensureActive()
                     if (capReached()) break@queries
                     val id = "habr:${v.id}"
+                    Timing.begin(ctx, "habr_agent")
                     status.value = "Хабр: «${v.title}» (откликов $done из $limit)"
                     val (company0, desc) = a.habrOpen(v.id)
                     val company = company0.ifBlank { v.company }
@@ -360,7 +365,8 @@ object AgentEngine {
                     val (outcome, note) = a.habrApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "habr"))
                     val st = if (outcome == Outcome.FAILED && note.isNotBlank()) "skipped" else statusOf(outcome)
                     db.record(id, v.title, company, v.url, v.url, lang, st, "habr_agent", letter, note)
-                    RunLog.add(ctx, "• [Хабр] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}${if (note.isNotBlank()) " ($note)" else ""}")
+                    val ms = Timing.end(ctx, st == "applied" && note.isBlank())
+                    RunLog.add(ctx, "• [Хабр] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}${if (note.isNotBlank()) " ($note)" else ""} (${Timing.dur(ms)})")
                     if (st == "applied" && note.isBlank()) { done++; pause(ctx) }
                 }
                 page++
@@ -399,6 +405,7 @@ object AgentEngine {
                 if (capReached()) return
                 val id = "li:${v.id}"
                 val url = "https://www.linkedin.com/jobs/view/${v.id}/"
+                Timing.begin(ctx, "linkedin_agent")
                 status.value = "LinkedIn: «${v.title}» (откликов $done из $limit)"
                 val (company, desc, applied) = a.liOpen(v.id)
                 if (applied) { db.markAppliedElsewhere(id, v.title, url, "linkedin_agent"); continue }
@@ -412,7 +419,8 @@ object AgentEngine {
                 val outcome = a.liApply(AgentGoal(v.title, company, letter, lang), needConfirm(ctx, "linkedin"), requireEasy)
                 val st = if (outcome == Outcome.FAILED && requireEasy) "skipped" else statusOf(outcome)
                 db.record(id, v.title, company, url, url, lang, st, "linkedin_agent", letter)
-                RunLog.add(ctx, "• [LinkedIn] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]}")
+                val ms = Timing.end(ctx, st == "applied")
+                RunLog.add(ctx, "• [LinkedIn] [$lang] ${v.title} — $company → ${Db.STATUS_RU[st]} (${Timing.dur(ms)})")
                 if (st == "applied") { done++; pause(ctx, linkedin = true) }
             }
         }
@@ -460,66 +468,81 @@ object AgentEngine {
             return false
         }
 
-        // 1. hh.ru через сайт: сначала рекомендованные hh вакансии по резюме, потом запросы.
-        //    Порядок: страница → сразу откликаемся → следующая страница → следующий запрос.
+        // 1. hh.ru через сайт: рекомендации по резюме и запросы по кругу, по hh_batch (30) вакансий на каждый.
         val hh = Sources.byKey("hh")
         if (hh != null && Sources.isOn(ctx, hh) && !HhMode.useApi(ctx)) {
             if (a.ensureHhLogin()) {
                 val include = Prefs.list(ctx, "title_include")
                 val exclude = Prefs.list(ctx, "title_exclude")
 
-                suspend fun applyAll(list: List<BrowserAgent.HhVacancy>, label: String, useInclude: Boolean) {
-                    // Отмечены в выдаче как «Вы откликнулись» — не открываем, просто запоминаем
-                    list.filter { it.applied }.forEach { db.markAppliedElsewhere(it.id, it.title, "https://hh.ru/vacancy/${it.id}", "hh_site") }
-                    val fresh = list.filter { !it.applied && Text.titleOk(it.title, if (useInclude) include else emptyList(), exclude) && !db.seen(it.id) }
-                    RunLog.add(ctx, "hh $label: вакансий ${list.size}, новых подходящих ${fresh.size}")
-                    for (v in fresh) {
+                val handled = mutableSetOf<String>() // вакансия может встретиться и в рекомендациях, и в поиске
+                val maxPages = Prefs.int(ctx, "max_pages").coerceIn(1, 40)
+                val batch = Prefs.int(ctx, "hh_batch").coerceAtLeast(1)
+
+                suspend fun applyOne(v: BrowserAgent.HhVacancy) {
+                    Timing.begin(ctx, "hh_site")
+                    status.value = "hh: «${v.title}» (откликов $done из $limit)"
+                    val (employer, desc, archived) = a.hhOpen(v.id)
+                    val url = "https://hh.ru/vacancy/${v.id}"
+                    if (archived) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "archived"); return }
+                    if (a.hhApplied()) { db.markAppliedElsewhere(v.id, v.title, url, "hh_site"); return } // отклик уже есть — письмо не пишем
+                    if (Text.isCvHeavy(desc)) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "computer vision"); return }
+                    if (!fits(ctx, llm, db, v.id, v.title, employer, url, desc, "hh_site")) return
+                    val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
+                    status.value = "hh: пишу письмо — «${v.title}»"
+                    val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: StopSessionException) { throw e } catch (e: Exception) {
+                        RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); return
+                    }
+                    val outcome = a.hhApply(AgentGoal(v.title, employer, letter, lang), needConfirm(ctx, "hh"))
+                    val st = statusOf(outcome)
+                    db.record(v.id, v.title, employer, url, url, lang, st, "hh_site", letter)
+                    val ms = Timing.end(ctx, st == "applied")
+                    RunLog.add(ctx, "• [hh] [$lang] ${v.title} — $employer → ${Db.STATUS_RU[st]} (${Timing.dur(ms)})")
+                    if (st == "applied") { done++; pause(ctx) }
+                }
+
+                /** Поток вакансий: рекомендации под резюме или один поисковый запрос; листается по страницам по мере надобности. */
+                class Stream(val label: String, val useInclude: Boolean, val fetch: suspend (Int) -> List<BrowserAgent.HhVacancy>?) {
+                    var page = 0; var finished = false
+                    val buf = ArrayDeque<BrowserAgent.HhVacancy>(); val pageSeen = mutableSetOf<String>()
+                }
+                var aborted = false // капча без ответа — останавливаем hh целиком
+                suspend fun refill(s: Stream) {
+                    while (s.buf.isEmpty() && !s.finished && !aborted) {
                         coroutineContext.ensureActive()
-                        if (capReached()) return
-                        status.value = "hh: «${v.title}» (откликов $done из $limit)"
-                        val (employer, desc, archived) = a.hhOpen(v.id)
-                        val url = "https://hh.ru/vacancy/${v.id}"
-                        if (archived) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "archived"); continue }
-                        if (a.hhApplied()) { db.markAppliedElsewhere(v.id, v.title, url, "hh_site"); continue } // отклик уже есть — письмо не пишем
-                        if (Text.isCvHeavy(desc)) { db.record(v.id, v.title, employer, url, "", "", "skipped", "hh_site", error = "computer vision"); continue }
-                        if (!fits(ctx, llm, db, v.id, v.title, employer, url, desc, "hh_site")) continue
-                        val lang = Text.detectLanguage("${v.title} $desc").also { resumeLang = it }
-                        status.value = "hh: пишу письмо — «${v.title}»"
-                        val letter = try { letterFor(ctx, llm, v.title, employer, desc, lang) } catch (e: StopSessionException) { throw e } catch (e: Exception) {
-                            RunLog.add(ctx, "  ! письмо не сгенерировано: ${e.message}"); continue
+                        if (s.page >= maxPages) { s.finished = true; break }
+                        val list = s.fetch(s.page)
+                        if (list == null) { aborted = true; break }
+                        // пусто или сайт повторяет последнюю страницу — поток закончился
+                        if (list.isEmpty() || list.count { s.pageSeen.add(it.id) } == 0) { s.finished = true; break }
+                        // Отмечены в выдаче как «Вы откликнулись» — не открываем, просто запоминаем
+                        list.filter { it.applied }.forEach { db.markAppliedElsewhere(it.id, it.title, "https://hh.ru/vacancy/${it.id}", "hh_site") }
+                        val fresh = list.filter {
+                            !it.applied && it.id !in handled && Text.titleOk(it.title, if (s.useInclude) include else emptyList(), exclude) && !db.seen(it.id)
                         }
-                        val outcome = a.hhApply(AgentGoal(v.title, employer, letter, lang), needConfirm(ctx, "hh"))
-                        val st = statusOf(outcome)
-                        db.record(v.id, v.title, employer, url, url, lang, st, "hh_site", letter)
-                        RunLog.add(ctx, "• [hh] [$lang] ${v.title} — $employer → ${Db.STATUS_RU[st]}")
-                        if (st == "applied") { done++; pause(ctx) }
+                        RunLog.add(ctx, "hh ${s.label}, стр. ${s.page + 1}: вакансий ${list.size}, новых подходящих ${fresh.size}")
+                        s.buf.addAll(fresh)
+                        s.page++
                     }
                 }
 
-                // 1a. Рекомендации hh под каждое резюме (то, что hh показывает на главной «Вакансии для вас»)
-                recs@ for (hash in Prefs.list(ctx, "hh_resume_hashes")) {
-                    val pageSeen = mutableSetOf<String>()
-                    for (page in 0 until Prefs.int(ctx, "max_pages").coerceIn(1, 40)) {
-                        coroutineContext.ensureActive()
-                        if (capReached()) break@recs
-                        val list = a.hhRecommendedPage(hash, page) ?: break@recs
-                        if (list.isEmpty()) break
-                        // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
-                        if (list.count { pageSeen.add(it.id) } == 0) break
-                        applyAll(list, "рекомендации, стр. ${page + 1}", useInclude = true)
-                    }
-                }
-                // 1b. Поиск по запросам
-                queries@ for (query in Prefs.list(ctx, "queries", Regex("\n"))) {
-                    val pageSeen = mutableSetOf<String>()
-                    for (page in 0 until Prefs.int(ctx, "max_pages").coerceIn(1, 40)) {
-                        coroutineContext.ensureActive()
-                        if (capReached()) break@queries
-                        val list = a.hhSearchPage(query, page) ?: break@queries
-                        if (list.isEmpty()) break
-                        // Страница не принесла ничего нового (сайт повторяет последнюю) — дальше не листаем
-                        if (list.count { pageSeen.add(it.id) } == 0) break
-                        applyAll(list, "«$query», стр. ${page + 1}", useInclude = false) // hh уже нашёл запрос в названии
+                // Рекомендации hh под каждое резюме («Вакансии для вас»), затем каждый запрос.
+                // Идём по кругу: $batch вакансий из рекомендаций → $batch по первому запросу → … → снова рекомендации, следующие $batch.
+                val streams = Prefs.list(ctx, "hh_resume_hashes").map { hash -> Stream("рекомендации", true) { p -> a.hhRecommendedPage(hash, p) } } +
+                    Prefs.list(ctx, "queries", Regex("\n")).map { q -> Stream("«$q»", false) { p -> a.hhSearchPage(q, p) } } // hh уже нашёл запрос в названии
+                rounds@ while (!aborted && streams.any { !it.finished || it.buf.isNotEmpty() }) {
+                    for (s in streams) {
+                        var n = 0
+                        while (n < batch) {
+                            coroutineContext.ensureActive()
+                            if (capReached()) break@rounds
+                            refill(s)
+                            if (aborted) break@rounds
+                            val v = s.buf.removeFirstOrNull() ?: break
+                            if (!handled.add(v.id) || db.seen(v.id)) continue
+                            applyOne(v); n++
+                        }
+                        if (n > 0) RunLog.add(ctx, "hh ${s.label}: просмотрено $n — переключаюсь на следующий запрос")
                     }
                 }
             } else RunLog.add(ctx, "hh: вход не выполнен — пропускаю")
@@ -532,6 +555,7 @@ object AgentEngine {
             coroutineContext.ensureActive()
             if (capReached()) break
             val src = Sources.byKey(app.channel)?.name ?: app.channel
+            Timing.begin(ctx, app.channel)
             status.value = "$src: «${app.title}» (откликов $done из $limit)"
             resumeLang = app.language.ifBlank { "ru" }
             if (!Text.titleOk(app.title, emptyList(), Prefs.list(ctx, "title_exclude"))) {
@@ -541,7 +565,8 @@ object AgentEngine {
             val outcome = a.runGoal(AgentGoal(app.title, app.employer, app.letter, resumeLang), needConfirm(ctx, app.channel))
             val st = statusOf(outcome)
             db.setStatus(app.vacancyId, st)
-            RunLog.add(ctx, "• [$src] ${app.title} → ${Db.STATUS_RU[st]}")
+            val ms = Timing.end(ctx, st == "applied")
+            RunLog.add(ctx, "• [$src] ${app.title} → ${Db.STATUS_RU[st]} (${Timing.dur(ms)})")
             if (st == "applied") { done++; pause(ctx) }
         }
 

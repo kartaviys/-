@@ -43,4 +43,11 @@ const CV_TERMS = /computer vision|компьютерн\S* зрени|opencv|yolo
 /** Вакансия про компьютерное зрение, если CV-терминов в описании много. */
 function isCvHeavy(text) { return (stripHtml(text).match(CV_TERMS) || []).length >= 3; }
 
-module.exports = { titleOk, list, stripHtml, detectLanguage, SALARY, FORBIDDEN, isCvHeavy };
+/** Длительность по-человечески: 45 с, 2 мин 5 с, 1 ч 3 мин. */
+function dur(ms) {
+  if (!(ms > 0)) return '—';
+  const s = Math.round(ms / 1000);
+  return s < 60 ? `${s} с` : s < 3600 ? `${Math.floor(s / 60)} мин ${s % 60} с` : `${Math.floor(s / 3600)} ч ${Math.floor((s % 3600) / 60)} мин`;
+}
+
+module.exports = { dur, titleOk, list, stripHtml, detectLanguage, SALARY, FORBIDDEN, isCvHeavy };

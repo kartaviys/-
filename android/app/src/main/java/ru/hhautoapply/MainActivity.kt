@@ -107,8 +107,9 @@ class MainActivity : ComponentActivity() {
                 AlertDialog.Builder(this).setTitle("Расходы на нейросеть").setMessage(Usage.report(this))
                     .setPositiveButton("Закрыть", null).show()
             },
-            button("Настройки") { startActivity(Intent(this, SettingsActivity::class.java)) },
+            button("⏱ Скорость") { showTiming() },
         ))
+        box.addView(button("Настройки") { startActivity(Intent(this, SettingsActivity::class.java)) })
         status = label("", 13f)
         box.addView(status)
 
@@ -342,6 +343,12 @@ class MainActivity : ComponentActivity() {
             }
             .setNegativeButton("Закрыть", null)
             .show()
+    }
+
+    /** Мониторинг: за сколько делается отклик на каждом ресурсе (сегодня / 7 / 30 дней). */
+    private fun showTiming() {
+        AlertDialog.Builder(this).setTitle("⏱ Скорость откликов по ресурсам").setMessage(Timing.report(this))
+            .setPositiveButton("Закрыть", null).show()
     }
 
     private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_LONG).show()

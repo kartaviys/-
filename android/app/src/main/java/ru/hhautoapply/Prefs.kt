@@ -115,6 +115,7 @@ object Prefs {
             Field("experience_filter", "Фильтр по опыту на hh (только 3+ лет)", FieldType.BOOL, "false"),
             Field("period", "Вакансии за последние N дней (пусто — без ограничения)", FieldType.NUMBER, ""),
             Field("max_pages", "Сколько страниц результатов проходить на каждый запрос (по 50 вакансий; 40 — все)", FieldType.NUMBER, "40"),
+            Field("hh_batch", "hh: сколько вакансий смотреть подряд из рекомендаций / одного запроса, прежде чем перейти к следующему (по кругу)", FieldType.NUMBER, "30"),
             Field("remote_only", "Только удалёнка", FieldType.BOOL, "false"),
         )),
         Section("Источники (кроме hh)", listOf(

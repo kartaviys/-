@@ -138,7 +138,7 @@ class Agent extends EventEmitter {
 - Не повторяй одно и то же действие больше двух раз подряд: если не помогает — "human".`;
   }
 
-  async runGoal(g, confirmSubmit) {
+  async runGoal(g, confirmSubmit, guard = null) {
     const st = this.store;
     const resume = (g.lang === 'en' ? st.get('en_resume_text') : st.get('ru_resume_text')) || st.get('ru_resume_text');
     const resumeTitle = st.get(g.lang === 'en' ? 'en_title' : 'ru_title');
@@ -148,6 +148,7 @@ class Agent extends EventEmitter {
     for (let step = 1; step <= maxSteps; step++) {
       this.checkStop();
       if (!await this.passBlockers()) return 'skipped';
+      if (step > 1 && guard) { const r = await guard(); if (r) return r; }
       await this.js(`window.__ag.fillSalary(${q(st.get('salary_answer'))})`);
       let snap; try { snap = JSON.parse(await this.js('window.__ag.snapshot()')); } catch { await this.wait(2000); continue; }
       const user = `ЦЕЛЬ: откликнуться на вакансию «${g.title}»${g.employer ? ' — ' + g.employer : ''}\n\nПРОФИЛЬ КАНДИДАТА: ${profile}\n\n` +
@@ -219,7 +220,18 @@ class Agent extends EventEmitter {
   }
 
   /** Обработать одну найденную вакансию: открыть → проверить → письмо → отклик. Возвращает true, если отклик отправлен. */
-  async processVacancy({ id, title, url, channel, open, applied, apply, employer0 = '' }) {
+  /** Одна вакансия + мониторинг скорости: время от открытия до результата пишется по ресурсу (channel). */
+  async processVacancy(v) {
+    const t0 = Date.now();
+    let ok = false;
+    try { ok = await this._processVacancy(v); return ok; } finally {
+      const ms = Date.now() - t0;
+      this.store.addTiming(v.channel, ms, ok);
+      if (ok) this.log(`  ⏱ отклик за ${T.dur(ms)}`);
+    }
+  }
+
+  async _processVacancy({ id, title, url, channel, open, applied, apply, employer0 = '' }) {
     const st = this.store;
     this.setStatus(`«${title}» (откликов ${this.state.done} из ${this.state.limit})`);
     const info = await open();
@@ -240,28 +252,49 @@ class Agent extends EventEmitter {
   }
 
   /** Обход: запросы × страницы; на каждой странице сразу откликаемся. */
-  async walk({ def, queries, maxPages, channel, dailyCap, fetchPage, toCandidate, linkedin = false }) {
+  /**
+   * Обход выдачи. Каждый запрос (или переданный поток `streams`) листается по страницам.
+   * batch — сколько новых вакансий взять подряд из одного потока, прежде чем перейти к следующему (по кругу);
+   * без batch потоки идут по очереди до конца.
+   */
+  async walk({ def, queries, streams, maxPages, channel, dailyCap, fetchPage, toCandidate, linkedin = false, batch = Infinity }) {
     const include = T.list(this.store.get('title_include')); const exclude = T.list(this.store.get('title_exclude'));
-    for (const query of queries) {
-      const pageSeen = new Set();
-      for (let page = 0; page < maxPages; page++) {
+    const list = (streams || queries.map(query => ({ label: query ? '«' + query + '»' : 'лента', fetch: p => fetchPage(query, p) })))
+      .map(x => ({ ...x, page: 0, finished: false, buf: [], seen: new Set() }));
+    const handled = new Set();
+    let aborted = false;
+    const refill = async s => {
+      while (!s.buf.length && !s.finished && !aborted) {
         this.checkStop();
-        if (this.capReached(def, this.state.done, this.state.limit, channel, dailyCap)) return;
-        const items = await fetchPage(query, page);
-        if (items === null) return;
-        if (!items.length) break;
-        if (items.filter(i => !pageSeen.has(i.id) && pageSeen.add(i.id)).length === 0) break;
+        if (s.page >= maxPages) { s.finished = true; break; }
+        const items = await s.fetch(s.page);
+        if (items === null) { aborted = true; break; }
+        if (!items.length || items.filter(i => !s.seen.has(i.id) && s.seen.add(i.id)).length === 0) { s.finished = true; break; }
         const cands = items.map(i => toCandidate(i));
         cands.filter(c => c.applied).forEach(c => this.store.markAppliedElsewhere(c.dbId, c.title, c.url, channel));
-        const fresh = cands.filter(c => !c.applied && !this.store.seen(c.dbId) &&
+        const fresh = cands.filter(c => !c.applied && !handled.has(c.dbId) && !this.store.seen(c.dbId) &&
           (!c.title || T.titleOk(c.title, c.useInclude === false ? [] : include, exclude)));
-        this.log(`${def.name} ${query ? '«' + query + '»' : 'лента'}, стр. ${page + 1}: вакансий ${items.length}, новых подходящих ${fresh.length}`);
-        for (const c of fresh) {
+        this.log(`${def.name} ${s.label}, стр. ${s.page + 1}: вакансий ${items.length}, новых подходящих ${fresh.length}`);
+        s.buf.push(...fresh);
+        s.page++;
+      }
+    };
+    while (!aborted && list.some(s => !s.finished || s.buf.length)) {
+      for (const s of list) {
+        let n = 0;
+        while (n < batch) {
           this.checkStop();
           if (this.capReached(def, this.state.done, this.state.limit, channel, dailyCap)) return;
+          await refill(s);
+          if (aborted) return;
+          const c = s.buf.shift();
+          if (!c) break;
+          if (handled.has(c.dbId) || this.store.seen(c.dbId)) continue;
+          handled.add(c.dbId); n++;
           const ok = await this.processVacancy({ id: c.dbId, title: c.title, url: c.url, channel, open: c.open, applied: c.isApplied, apply: c.apply, employer0: c.employer });
           if (ok) { this.state.done++; await this.pause(linkedin); }
         }
+        if (n > 0 && batch !== Infinity && list.length > 1) this.log(`${def.name} ${s.label}: просмотрено ${n} — следующий запрос`);
       }
     }
   }
@@ -348,12 +381,13 @@ class Agent extends EventEmitter {
       let arr = []; try { arr = JSON.parse(await this.js('window.__ag.hhLinks()')); } catch {}
       return arr.map(a => ({ ...a, useInclude }));
     };
-    // 1) рекомендации hh под каждое резюме
-    for (const hash of T.list(this.store.get('hh_resume_hashes'))) {
-      await this.walk({ ...common, queries: [''], fetchPage: (_q, p) => fetchFrom(this.hhUrl('', p, hash), true)() });
-    }
-    // 2) ваш список «Что искать» (hh уже ищет по названию — без доп. фильтра «содержит»)
-    await this.walk({ ...common, queries: S.queries(this.store, def), fetchPage: (qq, p) => fetchFrom(this.hhUrl(qq, p), false)() });
+    // Рекомендации hh под каждое резюме и ваш список «Что искать» — по кругу, по hh_batch (30) вакансий на каждый.
+    // (hh уже ищет по названию — для запросов без доп. фильтра «содержит»)
+    const streams = [
+      ...T.list(this.store.get('hh_resume_hashes')).map(hash => ({ label: 'рекомендации', fetch: p => fetchFrom(this.hhUrl('', p, hash), true)() })),
+      ...S.queries(this.store, def).map(qq => ({ label: '«' + qq + '»', fetch: p => fetchFrom(this.hhUrl(qq, p), false)() })),
+    ];
+    await this.walk({ ...common, streams, batch: Math.max(1, this.store.int('hh_batch')) });
   }
 
   // ---------- Хабр Карьера ----------
@@ -390,8 +424,17 @@ class Agent extends EventEmitter {
           const r = await this.js('window.__ag.habrRespond()');
           if (r === 'external') return { status: 'skipped', note: 'отклик только на сайте компании' };
           if (r === 'applied') return { status: 'applied', note: 'уже откликались' };
-          if (r === 'ok') await this.wait(2000);
-          return { status: await this.runGoal(g, this.confirmFor('habr')) };
+          if (r === 'missing') return { status: 'skipped', note: 'нет кнопки «Откликнуться»' }; // иначе нейросеть уходит в старые отклики
+          await this.wait(2000);
+          const vacancyUrl = this.page.url().split(/[?#]/)[0];
+          // Работаем только на странице вакансии: отклик появился или открылись отклики/чат — готово; ушли куда-то ещё — стоп
+          const guard = async () => {
+            const url = this.page.url();
+            if ((await this.js('window.__ag.habrApplied()')) === 'true' || /\/responses|\/conversations|\/chats/.test(url)) return 'applied';
+            if (!url.startsWith(vacancyUrl)) { this.log('  агент ушёл со страницы вакансии — стоп'); return 'skipped'; }
+            return null;
+          };
+          return { status: await this.runGoal(g, this.confirmFor('habr'), guard) };
         },
       }),
     });

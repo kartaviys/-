@@ -40,7 +40,7 @@ const DEFAULTS = {
   name: '', name_en: '', email: '', phone: '', city: 'Москва', telegram: '', linkedin: '', github: '',
   // лимиты
   agent_limit: '50', habr_limit: '30', linkedin_limit: '20', daily_limit: '150', habr_daily_limit: '60',
-  linkedin_daily_limit: '30', site_daily_limit: '30', max_pages: '40', linkedin_pages: '40', agent_max_steps: '20',
+  linkedin_daily_limit: '30', site_daily_limit: '30', max_pages: '40', hh_batch: '30', linkedin_pages: '40', agent_max_steps: '20',
   delay_min: '15', delay_max: '40', linkedin_delay_min: '45', linkedin_delay_max: '120',
   agent_confirm: 'false', linkedin_confirm: 'true',
   linkedin_location: '', linkedin_remote: 'true', linkedin_senior_only: 'false', linkedin_days: '7',
@@ -58,6 +58,7 @@ class Store {
     this.settings = this._load('settings.json', {});
     this.apps = this._load('applications.json', {});
     this.usage = this._load('usage.json', {});
+    this.timing = this._load('timing.json', {});
     this.logLines = [];
     if (!this.settings.remote_pin) { this.settings.remote_pin = String(crypto.randomInt(100000, 999999)); this._save('settings.json', this.settings); }
   }
@@ -139,6 +140,31 @@ class Store {
       if (this.usage[d]) out.push({ day: d, total: this.dayTotal(d), providers: this.usage[d] });
     }
     return { days: out, week: this.lastDays(7), month: this.lastDays(30) };
+  }
+
+  // ---------- мониторинг скорости ----------
+  /** Время на вакансию по ресурсу: a/am — отклики и их время, n/nm — все просмотренные (для «откликов в час»). */
+  addTiming(channel, ms, applied) {
+    const d = Store.today();
+    const day = this.timing[d] || (this.timing[d] = {});
+    const r = day[channel] || (day[channel] = { a: 0, am: 0, min: 0, max: 0, last: 0, n: 0, nm: 0 });
+    r.n++; r.nm += ms;
+    if (applied) { r.a++; r.am += ms; r.last = ms; r.min = r.min ? Math.min(r.min, ms) : ms; r.max = Math.max(r.max, ms); }
+    this._save('timing.json', this.timing);
+  }
+  timingStats(n) {
+    const acc = {};
+    for (let i = 0; i < n; i++) {
+      const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+      for (const [ch, r] of Object.entries(this.timing[d] || {})) {
+        const x = acc[ch] || (acc[ch] = { a: 0, am: 0, min: 0, max: 0, last: 0, n: 0, nm: 0 });
+        x.a += r.a; x.am += r.am; x.n += r.n; x.nm += r.nm; x.max = Math.max(x.max, r.max);
+        if (r.min) x.min = x.min ? Math.min(x.min, r.min) : r.min;
+        if (!x.last && r.last) x.last = r.last; // самый свежий день идёт первым
+      }
+    }
+    for (const x of Object.values(acc)) { x.avg = x.a ? Math.round(x.am / x.a) : 0; x.perHour = x.nm ? x.a * 3600000 / x.nm : 0; }
+    return acc;
   }
 
   // ---------- лог ----------

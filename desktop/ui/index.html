@@ -53,6 +53,7 @@
     <button data-tab="agents" class="on">Агенты</button>
     <button data-tab="journal">Журнал</button>
     <button data-tab="usage">💰 Расходы</button>
+    <button data-tab="timing">⏱ Скорость</button>
     <button data-tab="settings">Настройки</button>
     <button data-tab="phone">📱 Пульт с телефона</button>
     <button data-tab="log">Лог</button>
@@ -86,6 +87,7 @@
   </section>
 
   <section id="tab-usage" class="hidden"><div id="usage" class="card"></div></section>
+  <section id="tab-timing" class="hidden"><div id="timing"></div></section>
 
   <section id="tab-settings" class="hidden">
     <div class="card">
@@ -124,7 +126,7 @@ function savePin() { localStorage.setItem('pin', document.getElementById('pinInp
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
   document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
   document.querySelectorAll('main > section').forEach(s => s.classList.toggle('hidden', s.id !== 'tab-' + b.dataset.tab));
-  ({ journal: loadJournal, usage: loadUsage, settings: loadSettings, phone: renderPhone })[b.dataset.tab]?.();
+  ({ journal: loadJournal, usage: loadUsage, timing: loadTiming, settings: loadSettings, phone: renderPhone })[b.dataset.tab]?.();
 });
 
 // ---------- состояние ----------
@@ -134,7 +136,7 @@ async function refresh() {
   document.getElementById('pinBox').classList.add('hidden');
   document.getElementById('llmWarn').classList.toggle('hidden', state.llmReady);
   document.getElementById('statusLine').textContent =
-    (state.running ? `▶ ${state.targetName}: ${state.done}/${state.limit} · ` : '') + state.status + ` · Сегодня откликов: ${state.appliedToday} · ${state.usage}`;
+    (state.running ? `▶ ${state.targetName}: ${state.done}/${state.limit} · ` : '') + state.status + (state.speed ? ` · ${state.speed}` : '') + ` · Сегодня откликов: ${state.appliedToday} · ${state.usage}`;
   const pb = document.getElementById('promptBox');
   pb.classList.toggle('hidden', !state.prompt);
   if (state.prompt) document.getElementById('promptText').textContent = (state.prompt.type === 'confirm' ? '❓ ' : '✋ ') + state.prompt.text;
@@ -204,6 +206,23 @@ async function loadUsage() {
   document.getElementById('usage').innerHTML = (u.days.map(d => `<div><b>${d.day}</b> — ${m(d.total.cost)}</div>` +
     Object.entries(d.providers).map(([p, r]) => `<div class="muted">&nbsp;&nbsp;${esc(p)}: ${r.calls} запр., вход ${k(r.input)}, выход ${k(r.output)} ≈ ${m(r.cost)}</div>`).join('')).join('') || 'Расходов пока нет.') +
     `<hr><div>За 7 дней: ${m(u.week.cost)} · за 30 дней: ${m(u.month.cost)}</div><div class="muted">Оценка по ответам API; точная сумма — в кабинете провайдера. Своя модель — по ценам из настроек (локальная — бесплатно).</div>`;
+}
+
+// ---------- мониторинг скорости ----------
+function dur(ms) {
+  if (!(ms > 0)) return '—';
+  const s = Math.round(ms / 1000);
+  return s < 60 ? `${s} с` : s < 3600 ? `${Math.floor(s / 60)} мин ${s % 60} с` : `${Math.floor(s / 3600)} ч ${Math.floor((s % 3600) / 60)} мин`;
+}
+async function loadTiming() {
+  const t = await api('/api/timing');
+  const block = (title, rows) => `<div class="card"><b>${title}</b>` + (rows.length ? rows.map(r => `<div style="margin-top:6px">• ${esc(r.name)}</div>` +
+    (r.a ? `<div class="muted">&nbsp;&nbsp;отклик: в среднем ${dur(r.avg)}, быстрее всего ${dur(r.min)}, дольше всего ${dur(r.max)}</div>` +
+      `<div class="muted">&nbsp;&nbsp;откликов ${r.a} из ${r.n} просмотренных · ${r.perHour.toFixed(1)} откл./час · работа ${dur(r.nm)}</div>`
+      : `<div class="muted">&nbsp;&nbsp;откликов нет · просмотрено ${r.n} за ${dur(r.nm)}</div>`)).join('') : '<div class="muted">данных нет</div>') + '</div>';
+  document.getElementById('timing').innerHTML = block('Сегодня', t.today) + block('За 7 дней', t.week) + block('За 30 дней', t.month) +
+    '<div class="card muted">Время отклика — от открытия вакансии до отправки: проверка, письмо, анкета, ожидание капчи или вашего подтверждения. ' +
+    '«Откл./час» учитывает и время на пропущенные вакансии; паузы между откликами не считаются.</div>';
 }
 
 // ---------- настройки ----------

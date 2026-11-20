@@ -148,13 +148,18 @@ class BrowserAgent(
     private fun describe(e: JSONObject?) = e?.let { (it.optString("text").ifBlank { it.optString("qa") }).take(50) }.orEmpty()
 
     /** Доводит отклик до конца на текущей странице. */
-    suspend fun runGoal(g: AgentGoal, confirmSubmit: Boolean): Outcome {
+    /**
+     * @param guard проверка перед каждым шагом (со 2-го): вернула результат — агент останавливается.
+     *   Нужна, чтобы агент не бродил по сайту после отправки (например, Хабр открывает «Ваш отклик»).
+     */
+    suspend fun runGoal(g: AgentGoal, confirmSubmit: Boolean, guard: (suspend () -> Outcome?)? = null): Outcome {
         val history = mutableListOf<String>()
         var lastKey = ""
         var repeats = 0
         val resumeTitle = Prefs.get(ctx, if (g.language == "en") "en_title" else "ru_title")
         for (step in 1..maxSteps) {
             if (!passBlockers()) return Outcome.SKIPPED
+            if (step > 1 && guard != null) guard()?.let { return it }
             call("window.__ag.fillSalary(${q(salary)})")
             val snap = try { JSONObject(call("window.__ag.snapshot()")) } catch (e: Exception) {
                 delay(2000); continue
@@ -445,11 +450,23 @@ class BrowserAgent(
 
     /** Отклик на Хабре: «Откликнуться» → письмо/вопросы и отправку проходит универсальный агент. */
     suspend fun habrApply(g: AgentGoal, confirmSubmit: Boolean): Pair<Outcome, String> {
+        val vacancyUrl = currentUrl().substringBefore("?").substringBefore("#")
+        // Агент работает только на странице этой вакансии: отклик появился — готово; ушёл в отклики/чат — тоже значит отправлено;
+        // ушёл куда-то ещё — останавливаемся, а не бродим по старым откликам.
+        val guard: suspend () -> Outcome? = {
+            val url = currentUrl()
+            when {
+                habrApplied() -> Outcome.DONE
+                Regex("/responses|/conversations|/chats").containsMatchIn(url) -> Outcome.DONE
+                !url.startsWith(vacancyUrl) -> { RunLog.add(ctx, "  агент ушёл со страницы вакансии ($url) — стоп"); Outcome.SKIPPED }
+                else -> null
+            }
+        }
         return when (call("window.__ag.habrRespond()")) {
             "applied" -> Outcome.DONE to "уже откликались"
             "external" -> Outcome.FAILED to "отклик только на сайте компании"
-            "missing" -> runGoal(g, confirmSubmit) to ""
-            else -> { delay(2000); runGoal(g, confirmSubmit) to "" }
+            "missing" -> Outcome.FAILED to "нет кнопки «Откликнуться»" // не отдаём нейросети — иначе она уходит смотреть старые отклики
+            else -> { delay(2000); runGoal(g, confirmSubmit, guard) to "" }
         }
     }
 

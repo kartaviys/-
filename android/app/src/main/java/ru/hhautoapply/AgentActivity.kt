@@ -127,7 +127,14 @@ class AgentActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { AgentEngine.status.collect { info.text = it } }
+                launch {
+                    AgentEngine.status.collect {
+                        // мониторинг скорости: последний и средний отклик сегодня по этому ресурсу
+                        val ch = when (target) { "hh" -> "hh_site"; "habr" -> "habr_agent"; "linkedin" -> "linkedin_agent"; else -> target }
+                        val t = Timing.shortLine(this@AgentActivity, ch)
+                        info.text = if (t.isBlank()) it else "$it\n$t"
+                    }
+                }
                 launch { AgentEngine.running.collect { refreshStartButton(); if (it) collapseQueries() } }
                 launch { AgentEngine.target.collect { refreshStartButton() } }
                 launch { AgentEngine.prompt.collect { showPrompt(it) } }

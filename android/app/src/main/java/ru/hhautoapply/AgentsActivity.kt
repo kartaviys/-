@@ -41,6 +41,12 @@ class AgentsActivity : ComponentActivity() {
         }
         c.addView(label("$badge  $name", 16f))
         if (note.isNotBlank()) c.addView(label(note, 11f))
+        // мониторинг: среднее время отклика этого агента за 7 дней
+        val ch = when (target) { "hh" -> "hh_site"; "habr" -> "habr_agent"; "linkedin" -> "linkedin_agent"; else -> target }
+        Timing.byChannel(this, 7)[ch]?.let { r ->
+            c.addView(label(if (r.applied > 0) "⏱ отклик в среднем ${Timing.dur(r.avgMs)} · ${r.applied} откл. за 7 дней · " +
+                String.format(java.util.Locale.US, "%.1f", r.perHour) + " в час" else "⏱ за 7 дней откликов нет (просмотрено ${r.all})", 11f))
+        }
         val login = button(if (loginUrl != null) "Войти" else "Открыть сайт") {
             startActivity(Intent(this, WebActivity::class.java)
                 .putExtra(WebActivity.EXTRA_MODE, WebActivity.MODE_LOGIN)

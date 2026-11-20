@@ -6,6 +6,7 @@ const path = require('path');
 const S = require('./sites');
 const { DEFAULTS } = require('./store');
 const { Llm } = require('./llm');
+const T = require('./text');
 
 /** Поля настроек для формы (раздел → [ключ, подпись, тип]). */
 const SCHEMA = [
@@ -35,7 +36,7 @@ const SCHEMA = [
   ]],
   ['Лимиты и паузы', [
     ['daily_limit', 'hh: откликов в сутки'], ['habr_daily_limit', 'Хабр: в сутки'], ['linkedin_daily_limit', 'LinkedIn: в сутки'],
-    ['site_daily_limit', 'Каждый из 22 сайтов: в сутки'], ['max_pages', 'Страниц на запрос (40 — все)'], ['agent_max_steps', 'Шагов агента на вакансию'],
+    ['site_daily_limit', 'Каждый из 22 сайтов: в сутки'], ['max_pages', 'Страниц на запрос (40 — все)'], ['hh_batch', 'hh: вакансий подряд с одного запроса, потом следующий (по кругу)'], ['agent_max_steps', 'Шагов агента на вакансию'],
     ['delay_min', 'Пауза между откликами от, сек'], ['delay_max', 'до, сек'], ['agent_confirm', 'Спрашивать перед отправкой (true/false)'],
   ]],
   ['LinkedIn', [
@@ -57,6 +58,20 @@ const SCHEMA = [
     ['schedule_time', 'Каждый день в ЧЧ:ММ (пусто — выключено)'], ['schedule_agents', 'Каких агентов запускать по очереди (ключи через запятую: hh, habr, linkedin, superjob, …)'],
   ]],
 ];
+
+const CHANNEL_OF = { hh: 'hh_site', habr: 'habr_agent', linkedin: 'linkedin_agent' };
+function channelName(ch) {
+  const key = Object.keys(CHANNEL_OF).find(k => CHANNEL_OF[k] === ch) || ch;
+  return S.agentDef(key)?.name || ch;
+}
+/** Мониторинг для строки статуса: последний и средний отклик сегодня у работающего агента. */
+function speedLine(store, target) {
+  if (!target) return '';
+  const r = store.timingStats(1)[CHANNEL_OF[target] || target];
+  if (!r) return '';
+  if (!r.a) return `⏱ сегодня откликов нет, просмотрено ${r.n} за ${T.dur(r.nm)}`;
+  return `⏱ отклик: последний ${T.dur(r.last)}, в среднем ${T.dur(r.avg)} · ${r.perHour.toFixed(1)} в час`;
+}
 
 function lanUrls(port) {
   const out = [];
@@ -100,6 +115,7 @@ function createServer({ store, agent, uiDir, dataDir }) {
         return json(res, 200, {
           status: st.status, running: st.running, target: st.target, targetName: S.agentDef(st.target)?.name || '',
           prompt: st.prompt, done: st.done, limit: st.limit, appliedToday: store.appliedToday(),
+          speed: speedLine(store, st.target),
           usage: `Нейросеть сегодня: ${t.calls} запросов, ≈$${t.cost.toFixed(4)} · за 30 дней ≈$${m.cost.toFixed(2)}`,
           llmReady: !!(store.get('anthropic_key') || store.get('deepseek_key') || store.get('custom_base_url')),
           log: store.logLines.slice(-150),
@@ -133,6 +149,10 @@ function createServer({ store, agent, uiDir, dataDir }) {
       }
       if (p === '/api/journal') return json(res, 200, store.list().slice(0, 3000));
       if (p === '/api/usage') return json(res, 200, store.usageDays(14));
+      if (p === '/api/timing') {
+        const named = o => Object.entries(o).map(([ch, r]) => ({ channel: ch, name: channelName(ch), ...r })).sort((a, b) => b.a - a.a);
+        return json(res, 200, { today: named(store.timingStats(1)), week: named(store.timingStats(7)), month: named(store.timingStats(30)) });
+      }
       if (p === '/api/settings' && req.method === 'GET') {
         const all = store.all();
         const masked = Object.fromEntries(Object.entries(all).map(([k, v]) => [k, /key|token/.test(k) && v ? '••••' + String(v).slice(-4) : v]));

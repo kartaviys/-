@@ -7,6 +7,7 @@ window.__ag = (function () {
     return s.visibility !== 'hidden' && s.display !== 'none' && s.opacity !== '0';
   };
   const clean = t => (t || '').replace(/\s+/g, ' ').trim();
+  const HABR_APPLIED = /Вы откликнулись|Вы уже откликнулись|Отклик отправлен|Ваш отклик отправлен|Отклик на вакансию отправлен|Вы отправили отклик|Отозвать отклик/i;
   const labelOf = el => {
     let t = '';
     if (el.id) { const l = document.querySelector('label[for="' + CSS.escape(el.id) + '"]'); if (l) t = l.innerText; }
@@ -202,14 +203,19 @@ window.__ag = (function () {
       const signIn = document.querySelector('a[href*="sign_in"], a[href*="account.habr.com/login"], a[href*="/users/auth"]');
       return (login || (signIn && vis(signIn))) ? 'false' : 'true';
     },
+    // Отклик уже есть: текст на странице или кнопка/ссылка «Ваш отклик», «Отозвать», ссылка на /responses
     habrApplied() {
       const body = clean(document.body ? document.body.innerText : '').slice(0, 8000);
-      return /Вы откликнулись|Отклик отправлен|Вы уже откликнулись/i.test(body) ? 'true' : 'false';
+      if (HABR_APPLIED.test(body)) return 'true';
+      const el = [...document.querySelectorAll('a, button')].find(x => vis(x) &&
+        (/^(ваш отклик|мой отклик|отклик отправлен|вы откликнулись|посмотреть отклик|отозвать( отклик)?)$/i.test(clean(x.innerText)) ||
+         /\/responses\/|\/conversations\//.test(x.getAttribute('href') || '') && /отклик/i.test(clean(x.innerText))));
+      return el ? 'true' : 'false';
     },
     // 'ok' — нажали «Откликнуться»; 'external' — отклик на сайте компании; 'applied' — уже откликались; 'missing'
     habrRespond() {
       const body = clean(document.body ? document.body.innerText : '').slice(0, 8000);
-      if (/Вы откликнулись|Отклик отправлен|Вы уже откликнулись/i.test(body)) return 'applied';
+      if (this.habrApplied() === 'true') return 'applied';
       const btns = [...document.querySelectorAll('button, a')].filter(x => vis(x) && /откликнуться/i.test(clean(x.innerText)));
       if (btns.length === 0) return 'missing';
       const ext = btns.find(x => /на сайте|сайте компании/i.test(clean(x.innerText)) || (x.tagName === 'A' && /^https?:/.test(x.getAttribute('href') || '') && !/habr\.com/.test(x.getAttribute('href') || '')));
