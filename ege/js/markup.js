@@ -10,7 +10,7 @@ const Markup = (() => {
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], def2: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, lspan: {}, rings: [], rl: [], gm: {}, boxes: [], links: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], def2: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, lspan: {}, rings: [], rl: [], commas: [], gm: {}, boxes: [], links: [] });
   // Вопросы для подписи над стрелкой
   const QUESTIONS = ['какой?', 'какая?', 'какое?', 'какие?', 'что делая?', 'что сделав?', 'как?', 'где?', 'когда?', 'куда?', 'почему?', 'вопреки чему?', 'что?', 'чего?'];
   const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
@@ -60,6 +60,9 @@ const Markup = (() => {
     constructor(host, sent, opts = {}) {
       this.sent = sent;
       this.readOnly = !!opts.readOnly;
+      this.autoCross = !!opts.autoCross;
+      this.spanRings = !!opts.spanRings;
+      this.romanBases = !!opts.romanBases;
       this.marks = normMarks(opts.marks);
       this.labelSet = opts.labels || LABELS;
       // у готовых примеров линии соединяются только внутри одной фразы (links), у ученика — всегда
@@ -100,6 +103,7 @@ const Markup = (() => {
         const g = document.createElement('span');
         g.className = 'gap';
         g.dataset.g = k;
+        g.classList.toggle('comma-slot', k > 0 && k < this.sent.words.length);
         g.innerHTML = '<b class="bar"></b><b class="gch"></b><span class="w">​<span class="lines"></span></span>';
         s.appendChild(g);
         this.gapEls[k] = g;
@@ -164,6 +168,16 @@ const Markup = (() => {
     render() {
       const m = this.marks;
       const n = this.sent.words.length;
+      const baseLabels = {};
+      if (this.romanBases) {
+        const seen = new Set();
+        for (const [i, base] of Object.entries(m.mem)) {
+          if (seen.has(base.b)) continue;
+          seen.add(base.b);
+          baseLabels[i] = ['I', 'II', 'III', 'IV'][seen.size - 1];
+        }
+        if (seen.size < 2) delete baseLabels[Object.keys(baseLabels)[0]];
+      }
       for (let wi = 0; wi < n; wi++) {
         const t = this.wordEls[wi];
         t.querySelector('.lines').innerHTML = this.linesHtml(this.layers(wi));
@@ -173,6 +187,7 @@ const Markup = (() => {
         const lb = m.labels[wi] || '';
         t.querySelector('.lbl').innerHTML = lb.startsWith('o:') ? `<span class="oc oc-${esc(lb.slice(2))}"></span>` : esc(lb);
         t.classList.toggle('has-lbl', !!lb);
+        t.dataset.base = baseLabels[wi] || '';
         t.classList.toggle('pending', this.pending === wi);
       }
       const marked = new Set([...m.def, ...m.circ]);
@@ -189,6 +204,7 @@ const Markup = (() => {
         }
         g.classList.toggle('on', inGap);
         const ch = m.gm[k] || '';
+        g.classList.toggle('has-comma', m.commas.includes(k));
         g.querySelector('.gch').textContent = ch;
         g.classList.toggle('brk', !!ch);
         g.style.width = ch ? (0.5 * ch.length + 0.4) + 'em' : '';
@@ -265,7 +281,7 @@ const Markup = (() => {
         if (g.length < 2) continue;
         const a = this.wordEls[g[0]].querySelector('.w').getBoundingClientRect(), b = this.wordEls[g[g.length - 1]].querySelector('.w').getBoundingClientRect();
         if (Math.abs(a.top - b.top) > 10) continue;
-        const x = a.left - br.left - 5, y = a.top - br.top - 2, w = b.right - a.left + 10, hh = a.height + 4;
+        const x = a.left - br.left - 2, y = a.top - br.top - 2, w = b.right - a.left + 4, hh = a.height + 4;
         h += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}" rx="${(hh / 2).toFixed(1)}" class="ring-oval"/>`;
       }
       this.svg.innerHTML = h;
@@ -280,12 +296,13 @@ const Markup = (() => {
       }
     }
 
-    setTool(t) { this.tool = t; this.pending = null; this.closeMenu(); this.render(); }
+    setTool(t) { this.el.classList.toggle('comma-mode', t === 'comma'); this.tool = t; this.pending = null; this.closeMenu(); this.render(); }
     setBase(b) { this.base = b; }
     getMarks() { return clone(this.marks); }
     setMarks(m) { this.marks = normMarks(m); this.pending = null; this.closeMenu(); this.render(); this.onChange(this.getMarks()); }
+    startStage() { this.hist.length = 0; this.setTool(null); }
     snap() { this.hist.push(JSON.stringify(this.marks)); if (this.hist.length > 60) this.hist.shift(); }
-    undo() { if (!this.hist.length) return false; this.marks = JSON.parse(this.hist.pop()); this.pending = null; this.changed(); return true; }
+    undo() { this.closeMenu(); if (!this.hist.length) return false; this.marks = JSON.parse(this.hist.pop()); this.pending = null; this.changed(); return true; }
     clear() { this.snap(); this.marks = emptyMarks(); this.pending = null; this.closeMenu(); this.changed(); }
     changed() { this.clearWrong(); this.render(); this.onChange(this.getMarks()); }
 
@@ -329,9 +346,22 @@ const Markup = (() => {
     bind() {
       const s = this.sentEl;
       s.addEventListener('pointerdown', (e) => {
+        if (this.readOnly) return;
         if (!this.tool) { this.onTap('notool'); return; }
         const tok = e.target.closest('.tok');
         const gap = e.target.closest('.gap');
+        if (this.tool === 'comma') {
+          if (gap && +gap.dataset.g > 0 && +gap.dataset.g < this.sent.words.length) {
+            this.snap();
+            toggle(this.marks.commas, +gap.dataset.g);
+            this.changed();
+          }
+          return;
+        }
+        if (this.tool === 'hom') {
+          if (tok) this.openMenu(+tok.dataset.w, ['o:s', 'o:p', 'o:def', 'o:obj', 'o:circ']);
+          return;
+        }
         if (this.tool === 'brk') {
           let k = null;
           if (gap) k = +gap.dataset.g;
@@ -362,6 +392,7 @@ const Markup = (() => {
           else {
             this.snap();
             const a = [this.pending, wi];
+            if (this.autoCross && !this.marks.cross.includes(a[0])) this.marks.cross.push(a[0]);
             let ai = this.marks.arrows.findIndex((x) => x[0] === a[0] && x[1] === a[1]);
             if (ai < 0) { this.marks.arrows.push(a); ai = this.marks.arrows.length - 1; }
             this.pending = null;
@@ -385,6 +416,12 @@ const Markup = (() => {
         const wi = +tok.dataset.w;
         this.dragOn = this.tool === 'erase' ? true : !this.has(wi);
         this.visited = new Set([wi]);
+        this.ringFrom = wi;
+        if (this.tool === 'ring' && this.spanRings && !this.dragOn) {
+          const group = this.ringGroups().find((g) => g.includes(wi));
+          group.forEach((w) => this.apply(w, false));
+          this.marks.rl = this.marks.rl.filter((w) => !group.includes(w));
+        }
         this.apply(wi, this.dragOn);
         this.dragging = true;
         this.render();
@@ -399,7 +436,13 @@ const Markup = (() => {
         const wi = +tok.dataset.w;
         if (this.visited.has(wi)) return;
         this.visited.add(wi);
-        this.apply(wi, this.dragOn);
+        if (this.tool === 'ring' && this.spanRings && this.dragOn) {
+          const first = Math.min(this.ringFrom, wi), last = Math.max(this.ringFrom, wi);
+          for (let i = first; i <= last; i++) {
+            this.apply(i, true);
+            if (i > first && !this.marks.rl.includes(i)) this.marks.rl.push(i);
+          }
+        } else this.apply(wi, this.dragOn);
         this.render();
       });
       const up = () => { if (this.dragging) { this.dragging = false; this.changed(); } };
@@ -408,12 +451,12 @@ const Markup = (() => {
     }
 
     /* Меню подписей над словом */
-    openMenu(wi) {
+    openMenu(wi, labels = this.labelSet) {
       this.closeMenu();
       const t = this.wordEls[wi], br = this.el.getBoundingClientRect(), r = t.getBoundingClientRect();
       const menu = document.createElement('div');
       menu.className = 'lbl-menu';
-      menu.innerHTML = this.labelSet.map((l) => `<button data-l="${esc(l)}">${esc(l)}</button>`).join('') + (this.marks.labels[wi] ? '<button data-l="" class="del">✕ убрать</button>' : '');
+      menu.innerHTML = labels.map((l) => `<button data-l="${esc(l)}">${l.startsWith('o:') ? `<span class="oc oc-${esc(l.slice(2))}"></span>` : esc(l)}</button>`).join('');
       menu.style.top = r.bottom - br.top + 4 + 'px';
       menu.style.left = Math.max(0, Math.min(br.width - 230, r.left - br.left - 20)) + 'px';
       menu.addEventListener('pointerdown', (e) => e.stopPropagation());
@@ -518,6 +561,8 @@ const Markup = (() => {
     brk: { label: 'Скобки', glyph: '<b class="g-brk">[ ]</b>' },
     box: { label: 'В квадрат', glyph: '<b class="g-box">то</b>' },
     bar: { label: 'Граница', glyph: '<b class="g-bar">|</b>' },
+    comma: { label: 'Запятая', glyph: '<b class="g-lbl">,</b>' },
+    hom: { label: 'Однородный член', glyph: '<b class="g-lbl">○</b>' },
     erase: { label: 'Ластик', glyph: '<b class="g-er">⌫</b>' },
   };
 
@@ -530,7 +575,6 @@ const Markup = (() => {
       ${hasBase ? `<div class="bases"><span>Основа:</span>${[1, 2, 3, 4].map((b) => `<button class="bdot${b === 1 ? ' on' : ''}" data-b="${b}" style="--c:${BASE_COLORS[b]}">${b}</button>`).join('')}</div>` : ''}
       <div class="tools">${drawTools.map((t) => `<button class="tool" data-t="${t}" style="--c:${BASE_COLORS[1]}">${TOOL_DEFS[t].glyph}<span>${TOOL_DEFS[t].label}</span></button>`).join('')}
         <button class="tool util" data-u="undo"><b class="g-er">↶</b><span>Отменить</span></button>
-        <button class="tool util" data-u="clear"><b class="g-er">⟲</b><span>Сбросить</span></button>
       </div>
       <div class="tooltip"></div>`;
     host.appendChild(wrap);
@@ -551,7 +595,6 @@ const Markup = (() => {
         wrap.querySelectorAll('.tool[data-t="subj"],.tool[data-t="pred"]').forEach((x) => x.style.setProperty('--c', BASE_COLORS[b.dataset.b]));
       }
       if (b.dataset.u === 'undo') board.undo();
-      if (b.dataset.u === 'clear') board.clear();
     });
     select(drawTools[0]);
     return { select, el: wrap };
@@ -574,7 +617,7 @@ const Markup = (() => {
     });
     for (const [i, e] of all) {
       const x = m.mem[i];
-      if (!x) { wrong.add(i); msgs.add(e.t === 's' ? 'Найдены не все подлежащие (подлежащее — одной чертой, отвечает на вопрос кто? что?).' : 'Найдены не все сказуемые (сказуемое — двумя чертами). Подсказка: у одного подлежащего может быть несколько сказуемых!'); }
+      if (!x) { wrong.add(i); msgs.add(e.t === 's' ? 'Найдены не все подлежащие (подлежащее — одной чертой, отвечает на вопрос кто? что?).' : 'Найдены не все сказуемые (сказуемое — двумя чертами). Подсказка: в составе одного сказуемого может быть несколько слов.'); }
       else if (x.t !== e.t) { wrong.add(i); msgs.add('Где-то перепутаны подлежащее и сказуемое.'); }
     }
     const opt = new Set(spec.optional || []);

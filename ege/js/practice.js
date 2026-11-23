@@ -95,7 +95,6 @@
 
   function build(n) {
     const cfg = CFG[n], data = DATA[n], algo = data.algo;
-    const algoHtml = `<div class="algo-box"><h3>Алгоритм: задание ${n}</h3><ol class="algo-steps">${algo.map((a) => `<li>${a}</li>`).join('')}</ol></div>`;
     const slides = [];
 
     // если есть теория — первый слайд берём из неё (пример номера и что нужно знать, как в задании 17)
@@ -117,7 +116,13 @@
 
     ((App.THEORY || {})[n] || []).forEach((f) => slides.push(f));
 
+    if (n === 16) slides.push(slide('Тренировка', (body, api) => {
+      body.appendChild(h('<div class="slide intro"><div class="step-chip gold">Тренировка</div><h2>Теперь — сам!</h2><p>Разбирай по одному предложению: отмечай основы и союзы, затем расставляй запятые.</p></div>'));
+      api.foot({ label: 'Начать тренировку' });
+    }));
+
     data.ex.forEach((ex, k) => slides.push(slide(`Упражнение ${k + 1}/10`, (body, api) => {
+      if (n === 16) return App.Practice16(body, api, k);
       const el = h(`<div class="slide train">
         <div class="algo-panel"></div>
         <div class="etask small"><span class="etask-n">${n}</span><div>${ex.task || cfg.task}</div></div>
@@ -142,9 +147,10 @@
       };
       const stepDone = () => {
         api.fly(api.mainEl || panel, 2);
+        boards.forEach((board) => board.startStage());
         si++;
         drawPanel();
-        if (si < algo.length) api.foot({ label: si === algo.length - 1 ? 'Последний шаг выполнен ✓' : 'Шаг выполнен ✓', onClick: stepDone, extraLabel: '📜', onExtra: () => App.openAlgo(algoHtml) });
+        if (si < algo.length) api.foot({ label: si === algo.length - 1 ? 'Последний шаг выполнен ✓' : 'Шаг выполнен ✓', onClick: stepDone });
         else answerStage();
       };
       const answerStage = () => {
@@ -163,7 +169,7 @@
         api.foot({ label: k < data.ex.length - 1 ? 'Следующее упражнение ▸' : 'Итоги' });
       };
       drawPanel();
-      api.foot({ label: 'Шаг выполнен ✓', onClick: stepDone, extraLabel: '📜', onExtra: () => App.openAlgo(algoHtml) });
+      api.foot({ label: 'Шаг выполнен ✓', onClick: stepDone });
     })));
 
     slides.push(slide('Финал', (body, api) => {
@@ -180,7 +186,7 @@
       api.foot({ label: 'На карту пути', onClick: () => api.close() });
     }));
 
-    return { slides, algoImg: algoHtml };
+    return { slides };
   }
 
   [16, 18, 19, 20, 21].forEach((n) => (App.LESSONS[n] = build(n)));

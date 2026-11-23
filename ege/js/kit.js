@@ -215,13 +215,12 @@
       const it = items[i];
       area.innerHTML = `<div class="q-count">${i + 1} из ${items.length}</div><div class="q">${it.q}</div><div class="opts ${grid || (it.options.length === 2 ? 'grid2' : '')}">${it.options.map((o, j) => `<button class="opt" data-j="${j}">${o}</button>`).join('')}</div>`;
       api.foot({ label: 'Выбери ответ', enabled: false });
-      let miss = false;
       area.querySelectorAll('.opt').forEach((b) => b.addEventListener('click', () => {
         const right = area.querySelectorAll('.opt')[it.correct];
         area.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
         // при ошибке сразу показываем верный вариант и объясняем, почему верен он
-        if (+b.dataset.j !== it.correct) { b.classList.add('wrong'); right.classList.add('right'); api.bad([`Верный ответ — «${it.options[it.correct]}». ${it.why || ''}`]); }
-        else { okN++; b.classList.add('right'); api.good(miss ? 2 : 5, 0, b, it.why); }
+        if (+b.dataset.j !== it.correct) { b.classList.add('wrong'); right.classList.add('right'); api.bad([it.why].filter(Boolean), { concise: true }); }
+        else { okN++; b.classList.add('right'); api.good(5, 0, b, it.why); }
         const last = i === items.length - 1;
         api.foot({ label: last ? 'Дальше' : 'Следующий ▸', onClick: () => { api.feedback(null); if (last) { area.innerHTML = `<div class="conclusion">Готово! Верных ответов: ${okN} из ${items.length} ✅</div>`; done(); } else { i++; ask(); } } });
       }));
