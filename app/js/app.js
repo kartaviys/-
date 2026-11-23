@@ -19,10 +19,10 @@ const App = (() => {
   // Маршрут по главам; задания открываются строго по порядку, первым — №17
   const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
   const GROUPS = [
-    { name: 'Лес пунктуации', short: 'Пунктуация', e: '🌲', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
-    { name: 'Орфографические холмы', short: 'Орфография', e: '⛰️', tasks: [...range(9, 15), 101], label: 'задания 9–15' },
-    { name: 'Озеро языковых норм', short: 'Речевые нормы', e: '🏞️', tasks: [...range(4, 8), 102], label: 'задания 4–8' },
-    { name: 'Текстовые горы', short: 'Текст', e: '🏔️', tasks: [1, 2, 3, ...range(22, 26), 103], label: 'задания 1–3, 22–26' },
+    { name: 'Лес пунктуации', scenery: 'forest', short: 'Пунктуация', e: '🌲', tasks: [17, 16, 18, 19, 20, 21, 100], label: 'задания 16–21 + зачёт' },
+    { name: 'Орфографические холмы', scenery: 'hills', short: 'Орфография', e: '⛰️', tasks: [...range(9, 15), 101], label: 'задания 9–15' },
+    { name: 'Озеро языковых норм', scenery: 'lake', short: 'Речевые нормы', e: '🏞️', tasks: [...range(4, 8), 102], label: 'задания 4–8' },
+    { name: 'Текстовые горы', scenery: 'mountains', short: 'Текст', e: '🏔️', tasks: [1, 2, 3, ...range(22, 26), 103], label: 'задания 1–3, 22–26' },
     { name: 'Сочинение', short: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
   ];
   const ROUTE = GROUPS.flatMap((g) => g.tasks);
@@ -322,7 +322,10 @@ const App = (() => {
       const tasks = g.tasks.filter(isExamTask); const n = tasks.filter((t) => S.done[t]).length;
       const reached = curIdx < 0 || s <= curIdx;
       const full = n === tasks.length;
-      if (gi < GROUPS.length - 1) wrap.prepend(h(`<div class="zone z${gi % 2}" style="top:${yEnd}px;height:${yStart - yEnd}px"></div>`));
+      if (g.scenery) {
+        const zoneBottom = gi === 0 ? H : yStart;
+        wrap.prepend(h(`<div class="zone scenery-${g.scenery}" style="top:${yEnd}px;height:${zoneBottom - yEnd}px" aria-hidden="true"></div>`));
+      }
       wrap.appendChild(h(`<div class="gsign ${reached ? 'reached' : 'locked'} ${full ? 'full' : ''}" style="top:${yStart}px">
           <span class="gs-e">${full ? '✅' : reached ? g.e : '🔒'}</span>
           <span class="gs-t"><small>Глава ${gi + 1} · ${g.label}</small><b>${g.name}</b></span>

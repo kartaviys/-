@@ -433,9 +433,13 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .gchip { font-size: .72rem; font-weight: 750; padding: 4px 9px; border-radius: 99px; background: var(--violet-ll); color: var(--violet-d); }
 .gchip b { margin-left: 2px; }
 .gchip.full { background: var(--yellow-l); color: #92400e; }
-.map > .zone { position: absolute; left: 0; right: 0; border-radius: 24px; pointer-events: none; }
-.zone.z0 { background: rgba(237, 233, 254, .45); }
-.zone.z1 { background: rgba(254, 243, 199, .45); }
+.map > .zone { position: absolute; left: 0; right: 0; border-radius: 24px; pointer-events: none;
+  background: linear-gradient(#fff1, #fff0 15%, #fff0 88%, #fff2), var(--scenery) center / cover no-repeat;
+}
+.scenery-forest { --scenery: url('../assets/map-forest.jpg'); }
+.scenery-hills { --scenery: url('../assets/map-hills.jpg'); }
+.scenery-lake { --scenery: url('../assets/map-lake.jpg'); }
+.scenery-mountains { --scenery: url('../assets/map-mountains.jpg'); }
 .map > .gsign {
   position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; align-items: center; gap: 10px;
   width: min(92%, 340px); padding: 8px 12px; border-radius: 16px; background: var(--violet); color: #fff;
