@@ -224,8 +224,7 @@
         api.foot({ label: 'Дальше' });
       } else {
         tries++;
-        extra.forEach((i) => host.querySelector(`.pw[data-i="${i}"]`).classList.add('wrong'));
-        api.bad([missing.length ? 'Найдено не всё: нужно и <i>что</i> подобрать (разряд + часть речи), и <i>где</i> (номер предложения).' : 'Лишние слова выделены — оставь только самое важное.']);
+        api.bad([missing.length ? 'Найдено не всё: нужно и <i>что</i> подобрать (разряд + часть речи), и <i>где</i> (номер предложения).' : 'Есть лишние слова — оставь только самое важное.']);
         if (tries >= 2) api.foot({ label: 'Проверить', onClick: check, extraLabel: '👀 Показать', onExtra: () => {
           host.querySelectorAll('.pw').forEach((el) => el.classList.toggle('on', need.has(words[+el.dataset.i])));
           picked.clear(); words.forEach((w, i) => need.has(w) && picked.add(i));
@@ -255,7 +254,6 @@
         api.foot({ label: 'Дальше' });
       } else {
         tries++;
-        [...picked].filter((i) => i !== 1 && i !== 2).forEach((i) => host.querySelector(`.etext p[data-i="${i}"]`).classList.add('wrong'));
         api.bad([!picked.has(2) ? 'Сначала найди предложение, где стоит &lt;…&gt;.' : 'Пропущенное слово связывает (3) с предложением прямо перед ним.']);
       }
     };
@@ -289,9 +287,8 @@
         api.foot({ label: 'Дальше' });
       } else {
         tries++;
-        wrong.filter((i) => picked.has(i)).forEach((i) => host.querySelector(`.wchip[data-i="${i}"]`).classList.add('wrong'));
         const miss = wrong.filter((i) => !picked.has(i)).length;
-        api.bad([miss ? `Найдены не все противительные союзы (осталось ${miss}).` : 'Выделены лишние слова: «поэтому» — следствие, «если» — условие, «ведь», «так как» — причина, «хотя» — уступка.']);
+        api.bad([miss ? `Найдены не все противительные союзы (осталось ${miss}).` : 'Выделены лишние слова. Проверь, выражает ли каждый выбранный союз противопоставление.']);
       }
     };
     api.foot({ label: 'Проверить', onClick: check });

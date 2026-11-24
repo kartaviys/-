@@ -30,7 +30,7 @@
   }
   const merge = (a, b) => {
     const r = M.clone(a);
-    for (const k of ['def', 'def2', 'circ', 'obj', 'cross', 'bars', 'rings', 'rl', 'boxes', 'links']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
+    for (const k of ['def', 'circ', 'obj', 'cross', 'bars', 'rings', 'rl', 'boxes', 'links']) r[k] = [...new Set([...(r[k] || []), ...(b[k] || [])])];
     r.arrows = [...(r.arrows || []), ...(b.arrows || [])];
     r.mem = Object.assign({}, r.mem, b.mem);
     r.labels = Object.assign({}, r.labels, b.labels);
@@ -319,7 +319,18 @@
     const ansEl = box.querySelector('.rs-ans b');
     const answer = () => o.nums.filter((n) => st[n] && st[n].v === 1).join('');
     const ready = () => o.nums.every((n) => st[n] && st[n].r);
-    const upd = () => { ansEl.textContent = answer() || '—'; api.foot({ label: 'Проверить', enabled: ready(), onClick: check }); };
+    let tries = 0;
+    const lock = () => box.querySelectorAll('button, select').forEach((x) => (x.disabled = true));
+    const showAnswer = () => {
+      lock();
+      api.feedback('info', `Верный ответ: <b>${o.answer}</b>. Разбор ниже 👇`);
+      o.onDone(false);
+    };
+    const upd = () => {
+      ansEl.textContent = answer() || '—';
+      api.foot({ label: 'Проверить', enabled: ready(), stable: true, onClick: check,
+        extraLabel: tries >= 2 ? '👀 Ответ' : null, onExtra: showAnswer });
+    };
     box.querySelectorAll('.rs-row').forEach((row) => {
       const n = +row.dataset.n, sel = row.querySelector('select');
       row.querySelectorAll('.rs-seg button').forEach((b) => b.addEventListener('click', () => {
@@ -334,13 +345,18 @@
       }));
       sel.addEventListener('change', () => { if (st[n]) { st[n].r = sel.value; upd(); } });
     });
-    let tries = 0;
     function check() {
-      const v = answer();
-      if (v === o.answer) { box.querySelectorAll('button, select').forEach((x) => (x.disabled = true)); api.good(tries ? 8 : 15, 0, ansEl, `Ответ <b>${o.answer}</b> — верно! Сверь свои объяснения с разбором.`); App.confetti(80); o.onDone(true); return; }
+      if (!ready()) return;
+      if (answer() === o.answer) {
+        lock();
+        api.good(tries ? 8 : 15, 0, ansEl, `Ответ <b>${o.answer}</b> — верно! Сверь свои объяснения с разбором.`);
+        App.confetti(80);
+        o.onDone(true);
+        return;
+      }
       tries++;
       api.bad(['Где-то запятая лишняя или пропущена. Проверь причины ещё раз.']);
-      if (tries >= 2) api.foot({ label: 'Проверить', enabled: ready(), onClick: check, extraLabel: '👀 Ответ', onExtra: () => { box.querySelectorAll('button, select').forEach((x) => (x.disabled = true)); api.feedback('info', `Верный ответ: <b>${o.answer}</b>. Разбор ниже 👇`); o.onDone(false); } });
+      upd();
     }
     upd();
     box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

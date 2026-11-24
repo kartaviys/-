@@ -206,7 +206,7 @@
       const key = ex.keys[sentence], marks = board.getMarks();
       if (stage === 0) {
         const result = M.checkBases(marks, { groups: key.groups, optional: key.groups.flatMap((g) => g.p.map((n) => n - 1).filter((n) => /^н[еи]$/i.test(key.sent.words[n] || ''))) });
-        if (!result.ok) { board.markWrong(result.wrong); fail(result.msgs); return; }
+        if (!result.ok) { fail(result.msgs); return; }
       }
       if (stage === 1 && !same(board.ringGroups().map((a) => a.join(',')), key.rings.map((a) => a.join(',')))) {
         fail(['Проверь союзы. Слова одной части составного союза должны быть внутри общего овала.']);
