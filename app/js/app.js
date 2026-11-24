@@ -547,7 +547,7 @@ const App = (() => {
     const kinds = L.slides.map(kindOf);
     const blocks = [];
     L.slides.slice(0, total).forEach((slide, i) => {
-      const name = slide.block || 'Слайд';
+      const name = slide.block || `Слайд ${i + 1}`;
       const last = blocks[blocks.length - 1];
       if (last?.name === name) last.end = i + 1;
       else blocks.push({ name, start: i, end: i + 1 });
