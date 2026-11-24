@@ -143,7 +143,7 @@ object AgentEngine {
         }
         var c = grab()
         if (c.optString("state") == "hidden" && !running.value &&
-            evalJs(w, "window.__ag?.contactsReveal($expected)") == "true") {
+            evalJs(w, "window.__ag && window.__ag.contactsReveal($expected)") == "true") {
             delay(1000)
             if (running.value) return null
             c = grab()

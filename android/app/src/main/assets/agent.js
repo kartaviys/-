@@ -10,7 +10,7 @@ window.__ag = (function () {
   const odsContactContent = () => {
     const heading = [...document.querySelectorAll('section > h2')].find(
       h => vis(h) && /^(контакты|contacts)$/i.test(clean(h.innerText)));
-    const content = heading?.nextElementSibling;
+    const content = heading && heading.nextElementSibling;
     return content && vis(content) ? content : null;
   };
   const odsRevealButton = content => content && [...content.querySelectorAll('button')].find(
@@ -166,8 +166,13 @@ window.__ag = (function () {
           else if (!/(^|\.)ods\.ai$/i.test(a.hostname)) apply.push(h);
         }
       }
-      const telegramText = /(?:^|[\s(,:"«])(?:@([a-z0-9_]{5,32})\b|(?:https?:\/\/)?(?:t\.me|telegram\.me)\/([a-z0-9_]{5,32})\/?(?=$|[\s?#!.,;:)}\]»]))/gi;
-      for (const m of text.replace(emailPattern, '').matchAll(telegramText)) addTelegram(m[1] || m[2]);
+      const withoutEmails = text.replace(emailPattern, '');
+      const telegramMention = /(?:^|[\s(,:"«])@([a-z0-9_]{5,32})\b/gi;
+      const telegramLink = /(?:^|[\s(,:"«])(?:https?:\/\/)?(?:t\.me|telegram\.me)\/([a-z0-9_]{5,32})\/?(?=$|[\s?#!.,;:)}\]»])/gi;
+      for (const pattern of [telegramMention, telegramLink]) {
+        let match;
+        while ((match = pattern.exec(withoutEmails)) !== null) addTelegram(match[1]);
+      }
       return JSON.stringify({
         state: 'ready',
         emails: uniq(emails).slice(0, 5), telegrams: uniq(tg).slice(0, 5),
