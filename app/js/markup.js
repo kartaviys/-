@@ -10,7 +10,7 @@ const Markup = (() => {
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], def2: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, lspan: {}, rings: [], rl: [], commas: [], gm: {}, boxes: [], links: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, lspan: {}, rings: [], rl: [], commas: [], gm: {}, boxes: [], links: [] });
   // Вопросы для подписи над стрелкой
   const QUESTIONS = ['какой?', 'какая?', 'какое?', 'какие?', 'что делая?', 'что сделав?', 'как?', 'где?', 'когда?', 'куда?', 'почему?', 'вопреки чему?', 'что?', 'чего?'];
   const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
@@ -104,7 +104,7 @@ const Markup = (() => {
         g.className = 'gap';
         g.dataset.g = k;
         g.classList.toggle('comma-slot', k > 0 && k < this.sent.words.length);
-        g.innerHTML = '<b class="bar"></b><b class="gch"></b><span class="w">​<span class="lines"></span></span>';
+        g.innerHTML = '<b class="gch"></b><span class="w">​<b class="bar"></b><span class="lines"></span></span>';
         s.appendChild(g);
         this.gapEls[k] = g;
       };
@@ -144,25 +144,18 @@ const Markup = (() => {
       }
     }
 
-    layers(wi) {
-      const m = this.marks, out = [];
+    lineAt(wi) {
+      const m = this.marks;
       const mem = m.mem[wi];
-      if (mem) out.push({ k: 'mem', t: mem.t, b: mem.b });
-      if (m.obj.includes(wi)) out.push({ k: 'obj' });
-      if (m.def.includes(wi)) out.push({ k: 'def' });
-      if ((m.def2 || []).includes(wi)) out.push({ k: 'def2' });
-      if (m.circ.includes(wi)) out.push({ k: 'circ' });
-      return out;
+      if (mem) return { k: 'mem', t: mem.t, b: mem.b };
+      const k = ['def', 'circ', 'obj'].find((type) => m[type].includes(wi));
+      return k ? { k } : null;
     }
 
-    // Все подчёркивания на одном уровне; вторая линия у того же слова — ниже
-    linesHtml(ls, ref) {
-      return ls.map((l) => {
-        const i = ref ? ref.findIndex((r) => r.k === l.k && r.t === l.t && r.b === l.b) : ls.indexOf(l);
-        const top = `top:${1 + Math.max(0, i) * 8}px;`;
-        if (l.k === 'mem') return `<i class="ln l-mem ${l.t === 's' ? 'single' : 'double'}" style="${top}--c:${BASE_COLORS[l.b]}"></i>`;
-        return `<i class="ln l-${l.k}" style="${top}"></i>`;
-      }).join('');
+    lineHtml(line) {
+      if (!line) return '';
+      if (line.k === 'mem') return `<i class="ln l-mem ${line.t === 's' ? 'single' : 'double'}" style="top:1px;--c:${BASE_COLORS[line.b]}"></i>`;
+      return `<i class="ln l-${line.k}" style="top:1px"></i>`;
     }
 
     render() {
@@ -180,7 +173,7 @@ const Markup = (() => {
       }
       for (let wi = 0; wi < n; wi++) {
         const t = this.wordEls[wi];
-        t.querySelector('.lines').innerHTML = this.linesHtml(this.layers(wi));
+        t.querySelector('.lines').innerHTML = this.lineHtml(this.lineAt(wi));
         t.classList.toggle('x', m.cross.includes(wi));
         t.classList.toggle('ring', m.rings.includes(wi));
         t.classList.toggle('box', m.boxes.includes(wi));
@@ -208,13 +201,12 @@ const Markup = (() => {
         g.querySelector('.gch').textContent = ch;
         g.classList.toggle('brk', !!ch);
         g.style.width = ch ? (0.5 * ch.length + 0.4) + 'em' : '';
-        let joined = [];
-        const a = k > 0 ? this.layers(k - 1) : [];
+        let joined = null;
         if (k > 0 && k < n && (!this.useLinks || (m.links || []).includes(k))) {
-          const b = this.layers(k);
-          joined = a.filter((la) => b.some((lb) => lb.k === la.k && lb.t === la.t && lb.b === la.b));
+          const a = this.lineAt(k - 1), b = this.lineAt(k);
+          if (a && b && a.k === b.k && a.t === b.t && a.b === b.b) joined = a;
         }
-        g.querySelector('.lines').innerHTML = this.linesHtml(joined, a);
+        g.querySelector('.lines').innerHTML = this.lineHtml(joined);
       }
       // кружок вокруг нескольких слов («не только», «но и») рисуется одним овалом
       const rg = this.ringGroups();
@@ -234,7 +226,7 @@ const Markup = (() => {
     alignPatterns() {
       const sr = this.sentEl.getBoundingClientRect();
       if (!sr.width) return;
-      this.sentEl.querySelectorAll('.ln.l-def, .ln.l-def2, .ln.l-circ').forEach((el) => {
+      this.sentEl.querySelectorAll('.ln.l-def, .ln.l-circ').forEach((el) => {
         el.style.backgroundPositionX = `${-(el.getBoundingClientRect().left - sr.left)}px`;
       });
     }
@@ -304,7 +296,7 @@ const Markup = (() => {
     snap() { this.hist.push(JSON.stringify(this.marks)); if (this.hist.length > 60) this.hist.shift(); }
     undo() { this.closeMenu(); if (!this.hist.length) return false; this.marks = JSON.parse(this.hist.pop()); this.pending = null; this.changed(); return true; }
     clear() { this.snap(); this.marks = emptyMarks(); this.pending = null; this.closeMenu(); this.changed(); }
-    changed() { this.clearWrong(); this.render(); this.onChange(this.getMarks()); }
+    changed() { this.render(); this.onChange(this.getMarks()); }
 
     has(wi) {
       const m = this.marks;
@@ -335,10 +327,11 @@ const Markup = (() => {
         case 'box': m.boxes = without(m.boxes, wi); if (on) m.boxes.push(wi); break;
         case 'obj': m.obj = without(m.obj, wi); if (on) m.obj.push(wi); break;
         case 'erase':
-          delete m.mem[wi];
+          if (!this.keepBases) delete m.mem[wi];
           m.def = without(m.def, wi); m.circ = without(m.circ, wi); m.cross = without(m.cross, wi);
           m.rings = without(m.rings, wi); m.obj = without(m.obj, wi); m.boxes = without(m.boxes, wi); delete m.labels[wi];
           m.arrows = m.arrows.filter((a) => a[0] !== wi && a[1] !== wi);
+          if (this.autoCross) m.cross = [...new Set(m.arrows.map(([from]) => from))];
           break;
       }
     }
@@ -527,16 +520,6 @@ const Markup = (() => {
       this.el.querySelectorAll('.tok.pending').forEach((e) => e.classList.remove('pending'));
     }
 
-    markWrong(list) {
-      this.clearWrong();
-      for (const wi of list) this.wordEls[wi] && this.wordEls[wi].classList.add('wrong');
-    }
-    markWrongGaps(list) {
-      for (const k of list) this.gapEls[k] && this.gapEls[k].classList.add('wrong');
-    }
-    clearWrong() {
-      this.sentEl.querySelectorAll('.wrong').forEach((e) => e.classList.remove('wrong'));
-    }
     flash(list, cls = 'good') {
       for (const wi of list) {
         const e = this.wordEls[wi];
@@ -646,18 +629,19 @@ const Markup = (() => {
     return { ok: d.ok, wrong: [...d.missing, ...d.extra], msgs };
   }
 
-  const DEF_Q = /^(как(ой|ая|ое|ие|ого|ую|им|их|ом|ою|ими|ому)|чей|чья|чье|чьи|чьего|чьей|чьих|чьему|чьим|который|которая|которое|которые|которого|которой)/;
-  const CIRC_Q = /^(что\s*(делая|сделав)|как|когда|почему|отчего|где|куда|откуда|зачем|вопреки|несмотря|невзирая|при как|каким образом|в каком|с какой|по какой|с какого|до каких|сколько)/;
   function checkArrows(m, expected, also = []) {
     const msgs = new Set(), wrong = new Set();
     for (const e of expected) {
       const from = [].concat(e.from);
       const hit = m.arrows.find((a) => from.includes(a[0]) && e.to.includes(a[1]));
       const ok = !!hit;
-      if (hit && e.k) {
+      if (hit && e.questions) {
         const q = norm(hit[2] || '').replace(/\?/g, '').trim();
         if (!q) { msgs.add('Над стрелкой не хватает вопроса — впиши его (нажми ещё раз на главное слово, потом на слово оборота).'); wrong.add(hit[1]); }
-        else if (!(e.k === 'def' ? DEF_Q : CIRC_Q).test(q) || (e.k === 'circ' && DEF_Q.test(q) && !/^каким образом/.test(q))) { msgs.add(e.k === 'def' ? 'К определению задаём вопрос «какой? чей?» (в нужной форме).' : 'К обстоятельству задаём вопросы «как? когда? почему? что делая? что сделав?» и т. п.'); wrong.add(hit[1]); }
+        else if (!e.questions.includes(q.replace(/\s+/g, ' '))) {
+          msgs.add(e.k === 'def' ? 'Согласуй вопрос к определению с определяемым словом.' : 'Проверь вопрос к деепричастию.');
+          wrong.add(hit[1]);
+        }
       }
       if (!ok) {
         const rev = m.arrows.some((a) => from.includes(a[1]) && e.to.includes(a[0]));
@@ -666,7 +650,7 @@ const Markup = (() => {
       }
     }
     for (const a of m.arrows) {
-      const fits = [...expected, ...also].some((e) => { const from = [].concat(e.from); return (from.includes(a[0]) && e.to.includes(a[1])) || (from.includes(a[1]) && e.to.includes(a[0])); });
+      const fits = [...expected, ...also].some((e) => { const from = [].concat(e.from); return from.includes(a[0]) && e.to.includes(a[1]); });
       if (!fits) { msgs.add('Есть лишняя стрелка — она соединяет не те слова.'); wrong.add(a[0]); wrong.add(a[1]); }
     }
     return { ok: !msgs.size, wrong: [...wrong], msgs: [...msgs] };

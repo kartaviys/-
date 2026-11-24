@@ -6,9 +6,7 @@
 
   /* ===== Алгоритм (всегда под рукой) ===== */
   const ALGO = [
-    'Найти определения и обстоятельства.',
-    'Найти главное (определяемое) слово, выделить его крестиком ×, провести стрелочку к обороту.',
-    'Проверить, есть ли у них зависимые слова. Выделить определение и обстоятельство вертикальными палочками |.',
+    'Найти определения и обстоятельства. Подчеркнуть их вместе с зависимыми словами, поставить границы, провести от главных слов стрелки и подписать вопросы.',
     'Проверить, нет ли однородности. Если есть союз, соединяющий однородные члены, взять его в кружок.',
     'Расставить знаки препинания, проверив условия обособления.',
   ];
@@ -228,7 +226,7 @@
         st({ s: ['небо'], p: ['трепетало'] }, 'Основа: <i>небо трепетало</i>.'),
         st({ def: ['полное грозою'], lab: { 'полное грозою': 'прил.+з.с.' }, x: ['небо'], arr: [['небо', 'полное', 'какое?']], bars: ['|полное', 'грозою|'] }, '<b>Полное грозою</b> — прилагательное с зависимым словом. Стоит <b>после</b> определяемого слова <i>небо</i> → обособляется.'),
       ]),
-      revealPh(['<div class="cond"><span>2</span><p>имеет <b>обстоятельственное значение</b> (причины, уступки, условия, времени)</p></div>', '<div class="tcard yellow">Проверка: такое предложение можно переделать в <b>сложноподчинённое</b>, подставив союзы <i>хотя, потому что, так как, если, когда</i>: <i>Утомлённый дорогой, Виктор скоро заснул</i> → <i>Так как Виктор был утомлён дорогой, он скоро заснул</i>.</div>']),
+      revealPh(['<div class="cond"><span>2</span><p>имеет <b>обстоятельственное значение</b> (причины, уступки, условия, времени)</p></div>', '<div class="tcard yellow"><b class="rule-check">Проверка</b>Такое предложение можно переделать в <b>сложноподчинённое</b>, подставив союзы <i>хотя, потому что, так как, если, когда</i>: <i>Утомлённый дорогой, Виктор скоро заснул</i> → <i>Так как Виктор был утомлён дорогой, он скоро заснул</i>.</div>']),
       demoPh('Раненный осколком в плечо, капитан Сабуров не покинул строя.', [
         st({ s: ['капитан'], p: ['не покинул'] }, 'Основа: <i>капитан не покинул</i>.'),
         st({ def: ['раненный осколком в плечо'], lab: { 'раненный осколком в плечо': 'ПО' }, x: ['капитан'], arr: [['капитан', 'раненный', 'какой?']], bars: ['|раненный', 'плечо|'] }, 'Причастный оборот стоит перед определяемым словом и имеет значение <b>уступки</b>: <i>хотя был ранен осколком в плечо</i> → обособляется.'),
@@ -359,7 +357,7 @@
     obs: [ob('circ', r('спустясь в середину города'), w('спустясь'), w('пошёл'), 'ДО'), ob('def', r('медленно подымающихся в гору'), w('подымающихся'), w('групп'), 'ПО')],
     defOpt: [w('несколько')], circOpt: [w('бульваром'), w('где')], rings: [], ringsOpt: [],
     explain: ['<b>1 и 2</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>3 и 4</b> — определение, выраженное причастным оборотом, стоит перед определяемым словом, поэтому запятыми не выделяется.'],
-    baseNote: 'Здесь две основы: <b>«я пошёл»</b> и <b>«встретил»</b>. «Встретил» — вторая основа: её присоединяет подчинительный союз <b>«где»</b> (это придаточная часть). Если ты выделил «встретил» и «пошёл» одним цветом, это допустимо. Научимся разграничивать такие основы в задании 19.',
+    baseNote: 'Здесь две основы: <b>«я пошёл»</b> и <b>«встретил»</b>. «Встретил» — вторая основа: её присоединяет подчинительный союз <b>«где»</b> (это придаточная часть). Если ты выделил «встретил» и «пошёл» одним цветом, не переживай, мы научимся разграничивать такие основы в задании 19.',
   }));
   T('Потом (1) близоруко щурясь (2) и (3) находя глазами Зину (4) бросал на неё несколько тоскующих взглядов и снова начинал беседовать с девушкой (5) кружащейся с ним в танце.', (S, w, r) => ({
     answer: '145',
@@ -390,7 +388,7 @@
       ob('def', [w('ночных')], w('ночных'), w('птиц'), 'прил.', { plain: true, cover: true }),
     ],
     defOpt: [w('ароматнейшей'), w('просыпающихся'), w('ночных')], circOpt: [], rings: [w('и')], ringsOpt: [w('и', 1)],
-    explain: ['<b>1 и 2</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «решился»; обороты, связанные союзом И, между собой запятой не отделяются.', '<b>3</b> — причастный оборот «выбрасывающего… вверх» стоит после определяемого слова «костра» и выделяется запятыми (3 и 6). На месте 3 также заканчивается оборот «сидя у костра» перед вложенным определением.', '<b>4 и 5</b> — определение «весело потрескивающие» не выделяется запятыми, потому что стоит перед словом «искры» и входит в состав причастного оборота «выбрасывающего искры вверх».', '<b>6 и 9</b> — деепричастные обороты всегда выделяются с двух сторон запятыми.', '<b>7 и 8</b> — оборот «жирующей в заливе» стоит после слова «рыбы» и разрывает деепричастный оборот «слушая краем уха плеск рыбы и крики просыпающихся ночных птиц». Союз И соединяет однородные дополнения «плеск» и «крики».'],
+    explain: ['<b>1 и 2</b> — обстоятельства, выраженные деепричастными оборотами, однородные: общее главное слово «решился»; обороты, связанные союзом И, между собой запятой не отделяются.', '<b>3</b> — причастный оборот «выбрасывающего… вверх» стоит после определяемого слова «костра» и выделяется запятыми (3 и 6). На месте 3 также заканчивается оборот «сидя у костра» перед вложенным определением.', '<b>4 и 5</b> — определение «весело потрескивающие» не выделяется запятыми, потому что стоит перед словом «искры» и входит в состав причастного оборота «выбрасывающего искры вверх».', '<b>6 и 9</b> — деепричастные обороты всегда выделяются с двух сторон запятыми.', '<b>7 и 8</b> — оборот «жирующей в заливе» стоит после слова «рыбы» и разрывает деепричастный оборот «слушая краем уха плеск рыбы и крики просыпающихся ночных птиц». Союз И соединяет однородные члены предложения «плеск» и «крики».'],
   }));
   T('Окончив перевязку (1) девушка (2) не глядя ни на кого (3) и (4) ничего не говоря (5) стала спускаться по (6) инкрустированной красным деревом (7) лестнице.', (S, w, r) => ({
     answer: '125',
@@ -404,8 +402,8 @@
     bases: { groups: [{ s: [w('поля')], p: [w('тянулись')] }, { s: [w('леса')], p: [w('виднелись')] }, { s: [w('овраги')], p: [w('вились')] }] },
     baseNote: 'Здесь три основы: «поля тянулись», «леса виднелись» и «овраги вились».',
     obs: [
-      ob('circ', r('слегка вздымаясь'), w('вздымаясь'), w('тянулись'), 'ДО', { opt: [w('то')], start: [w('то')] }),
-      ob('circ', r('опускаясь снова'), w('опускаясь'), w('тянулись'), 'ДО', { opt: [w('то', 1)], start: [w('то', 1)] }),
+      ob('circ', r('слегка вздымаясь'), w('вздымаясь'), w('тянулись'), 'ДО', { opt: [w('то')], start: w('то') }),
+      ob('circ', r('опускаясь снова'), w('опускаясь'), w('тянулись'), 'ДО', { opt: [w('то', 1)], noStart: true }),
       ob('def', r('усеянные редким и низким кустарником'), w('усеянные'), w('овраги'), 'ПО'),
       ob('circ', r('напоминая глазу их собственное изображение на старинных планах екатерининского времени'), w('напоминая'), w('вились'), 'ДО'),
     ],
@@ -440,6 +438,7 @@
     ],
     defOpt: [w('слабым')], circOpt: [...r('как можно дальше')], rings: [], ringsOpt: [w('и')],
     explain: ['<b>1</b> — союз «и» связывает однородные сказуемые «снижаюсь» и «лечу», поэтому запятая не нужна.', '<b>2 и 3</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>4</b> — деепричастный оборот всегда выделяется с двух сторон запятыми.', '<b>5 и 6</b> — причастный оборот «зажатой в руках» относится к слову «фары» и находится в составе деепричастного оборота. Определение не выделяется запятыми, потому что стоит перед определяемым словом.', '<b>7</b> — определение «плоскостной» относится к слову «фары»; оно не выделяется запятыми, потому что стоит перед определяемым словом.'],
+    arrowNote: 'К обороту «рискуя врезаться во что-нибудь» задаём вопрос от слова «лечу». Союз «и» соединяет однородные сказуемые «снижаюсь» и «лечу». Оборот стоит после союза и относится ко второму сказуемому.',
     unionNote: 'Союз «и» соединяет однородные сказуемые «снижаюсь» и «лечу», а не обороты.',
   }));
   T('Я (1) будучи человеком (2) наделённым кое-какими скромными талантами (3) по совету одного академика приучил себя записывать (4) неожиданно приходящие мне в голову (5) мысли.', (S, w, r) => ({
@@ -472,7 +471,7 @@
     const uniq = (groups) => { const seen = new Set(); return groups.filter((g) => { const k = [...g].sort((a, b) => a - b).join(','); if (seen.has(k)) return false; seen.add(k); return true; }); };
     const bars = [], barsOpt = [];
     t.obs.filter((o) => !o.plain || o.bounded).forEach((o) => {
-      bars.push([o.words[0], ...(o.start || [])]);
+      if (!o.noStart) bars.push([o.start ?? o.words[0]]);
       const end = [o.words[o.words.length - 1] + 1];
       if (o.endOpt) barsOpt.push(...end); else bars.push(end);
     });
@@ -484,11 +483,9 @@
     t.bases.groups.forEach((g, gi) => { g.s.forEach((i) => (sol.mem[i] = { t: 's', b: gi + 1 })); g.p.forEach((i) => (sol.mem[i] = { t: 'p', b: gi + 1 })); });
     sol.def = words.filter((w) => own[w].k === 'def');
     sol.circ = words.filter((w) => own[w].k === 'circ');
-    // определение внутри другого определения — двойная волнистая (только в разборе)
-    sol.def2 = sol.def.filter((w) => t.obs.some((o) => o !== own[w] && o.k === 'def' && o.words.includes(w)));
     t.obs.forEach((o) => { if (sol.labels[o.words[0]] == null) sol.labels[o.words[0]] = o.lab[0]; });
     sol.cross = [...new Set(t.obs.map((o) => o.main[0]))];
-    const questions = {
+    const definitionQuestions = {
       подымающихся: 'каких', кружащейся: 'какой', тоскующих: 'каких',
       выбрасывающего: 'какого', потрескивающие: 'какие', жирующей: 'какой',
       просыпающихся: 'каких', ночных: 'каких', инкрустированной: 'какой',
@@ -496,36 +493,34 @@
       эвенкийский: 'какой', залитую: 'какую', зажатой: 'какой',
       плоскостной: 'какой', наделенным: 'каким', приходящие: 'какие',
       утопающую: 'какую', обрамленного: 'какого', пушистого: 'какого',
-      спустясь: 'что сделав', устремив: 'что сделав', заложив: 'что сделав',
-      зевнув: 'что сделав', наевшись: 'что сделав', окончив: 'что сделав',
-      одолев: 'что сделав', закрутив: 'что сделав',
     };
-    sol.arrows = t.obs.map((o) => {
-      const question = questions[App.Kit.norm(t.S.words[o.head])] || 'что делая';
-      return [o.main[0], o.head, question + '?'];
+    const arrows = t.obs.map((o) => {
+      const head = App.Kit.norm(t.S.words[o.head]);
+      // Снимаем постфикс -сь/-ся, чтобы различить, например, «вздымаясь» и «наевшись».
+      const stem = head.replace(/с[ья]$/, '');
+      const perfective = head === 'спустясь' || /(?:в|ши)$/.test(stem);
+      const question = o.k === 'def' ? definitionQuestions[head] : perfective ? 'что сделав' : 'что делая';
+      return { from: o.main, to: [o.head], k: o.k, questions: o.k === 'def' ? [question] : [question, 'как'] };
     });
+    sol.arrows = arrows.map(({ from, to, questions }) => [from[0], to[0], questions[0] + '?']);
     const covered = t.obs.filter((o) => o.cover).map((o) => o.head);
-    sol.circ.push(...covered.filter((w) => App.Kit.norm(t.S.words[w]) === 'просыпающихся'));
     const ub = uniq(bars);
     sol.bars = [...new Set(ub.map((g) => g[0]))];
     sol.rings = [...t.rings];
     const defs = t.obs.filter((o) => o.k === 'def'), circs = t.obs.filter((o) => o.k === 'circ');
     return {
       sol, bars: ub, barsOpt,
-      arrows: t.obs.map((o) => ({ from: o.main, to: [o.head], k: o.k })),
-      defAll: sol.def, circAll: sol.circ.filter((w) => !covered.includes(w)), covered,
+      arrows,
+      defAll: sol.def, circAll: sol.circ, covered,
       defOpt: [...t.defOpt, ...defs.flatMap((o) => o.opt || [])],
       circOpt: [...t.circOpt, ...covered, ...circs.flatMap((o) => o.opt || [])],
-      heads: t.obs.map((o) => ({ k: o.k, i: o.head })),
     };
   }
 
   const STAGES = [
     { t: 'Выдели грамматические основы', d: 'Подлежащее — одной чертой, сказуемое — двумя. Разные основы — разными цветами.', tools: ['subj', 'pred', 'erase'] },
-    { t: 'Найди определения и обстоятельства', d: 'Подчеркни прилагательные, причастия, деепричастия и «несмотря на»: <i class="g g-wavy"></i> / <i class="g g-dashdot"></i>', tools: ['def', 'circ', 'erase'] },
-    { t: 'Найди главные (определяемые) слова', d: 'Проведи стрелку от главного слова к определению или обстоятельству и впиши вопрос. Крестик появится сам.', tools: ['arrow'] },
-    { t: 'Зависимые слова и границы', d: 'Подчеркни обороты целиком, подпиши, чем выражен член предложения (прил. + з. с., ДО, ПО и т. д.), поставь палочки |.', tools: ['def', 'circ', 'label', 'bar', 'erase'] },
-    { t: 'Проверь однородность', d: 'Есть ли однородные обороты, соединённые одиночным союзом?', tools: ['ring', 'erase'] },
+    { t: 'Найди определения и обстоятельства', d: 'Подчеркни их целиком, поставь границы и подпиши тип оборота. Проведи стрелки от главных слов и впиши вопросы.', tools: ['def', 'circ', 'bar', 'arrow', 'label', 'erase'] },
+    { t: 'Проверь однородность', d: 'Есть ли однородные обороты, соединённые одиночным союзом?', tools: ['ring'] },
     { t: 'Расставь запятые', d: 'Объясни каждую цифру: нужна ли запятая и почему.', tools: [] },
   ];
 
@@ -537,35 +532,22 @@
         const ne = preds.map((i) => i - 1).filter((i) => i >= 0 && /^(не|ни)$/i.test(t.S.words[i]));
         return [M.checkBases(m, Object.assign({}, t.bases, { optional: [...(t.bases.optional || []), ...ne] }))];
       }
-      case 1: {
-        const msgs = new Set(), wrong = new Set();
-        for (const hd of d.heads) {
-          if (!(hd.k === 'def' ? m.def : m.circ).includes(hd.i)) { wrong.add(hd.i); msgs.add('Найдены не все причастия, деепричастия и прилагательные, от которых зависят обороты.'); }
-          if ((hd.k === 'def' ? m.circ : m.def).includes(hd.i)) { wrong.add(hd.i); msgs.add('Проверь тип линии: причастие и прилагательное — волнистая, деепричастие — точка-тире.'); }
-        }
-        const okDef = new Set([...d.defAll, ...d.defOpt]), okCirc = new Set([...d.circAll, ...d.circOpt]);
-        m.def.filter((i) => !okDef.has(i)).forEach((i) => { wrong.add(i); msgs.add('Волнистой линией подчёркнуто лишнее слово.'); });
-        m.circ.filter((i) => !okCirc.has(i)).forEach((i) => { wrong.add(i); msgs.add('Точкой-тире подчёркнуто лишнее слово.'); });
-        return [{ ok: !msgs.size, wrong: [...wrong], msgs: [...msgs] }];
-      }
-      case 2: return [M.checkArrows(m, d.arrows)];
-      case 3: return [
+      case 1: return [
+        M.checkArrows(m, d.arrows),
         M.checkSet(m.def, d.defAll.filter((w) => !d.covered.includes(w) || !m.circ.includes(w)), [...d.defOpt, ...d.covered], { missing: 'Подчеркни волнистой линией причастные обороты целиком — вместе с зависимыми словами.', extra: 'Волнистой линией подчёркнуто лишнее.' }),
         M.checkSet(m.circ, d.circAll, d.circOpt, { missing: 'Подчеркни точкой-тире деепричастные обороты целиком — со всеми зависимыми словами. Оборот внутри оборота подчёркивается своей линией.', extra: 'Точкой-тире подчёркнуто лишнее.' }),
         M.checkLabels(m, t.obs.filter((o) => !o.plain), t.obs.filter((o) => o.plain)),
         M.checkBars(m, d.bars, [d.barsOpt]),
       ];
-      case 4: return [M.checkRings(m, t.rings, t.ringsOpt)];
+      case 2: return [M.checkRings(m, t.rings, t.ringsOpt)];
       default: return [];
     }
   }
   function stageReveal(d, si, m) {
     const s = d.sol;
     if (si === 0) return { ...m, mem: s.mem };
-    if (si === 1) return { ...m, def: d.heads.filter((x) => x.k === 'def').map((x) => x.i), circ: d.heads.filter((x) => x.k === 'circ').map((x) => x.i) };
-    if (si === 2) return { ...m, cross: s.cross, arrows: s.arrows };
-    if (si === 3) return { ...m, def: s.def, circ: s.circ, labels: s.labels, bars: s.bars };
-    if (si === 4) return { ...m, rings: s.rings };
+    if (si === 1) return { ...m, def: s.def, circ: s.circ, cross: s.cross, arrows: s.arrows, labels: s.labels, bars: s.bars };
+    if (si === 2) return { ...m, rings: s.rings };
     return m;
   }
 
@@ -588,8 +570,10 @@
     const el = h(`<div class="slide train">
       <div class="algo-panel"></div>
       <div class="board-host"></div>
+      <button type="button" class="tcard yellow step-note" hidden></button>
       <div class="stage-extra"></div>
       <div class="tool-host"></div>
+      <div class="stage-help"></div>
     </div>`);
     body.appendChild(el);
     const panel = el.querySelector('.algo-panel'), extra = el.querySelector('.stage-extra'), toolHost = el.querySelector('.tool-host');
@@ -602,55 +586,71 @@
       panel.innerHTML = `<div class="ap-row">${STAGES.map((s, i) => `<span class="ap ${i < si ? 'done' : i === si ? 'cur' : 'lock'}" title="${s.t}">${i < si ? '✓' : i + 1}</span>`).join('<i></i>')}</div>
         ${si < STAGES.length ? `<div class="ap-cur"><b>Шаг ${si + 1}. ${cur.t}</b><small>${cur.d}</small></div>` : '<div class="ap-cur"><b>Все шаги алгоритма выполнены ✓</b></div>'}`;
     };
-    const hintFor = (i) => [
+    const note = el.querySelector('.step-note');
+    const help = el.querySelector('.stage-help');
+    note.addEventListener('click', () => { note.hidden = true; });
+    const hints = [
       t.baseNote || 'Ищи, кто или что совершает действие, и само действие. В сложном предложении основ несколько.',
-      'Ищи слова, которые отвечают на «какой?» и образованы от глагола (причастия) и на «что делая? что сделав?» (деепричастия).',
-      'Для причастия главное слово — существительное или местоимение, для деепричастия — глагол-сказуемое.',
-      'Задай вопросы от причастия или деепричастия: всё, что от него зависит, входит в оборот.',
-    ][i] || '';
+      `Ищи слова, которые отвечают на вопросы «какой?», «что делая? что сделав?». ${t.arrowNote || ''}`,
+      'Проверь, относятся ли обороты к одному слову и соединяет ли их одиночный союз.',
+    ];
     const setStage = () => {
       tries = 0;
       drawPanel();
-      toolHost.innerHTML = ''; extra.innerHTML = '';
+      toolHost.replaceChildren();
+      extra.replaceChildren();
+      help.replaceChildren();
       board.startStage();
+      board.keepBases = si > 0;
       board.readOnly = false; board.el.classList.remove('ro');
-      if (si === 4) return unionStage();
-      if (si === 5) return answerStage();
+      if (si === 2) return unionStage();
+      if (si === 3) return answerStage();
       M.toolbar(toolHost, board, STAGES[si].tools);
-      api.foot({ label: 'Проверить этап', onClick: check, extraLabel: '💡', onExtra: () => api.spendHint(0, hintFor(si)) });
+      checkButton();
+    };
+    const checkButton = () => api.foot({
+      label: 'Проверить этап', onClick: check, extraLabel: '💡', onExtra: () => api.spendHint(0, hints[si]),
+    });
+    const advance = () => {
+      const text = si === 0 ? t.baseNote : si === 1 ? t.arrowNote : '';
+      note.hidden = !text;
+      note.innerHTML = text || '';
+      si++;
+      setStage();
     };
     const passed = (anchor) => {
       api.good(tries ? 5 : 10, tries ? 1 : 3, anchor || panel.querySelector('.ap.cur') || panel);
-      // внутри номера — без мотивирующих фраз; после основ — пояснение, если основ несколько
-      api.feedback(si === 0 && t.baseNote ? 'info' : null, si === 0 ? t.baseNote : '');
-      si++;
-      setTimeout(setStage, 250);
+      api.feedback(null);
+      advance();
     };
     function check() {
+      if (board.menu) return;
       const m = board.getMarks();
       const res = stageCheck(t, d, si, m);
-      board.markWrong(res.flatMap((r) => r.wrong || []));
-      board.markWrongGaps(res.flatMap((r) => r.wrongGaps || []));
-      if (res.every((r) => r.ok)) { board.flash([...Object.keys(m.mem).map(Number), ...m.def, ...m.circ]); passed(); return; }
+      if (res.every((r) => r.ok)) { passed(); return; }
       tries++;
       api.bad([...new Set(res.flatMap((r) => r.msgs))]);
-      if (tries >= 2) api.foot({ label: 'Проверить этап', onClick: check, extraLabel: 'Сверить ответ', onExtra: () => {
-        const solution = stageReveal(d, si, m);
+      if (tries < 2 || help.firstChild) return;
+      const compare = h('<button class="btn ghost">Сверить ответ</button>');
+      help.appendChild(compare);
+      compare.addEventListener('click', () => {
+        const solution = stageReveal(d, si, board.getMarks());
         board.setTool(null);
         board.readOnly = true;
-        toolHost.innerHTML = '';
+        toolHost.replaceChildren();
+        help.replaceChildren();
         extra.innerHTML = '<div class="stage-comparison"><h3>Верная разметка</h3><div></div></div>';
-        board.el.insertAdjacentHTML('beforebegin', '<h3 class="comparison-title">Твоя разметка</h3>');
-        new M.Board(extra.querySelector('.stage-comparison > div'), t.S, { marks: solution, readOnly: true });
-        api.feedback('info', res.flatMap((r) => r.msgs).join('<br>'));
+        const title = h('<h3 class="comparison-title">Твоя разметка</h3>');
+        board.el.before(title);
+        const example = new M.Board(extra.querySelector('.stage-comparison > div'), t.S, { marks: solution, readOnly: true });
+        api.feedback(null);
         api.foot({ label: 'Дальше ▸', onClick: () => {
-          el.querySelector('.comparison-title').remove();
+          title.remove();
+          example.ro?.disconnect();
           board.setMarks(solution);
-          api.feedback(null);
-          si++;
-          setStage();
+          advance();
         } });
-      } });
+      });
     }
     function unionStage() {
       const need = t.rings.length > 0;
@@ -661,9 +661,9 @@
         if (yes !== need) { b.classList.add('wrong'); b.disabled = true; tries++; api.bad([need ? 'Посмотри внимательнее: два оборота с общим главным словом соединены союзом.' : (t.unionNote || 'Однородных оборотов, соединённых союзом, здесь нет.')]); return; }
         b.classList.add('right'); extra.querySelectorAll('.opt').forEach((x) => (x.disabled = true));
         if (!need) { passed(b); if (t.unionNote) api.feedback('info', t.unionNote); return; }
-        M.toolbar(toolHost, board, ['ring', 'erase']);
+        M.toolbar(toolHost, board, STAGES[si].tools);
         api.feedback('info', 'Верно! Теперь возьми этот союз в кружок.');
-        api.foot({ label: 'Проверить этап', onClick: check });
+        checkButton();
       }));
     }
     function answerStage() {
@@ -677,7 +677,7 @@
       });
     }
     function finish() {
-      si = 6; drawPanel();
+      si = STAGES.length; drawPanel();
       toolHost.innerHTML = '';
       extra.insertAdjacentHTML('beforeend', `<div class="explain card"><div class="ans-big">Ответ: <b>${t.answer}</b></div><h3>Верная разметка</h3><div class="sol-a"></div>${t.explain.map((x) => `<p>${x}</p>`).join('')}</div>`);
       new M.Board(extra.querySelector('.sol-a'), t.S, { readOnly: true, marks: d.sol, commas: t.answer.split('').map(Number) });
