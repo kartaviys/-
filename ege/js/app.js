@@ -8,13 +8,13 @@ const App = (() => {
   /* ===== Контент ===== */
   const TASKS = {
     1: 'Слово на месте пропуска', 2: 'Лексическое значение', 3: 'Стилистика текста', 4: 'Ударения', 5: 'Паронимы',
-    6: 'Лексические нормы', 7: 'Морфологические нормы', 8: 'Синтаксические нормы', 9: 'Корни',
+    6: 'Речевые нормы', 7: 'Морфологические нормы', 8: 'Синтаксические нормы', 9: 'Корни',
     10: 'Приставки', 11: 'Суффиксы', 12: 'Окончания глаголов и суффиксы причастий и деепричастий', 13: 'НЕ с разными частями речи',
     14: 'Слитное / раздельное / через дефис', 15: 'Н и НН', 16: 'Однородные члены и ССП', 17: 'Обособленные члены',
     18: 'Вводные конструкции, обращения и междометия', 19: 'СПП', 20: 'Сложное предложение с разными видами связи', 21: 'Пунктуационный анализ',
     22: 'Средства выразительности', 23: 'Смысл текста', 24: 'Типы речи', 25: 'Лексика и фразеология',
     26: 'Средства связи предложений', 27: 'Сочинение', 100: 'Зачёт по пунктуации', 101: 'Зачёт по орфографии',
-    102: 'Зачёт по речевым нормам', 103: 'Зачёт по тексту',
+    102: 'Зачёт по языковым нормам', 103: 'Зачёт по тексту',
   };
   // Маршрут по главам; задания открываются строго по порядку, первым — №17
   const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
@@ -332,15 +332,6 @@ const App = (() => {
           <span class="gs-n">${n}/${tasks.length}</span>
         </div>`));
     });
-    // декор
-    const deco = ['🌲', '🌳', '🌼', '🍄', '🌲', '🪨', '🌷', '🌳', '🦋', '🌲'];
-    pts.forEach((pt, i) => {
-      if (i === ROUTE.length - 1) return;
-      const side = Math.sin(i * 0.85) > 0 ? -1 : 1;
-      const x = pt.x + side * (W * 0.3) + ((i * 37) % 20) - 10;
-      wrap.appendChild(h(`<div class="deco" style="left:${Math.max(16, Math.min(W - 16, x))}px;top:${pt.y - 20 + ((i * 13) % 30)}px">${deco[i % deco.length]}</div>`));
-    });
-    ['☁️', '☁️'].forEach((c, i) => wrap.appendChild(h(`<div class="deco cloud" style="left:${i ? W - 50 : 40}px;top:${20 + i * 60}px">${c}</div>`)));
     // станции
     ROUTE.forEach((n, i) => {
       const pt = pts[i];
@@ -469,7 +460,7 @@ const App = (() => {
       { sel: '.station[data-n="100"]', t: 'Зачёт', d: 'В конце блока ждёт зачёт 🏆: теория и задания из ЕГЭ по всем темам блока.' },
       { sel: '.chest', t: 'Сундуки', d: 'По пути встречаются сундуки 🎁 с бонусным опытом — открываются после пройденных заданий.' },
       { sel: '.tb-xp', t: 'Опыт и уровень', d: 'За верные ответы и пройденные блоки копится опыт (XP). Опыт повышает уровень — от «Новичка» до «Короля ЕГЭ».' },
-      { sel: '.tb-streak', t: 'Серия дней', d: 'Занимайся каждый день — огонёк считает дни подряд. За серии ты получаешь достижения.' },
+      { sel: '.tb-streak', t: 'Серия дней', d: 'Занимайся каждый день: огонёк считает дни подряд. За серии ты получаешь достижения.' },
       { sel: '.tabbar [data-tab="games"]', t: 'Мини-игры', d: 'Лабиринт, алхимия, классификации и другие активности помогут закрепить правила в игровом формате.' },
       { sel: '.tabbar [data-tab="profile"]', t: 'Профиль', d: 'Твои достижения, статистика, информация о версии PRO и установка приложения на телефон.' },
     ].filter((x) => $(x.sel));
@@ -542,6 +533,7 @@ const App = (() => {
         <span class="l-combo"></span>
       </div>
       <div class="l-progrow"><div class="l-prog"></div></div>
+      <div class="l-progtxt"><span class="pt-r">Пройдено</span></div>
       <div class="l-body"></div>
       <div class="l-foot"><div class="l-feedback"></div><div class="l-btns"><button class="btn ghost l-extra hidden"></button><button class="btn primary l-main">Дальше</button></div></div>`;
     root.classList.remove('hidden');
@@ -553,6 +545,15 @@ const App = (() => {
     const bank = $('.l-bank', root), bankN = $('.l-bank b', root);
     const total = L.slides.length - 1;
     const kinds = L.slides.map(kindOf);
+    const blocks = [];
+    L.slides.slice(0, total).forEach((slide, i) => {
+      const name = slide.block || `Слайд ${i + 1}`;
+      const last = blocks[blocks.length - 1];
+      if (last?.name === name) last.end = i + 1;
+      else blocks.push({ name, start: i, end: i + 1 });
+    });
+    const counter = $('.pt-r', root);
+    let earnedKeys = 0;
     // полоска прогресса: участки теории и практики
     const runs = [];
     kinds.forEach((k, i) => { if (i === total) return; if (runs.length && runs[runs.length - 1].k === k) runs[runs.length - 1].n++; else runs.push({ k, from: i, n: 1 }); });
@@ -588,9 +589,10 @@ const App = (() => {
     const api = {
       ctx, S, mainEl: main,
       next: () => show(idx + 1),
-      foot({ label = 'Дальше', enabled = true, onClick = api.next, extraLabel = null, onExtra = null } = {}) {
+      foot({ label = 'Дальше', enabled = true, onClick = api.next, extraLabel = null, onExtra = null, stable = false } = {}) {
         main.textContent = label;
         main.disabled = !enabled;
+        main.classList.toggle('stable', stable);
         main.onclick = () => onClick();
         if (extraLabel) { extra.textContent = extraLabel; extra.classList.remove('hidden'); extra.onclick = onExtra; }
         else extra.classList.add('hidden');
@@ -644,6 +646,7 @@ const App = (() => {
         (L.alsoDone || []).forEach((x) => { const p = S.done[x] || { stars: 0, times: 0 }; S.done[x] = { stars: Math.max(p.stars, stars), times: p.times + 1 }; delete S.prog[x]; });
         save();
         const afterLevel = levelInfo().lvl;
+        earnedKeys = afterLevel - beforeLevel;
         if (afterLevel > beforeLevel) pendingLevel = afterLevel;
         topbar(true);
         if (stars === 3) unlock('clean');
@@ -659,7 +662,7 @@ const App = (() => {
       while (body.firstChild) frag.appendChild(body.firstChild);
       cache.set(idx, {
         frag, scroll: body.scrollTop,
-        main: { text: main.textContent, disabled: main.disabled, onclick: main.onclick },
+        main: { text: main.textContent, disabled: main.disabled, onclick: main.onclick, stable: main.classList.contains('stable') },
         extra: { text: extra.textContent, hidden: extra.classList.contains('hidden'), onclick: extra.onclick },
         fb: { cls: fb.className, html: fb.innerHTML },
       });
@@ -667,6 +670,7 @@ const App = (() => {
     function restore(c) {
       body.appendChild(c.frag);
       main.textContent = c.main.text; main.disabled = c.main.disabled; main.onclick = c.main.onclick;
+      main.classList.toggle('stable', c.main.stable);
       extra.textContent = c.extra.text; extra.classList.toggle('hidden', c.extra.hidden); extra.onclick = c.extra.onclick;
       fb.className = c.fb.cls; fb.innerHTML = c.fb.html;
       root.classList.toggle('fb-open', c.fb.cls.trim() !== 'l-feedback');
@@ -696,8 +700,18 @@ const App = (() => {
         api.feedback(null);
         api.foot();
         L.slides[i](body, api);
+        if (earnedKeys) {
+          const unlocked = doneCount();
+          const locks = Array.from({ length: earnedKeys }, (_, step) => `<span class="key-turn" style="--delay:${step * .8}s" aria-hidden="true"><span class="key-motion">🗝️</span><span class="key-closed">🔒</span><span class="key-open">🔓</span></span>`).join('');
+          const scene = h(`<div class="key-reward"><div class="key-locks">${locks}</div><div>Открыто замков: <b>${unlocked} из ${EGE.length}</b></div></div>`);
+          const target = $('.final h2', body);
+          if (target) target.after(scene); else body.appendChild(scene);
+          earnedKeys = 0;
+        }
       }
       segs.forEach((sg, k) => { const r = runs[k]; sg.firstChild.style.width = Math.max(0, Math.min(1, (i - r.from) / r.n)) * 100 + '%'; });
+      const completed = S.done[n] ? blocks.length : blocks.filter((b) => b.end <= maxIdx).length;
+      counter.textContent = `Пройдено ${completed}/${blocks.length}`;
       back.disabled = i === 0;
       fwd.classList.toggle('hidden', i >= maxIdx);
       drawCombo();
@@ -722,17 +736,11 @@ const App = (() => {
     // оглавление: можно перейти к любому уже открытому слайду
     function toc() {
       const open = S.done[n] ? total : maxIdx;
-      const groups = [];
-      L.slides.forEach((f, i) => {
-        if (i === total) return;
-        const b = f.block || 'Слайд';
-        const g = groups[groups.length - 1];
-        if (g && g.b === b) g.items.push(i); else groups.push({ b, items: [i] });
-      });
-      const m = modal(`<h2>Оглавление</h2><div class="toc">${groups.map((g) => {
-        const first = g.items[0], pr = g.items.some((i) => kinds[i] === 'practice'), th = g.items.some((i) => kinds[i] !== 'practice');
-        const st = g.items.includes(idx) ? 'cur' : first <= open ? 'open' : 'lock';
-        return `<button class="toc-i ${st}" data-i="${first}" ${st === 'lock' ? 'disabled' : ''}><span class="toc-k">${pr ? '✍️' : '📖'}</span><span class="toc-t">${g.b}<small>${pr && th ? 'теория + практика' : pr ? 'практика' : 'теория'}</small></span><span class="toc-s">${st === 'lock' ? '🔒' : st === 'cur' ? '📍' : first < maxIdx ? '✓' : ''}</span></button>`;
+      const m = modal(`<h2>Оглавление</h2><div class="toc">${blocks.map(({ name, start: first, end }) => {
+        const types = kinds.slice(first, end);
+        const pr = types.includes('practice'), th = types.includes('theory');
+        const st = (first <= idx && idx < end) ? 'cur' : first <= open ? 'open' : 'lock';
+        return `<button class="toc-i ${st}" data-i="${first}" ${st === 'lock' ? 'disabled' : ''}><span class="toc-k">${pr ? '✍️' : '📖'}</span><span class="toc-t">${name}<small>${pr && th ? 'теория + практика' : pr ? 'практика' : 'теория'}</small></span><span class="toc-s">${st === 'lock' ? '🔒' : st === 'cur' ? '📍' : first < maxIdx ? '✓' : ''}</span></button>`;
       }).join('')}</div><button class="btn ghost" data-close>Закрыть</button>`, { cls: 'wide' });
       m.el.querySelectorAll('.toc-i:not([disabled])').forEach((b) => b.addEventListener('click', () => { m.close(); const i = +b.dataset.i; if (i !== idx) { maxIdx = Math.max(maxIdx, open); show(i); } }));
     }
