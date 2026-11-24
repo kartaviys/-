@@ -7,6 +7,17 @@ window.__ag = (function () {
     return s.visibility !== 'hidden' && s.display !== 'none' && s.opacity !== '0';
   };
   const clean = t => (t || '').replace(/\s+/g, ' ').trim();
+  const odsContactContent = () => {
+    const heading = [...document.querySelectorAll('section > h2')].find(
+      h => vis(h) && /^(контакты|contacts)$/i.test(clean(h.innerText)));
+    const content = heading && heading.nextElementSibling;
+    return content && vis(content) ? content : null;
+  };
+  const odsRevealButton = content => content && [...content.querySelectorAll('button')].find(
+    b => !b.disabled && vis(b) && /^(показать контакты|show contacts)$/i.test(clean(b.innerText)));
+  const contactPath = url => url.pathname.replace(/\/$/, '');
+  const onOdsVacancy = expected => location.origin === 'https://ods.ai' &&
+    /^\/jobs\/[^/]+$/.test(contactPath(location)) && contactPath(location) === contactPath(new URL(expected));
   const HABR_APPLIED = /Вы откликнулись|Вы уже откликнулись|Отклик отправлен|Ваш отклик отправлен|Отклик на вакансию отправлен|Вы отправили отклик|Отозвать отклик/i;
   const labelOf = el => {
     let t = '';
@@ -114,44 +125,58 @@ window.__ag = (function () {
       return String(n);
     },
 
-    // ---------- Контакты HR на странице вакансии (ODS и др.) ----------
-    // Нажать «Показать контакты» / «Откликнуться» (кнопка на этой же странице, не внешняя ссылка)
-    contactsReveal() {
-      const re = /показать контакт|контакты|связаться|откликнуться|show contact|contacts|contact|respond|apply/i;
-      const b = [...document.querySelectorAll('button, [role=button], a')].find(x => {
-        if (!vis(x) || !re.test(clean(x.innerText))) return false;
-        const h = x.tagName === 'A' ? (x.getAttribute('href') || '') : '';
-        return !h || h.startsWith('#') || h.startsWith('javascript');
-      });
-      if (!b) return 'missing';
-      b.scrollIntoView({ block: 'center' }); b.click(); return 'ok';
+    // ---------- Контакты работодателя в вакансии ODS ----------
+    contactsReveal(expected) {
+      if (!onOdsVacancy(expected)) return false;
+      const button = odsRevealButton(odsContactContent());
+      if (!button) return false;
+      button.click();
+      return true;
     },
-    // Email, Telegram, телефоны, LinkedIn, ссылки на отклик + признак «нужен вход»
-    contacts() {
-      const text = document.body ? document.body.innerText : '';
+    contacts(expected) {
+      const result = state => JSON.stringify({ state });
+      if (location.origin === 'https://ods.ai' && contactPath(location) === '/login') return result('login');
+      if (!onOdsVacancy(expected) || !document.querySelector('h1')) return result('unavailable');
+      const content = odsContactContent();
+      if (!content) return result('ready');
+      if ([...content.querySelectorAll('a[href]')].some(a => vis(a) &&
+          a.origin === location.origin && contactPath(a) === '/login')) return result('login');
+      if (odsRevealButton(content)) return result('hidden');
+
+      const text = content.innerText;
       const uniq = a => [...new Set(a.map(x => x.trim()).filter(Boolean))];
-      const emails = (text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || []);
-      const tgText = (text.match(/(?:^|[\s(,:])@([A-Za-z][A-Za-z0-9_]{4,31})\b/g) || []).map(s => '@' + s.replace(/^[^@]*@/, ''));
-      const phones = (text.match(/(?:\+7|8)[\s(-]*\d{3}[\s)-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/g) || []);
+      const emailPattern = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+      const emails = text.match(emailPattern) || [];
+      const phones = text.match(/(?:\+7|8)[\s(-]*\d{3}[\s)-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/g) || [];
       const tg = [], li = [], apply = [];
-      for (const a of document.querySelectorAll('a[href]')) {
+      const telegramHost = /^(?:www\.)?(?:t\.me|telegram\.me)$/i;
+      const addTelegram = handle => {
+        if (/^[a-z0-9_]{5,32}$/i.test(handle) && !/^(odsjobs|opendatascience|ods_ai|joinchat|share|addstickers)$/i.test(handle)) {
+          tg.push('https://t.me/' + handle.toLowerCase());
+        }
+      };
+      for (const a of content.querySelectorAll('a[href]')) {
+        if (!vis(a)) continue;
         const h = a.href || '';
         if (h.startsWith('mailto:')) emails.push(h.slice(7).split('?')[0]);
         else if (h.startsWith('tel:')) phones.push(h.slice(4));
-        else if (/^https?:\/\/(t\.me|telegram\.me)\//.test(h) && !/\/s\/|\/joinchat|\/share/.test(h)) tg.push(h.split('?')[0]);
-        else if (/linkedin\.com\/in\//.test(h)) li.push(h.split('?')[0]);
-        else if (/apply|vacanc|career|job|hh\.ru\/vacancy|forms\.|docs\.google\.com\/forms|typeform/i.test(h) && !/ods\.ai/.test(h)) apply.push(h);
+        else if (/^https?:$/.test(a.protocol)) {
+          if (telegramHost.test(a.hostname)) addTelegram(contactPath(a).slice(1));
+          else if (/(^|\.)linkedin\.com$/i.test(a.hostname) && a.pathname.startsWith('/in/')) li.push(a.origin + contactPath(a));
+          else if (!/(^|\.)ods\.ai$/i.test(a.hostname)) apply.push(h);
+        }
       }
-      const block = (() => {
-        const m = text.match(/(контакт[^\n]{0,20}\n?[\s\S]{0,300}|contact[^\n]{0,20}\n?[\s\S]{0,300})/i);
-        return m ? clean(m[0]).slice(0, 300) : '';
-      })();
-      const loginRequired = /войдите|авторизуйтесь|зарегистрируйтесь|log ?in to|sign in to|чтобы увидеть контакт/i.test(text) &&
-        !emails.length && !tg.length && !tgText.length;
+      const withoutEmails = text.replace(emailPattern, '');
+      const telegramMention = /(?:^|[\s(,:"«])@([a-z0-9_]{5,32})\b/gi;
+      const telegramLink = /(?:^|[\s(,:"«])(?:https?:\/\/)?(?:t\.me|telegram\.me)\/([a-z0-9_]{5,32})\/?(?=$|[\s?#!.,;:)}\]»])/gi;
+      for (const pattern of [telegramMention, telegramLink]) {
+        let match;
+        while ((match = pattern.exec(withoutEmails)) !== null) addTelegram(match[1]);
+      }
       return JSON.stringify({
-        emails: uniq(emails).filter(e => !/ods\.ai|example\.|sentry/i.test(e)).slice(0, 5),
-        telegrams: uniq([...tg, ...tgText.map(t => 'https://t.me/' + t.slice(1))]).filter(t => !/odsjobs|opendatascience|ods_ai/i.test(t)).slice(0, 5),
-        phones: uniq(phones).slice(0, 3), linkedin: uniq(li).slice(0, 3), apply: uniq(apply).slice(0, 3), block, loginRequired,
+        state: 'ready',
+        emails: uniq(emails).slice(0, 5), telegrams: uniq(tg).slice(0, 5),
+        phones: uniq(phones).slice(0, 3), linkedin: uniq(li).slice(0, 3), apply: uniq(apply).slice(0, 3),
       });
     },
 
