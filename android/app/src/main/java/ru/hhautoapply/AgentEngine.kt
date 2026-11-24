@@ -117,34 +117,38 @@ object AgentEngine {
     // ---------- чтение контактов со страницы (ODS) — без нейросети ----------
     private val agentJsCache = mutableMapOf<String, String>()
 
-    private suspend fun evalJs(ctx: Context, code: String): String = withContext(Dispatchers.Main) {
-        val w = web ?: return@withContext ""
+    private suspend fun evalJs(w: WebView, code: String): String = withContext(Dispatchers.Main) {
         kotlinx.coroutines.suspendCancellableCoroutine { cont ->
             w.evaluateJavascript(code) { r -> if (cont.isActive) cont.resumeWith(Result.success(r ?: "null")) }
         }
     }
 
     /** Открывает страницу во встроенном браузере (с вашими входами на сайты) и достаёт контакты HR. null — агент занят. */
-    suspend fun readContacts(ctx: Context, url: String): org.json.JSONObject? {
+    suspend fun readContacts(ctx: Context, url: String): JSONObject? {
         if (running.value) return null
         val w = ensureWeb(ctx)
         val js = agentJsCache.getOrPut("agent") { ctx.assets.open("agent.js").bufferedReader().readText() }
-        val before = pageLoads.value
-        withContext(Dispatchers.Main) { w.loadUrl(url) }
-        withTimeoutOrNull(30_000) { pageLoads.first { it > before } }
+        val before = withContext(Dispatchers.Main) {
+            if (running.value) return@withContext null
+            pageLoads.value.also { w.loadUrl(url) }
+        } ?: return null
+        withTimeoutOrNull(30_000) { pageLoads.first { it > before } } ?: return JSONObject()
         delay(2500)
-        suspend fun grab(): org.json.JSONObject {
-            evalJs(ctx, js)
-            val raw = evalJs(ctx, "window.__ag.contacts()")
-            return try { org.json.JSONObject(org.json.JSONTokener(raw).nextValue() as String) } catch (_: Exception) { org.json.JSONObject() }
+        if (running.value) return null
+
+        val expected = JSONObject.quote(url)
+        suspend fun grab(): JSONObject {
+            val raw = evalJs(w, js + "\nwindow.__ag.contacts($expected)")
+            return runCatching { JSONObject(org.json.JSONTokener(raw).nextValue() as String) }.getOrDefault(JSONObject())
         }
         var c = grab()
-        val empty = { o: org.json.JSONObject -> listOf("emails", "telegrams", "phones").all { (o.optJSONArray(it)?.length() ?: 0) == 0 } }
-        if (empty(c) && !c.optBoolean("loginRequired")) {
-            // Контакты часто открываются кнопкой «Показать контакты» / «Откликнуться»
-            if (evalJs(ctx, "window.__ag.contactsReveal()").contains("ok")) { delay(2500); c = grab() }
+        if (c.optString("state") == "hidden" && !running.value &&
+            evalJs(w, "window.__ag?.contactsReveal($expected)") == "true") {
+            delay(1000)
+            if (running.value) return null
+            c = grab()
         }
-        return c
+        return c.takeUnless { running.value }
     }
 
     // ---------- вопросы к человеку ----------

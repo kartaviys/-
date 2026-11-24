@@ -223,14 +223,18 @@ class MainActivity : ComponentActivity() {
             try {
                 val r = withContext(Dispatchers.IO) { Ods.enrichContacts(this@MainActivity) { RunLog.add(this@MainActivity, it) } }
                 when {
-                    r.busy -> toast("Сейчас работает агент — контакты ODS соберу, когда он закончит (нажмите «📇 Найти контакты HR» позже)")
+                    r.busy -> toast("Поиск контактов или агент уже запущен. Повторите после завершения.")
                     r.needLogin -> AlertDialog.Builder(this@MainActivity)
                         .setTitle("Нужен вход на ODS")
                         .setMessage("Контакты HR на ods.ai видны только после входа. Нажмите «Войти», войдите своим аккаунтом ODS, затем снова «📇 Найти контакты HR».")
                         .setPositiveButton("Войти") { _, _ -> openLogin("https://ods.ai/", "ODS (кнопка «Войти» вверху)") }
                         .setNegativeButton("Позже", null).show()
-                    r.checked == 0 -> toast("ODS: новых вакансий для поиска контактов нет")
-                    else -> { toast("ODS: контакты HR найдены в ${r.withContacts} из ${r.checked} вакансий"); showSaved() }
+                    r.checked == 0 && r.unavailable == 0 -> toast("ODS: новых вакансий для поиска контактов нет")
+                    else -> {
+                        val retry = if (r.unavailable > 0) ". Не удалось проверить: ${r.unavailable}" else ""
+                        toast("ODS: контакты HR найдены в ${r.withContacts} из ${r.checked} проверенных вакансий$retry")
+                        showSaved()
+                    }
                 }
             } catch (e: Exception) {
                 toast("ODS контакты: ошибка — ${e.message}")

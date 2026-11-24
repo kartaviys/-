@@ -22,7 +22,7 @@ data class Application(
 )
 
 /** Журнал откликов. status: applied / dry_run / needs_browser / manual / skipped / failed */
-class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
+class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 2) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """CREATE TABLE applications (
@@ -31,7 +31,21 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 1) {
         )
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        if (oldVersion < 2) {
+            // В первой версии контакты могли быть взяты из меню профиля или подвала.
+            db.execSQL(
+                """UPDATE applications
+                    SET letter = CASE WHEN letter LIKE '📇 Контакты HR:' || char(10) || '%'
+                                      AND instr(letter, char(10, 10)) > 0
+                                      THEN substr(letter, instr(letter, char(10, 10)) + 2)
+                                      ELSE letter END,
+                        form_url = url,
+                        error = CASE WHEN error LIKE 'контакты: написали HR %' THEN error ELSE '' END
+                    WHERE channel = 'ods' AND status = 'saved' AND error LIKE 'контакты:%'""",
+            )
+        }
+    }
 
     private fun now() = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(Date())
     private fun today() = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
