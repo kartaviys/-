@@ -102,7 +102,30 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .road-body { stroke: #f3effc; stroke-width: 36; }
 .road-done { stroke: #fde68a; stroke-width: 36; transition: stroke-dashoffset 1.2s; }
 .road-line { stroke: #fff; stroke-width: 3; stroke-dasharray: 10 14; }
-.map > .station, .map > .castle, .map > .chest, .map > .start-sign { position: absolute; transform: translate(-50%, -50%); }
+.map > .station, .map > .chest, .map > .start-sign { position: absolute; transform: translate(-50%, -50%); }
+.station {
+  width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; z-index: 2;
+  background: #fff; border: 4px solid #ddd6fe; box-shadow: 0 5px 0 #ddd6fe; font-weight: 900; font-size: 1.3rem; color: #a78bfa;
+}
+.station.ready { border-color: var(--violet); color: var(--violet); box-shadow: 0 5px 0 var(--violet-d); }
+.station.cur.ready { background: var(--violet); color: #fff; animation: glow 1.8s infinite; }
+.station.cur.soon { border-style: dashed; }
+.station.done { background: var(--yellow); border-color: var(--yellow-d); color: var(--violet-dd); box-shadow: 0 5px 0 #d97706; }
+.station.essay { width: 74px; height: 74px; font-size: 1.6rem; }
+.st-lock { position: absolute; right: -6px; top: -6px; font-size: 16px; background: #fff; border-radius: 50%; width: 26px; height: 26px; display: grid; place-items: center; box-shadow: var(--shadow); }
+.st-avatar { position: absolute; top: -40px; font-size: 32px; animation: bob 1.4s ease-in-out infinite; filter: drop-shadow(0 4px 3px rgba(0, 0, 0, .15)); }
+.st-label {
+  position: absolute; top: 72px; white-space: normal; width: max-content; max-width: 150px; text-align: center; line-height: 1.25; font-size: .7rem; font-weight: 800; color: var(--violet-d);
+  background: rgba(255, 255, 255, .92); padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line);
+}
+.st-label em { font-style: normal; color: var(--yellow-d); margin-left: 4px; letter-spacing: -1px; }
+.station.soon .st-label { color: #8b84a3; }
+.castle-label {
+  position: absolute; z-index: 1; top: 14px; left: 50%; width: max-content;
+  transform: translateX(-50%); padding: 5px 12px; border-radius: 99px;
+  background: #fff; color: var(--violet-d); font-size: .9rem; font-weight: 900;
+}
+.start-sign { position: absolute; transform: translate(-50%, -50%); }
 .station {
   width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; z-index: 2;
   background: #fff; border: 4px solid #ddd6fe; box-shadow: 0 5px 0 #ddd6fe; font-weight: 900; font-size: 1.3rem; color: #a78bfa;
@@ -440,6 +463,7 @@ h3 { font-size: 1.05rem; margin: 1.2em 0 .5em; font-weight: 800; }
 .scenery-hills { --scenery: url('../assets/map-hills.jpg'); }
 .scenery-lake { --scenery: url('../assets/map-lake.jpg'); }
 .scenery-mountains { --scenery: url('../assets/map-mountains.jpg'); }
+.scenery-castle { --scenery: url('../assets/map-castle.jpg'); }
 .map > .gsign {
   position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; align-items: center; gap: 10px;
   width: min(92%, 340px); padding: 8px 12px; border-radius: 16px; background: var(--violet); color: #fff;

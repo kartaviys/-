@@ -23,7 +23,7 @@ const App = (() => {
     { name: 'Орфографические холмы', scenery: 'hills', short: 'Орфография', e: '⛰️', tasks: [...range(9, 15), 101], label: 'задания 9–15' },
     { name: 'Озеро языковых норм', scenery: 'lake', short: 'Речевые нормы', e: '🏞️', tasks: [...range(4, 8), 102], label: 'задания 4–8' },
     { name: 'Текстовые горы', scenery: 'mountains', short: 'Текст', e: '🏔️', tasks: [1, 2, 3, ...range(22, 26), 103], label: 'задания 1–3, 22–26' },
-    { name: 'Сочинение', short: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
+    { name: 'Сочинение', scenery: 'castle', short: 'Сочинение', e: '✍️', tasks: [27], label: 'задание 27' },
   ];
   const ROUTE = GROUPS.flatMap((g) => g.tasks);
   // заданий ЕГЭ на пути — 27 (зачёт в счёт не идёт)
@@ -242,22 +242,6 @@ const App = (() => {
   const doneCount = () => EGE.filter((n) => S.done[n]).length;
   const primary = () => EGE.reduce((a, n) => a + (S.done[n] ? PTS[n] : 0), 0);
 
-  function castleSvg(open) {
-    return `<svg viewBox="0 0 220 180" class="castle-svg">
-      <defs><linearGradient id="cw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs>
-      <rect x="40" y="80" width="140" height="95" fill="url(#cw)"/>
-      ${[40, 60, 80, 100, 120, 140, 160].map((x) => `<rect x="${x}" y="70" width="12" height="12" fill="#7c3aed"/>`).join('')}
-      <rect x="20" y="50" width="44" height="125" fill="#7c3aed"/><rect x="156" y="50" width="44" height="125" fill="#7c3aed"/>
-      <rect x="84" y="28" width="52" height="147" fill="#6d28d9"/>
-      <polygon points="14,52 70,52 42,8" fill="#fbbf24"/><polygon points="150,52 206,52 178,8" fill="#fbbf24"/><polygon points="78,30 142,30 110,-14" fill="#f59e0b"/>
-      <path d="M42 8 v-14 l16 6 -16 6z" fill="#fbbf24"/><path d="M178 8 v-14 l16 6 -16 6z" fill="#fbbf24"/>
-      <rect x="34" y="80" width="14" height="20" rx="7" fill="#fde68a"/><rect x="172" y="80" width="14" height="20" rx="7" fill="#fde68a"/>
-      <rect x="103" y="50" width="14" height="22" rx="7" fill="#fde68a"/>
-      <path d="M90 175 v-38 a20 20 0 0 1 40 0 v38z" fill="${open ? '#fde68a' : '#3b0764'}"/>
-      ${open ? '' : '<path d="M96 175 v-36 M104 175 v-40 M112 175 v-40 M120 175 v-38 M127 175 v-34" stroke="#6d28d9" stroke-width="2"/>'}
-    </svg>`;
-  }
-
   function renderMap(v) {
     const dc = doneCount();
     const head = h(`<div class="map-head card">
@@ -273,12 +257,16 @@ const App = (() => {
     const W = Math.min((v.clientWidth || 360) - 28, 520);
     wrap.style.width = W + 'px';
     // Перед каждой главой — дополнительный отступ под указатель
-    const step = 136, gapG = 120, top = 300, bottom = 250;
+    const step = 136, gapG = 120, bottom = 250;
+    const chapterInset = (step + gapG) / 2;
+    // Фото замка показано до нижней кромки с надписью.
+    const castleY = Math.round(W * 1.17) - chapterInset;
+    const top = castleY + 10;
     const off = [0];
     for (let i = 1; i < ROUTE.length; i++) off[i] = off[i - 1] + step + (GROUP_STARTS.includes(i) ? gapG : 0);
     const H = top + off[ROUTE.length - 1] + bottom;
     const pts = ROUTE.map((_, i) => ({ x: W / 2 + Math.sin(i * 0.85) * W * 0.27, y: H - bottom - off[i] }));
-    pts[ROUTE.length - 1] = { x: W / 2, y: top - 10 };
+    pts[ROUTE.length - 1] = { x: W / 2, y: castleY };
     const p = [pts[0], ...pts, pts[pts.length - 1]];
     let d = `M${pts[0].x},${pts[0].y + 240}L${pts[0].x},${pts[0].y}`;
     const prefix = [d];
@@ -298,7 +286,7 @@ const App = (() => {
         <path d="${d}" class="road-edge"/><path d="${d}" class="road-body"/>
         <path d="${d}" class="road-done" id="roadDone"/><path d="${d}" class="road-line"/>
       </svg>
-      <div class="castle ${dc >= 26 ? 'open' : ''}" style="left:${W / 2}px;top:${top - 290}px">${castleSvg(dc >= 27)}<div class="castle-label">Замок Грамотности</div></div>
+      <div class="castle-label">Замок Грамотности</div>
       <div class="start-sign" style="left:${pts[0].x}px;top:${pts[0].y + 222}px">СТАРТ</div>`;
     // пройденная часть дороги
     const done = wrap.querySelector('#roadDone');
@@ -317,8 +305,8 @@ const App = (() => {
     // главы: подложка участка дороги и указатель в начале главы
     GROUPS.forEach((g, gi) => {
       const s = GROUP_STARTS[gi];
-      const yStart = pts[s].y + (step + gapG) / 2;
-      const yEnd = gi + 1 < GROUPS.length ? pts[GROUP_STARTS[gi + 1]].y + (step + gapG) / 2 : 0;
+      const yStart = pts[s].y + chapterInset;
+      const yEnd = gi + 1 < GROUPS.length ? pts[GROUP_STARTS[gi + 1]].y + chapterInset : 0;
       const tasks = g.tasks.filter(isExamTask); const n = tasks.filter((t) => S.done[t]).length;
       const reached = curIdx < 0 || s <= curIdx;
       const full = n === tasks.length;
@@ -370,8 +358,8 @@ const App = (() => {
     // прокрутка к текущей станции
     requestAnimationFrame(() => {
       // Карта открывается на текущей станции; в самом начале видно СТАРТ → 1
-      const cur = curIdx >= 0 ? wrap.querySelectorAll('.station')[curIdx] : null;
-      v.scrollTop = curIdx <= 0 ? v.scrollHeight : Math.max(0, cur.offsetTop + wrap.offsetTop - v.clientHeight / 2);
+      const cur = wrap.querySelectorAll('.station')[curIdx < 0 ? ROUTE.length - 1 : curIdx];
+      v.scrollTop = curIdx === 0 ? v.scrollHeight : Math.max(0, cur.offsetTop + wrap.offsetTop - v.clientHeight / 2);
     });
   }
 
