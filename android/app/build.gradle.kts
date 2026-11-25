@@ -64,6 +64,8 @@ kotlin {
 dependencies {
     implementation("com.anthropic:anthropic-java:3.3.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.sun.mail:android-mail:1.6.8")
+    implementation("com.sun.mail:android-activation:1.6.8")
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")

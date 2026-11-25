@@ -50,7 +50,7 @@ class AgentActivity : ComponentActivity() {
     private val queriesKey get() = when (target) { "linkedin" -> "linkedin_queries"; "habr" -> "habr_queries"; "hh" -> "queries"; "ods_tg" -> "ods_tg_template"; else -> "q_$target" }
     private val isTg get() = target == "ods_tg"
     private val agentName get() = agentTitle(target)
-    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "ods_tg" -> "ODS → Telegram"; "hh", "", "single" -> "hh"; else -> Sites.byKey(t)?.name ?: t }
+    private fun agentTitle(t: String) = when (t) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "ods_tg" -> "ODS → HR"; "hh", "", "single" -> "hh"; else -> Sites.byKey(t)?.name ?: t }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +100,8 @@ class AgentActivity : ComponentActivity() {
                 queriesBox.addView(label("Сайт компании: поиск по запросу там не работает — агент берёт всю ленту вакансий и сам отбирает подходящие (фильтр названий + проверка нейросетью).", 12f))
             } else if (isTg) {
                 queriesBox.addView(label("Сообщение HR. Подставится: {title} — вакансия, {url} — ссылка, {company}, {name} — ваше имя. " +
-                    "Оба PDF резюме (русское и английское) прикладываются автоматически. Нужен вход в Telegram Web — агент попросит.", 12f))
+                    "Каждому HR — одно сообщение. Сначала Telegram, затем письма контактам без доступного Telegram. " +
+                    "Для писем подключите почту в разделе ODS. Сохранённые PDF резюме прикладываются автоматически.", 12f))
                 queriesBox.addView(queriesField)
             } else {
                 queriesBox.addView(label("Что искать на $agentName — по одной вакансии на строку (ищется по названию):", 12f))

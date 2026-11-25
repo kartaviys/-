@@ -90,8 +90,9 @@ class MainActivity : ComponentActivity() {
         // Рассылка HR — отдельной кнопкой, сама не запускается
         box.addView(row(
             button("Войти в Telegram") { openLogin("https://web.telegram.org/k/", "Telegram Web (вход по номеру, код придёт в Telegram)") },
-            button("✉️ Рассылка HR в Telegram") { openAgent("ods_tg") },
+            button("Подключить почту") { startActivity(Intent(this, OdsMailActivity::class.java)) },
         ))
+        box.addView(button("✉️ Рассылка HR") { openAgent("ods_tg") })
 
         // ---------- 5. LinkedIn ----------
         box.addView(header("5. LinkedIn"))
@@ -246,10 +247,10 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             val apps = withContext(Dispatchers.IO) { Db(this@MainActivity).list("status = 'saved'") }
             if (apps.isEmpty()) { toast("Сохранённых вакансий пока нет — нажмите «Обновить вакансии ODS»"); return@launch }
-            val notes = withContext(Dispatchers.IO) { Db(this@MainActivity).let { db -> apps.associate { it.vacancyId to db.errorOf(it.vacancyId) } } }
             val names = apps.map {
                 val mark = when {
-                    notes[it.vacancyId].orEmpty().startsWith("контакты: написали HR") -> "✉️ "
+                    it.note.startsWith("контакты: написали HR") || it.note == "контакты: этому HR уже писали" -> "✉️ "
+                    it.note == "контакты: отправка HR не подтверждена" -> "⚠️ "
                     it.letter.startsWith("📇") -> "📇 "
                     else -> ""
                 }
@@ -343,11 +344,13 @@ class MainActivity : ComponentActivity() {
     private fun showApplication(a: Application) {
         val lang = if (a.language == "en") "английский" else "русский"
         val hr = a.channel == "ods" && a.formUrl.isNotBlank() && a.formUrl != a.url
+        val outreachNote = if (a.channel == "ods" && a.note.startsWith("контакты: ") &&
+            a.note !in setOf("контакты: найдены", "контакты: не найдены")) "\n" + a.note.removePrefix("контакты: ") else ""
         AlertDialog.Builder(this)
             .setTitle(a.title)
             .setMessage(
                 "${a.employer}\n${Db.STATUS_RU[a.status] ?: a.status} · ${Db.CHANNEL_RU[a.channel] ?: Sites.byKey(a.channel)?.name ?: Sources.byKey(a.channel)?.name ?: a.channel}\n" +
-                    "Язык: $lang · ${a.createdAt}\n\n${a.letter.ifBlank { "(письма нет)" }}",
+                    "Язык: $lang · ${a.createdAt}$outreachNote\n\n${a.letter.ifBlank { "(письма нет)" }}",
             )
             .setPositiveButton("Открыть вакансию") { _, _ -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(a.url))) }
             .setNeutralButton(if (hr) "Написать HR" else "Копировать письмо") { _, _ ->

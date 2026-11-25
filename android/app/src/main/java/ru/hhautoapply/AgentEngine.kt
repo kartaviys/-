@@ -217,18 +217,17 @@ object AgentEngine {
      * Возвращает краткий итог.
      */
     suspend fun run(ctx: Context, single: Boolean, source: String = "", target: String = "hh"): String {
-        if (running.value) {
-            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "ods_tg" -> "ODS → Telegram"; "hh" -> "hh"; else -> Sites.byKey(this.target.value)?.name ?: "hh" }
+        if (!running.compareAndSet(expect = false, update = true)) {
+            val name = when (this.target.value) { "linkedin" -> "LinkedIn"; "habr" -> "Хабр Карьера"; "ods_tg" -> "ODS → HR"; "hh" -> "hh"; else -> Sites.byKey(this.target.value)?.name ?: "hh" }
             val msg = "Уже работает агент $name — сначала остановите его"
             RunLog.add(ctx, msg)
             return msg
         }
-        running.value = true
         this.target.value = if (single) "single" else target
         try {
-            val llm = Llm(ctx) { RunLog.add(ctx, it) }
+            val llm by lazy { Llm(ctx) { RunLog.add(ctx, it) } }
             val w = ensureWeb(ctx)
-            val a = BrowserAgent(ctx, w, llm, { status.value = it },
+            val a = BrowserAgent(ctx, w, { llm }, { status.value = it },
                 { reason -> ask(ctx, Prompt.Human(reason), reason) },
                 { q -> ask(ctx, Prompt.Confirm(q), q) })
             agent = a
@@ -236,7 +235,7 @@ object AgentEngine {
                 single -> runSingle(ctx, a, llm, source)
                 target == "linkedin" -> try { a.desktopMode(true); runLinkedIn(ctx, a, llm) } finally { a.desktopMode(false) }
                 target == "habr" -> runHabr(ctx, a, llm)
-                target == "ods_tg" -> runOdsTelegram(ctx, a)
+                target == "ods_tg" -> runOdsOutreach(ctx, a)
                 Sites.byKey(target) != null -> runSite(ctx, a, llm, Sites.byKey(target)!!)
                 else -> runSession(ctx, a, llm)
             }
@@ -248,9 +247,9 @@ object AgentEngine {
         } finally {
             Timing.end(ctx, applied = false) // последняя вакансия, если сессию прервали
             agent = null
-            running.value = false
             this.target.value = ""
             prompt.value = null
+            running.value = false
         }
     }
 
@@ -343,71 +342,15 @@ object AgentEngine {
         return summary
     }
 
-    /**
-     * Рассылка HR из ODS через Telegram Web (как человек в браузере, не через API — бот не может начинать диалоги).
-     * Берёт сохранённые вакансии ODS с найденным Telegram HR, открывает чат с @ником, прикладывает оба резюме
-     * и отправляет сообщение по шаблону. Каждому — один раз; между сообщениями пауза, чтобы Telegram не счёл спамом.
-     */
-    private suspend fun runOdsTelegram(ctx: Context, a: BrowserAgent): String {
-        val db = Db(ctx)
-        val limit = Prefs.int(ctx, "limit_ods_tg").coerceAtLeast(1)
-        val dailyCap = Prefs.int(ctx, "ods_tg_daily_limit").coerceAtLeast(1)
-        val template = Prefs.get(ctx, "ods_tg_template")
-        val name = Prefs.get(ctx, "name")
-        val hasFiles = listOf("ru", "en").any { java.io.File(ctx.filesDir, "resume_$it.pdf").exists() }
-        val todo = db.list("status = 'saved' AND channel = 'ods' AND form_url LIKE 'https://t.me/%'")
-            .filter { db.errorOf(it.vacancyId) == "контакты: найдены" }
-        RunLog.add(ctx, "Рассылка HR (ODS → Telegram): к отправке ${todo.size}, лимит $limit (в сутки $dailyCap)" +
-            if (!hasFiles) " — ⚠️ PDF резюме не загружены (Настройки → Резюме), отправлю без вложений" else "")
-        if (todo.isEmpty()) {
-            status.value = "Нет HR с Telegram для рассылки. Сначала «Обновить вакансии ODS» и «📇 Найти контакты HR»."
-            return "Нет HR для рассылки"
-        }
-        if (!a.tgEnsureLogin()) { status.value = "Telegram: вход не выполнен"; return "Telegram: вход не выполнен" }
-        val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(java.util.Date())
-        fun sentToday() = db.list("channel = 'ods'").count { db.errorOf(it.vacancyId) == "контакты: написали HR $today" }
-        var done = 0
+    private suspend fun runOdsOutreach(ctx: Context, browser: BrowserAgent): String {
+        attachBoth = true
         try {
-            attachBoth = true
-            for (v in todo) {
-                coroutineContext.ensureActive()
-                if (done >= limit) break
-                if (sentToday() >= dailyCap) { RunLog.add(ctx, "Telegram: дневной лимит ($dailyCap) достигнут"); break }
-                val handle = v.formUrl.removePrefix("https://t.me/").substringBefore("?").trim('/')
-                if (handle.isBlank()) continue
-                val text = template.replace("{title}", v.title).replace("{url}", v.url).replace("{company}", v.employer)
-                    .replace("{name}", name).trim()
-                Timing.begin(ctx, "ods_tg")
-                status.value = "Telegram: пишу @$handle — «${v.title}» ($done из $limit)"
-                if (needConfirm(ctx, "ods_tg") && !ask(ctx, Prompt.Confirm("Отправить @$handle сообщение по вакансии «${v.title}»?"),
-                        "Отправить @$handle сообщение по вакансии «${v.title}»?")) { Timing.end(ctx, false); continue }
-                val r = a.tgSend(handle, text, hasFiles, v.url)
-                val note = when (r) {
-                    BrowserAgent.TgResult.SENT, BrowserAgent.TgResult.ALREADY -> "контакты: написали HR $today"
-                    BrowserAgent.TgResult.BLOCKED -> "контакты: Telegram — писать нельзя"
-                    BrowserAgent.TgResult.NO_LOGIN -> { RunLog.add(ctx, "Telegram: слетел вход — стоп"); Timing.end(ctx, false); break }
-                    BrowserAgent.TgResult.FAILED -> "контакты: Telegram — не отправлено"
-                }
-                db.updateDetails(v.vacancyId, v.letter, v.formUrl, note)
-                val ms = Timing.end(ctx, r == BrowserAgent.TgResult.SENT)
-                RunLog.add(ctx, "• [ODS → Telegram] @$handle — ${v.title} → " + when (r) {
-                    BrowserAgent.TgResult.SENT -> "✅ отправлено"; BrowserAgent.TgResult.ALREADY -> "уже писали раньше"
-                    BrowserAgent.TgResult.BLOCKED -> "писать нельзя (нет ника / закрыты сообщения)"; else -> "❌ не отправлено"
-                } + " (${Timing.dur(ms)})")
-                if (r == BrowserAgent.TgResult.SENT) {
-                    done++
-                    // пауза побольше: Telegram ограничивает сообщения незнакомым людям
-                    val lo = maxOf(30, Prefs.int(ctx, "ods_tg_delay_min")); val hi = maxOf(lo, Prefs.int(ctx, "ods_tg_delay_max"))
-                    val sec = (lo..hi).random()
-                    status.value = "Пауза $sec с перед следующим сообщением…"
-                    delay(sec * 1000L)
-                }
+            return OdsOutreach.run(ctx, browser, status = { status.value = it }) { question ->
+                !needConfirm(ctx, "ods_tg") || ask(ctx, Prompt.Confirm(question), question)
             }
-        } finally { attachBoth = false }
-        val summary = "Рассылка HR в Telegram закончена: отправлено $done."
-        RunLog.add(ctx, summary)
-        status.value = "$summary Подробности — в «📌 Сохранённые» и в логе."
-        return summary
+        } finally {
+            attachBoth = false
+        }
     }
 
     /** Агент Хабр Карьеры: ваш список «Что искать» → все страницы → вакансия → письмо → «Откликнуться». */

@@ -18,6 +18,16 @@ window.__ag = (function () {
   const contactPath = url => url.pathname.replace(/\/$/, '');
   const onOdsVacancy = expected => location.origin === 'https://ods.ai' &&
     /^\/jobs\/[^/]+$/.test(contactPath(location)) && contactPath(location) === contactPath(new URL(expected));
+  const telegramInput = () => {
+    if (location.origin !== 'https://web.telegram.org') return null;
+    const inputs = [...document.querySelectorAll('.chat-input [contenteditable="true"][data-peer-id]')].filter(vis);
+    return inputs.length === 1 ? inputs[0] : null;
+  };
+  const telegramOutgoing = () => {
+    const input = telegramInput();
+    const chat = input && input.closest('.chat');
+    return chat ? [...chat.querySelectorAll('.bubble.is-out, .message.is-out, .Message.own')] : [];
+  };
   const HABR_APPLIED = /Вы откликнулись|Вы уже откликнулись|Отклик отправлен|Ваш отклик отправлен|Отклик на вакансию отправлен|Вы отправили отклик|Отозвать отклик/i;
   const labelOf = el => {
     let t = '';
@@ -252,6 +262,15 @@ window.__ag = (function () {
     },
 
     // ---------- Telegram Web (web.telegram.org/k) — сообщения HR из ODS ----------
+    tgPeer() {
+      const input = telegramInput();
+      return input && input.getAttribute('data-peer-id') || '';
+    },
+    tgPeerFor(handle) {
+      const hash = location.hash.toLowerCase();
+      const username = '@' + handle.toLowerCase();
+      return hash === '#' + username || hash === '#/im?p=' + username ? this.tgPeer() : '';
+    },
     // 'login' — нужен вход; 'chat' — чат открыт, есть поле ввода; 'blocked' — писать нельзя; 'loading'
     tgState() {
       const t = clean(document.body ? document.body.innerText : '').slice(0, 3000);
@@ -260,7 +279,8 @@ window.__ag = (function () {
       if (/log in to telegram|вход в telegram|войти в telegram|scan.*qr|отсканируйте/i.test(t) && !document.querySelector('.chat-input')) return 'login';
       const input = [...document.querySelectorAll('.chat-input .input-message-input[contenteditable="true"], .input-message-input[contenteditable="true"]')].find(vis);
       if (input) return 'chat';
-      if (/username not found|пользователь не найден|you can't|вы не можете|blocked|заблокирован/i.test(t)) return 'blocked';
+      const notices = [...document.querySelectorAll('.toast, .chat-input')].filter(vis).map(x => clean(x.innerText)).join(' ');
+      if (/no username found|username not found|user doesn.t exist|имя пользователя не найдено|пользователь не найден|пользователь не существует|не можете отправлять сообщения|can.t send messages/i.test(notices)) return 'blocked';
       return 'loading';
     },
     _tgInsert(el, text) {
@@ -291,34 +311,45 @@ window.__ag = (function () {
       const pop = [...document.querySelectorAll('.popup-new-media, .popup-send-photo, .popup')].find(vis);
       return pop && pop.querySelector('.input-message-input, [contenteditable="true"]') ? 'true' : 'false';
     },
-    tgPopupSend(text) {
+    tgPopupSend(text, peer) {
+      if (this.tgPeer() !== peer) return 'missing';
       const pop = [...document.querySelectorAll('.popup-new-media, .popup-send-photo, .popup')].find(vis);
       if (!pop) return 'missing';
       const cap = [...pop.querySelectorAll('.input-message-input[contenteditable="true"], [contenteditable="true"]')].find(vis);
-      if (cap && text) this._tgInsert(cap, text);
+      if (!cap || clean(cap.innerText)) return 'missing';
+      if (text) this._tgInsert(cap, text);
       const send = [...pop.querySelectorAll('button')].find(b => vis(b) && /send|отправить/i.test(clean(b.innerText))) || pop.querySelector('.btn-primary');
       if (!send) return 'nosend';
-      setTimeout(() => send.click(), 400);
+      setTimeout(() => { if (this.tgPeer() === peer && vis(pop)) send.click(); }, 400);
       return 'ok';
     },
     // Просто текст в чат и «Отправить»
-    tgSendText(text) {
-      const input = [...document.querySelectorAll('.chat-input .input-message-input[contenteditable="true"], .input-message-input[contenteditable="true"]')].find(vis);
-      if (!input) return 'missing';
+    tgSendText(text, peer) {
+      const input = telegramInput();
+      if (!input || this.tgPeer() !== peer || clean(input.innerText)) return 'missing';
+      const chat = input.closest('.chat');
+      if (!chat) return 'missing';
       this._tgInsert(input, text);
       setTimeout(() => {
-        const send = [...document.querySelectorAll('.btn-send, button.send, .chat-input button[class*="send"]')].find(vis);
+        if (this.tgPeer() !== peer) return;
+        const send = [...chat.querySelectorAll('.btn-send, button.send, .chat-input button[class*="send"]')].find(vis);
         if (send) send.click();
         else input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true }));
       }, 400);
       return 'ok';
     },
     // Последние исходящие сообщения содержат marker (ссылку на вакансию)?
-    tgSent(marker) {
-      const out = [...document.querySelectorAll('.bubble.is-out, .message.is-out, .Message.own')].slice(-6);
-      return out.some(b => (b.innerText || '').includes(marker)) ? 'true' : 'false';
+    tgSent(marker, peer) {
+      if (this.tgPeer() !== peer) return 'false';
+      return telegramOutgoing().slice(-6).some(b =>
+        !b.classList.contains('is-outgoing') && !b.classList.contains('is-error') &&
+        ((b.innerText || '').includes(marker) || [...b.querySelectorAll('a[href]')].some(a => a.href === marker))) ? 'true' : 'false';
     },
-    tgWasMessaged(marker) { return (document.body ? document.body.innerText : '').includes(marker) ? 'true' : 'false'; },
+    tgWasMessaged() {
+      const odsJob = /https?:\/\/(?:www\.)?ods\.ai\/jobs\/[a-z0-9-]+/i;
+      return telegramOutgoing().some(b => !b.classList.contains('is-error') &&
+        (odsJob.test(b.innerText || '') || [...b.querySelectorAll('a[href]')].some(a => odsJob.test(a.href)))) ? 'true' : 'false';
+    },
 
     // ---------- LinkedIn ----------
     // Вакансии на странице поиска: ссылки /jobs/view/<id> и карточки с data-job-id
