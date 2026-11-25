@@ -19,16 +19,18 @@ data class Application(
     val channel: String,
     val letter: String,
     val createdAt: String,
+    val note: String,
 )
 
 /** Журнал откликов. status: applied / dry_run / needs_browser / manual / skipped / failed */
-class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 2) {
+class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 3) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """CREATE TABLE applications (
                 vacancy_id TEXT PRIMARY KEY, title TEXT, employer TEXT, url TEXT, form_url TEXT,
                 language TEXT, status TEXT, channel TEXT, letter TEXT, error TEXT, created_at TEXT)""",
         )
+        createOdsOutreach(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -45,6 +47,12 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 2) {
                     WHERE channel = 'ods' AND status = 'saved' AND error LIKE 'контакты:%'""",
             )
         }
+        if (oldVersion < 3) createOdsOutreach(db)
+    }
+
+    // sent_on = NULL: отправка могла начаться. Пустая дата: отправляли раньше, дата неизвестна.
+    private fun createOdsOutreach(db: SQLiteDatabase) {
+        db.execSQL("CREATE TABLE ods_outreach (recipient TEXT PRIMARY KEY, attempt TEXT NOT NULL, channel TEXT NOT NULL, sent_on TEXT)")
     }
 
     private fun now() = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(Date())
@@ -95,6 +103,82 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 2) {
     fun errorOf(vacancyId: String): String =
         readableDatabase.rawQuery("SELECT error FROM applications WHERE vacancy_id = ?", arrayOf(vacancyId)).use { if (it.moveToFirst()) it.getString(0) ?: "" else "" }
 
+    fun markOds(vacancyId: String, note: String) {
+        writableDatabase.update("applications", ContentValues().apply { put("error", note) },
+            "channel = 'ods' AND vacancy_id = ?", arrayOf(vacancyId))
+    }
+
+    fun odsHistory(): Map<String, Boolean> =
+        readableDatabase.rawQuery("SELECT recipient, sent_on FROM ods_outreach", null).use { cursor ->
+            buildMap { while (cursor.moveToNext()) put(cursor.getString(0), !cursor.isNull(1)) }
+        }
+
+    fun reserveOds(keys: Set<String>, attempt: String, channel: String): Boolean {
+        val sql = writableDatabase
+        sql.beginTransaction()
+        try {
+            for (key in keys) {
+                if (sql.insertWithOnConflict("ods_outreach", null, odsRecipient(key, attempt, channel),
+                        SQLiteDatabase.CONFLICT_IGNORE) == -1L) return false
+            }
+            sql.setTransactionSuccessful()
+            return true
+        } finally {
+            sql.endTransaction()
+        }
+    }
+
+    fun rememberOds(keys: Set<String>, attempt: String, sent: Boolean = true) {
+        val sql = writableDatabase
+        sql.beginTransaction()
+        try {
+            for (key in keys) {
+                val values = odsRecipient(key, attempt, "history").apply { if (sent) put("sent_on", "") }
+                sql.insertWithOnConflict("ods_outreach", null, values, SQLiteDatabase.CONFLICT_IGNORE)
+            }
+            sql.setTransactionSuccessful()
+        } finally {
+            sql.endTransaction()
+        }
+    }
+
+    private fun odsRecipient(key: String, attempt: String, channel: String) = ContentValues().apply {
+        put("recipient", key)
+        put("attempt", attempt)
+        put("channel", channel)
+    }
+
+    fun finishOds(attempt: String, vacancyId: String, channel: String) {
+        val sql = writableDatabase
+        sql.beginTransaction()
+        try {
+            val date = today()
+            sql.update("ods_outreach", ContentValues().apply { put("sent_on", date) },
+                "attempt = ?", arrayOf(attempt))
+            val how = if (channel == "telegram") "Telegram" else "email"
+            markOds(vacancyId, "контакты: написали HR по $how $date")
+            sql.setTransactionSuccessful()
+        } finally {
+            sql.endTransaction()
+        }
+    }
+
+    fun releaseOds(attempt: String) {
+        writableDatabase.delete("ods_outreach", "attempt = ? AND sent_on IS NULL", arrayOf(attempt))
+    }
+
+    fun odsSentToday(channel: String): Int {
+        val date = today()
+        val current = readableDatabase.rawQuery(
+            "SELECT COUNT(DISTINCT attempt) FROM ods_outreach WHERE channel = ? AND sent_on = ?", arrayOf(channel, date),
+        ).use { it.moveToFirst(); it.getInt(0) }
+        if (channel != "telegram") return current
+        return current + readableDatabase.rawQuery(
+            "SELECT COUNT(*) FROM applications WHERE channel = 'ods' AND (error = ? OR error = ?)",
+            arrayOf("контакты: написали HR $date", "контакты: написали HR $date (контакты проверены)"),
+        ).use { it.moveToFirst(); it.getInt(0) }
+    }
+
     fun setStatus(vacancyId: String, status: String) {
         val v = ContentValues().apply { put("status", status); put("created_at", now()) }
         writableDatabase.update("applications", v, "vacancy_id = ?", arrayOf(vacancyId))
@@ -124,14 +208,14 @@ class Db(ctx: Context) : SQLiteOpenHelper(ctx, "applications.db", null, 2) {
 
     fun list(where: String = "1=1", args: Array<String> = emptyArray(), limit: Int = 5000): List<Application> =
         readableDatabase.rawQuery(
-            "SELECT vacancy_id, title, employer, url, form_url, language, status, channel, letter, created_at " +
+            "SELECT vacancy_id, title, employer, url, form_url, language, status, channel, letter, created_at, error " +
                 "FROM applications WHERE $where ORDER BY created_at DESC LIMIT $limit", args,
         ).use { c ->
             val out = mutableListOf<Application>()
             while (c.moveToNext()) out += Application(
                 c.getString(0), c.getString(1) ?: "", c.getString(2) ?: "", c.getString(3) ?: "",
                 c.getString(4) ?: "", c.getString(5) ?: "", c.getString(6) ?: "", c.getString(7) ?: "",
-                c.getString(8) ?: "", c.getString(9) ?: "",
+                c.getString(8) ?: "", c.getString(9) ?: "", c.getString(10) ?: "",
             )
             out
         }

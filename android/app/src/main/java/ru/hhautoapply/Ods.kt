@@ -97,7 +97,8 @@ object Ods {
         val myLinkedIn = handle(Prefs.get(ctx, "linkedin"), linkedInPrefix)
         val todo = db.list(
             "status = 'saved' AND channel = 'ods' AND url LIKE 'https://ods.ai/jobs/%' " +
-                "AND (error IS NULL OR error NOT LIKE 'контакты:%')",
+                "AND (error IS NULL OR error NOT LIKE 'контакты:%' OR " +
+                "(form_url = url AND error GLOB 'контакты: написали HR ????-??-??'))",
             limit = limit,
         )
         var found = 0
@@ -133,7 +134,11 @@ object Ods {
             val details = if (a.letter.startsWith("📇 Контакты HR:\n")) a.letter.substringAfter("\n\n") else a.letter
             val letter = if (lines.isEmpty()) details else "📇 Контакты HR:\n" + lines.joinToString("\n") + "\n\n" + details
             if (lines.isNotEmpty()) found++
-            val note = if (lines.isEmpty()) "контакты: не найдены" else "контакты: найдены"
+            val note = when {
+                a.note.startsWith("контакты: написали HR ") -> a.note + " (контакты проверены)"
+                lines.isEmpty() -> "контакты: не найдены"
+                else -> "контакты: найдены"
+            }
             db.updateDetails(a.vacancyId, letter, primary, note)
         }
         return Enriched(found, checked, unavailable)

@@ -33,7 +33,7 @@ data class AgentGoal(val title: String, val employer: String, val letter: String
 class BrowserAgent(
     private val ctx: Context,
     private val web: WebView,
-    private val llm: Llm,
+    private val llm: () -> Llm,
     private val status: (String) -> Unit,
     /** Пауза «нужен человек»: true — пользователь сделал сам, false — пропустить. */
     private val human: suspend (String) -> Boolean,
@@ -172,7 +172,7 @@ class BrowserAgent(
                 delay(2000); continue
             }
             val d = try {
-                withContext(Dispatchers.IO) { llm.completeJson(systemPrompt(resumeTitle), userPrompt(g, snap, history), 1500) }
+                withContext(Dispatchers.IO) { llm().completeJson(systemPrompt(resumeTitle), userPrompt(g, snap, history), 1500) }
             } catch (e: Exception) {
                 status("Нейросеть не ответила: ${e.message}"); return Outcome.FAILED
             }
@@ -478,7 +478,7 @@ class BrowserAgent(
     }
 
     // ---------- Telegram Web: сообщение HR ----------
-    enum class TgResult { SENT, ALREADY, NO_LOGIN, BLOCKED, FAILED }
+    enum class TgResult { SENT, ALREADY, NO_LOGIN, BLOCKED, FAILED, UNCONFIRMED }
 
     /** Вход в Telegram Web (web.telegram.org/k). Нет входа — просим человека войти в окне агента. */
     suspend fun tgEnsureLogin(): Boolean {
@@ -491,21 +491,40 @@ class BrowserAgent(
 
     /**
      * Открыть чат с @handle и отправить text; withFiles — приложить резюме (скрепка → «Документ»).
-     * marker — уникальная строка из текста (ссылка на вакансию): по ней проверяем, что сообщение ушло и что раньше не писали.
+     * Резервируем получателя перед отправкой, когда известен постоянный идентификатор Telegram.
      */
-    suspend fun tgSend(handle: String, text: String, withFiles: Boolean, marker: String): TgResult {
+    suspend fun tgSend(
+        handle: String, text: String, withFiles: Boolean, marker: String,
+        reserve: (peer: String, alreadyMessaged: Boolean) -> Boolean,
+    ): TgResult {
         status("Telegram: открываю чат @$handle")
-        val onTg = currentUrl().startsWith("https://web.telegram.org/")
-        if (onTg) { rawJs("location.hash = ${q("@$handle")}"); delay(2500) } else load("https://web.telegram.org/k/#@$handle")
-        var state = "loading"
-        for (i in 0 until 12) { state = call("window.__ag.tgState()"); if (state != "loading") break; delay(1500) }
-        when (state) {
-            "login" -> return TgResult.NO_LOGIN
-            "blocked" -> return TgResult.BLOCKED
-            "loading" -> return TgResult.FAILED // чат не открылся (нет такого ника / писать нельзя)
+        // Переход по одному hash оставляет предыдущий чат видимым, пока Telegram ищет новый.
+        load("about:blank")
+        if (currentUrl() != "about:blank") return TgResult.FAILED
+        load("https://web.telegram.org/k/#@$handle")
+        var peer = ""
+        for (attempt in 1..12) {
+            when (call("window.__ag.tgState()")) {
+                "login" -> return TgResult.NO_LOGIN
+                "blocked" -> return TgResult.BLOCKED
+            }
+            peer = call("window.__ag.tgPeerFor(${q(handle)})")
+            if (peer.toLongOrNull() != null) break
+            delay(1500)
         }
+        val peerId = peer.toLongOrNull() ?: return TgResult.FAILED
+        if (peerId <= 0) return TgResult.BLOCKED
         delay(1500) // история чата догружается
-        if (call("window.__ag.tgWasMessaged(${q(marker)})") == "true") return TgResult.ALREADY
+        if (call("window.__ag.tgPeerFor(${q(handle)})") != peer) return TgResult.FAILED
+        val already = call("window.__ag.tgWasMessaged()") == "true"
+        if (!reserve(peer, already) || already) return TgResult.ALREADY
+        suspend fun confirmSent(): TgResult {
+            repeat(15) {
+                delay(1500)
+                if (call("window.__ag.tgSent(${q(marker)}, ${q(peer)})") == "true") return TgResult.SENT
+            }
+            return TgResult.UNCONFIRMED
+        }
         if (withFiles) {
             status("Telegram: прикрепляю резюме для @$handle")
             if (call("window.__ag.tgAttach()") == "ok") {
@@ -514,9 +533,7 @@ class BrowserAgent(
                 var ready = false
                 for (i in 0 until 10) { delay(1000); if (call("window.__ag.tgPopupReady()") == "true") { ready = true; break } }
                 if (ready) {
-                    call("window.__ag.tgPopupSend(${q(text)})")
-                    for (i in 0 until 15) { delay(1500); if (call("window.__ag.tgSent(${q(marker)})") == "true") return TgResult.SENT }
-                    return TgResult.FAILED
+                    return if (call("window.__ag.tgPopupSend(${q(text)}, ${q(peer)})") == "ok") confirmSent() else TgResult.FAILED
                 }
                 RunLog.add(ctx, "  Telegram: окно с файлами не открылось — отправляю текст без вложений")
                 rawJs("document.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}))")
@@ -524,9 +541,7 @@ class BrowserAgent(
             } else RunLog.add(ctx, "  Telegram: кнопка-скрепка не найдена — отправляю текст без вложений")
         }
         status("Telegram: отправляю сообщение @$handle")
-        if (call("window.__ag.tgSendText(${q(text)})") != "ok") return TgResult.FAILED
-        for (i in 0 until 8) { delay(1500); if (call("window.__ag.tgSent(${q(marker)})") == "true") return TgResult.SENT }
-        return TgResult.FAILED
+        return if (call("window.__ag.tgSendText(${q(text)}, ${q(peer)})") == "ok") confirmSent() else TgResult.FAILED
     }
 
     // ---------- Общий агент сайтов ----------
