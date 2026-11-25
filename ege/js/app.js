@@ -61,7 +61,7 @@ const App = (() => {
   const fresh = () => ({
     name: '', avatar: '🦊', totalXp: 0, coins: 30, done: {}, chests: [], prog: {},
     city: { plots: {}, lastCollect: Date.now() }, ach: {}, streak: { count: 0, last: null },
-    practice16V2: true, sound: false, stats: { correct: 0, wrong: 0 }, run: 0, blocks: 0, lastAd: 0, onboarded: false, toured: false,
+    practice16V2: true, drafts: {}, sound: false, stats: { correct: 0, wrong: 0 }, run: 0, blocks: 0, lastAd: 0, onboarded: false, toured: false,
   });
   let S = load();
   function load() {
@@ -436,7 +436,7 @@ const App = (() => {
     const m = modal(`<div class="center onb">
       <div class="big-emoji">🏰</div>
       <h2>Добро пожаловать в ЕГЭ квест!</h2>
-      <p>Тебе предстоит пройти по дороге к <b>Замку грамотности</b> и освоить 26 заданий ЕГЭ.</p>
+      <p>Тебе предстоит пройти по дороге к <b>Замку грамотности</b> и освоить 27 заданий ЕГЭ.</p>
       <input class="pf-name" placeholder="Как тебя зовут?" maxlength="20">
       <button class="btn primary go">Начать путь 🚀</button>
     </div>`);
@@ -533,7 +533,7 @@ const App = (() => {
         <span class="l-combo"></span>
       </div>
       <div class="l-progrow"><div class="l-prog"></div></div>
-      <div class="l-progtxt"><span class="pt-r">Пройдено</span></div>
+      <div class="l-progtxt"><span class="pt-kind"></span><span class="pt-r">Пройдено</span></div>
       <div class="l-body"></div>
       <div class="l-foot"><div class="l-feedback"></div><div class="l-btns"><button class="btn ghost l-extra hidden"></button><button class="btn primary l-main">Дальше</button></div></div>`;
     root.classList.remove('hidden');
@@ -552,7 +552,7 @@ const App = (() => {
       if (last?.name === name) last.end = i + 1;
       else blocks.push({ name, start: i, end: i + 1 });
     });
-    const counter = $('.pt-r', root);
+    const counter = $('.pt-r', root), kindLabel = $('.pt-kind', root);
     let earnedKeys = 0;
     // полоска прогресса: участки теории и практики
     const runs = [];
@@ -588,6 +588,11 @@ const App = (() => {
 
     const api = {
       ctx, S, mainEl: main,
+      draft(key) { return S.drafts[n]?.[key]; },
+      saveDraft(key, value) {
+        (S.drafts[n] ||= {})[key] = value;
+        save();
+      },
       next: () => show(idx + 1),
       foot({ label = 'Дальше', enabled = true, onClick = api.next, extraLabel = null, onExtra = null, stable = false } = {}) {
         main.textContent = label;
@@ -633,6 +638,7 @@ const App = (() => {
       fly: (anchor, xp) => { const gx = reward(xp, 0, { quiet: true }); ctx.xp += gx; pending += gx; return gx; },
       finish(stars) {
         const beforeLevel = levelInfo().lvl;
+        delete S.drafts[n];
         const first = !S.done[n];
         const prev = S.done[n] || { stars: 0, times: 0 };
         S.done[n] = { stars: Math.max(prev.stars, stars), times: prev.times + 1 };
@@ -711,6 +717,7 @@ const App = (() => {
       }
       segs.forEach((sg, k) => { const r = runs[k]; sg.firstChild.style.width = Math.max(0, Math.min(1, (i - r.from) / r.n)) * 100 + '%'; });
       const completed = S.done[n] ? blocks.length : blocks.filter((b) => b.end <= maxIdx).length;
+      kindLabel.textContent = i === total ? '' : kinds[i] === 'practice' ? 'Практика' : 'Теория';
       counter.textContent = `Пройдено ${completed}/${blocks.length}`;
       back.disabled = i === 0;
       fwd.classList.toggle('hidden', i >= maxIdx);

@@ -116,10 +116,7 @@
 
     ((App.THEORY || {})[n] || []).forEach((f) => slides.push(f));
 
-    if (n === 16) slides.push(slide('Тренировка', (body, api) => {
-      body.appendChild(h('<div class="slide intro"><div class="step-chip gold">Тренировка</div><h2>Теперь — сам!</h2><p>Разбирай по одному предложению: отмечай основы и союзы, затем расставляй запятые.</p></div>'));
-      api.foot({ label: 'Начать тренировку' });
-    }));
+    if (n === 16) slides.push(App.trainingIntro('10 вариантов из ЕГЭ. Делай всё в том же порядке, что и в разборе.'));
 
     data.ex.forEach((ex, k) => slides.push(slide(`Упражнение ${k + 1}/10`, (body, api) => {
       if (n === 16) return App.Practice16(body, api, k);
@@ -133,32 +130,42 @@
       body.appendChild(el);
       const panel = el.querySelector('.algo-panel'), extra = el.querySelector('.stage-extra'), toolHost = el.querySelector('.tool-host'), host = el.querySelector('.boards');
       const texts = ex.sents || [ex.text];
+      const key = `exercise${k}`;
+      const saved = api.draft(key) || { step: 0, marks: [] };
+      const save = () => api.saveDraft(key, saved);
       const boards = texts.map((t, i) => {
         const row = h(`<div class="sent-row">${ex.sents ? `<span class="sent-n">${i + 1})</span>` : ''}<div class="sent-b"></div></div>`);
         host.appendChild(row);
-        return new M.Board(row.querySelector('.sent-b'), M.parse(t), { labels: cfg.labels });
+        return new M.Board(row.querySelector('.sent-b'), M.parse(t), { labels: cfg.labels, marks: saved.marks[i], onChange: (marks) => { saved.marks[i] = marks; save(); } });
       });
       const group = boards.length > 1 ? new M.BoardGroup(boards) : boards[0];
       M.toolbar(toolHost, group, cfg.tools);
-      let si = 0, tries = 0;
+      let si = saved.step;
       const drawPanel = () => {
         panel.innerHTML = `<div class="ap-row">${algo.map((a, i) => `<span class="ap ${i < si ? 'done' : i === si ? 'cur' : 'lock'}" title="${a}">${i < si ? '✓' : i + 1}</span>`).join('<i></i>')}</div>
           <div class="ap-cur">${si < algo.length ? `<b>Шаг ${si + 1} из ${algo.length}</b>${algo[si]}` : '<b>Все шаги алгоритма выполнены ✓</b>Теперь запиши ответ.'}</div>`;
       };
+      const stepButton = () => api.foot({
+        label: si === algo.length - 1 ? 'Последний шаг выполнен ✓' : 'Шаг выполнен ✓',
+        onClick: stepDone,
+        extraLabel: '💡', onExtra: () => api.spendHint(0, algo[si]),
+      });
       const stepDone = () => {
         api.fly(api.mainEl || panel, 2);
         boards.forEach((board) => board.startStage());
         si++;
+        saved.step = si; save();
         drawPanel();
-        if (si < algo.length) api.foot({ label: si === algo.length - 1 ? 'Последний шаг выполнен ✓' : 'Шаг выполнен ✓', onClick: stepDone });
+        if (si < algo.length) stepButton();
         else answerStage();
       };
       const answerStage = () => {
         // перед проверкой ученик объясняет каждую цифру
         const nums = ex.sents ? ex.sents.map((_, i) => i + 1) : texts.join(' ').match(/\((\d+)\)/g).map((x) => +x.slice(1, -1));
-        App.Kit.reasonAnswer(extra, api, Object.assign({ nums, answer: ex.answer, onDone: (ok) => { if (!ok) api.ctx.errors++; reveal(); } }, REASONS[n]));
+        App.Kit.reasonAnswer(extra, api, Object.assign({ nums, answer: ex.answer, values: saved.reasons, onChange: (values) => { saved.reasons = values; save(); }, onDone: (ok) => { if (!ok) api.ctx.errors++; reveal(); } }, REASONS[n]));
       };
       const reveal = () => {
+        saved.revealed = true; save();
         toolHost.innerHTML = '';
         boards.forEach((b) => { b.readOnly = true; b.el.classList.add('ro'); b.setTool(null); });
         extra.insertAdjacentHTML('beforeend', `<div class="explain card"><div class="ans-big">Ответ: <b>${ex.answer}</b></div>
@@ -169,7 +176,7 @@
         api.foot({ label: k < data.ex.length - 1 ? 'Следующее упражнение ▸' : 'Итоги' });
       };
       drawPanel();
-      api.foot({ label: 'Шаг выполнен ✓', onClick: stepDone });
+      if (saved.revealed) reveal(); else if (si >= algo.length) answerStage(); else stepButton();
     })));
 
     slides.push(slide('Финал', (body, api) => {

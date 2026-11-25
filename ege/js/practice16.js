@@ -14,8 +14,8 @@
     ], [
       ['жители;туристы/передвигаются', 'и;либо;и#2;либо#2', 'набережным;либо#2'],
       ['гондолы/используются', 'и', ''],
-      ['/насчитывается|женщина/есть', 'и', 'и'],
-      ['гондола/является;одним;главным средством;служит', 'не только;но и', 'но;служит'],
+      ['свыше 400/насчитывается|женщина/есть', 'и', 'и'],
+      ['гондола/является;одним из символов;средством;служит', 'не только;но и', 'но;служит'],
       ['туристы/плыли', '', 'оснащённой'],
     ], [
       ['дом/был;богат;знаменит;беднел;мельчал;потерялся', 'и;но;и#2', 'но;мельчал'],
@@ -71,7 +71,7 @@
   // Однородные члены: буква задаёт тип линии и кружочка.
   const homogeneous = [
     ['def:серое;заложенное тучами|obj:грустить;мечтать', 'p:одет был;сидел', 's:картины;вазы;часы', 'obj:учителям;родителям', 'p:взяли;сошли|obj:еду;лекарства'],
-    ['s:жители;туристы|circ:пешком;при помощи водного транспорта|obj:улочкам;набережным;мостам', 'def:прогулок;экскурсий', '', 'p:одним из символов венеции;главным средством передвижения по каналам города;служит', 'def:старинной;оснащённой небольшой кабиной'],
+    ['s:жители;туристы|circ:пешком;при помощи~транспорта|obj/circ:по улочкам;набережным;мостам', 'obj:прогулок;экскурсий', '', 'p:одним из символов;средством;служит', 'def:старинной;оснащённой небольшой кабиной'],
     ['p:богат;знаменит;беднел;мельчал;потерялся', 'p:собирался;готовился начать;рисовал', 'circ:мрачней;ниже', 'def:юношеские;обманувшие его;обманутые им', ''],
     ['def:тёмными;часто до половины размётанными', 'p:волновалось;лоснилось|circ:широко;мягко', 'p:вынул;подал', 's:лес;дол', ''],
     ['circ:дома;в разговорах|obj:родственниками;друзьями', 'obj:землянику;грибы', '', 'p:уселся;углубился|def:пролетевших быстро предыдущих суток;нынешнего утра', 'p:сложили;были готовы выезжать|obj:продовольствие;тёплые вещи;книги;антиквариат'],
@@ -94,8 +94,46 @@
     ['', 'односельчанам|либо', '', 'людьми|и при', ''],
   ];
 
+  const requiredDefinitions = {
+    '0:1': ['домашнее', 'серенькое'],
+    '1:1': ['знаменитые', 'венецианские'],
+  };
+  const participles = {
+    '0:0': ['заложенное тучами'], '1:4': ['оснащённой небольшой кабиной'],
+    '2:3': ['обманувшие его', 'обманутые им'], '3:0': ['часто до половины размётанными'],
+    '5:4': ['видимые только при ярком свете'], '7:4': ['живо воздействующими на чувства слушателей'],
+    '8:1': ['почти полностью обессиленные'], '8:2': ['намазанные известью'],
+    '8:3': ['раскалённые князем-басурманом'],
+  };
+  const unmarked = {
+    '1:0': ['водного'],
+    '1:3': ['главным'],
+  };
+  const rules = {
+    D: 'Однородные определения',
+    N: 'Однородные члены без союза',
+    R: 'Повторяющийся союз',
+    T: 'Вторая часть двойного союза',
+    A: 'Противительный или присоединительный союз между однородными членами',
+    P: 'Граница пар однородных членов',
+    S: 'Граница частей сложного предложения',
+    I: 'Одиночный союз между однородными членами',
+    G: 'Общий элемент у частей сложного предложения',
+    F: 'Фразеологизм',
+    M: 'Побудительные части с одиночным союзом',
+  };
+  // Правила перечислены в порядке запятых. Для предложения без запятых — причина их отсутствия.
+  const reasons = [
+    ['D', 'I', 'RR', 'T', 'I'], ['NR', 'I', 'S', 'TN', 'D'],
+    ['AN', 'N', 'I', 'D', 'G'], ['D', 'S', 'I', 'I', 'G'],
+    ['I', 'S', 'G', 'T', 'P'], ['F', 'S', 'T', 'PP', 'D'],
+    ['RN', 'S', 'A', 'I', 'R'], ['A', 'TN', 'S', 'NN', 'D'],
+    ['T', 'SD', 'S', 'D', 'G'], ['RR', 'M', 'T', 'S', 'A'],
+  ];
+
   const split = (s) => s ? s.split(';') : [];
   function words(sent, phrase) {
+    if (phrase.includes('~')) return phrase.split('~').flatMap((part) => words(sent, part));
     const [term, ordinal = '1'] = norm(phrase).split('#');
     const count = Number(ordinal);
     let found = [];
@@ -103,7 +141,7 @@
     if (!found.length) throw new Error('Нет фразы: ' + phrase + ' · ' + sent.text);
     return found;
   }
-  function keyFor(text, [bases, unions, commas], hom, boundary) {
+  function keyFor(text, [bases, unions, commas], hom, boundary, id, rule) {
     const sent = P(text.normalize('NFC'));
     const groups = bases.split('|').map((base) => {
       const [s, p] = base.split('/');
@@ -111,23 +149,27 @@
     });
     const rings = split(unions).map((w) => words(sent, w));
     const members = hom ? hom.split('|').flatMap((row) => {
-      const [type, terms] = row.split(':');
-      return split(terms).map((w) => ({ type, words: words(sent, w) }));
+      const [types, terms] = row.split(':');
+      return split(terms).map((w) => ({ types: types.split('/'), words: words(sent, w) }));
     }) : [];
     const division = boundary ? boundary.split('|').map((w, i) => {
       const found = words(sent, w);
       return i ? found[0] : found[found.length - 1] + 1;
     }) : [];
-    return { sent, groups, rings, members, division, commas: split(commas).map((w) => words(sent, w)[0]) };
+    return { sent, groups, rings, members, division, rules: [...rule],
+      definitions: (requiredDefinitions[id] || []).flatMap((word) => words(sent, word)),
+      participles: (participles[id] || []).map((phrase) => words(sent, phrase)),
+      unmarked: (unmarked[id] || []).flatMap((word) => words(sent, word)),
+      commas: split(commas).map((w) => words(sent, w)[0]) };
   }
   const exercises = window.PRACTICE_DATA[16].ex.map((ex, i) => ({
-    ...ex, keys: ex.sents.map((text, j) => keyFor(text, keys[i][j], homogeneous[i][j], boundaries[i][j])),
+    ...ex, keys: ex.sents.map((text, j) => keyFor(text, keys[i][j], homogeneous[i][j], boundaries[i][j], `${i}:${j}`, reasons[i][j])),
   }));
 
   const stages = [
     ['Выдели грамматические основы', 'Подлежащее — одной чертой, сказуемое — двумя. Разные основы выделяй разными цветами.', ['subj', 'pred']],
     ['Обведи в кружок сочинительные союзы', 'Чтобы обвести составной союз, проведи от первого слова к последнему.', ['ring']],
-    ['Обозначь однородные члены и части предложения', 'Подчеркни члены предложения и поставь над однородными кружочки нужного типа. Если основ несколько, отметь границы частей.', ['subj', 'pred', 'obj', 'def', 'circ', 'hom', 'brk']],
+    ['Обозначь однородные члены и части предложения', 'Подчеркни члены предложения. Кружок сам подстроится под линию. Чтобы соединить линию внутри оборота, проведи по всей фразе. Отметь границы частей или оборота.', ['subj', 'pred', 'obj', 'def', 'circ', 'hom', 'brk', 'bar', 'label']],
     ['Расставь запятые', 'Нажимай на промежутки между словами. Если запятых нет, сразу проверь этап.', ['comma']],
   ];
   const same = (a, b) => a.length === b.length && a.every((v) => b.includes(v));
@@ -137,40 +179,60 @@
     const panel = el.querySelector('.algo-panel'), host = el.querySelector('.board-host');
     const tools = el.querySelector('.tool-host'), extra = el.querySelector('.stage-extra');
     body.appendChild(el);
-    let sentence = 0, stage = 0, tries = 0, board;
+    const draftKey = `variant${index}`;
+    const state = api.draft(draftKey) || { sentence: 0, stage: 0, markings: [], rules: [], punctuationCorrect: false, response: '' };
+    let tries = 0, board;
+    const save = () => api.saveDraft(draftKey, state);
+    const current = () => ex.keys[state.sentence];
     function show() {
-      const key = ex.keys[sentence];
       if (board?.ro) board.ro.disconnect();
       host.replaceChildren();
       extra.replaceChildren();
-      board = new M.Board(host, key.sent, { spanRings: true, romanBases: true });
-      setStage();
+      tools.replaceChildren();
+      if (state.stage >= 6) { finalAnswer(); return; }
+      const key = current();
+      board = new M.Board(host, key.sent, {
+        spanRings: true, romanBases: true, useLinks: true, editLinks: true, labels: ['ПО'],
+        marks: state.markings[state.sentence],
+        onChange: (marks) => { state.markings[state.sentence] = marks; save(); },
+      });
+      if (state.stage === 4) explainPunctuation();
+      else if (state.stage === 5) showAnalysis();
+      else setStage();
     }
     function setStage() {
       tries = 0;
-      const [title, help, stageTools] = stages[stage];
+      const [title, help, stageTools] = stages[state.stage];
       board.startStage();
       tools.replaceChildren();
       M.toolbar(tools, board, stageTools);
-      panel.innerHTML = `<p>Предложение ${sentence + 1} из ${ex.keys.length}</p><div class="ap-cur"><b>Шаг ${stage + 1}. ${title}</b><small>${help}</small></div>`;
-      api.foot({ label: 'Проверить этап', onClick: check });
+      panel.innerHTML = `<p>Предложение ${state.sentence + 1} из ${ex.keys.length}</p><div class="ap-cur"><b>Шаг ${state.stage + 1}. ${title}</b><small>${help}</small></div>`;
+      api.foot({ label: 'Проверить этап', onClick: check, extraLabel: '💡', onExtra: () => api.spendHint(0, help) });
     }
     function reference(key, marks) {
       const m = M.clone(marks);
-      if (stage === 0 || stage === 2) {
+      if (state.stage === 0 || state.stage === 2) {
         m.mem = {};
         key.groups.forEach((g, i) => ['s', 'p'].forEach((type) => g[type].forEach((w) => { m.mem[w] = { t: type, b: i + 1 }; })));
       }
-      if (stage === 1) {
+      if (state.stage === 1) {
         m.rings = key.rings.flat();
         m.rl = key.rings.flatMap((r) => r.slice(1));
       }
-      if (stage === 2) {
+      if (state.stage === 2) {
         m.labels = {};
-        m.obj = []; m.def = []; m.circ = [];
-        key.members.forEach(({ type, words }) => {
+        m.obj = []; m.def = [...key.definitions]; m.circ = []; m.links = [];
+        key.members.forEach(({ types: [type], words }) => {
           m.labels[words[0]] = 'o:' + type;
           if (m[type]) m[type].push(...words);
+          words.slice(1).forEach((w, i) => { if (w === words[i] + 1) m.links.push(w); });
+        });
+        key.participles.forEach((phrase) => {
+          m.def.push(...phrase);
+          m.links.push(...phrase.slice(1));
+          m.bars.push(phrase[0], phrase.at(-1) + 1);
+          if (!m.labels[phrase[0]]) m.labels[phrase[0]] = 'ПО';
+          else m.phraseLabels[phrase[0]] = 'ПО';
         });
         if (key.division.length) {
           const [end, start] = key.division;
@@ -178,82 +240,164 @@
           m.gm[start] = (m.gm[start] || '') + '[';
         }
       }
-      if (stage === 3) m.commas = key.commas;
       return m;
     }
 
     function fail(messages) {
       api.bad(messages);
-      if (++tries < 2) return;
-      api.foot({ label: 'Проверить этап', onClick: check, extraLabel: 'Сверить ответ', onExtra: () => {
-        const key = ex.keys[sentence], solution = reference(key, board.getMarks());
+      if (++tries < 2 || extra.querySelector('.compare-markup')) return;
+      const compare = h('<button class="btn ghost compare-markup">Сверить ответ</button>');
+      extra.appendChild(compare);
+      compare.addEventListener('click', () => {
+        const key = current(), solution = reference(key, board.getMarks());
         tools.replaceChildren();
         board.startStage();
         board.readOnly = true;
         const card = h('<div class="stage-comparison"><h3>Верная разметка</h3><div></div></div>');
-        extra.appendChild(card);
-        new M.Board(card.lastElementChild, key.sent, { marks: solution, readOnly: true, romanBases: true });
+        extra.replaceChildren(card);
+        const example = new M.Board(card.lastElementChild, key.sent, { marks: solution, useLinks: true, readOnly: true, romanBases: true });
         api.foot({ label: 'Дальше', onClick: () => {
+          example.ro?.disconnect();
           extra.replaceChildren();
           board.readOnly = false;
           board.setMarks(solution);
           advance();
         } });
-      } });
+      });
+    }
+
+    function checkMarkup(key, marks) {
+      const missing = key.members.some(({ types, words }) => !words.some((i) => types.some((type) => {
+        const line = ['s', 'p'].includes(type) ? marks.mem[i]?.t === type : marks[type].includes(i);
+        return marks.labels[i] === 'o:' + type && line;
+      })));
+      if (missing) return 'Отметь каждый однородный член: нужна линия и кружок.';
+      const extraCircle = Object.keys(marks.labels).some((i) => marks.labels[i].startsWith('o:') &&
+        !key.members.some(({ words }) => words.includes(+i)));
+      if (extraCircle) return 'Есть лишний кружок. Проверь, однородны ли отмеченные члены.';
+      if (key.definitions.some((i) => !marks.def.includes(i))) return 'Отметь неоднородные определения волнистой линией.';
+      if (key.unmarked.some((i) => ['def', 'circ', 'obj'].some((type) => marks[type].includes(i)) || marks.mem[i])) return 'Проверь, нет ли лишних подчёркиваний.';
+      if (key.participles.some((phrase) => !phrase.every((i) => marks.def.includes(i)) ||
+          !phrase.slice(1).every((i) => marks.links.includes(i)) ||
+          marks.links.includes(phrase[0]) || marks.links.includes(phrase.at(-1) + 1) ||
+          !marks.bars.includes(phrase[0]) || !marks.bars.includes(phrase.at(-1) + 1) ||
+          !phrase.some((i) => marks.labels[i] === 'ПО' || marks.phraseLabels[i] === 'ПО'))) {
+        return 'Отметь причастный оборот отдельной сплошной волнистой линией. Поставь две границы и подпиши «ПО».';
+      }
+      if (key.division.length) {
+        const [end, start] = key.division;
+        const close = [end, start, start + 1, start + 2].some((i) => marks.gm[i]?.includes(']'));
+        const open = [0, 1, 2].some((i) => marks.gm[i]?.includes('[')) &&
+          [end, start, start + 1, start + 2].some((i) => marks.gm[i]?.includes('['));
+        if (!(close && open && marks.gm[key.sent.words.length]?.includes(']'))) return 'Проверь квадратные скобки вокруг обеих частей предложения.';
+      }
+      return '';
     }
 
     function check() {
-      const key = ex.keys[sentence], marks = board.getMarks();
-      if (stage === 0) {
-        const result = M.checkBases(marks, { groups: key.groups, optional: key.groups.flatMap((g) => g.p.map((n) => n - 1).filter((n) => /^н[еи]$/i.test(key.sent.words[n] || ''))) });
+      const key = current(), marks = board.getMarks();
+      if (state.stage === 0 || state.stage === 2) {
+        const optional = key.groups.flatMap((g) => g.p.map((n) => n - 1).filter((n) => /^н[еи]$/i.test(key.sent.words[n] || '')));
+        const result = M.checkBases(marks, { groups: key.groups, optional });
         if (!result.ok) { fail(result.msgs); return; }
       }
-      if (stage === 1 && !same(board.ringGroups().map((a) => a.join(',')), key.rings.map((a) => a.join(',')))) {
+      if (state.stage === 1 && !same(board.ringGroups().map((a) => a.join(',')), key.rings.map((a) => a.join(',')))) {
         fail(['Проверь союзы. Слова одной части составного союза должны быть внутри общего овала.']);
         return;
       }
-      if (stage === 2) {
-        const result = M.checkBases(marks, { groups: key.groups, optional: Object.keys(marks.mem).map(Number) });
-        if (!result.ok) { fail(result.msgs); return; }
-        const missing = key.members.filter(({ type, words }) => {
-          const line = (i) => ['s', 'p'].includes(type) ? marks.mem[i]?.t === type : marks[type].includes(i);
-          return !words.some((i) => marks.labels[i] === 'o:' + type && line(i));
-        });
-        if (missing.length) {
-          fail(['Отметь каждый однородный член: нужна линия и кружочек соответствующего типа.']);
-          return;
-        }
-        if (key.division.length) {
-          const [end, start] = key.division;
-          const close = [end, start, start + 1, start + 2].some((i) => marks.gm[i]?.includes(']'));
-          const open = [0, 1, 2].some((i) => marks.gm[i]?.includes('[')) &&
-            [end, start, start + 1, start + 2].some((i) => marks.gm[i]?.includes('['));
-          if (!(close && open && marks.gm[key.sent.words.length]?.includes(']'))) {
-            fail(['Проверь квадратные скобки вокруг обеих частей предложения.']);
-            return;
-          }
-        }
+      if (state.stage === 2) {
+        const error = checkMarkup(key, marks);
+        if (error) { fail([error]); return; }
       }
-      if (stage === 3 && !same(marks.commas, key.commas)) {
-        fail(['Проверь места запятых.']);
-        return;
-      }
-      api.good(5, 0, api.mainEl);
+      if (state.stage === 3) {
+        state.punctuationCorrect = same(marks.commas, key.commas);
+        if (!state.punctuationCorrect) api.bad(['В расстановке запятых есть ошибка.'], { concise: true });
+      } else api.good(5, 0, api.mainEl);
       advance();
     }
+
     function advance() {
       api.feedback(null);
-      if (++stage < stages.length) { setStage(); return; }
+      state.stage++;
+      save();
+      if (state.stage === 4) explainPunctuation(); else setStage();
+    }
+
+    function freezeBoard() {
       board.startStage();
       board.readOnly = true;
       tools.replaceChildren();
-      extra.appendChild(h(`<div class="explain card"><h3>Разбор</h3><p>${ex.explain[sentence].replace(/^\d+\)\s*/, '')}</p></div>`));
-      if (sentence === ex.keys.length - 1) {
-        extra.appendChild(h(`<div class="ans-big">Ровно одна запятая в предложениях <b>${ex.answer.split('').join(', ')}</b></div>`));
-        api.foot({ label: 'Дальше' });
-      } else {
-        api.foot({ label: 'Следующее предложение', onClick: () => { sentence++; stage = 0; show(); } });
+    }
+    function result() {
+      const correct = state.punctuationCorrect;
+      return h(`<p class="punct-result ${correct ? 'correct' : 'incorrect'}">${correct ? 'Запятые расставлены верно.' : 'В расстановке запятых есть ошибка.'}</p>`);
+    }
+
+    function explainPunctuation() {
+      freezeBoard();
+      panel.innerHTML = '<div class="ap-cur"><b>Объясни пунктуацию</b></div>';
+      extra.replaceChildren(result());
+      const key = current();
+      const choices = key.commas.length ? ['D','N','R','T','A','P','S'] : ['I','G','F','M'];
+      const form = h(`<div class="reasons">${key.rules.map((_, i) => {
+        const caption = key.commas.length ? `Запятая перед «${key.sent.words[key.commas[i]]}»` : 'Почему запятых нет?';
+        return `<label>${caption}<select class="rs-sel" aria-label="${caption}"><option value="">Выбери причину</option>${choices.map((code) => `<option value="${code}">${rules[code]}</option>`).join('')}</select></label>`;
+      }).join('')}</div>`);
+      extra.appendChild(form);
+      const selects = [...form.querySelectorAll('select')];
+      selects.forEach((select, i) => {
+        select.value = state.rules[i] || '';
+        select.addEventListener('change', () => { state.rules[i] = select.value; save(); setCheck(); });
+      });
+      function setCheck() {
+        api.foot({ label: 'Проверить', stable: true, enabled: selects.every((select) => select.value), onClick: () => {
+          state.reasonsCorrect = selects.every((select, i) => select.value === key.rules[i]);
+          if (!state.reasonsCorrect) api.bad(['Сверь объяснение с разбором.'], { concise: true });
+          else if (state.punctuationCorrect) { api.good(5, 0, api.mainEl); api.feedback(null); }
+          state.stage = 5;
+          save();
+          showAnalysis();
+        } });
       }
+      setCheck();
+    }
+
+    function showAnalysis() {
+      freezeBoard();
+      panel.innerHTML = '<div class="ap-cur"><b>Разбор предложения</b></div>';
+      const key = current(), expected = M.clone(board.getMarks());
+      expected.commas = key.commas;
+      board.setMarks(expected);
+      extra.replaceChildren(result());
+      const ruleResult = state.reasonsCorrect ? 'Причины указаны верно.' : 'В причинах есть ошибка.';
+      extra.appendChild(h(`<div class="explain card"><h3>Разбор</h3><p>${ruleResult}</p><p>${ex.explain[state.sentence].replace(/^\d+\)\s*/, '')}</p></div>`));
+      api.foot({ label: state.sentence + 1 < ex.keys.length ? 'Следующее предложение' : 'Записать ответ', onClick: () => {
+        state.sentence++;
+        state.stage = state.sentence === ex.keys.length ? 6 : 0;
+        state.rules = [];
+        api.feedback(null);
+        save();
+        show();
+      } });
+    }
+
+    function finalAnswer() {
+      panel.innerHTML = '<div class="ap-cur"><b>В каких предложениях нужна ровно одна запятая?</b><small>Запиши номера без пробелов и запятых.</small></div>';
+      const list = h('<ol class="ex-list"></ol>');
+      host.appendChild(list);
+      ex.keys.forEach((key, i) => {
+        const li = h('<li></li>');
+        list.appendChild(li);
+        new M.Board(li, key.sent, { marks: state.markings[i], readOnly: true, romanBases: true, useLinks: true });
+      });
+      if (state.stage === 7) {
+        extra.appendChild(h(`<div class="explain card">Ответ: <b>${ex.answer}</b></div>`));
+        api.foot({ label: 'Дальше' });
+        return;
+      }
+      const done = () => { state.stage = 7; save(); api.foot({ label: 'Дальше' }); };
+      const answer = App.Kit.answerPh(ex.answer, '', { value: state.response, onInput: (value) => { state.response = value; save(); }, digitsOnly: true });
+      answer(extra, api, done);
     }
     show();
   }
