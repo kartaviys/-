@@ -1,9 +1,9 @@
 /* Офлайн-кэш: приложение работает без интернета после первого открытия */
-const CACHE = 'egequest-v16';
+const CACHE = 'egequest-v17';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
-  'js/markup.js?v=16', 'js/app.js?v=16', 'js/task1.js?v=16', 'js/kit.js?v=16', 'js/task17.js?v=16', 'js/theory16.js?v=16', 'js/theory18.js?v=16', 'js/theory19.js?v=16', 'js/zachet.js?v=16', 'js/games.js?v=16', 'js/practice-data.js?v=16', 'js/practice16.js?v=16', 'js/practice.js?v=16', 'css/style.css?v=16',
-  'assets/map-forest.jpg', 'assets/map-hills.jpg', 'assets/map-lake.jpg', 'assets/map-mountains.jpg',
+  'js/markup.js?v=17', 'js/app.js?v=17', 'js/task1.js?v=17', 'js/kit.js?v=17', 'js/task17.js?v=17', 'js/theory16.js?v=17', 'js/theory18.js?v=17', 'js/theory19.js?v=17', 'js/zachet.js?v=17', 'js/games.js?v=17', 'js/practice-data.js?v=17', 'js/practice16.js?v=17', 'js/practice.js?v=17', 'css/style.css?v=17',
+  'assets/map-forest.jpg', 'assets/map-hills.jpg', 'assets/map-lake.jpg', 'assets/map-mountains.jpg', 'assets/map-castle.jpg',
   'assets/algorithm17.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
 ];
 self.addEventListener('install', (e) => {
