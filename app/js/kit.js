@@ -41,10 +41,8 @@
   };
 
   /* ===== Компоненты слайдов ===== */
-  function shell(body, { chip, title, lead }) {
-    // номер блока в плашке не пишем — он путался с номером слайда в шапке
-    if (chip) { chip = chip.replace(/^Блок \d+\s*(·\s*)?/, ''); chip = chip ? chip[0].toUpperCase() + chip.slice(1) : 'Теория'; }
-    const el = h(`<div class="slide">${chip ? `<div class="step-chip">${chip}</div>` : ''}${title ? `<h2>${title}</h2>` : ''}${lead ? `<p class="lead">${lead}</p>` : ''}<div class="phases"></div></div>`);
+  function shell(body, { title, lead }) {
+    const el = h(`<div class="slide">${title ? `<h2>${title}</h2>` : ''}${lead ? `<p class="lead">${lead}</p>` : ''}<div class="phases"></div></div>`);
     body.appendChild(el);
     return el.querySelector('.phases');
   }
@@ -83,12 +81,13 @@
   const htmlPh = (html) => { const f = (box, api, done) => { box.innerHTML = html; done(); }; f.instant = true; return f; };
 
   // Пошаговый разбор предложения: каждое нажатие добавляет разметку и пояснение
-  const demoPh = (text, steps, { title, plain } = {}) => (box, api, done) => {
+  const demoPh = (text, steps, { title, plain, hiddenCommas } = {}) => (box, api, done) => {
     const S = P(text);
     if (title) box.appendChild(h(`<div class="demo-title">${title}</div>`));
     let cur = M.emptyMarks();
     const board = new M.Board(box, S, { readOnly: true, marks: cur, useLinks: true });
     board.el.classList.add('demo-board');
+    if (hiddenCommas) board.showCommas([], true);
     const notes = h(`<ol class="demo-notes${plain ? ' plain' : ''}"></ol>`);
     box.appendChild(notes);
     let k = 0;
@@ -96,7 +95,7 @@
       const st = steps[k++](S);
       cur = merge(cur, st.m || {});
       board.setMarks(cur);
-      if (st.commas) board.showCommas(st.commas);
+      if (st.commas) board.showCommas(st.commas, hiddenCommas);
       if (st.flash) board.flash(st.flash);
       if (st.note) notes.appendChild(h(`<li class="rv">${st.note}</li>`)).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       if (k >= steps.length) { done(); return; }
@@ -291,9 +290,14 @@
   };
 
   /* Ввод ответа-цифр с разбором после */
-  const answerPh = (answer, explainHtml) => (box, api, done) => {
+  const answerPh = (answer, explainHtml, { value = '', onInput = () => {}, digitsOnly = false } = {}) => (box, api, done) => {
     box.appendChild(h('<div class="answer-box"><label>Ответ:</label><input class="ans" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="цифры"></div>'));
     const inp = box.querySelector('input');
+    inp.value = value;
+    inp.addEventListener('input', () => {
+      if (digitsOnly) inp.value = inp.value.replace(/\D/g, '');
+      onInput(inp.value);
+    });
     let tries = 0;
     const show = () => { box.appendChild(h(`<div class="explain card rv"><div class="ans-big">Ответ: <b>${answer}</b></div>${explainHtml}</div>`)); done(); };
     const check = () => {
@@ -311,7 +315,7 @@
      opts: { nums: [1,2…], answer: '145', yes: {label, reasons}, no: {label, reasons}, onDone(ok) } */
   function reasonAnswer(host, api, o) {
     const yes = o.yes || { label: 'запятая', reasons: [] }, no = o.no || { label: 'нет', reasons: [] };
-    const st = {};
+    const st = Markup.clone(o.values || {});
     const box = h(`<div class="reasons"><div class="rs-h">${o.title || 'Объясни каждую цифру — ответ соберётся сам'}</div>${o.nums.map((n) => `<div class="rs-row" data-n="${n}"><b class="rs-n">${n}</b>
       <div class="rs-seg"><button data-v="1">${yes.label}</button><button data-v="0">${no.label}</button></div>
       <select class="rs-sel" disabled><option value="">почему?</option></select></div>`).join('')}<div class="rs-ans">Твой ответ: <b>—</b></div></div>`);
@@ -333,17 +337,29 @@
     };
     box.querySelectorAll('.rs-row').forEach((row) => {
       const n = +row.dataset.n, sel = row.querySelector('select');
-      row.querySelectorAll('.rs-seg button').forEach((b) => b.addEventListener('click', () => {
-        const v = +b.dataset.v;
-        st[n] = { v, r: '' };
-        row.querySelectorAll('.rs-seg button').forEach((x) => x.classList.toggle('on', x === b));
-        const list = v ? yes.reasons : no.reasons;
+      const buttons = [...row.querySelectorAll('.rs-seg button')];
+      function renderSelection() {
+        if (!st[n]) return;
+        buttons.forEach((button) => button.classList.toggle('on', Number(button.dataset.v) === st[n].v));
+        const list = st[n].v ? yes.reasons : no.reasons;
         sel.innerHTML = '<option value="">почему?</option>' + list.map((r) => `<option>${r}</option>`).join('');
         sel.disabled = false;
-        if (list.length === 0) st[n].r = '—';
+        if (!list.length) st[n].r = '—';
+        else sel.value = st[n].r;
+      }
+      buttons.forEach((b) => b.addEventListener('click', () => {
+        st[n] = { v: +b.dataset.v, r: '' };
+        renderSelection();
+        o.onChange?.(st);
         upd();
       }));
-      sel.addEventListener('change', () => { if (st[n]) { st[n].r = sel.value; upd(); } });
+      sel.addEventListener('change', () => {
+        if (!st[n]) return;
+        st[n].r = sel.value;
+        o.onChange?.(st);
+        upd();
+      });
+      renderSelection();
     });
     function check() {
       if (!ready()) return;

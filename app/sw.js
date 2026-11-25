@@ -1,8 +1,8 @@
 /* Офлайн-кэш: приложение работает без интернета после первого открытия */
-const CACHE = 'egequest-v15';
+const CACHE = 'egequest-v16';
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'css/style.css',
-  'js/markup.js?v=15', 'js/app.js?v=15', 'js/task1.js?v=15', 'js/kit.js?v=15', 'js/task17.js?v=15', 'js/theory16.js?v=15', 'js/theory18.js?v=15', 'js/theory19.js?v=15', 'js/zachet.js?v=15', 'js/games.js?v=15', 'js/practice-data.js?v=15', 'js/practice16.js?v=15', 'js/practice.js?v=15', 'css/style.css?v=15',
+  'js/markup.js?v=16', 'js/app.js?v=16', 'js/task1.js?v=16', 'js/kit.js?v=16', 'js/task17.js?v=16', 'js/theory16.js?v=16', 'js/theory18.js?v=16', 'js/theory19.js?v=16', 'js/zachet.js?v=16', 'js/games.js?v=16', 'js/practice-data.js?v=16', 'js/practice16.js?v=16', 'js/practice.js?v=16', 'css/style.css?v=16',
   'assets/map-forest.jpg', 'assets/map-hills.jpg', 'assets/map-lake.jpg', 'assets/map-mountains.jpg',
   'assets/algorithm17.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
 ];

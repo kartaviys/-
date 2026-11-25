@@ -10,7 +10,7 @@ const Markup = (() => {
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const norm = (w) => w.toLowerCase().replace(/ё/g, 'е');
   const clone = (o) => JSON.parse(JSON.stringify(o));
-  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, lspan: {}, rings: [], rl: [], commas: [], gm: {}, boxes: [], links: [] });
+  const emptyMarks = () => ({ mem: {}, def: [], circ: [], obj: [], cross: [], bars: [], arrows: [], labels: {}, phraseLabels: {}, lspan: {}, rings: [], rl: [], commas: [], gm: {}, boxes: [], links: [] });
   // Вопросы для подписи над стрелкой
   const QUESTIONS = ['какой?', 'какая?', 'какое?', 'какие?', 'что делая?', 'что сделав?', 'как?', 'где?', 'когда?', 'куда?', 'почему?', 'вопреки чему?', 'что?', 'чего?'];
   const normMarks = (m) => Object.assign(emptyMarks(), m ? clone(m) : {});
@@ -67,6 +67,7 @@ const Markup = (() => {
       this.labelSet = opts.labels || LABELS;
       // у готовых примеров линии соединяются только внутри одной фразы (links), у ученика — всегда
       this.useLinks = !!opts.useLinks;
+      this.editLinks = !!opts.editLinks;
       this.tool = null;
       this.base = 1;
       this.pending = null;
@@ -104,7 +105,7 @@ const Markup = (() => {
         g.className = 'gap';
         g.dataset.g = k;
         g.classList.toggle('comma-slot', k > 0 && k < this.sent.words.length);
-        g.innerHTML = '<b class="gch"></b><span class="w">​<b class="bar"></b><span class="lines"></span></span>';
+        g.innerHTML = '<span class="w">​<b class="gch"></b><b class="bar"></b><b class="entered-comma"></b><span class="lines"></span></span>';
         s.appendChild(g);
         this.gapEls[k] = g;
       };
@@ -124,7 +125,7 @@ const Markup = (() => {
           t.dataset.w = it.wi;
           t.innerHTML = (it.pre ? `<span class="p">${esc(it.pre)}</span>` : '') +
             `<span class="w"><span class="lbl"></span>${esc(it.text)}<span class="lines"></span></span>` +
-            (it.punct ? `<b class="bar-in"></b><span class="p">${esc(it.punct)}</span>` : '');
+            `<b class="bar-in"></b><b class="trail-bracket"></b>` + (it.punct ? `<span class="p">${esc(it.punct)}</span>` : '');
           if (it.punct) t.classList.add('has-p');
           s.appendChild(t);
           this.wordEls[it.wi] = t;
@@ -135,10 +136,16 @@ const Markup = (() => {
 
     /* Заменить цифры запятыми (для показа верного ответа) */
     // цифры остаются на месте (иначе непонятно, какой ответ писать); где нужна запятая — она появляется перед цифрой
-    showCommas(list) {
+    showCommas(list, plain = false) {
       for (const d of this.digEls) {
         d.classList.remove('comma', 'gone', 'nocomma');
         const n = d.dataset.n;
+        if (plain) {
+          d.textContent = list.includes(+n) ? ',' : '';
+          d.classList.toggle('gone', !d.textContent);
+          d.classList.add('plain-comma');
+          continue;
+        }
         if (list.includes(+n)) { d.innerHTML = `<b class="cm">,</b>(${n})`; d.classList.add('comma'); }
         else { d.textContent = '(' + n + ')'; d.classList.add('nocomma'); }
       }
@@ -177,10 +184,20 @@ const Markup = (() => {
         t.classList.toggle('x', m.cross.includes(wi));
         t.classList.toggle('ring', m.rings.includes(wi));
         t.classList.toggle('box', m.boxes.includes(wi));
-        const lb = m.labels[wi] || '';
-        t.querySelector('.lbl').innerHTML = lb.startsWith('o:') ? `<span class="oc oc-${esc(lb.slice(2))}"></span>` : esc(lb);
-        t.classList.toggle('has-lbl', !!lb);
+        let lb = m.labels[wi] || '';
+        if (this.editLinks && lb.startsWith('o:')) {
+          const line = this.lineAt(wi);
+          if (line) lb = m.labels[wi] = 'o:' + (line.t || line.k);
+          else { delete m.labels[wi]; lb = ''; }
+        }
+        const phrase = m.phraseLabels[wi] || '';
+        t.querySelector('.lbl').innerHTML = (lb.startsWith('o:') ? `<span class="oc oc-${esc(lb.slice(2))}"></span>` : esc(lb)) +
+          (phrase ? `<span class="phrase-label">${esc(phrase)}</span>` : '');
+        t.classList.toggle('has-lbl', !!lb || !!phrase);
         t.dataset.base = baseLabels[wi] || '';
+        t.classList.toggle('roman-label', /^(?:I{1,3}|IV|VI?)$/.test(lb));
+        const trailing = t.querySelector('.trail-bracket');
+        if (trailing) trailing.textContent = '';
         t.classList.toggle('pending', this.pending === wi);
       }
       const marked = new Set([...m.def, ...m.circ]);
@@ -196,15 +213,26 @@ const Markup = (() => {
           else if (this.wordEls[k - 1].classList.contains('has-p')) { this.wordEls[k - 1].classList.add('bar-end'); inGap = false; }
         }
         g.classList.toggle('on', inGap);
-        const ch = m.gm[k] || '';
+        let ch = m.gm[k] || '';
+        const trailing = this.wordEls[k - 1]?.querySelector('.trail-bracket');
+        if (trailing && ch && !ch.includes('][') &&
+            (this.wordEls[k - 1].classList.contains('has-p') || g.previousElementSibling?.classList.contains('dig'))) {
+          const closing = ch.match(/^[\]})]+/)?.[0] || '';
+          trailing.textContent = closing;
+          ch = ch.slice(closing.length);
+        }
         g.classList.toggle('has-comma', m.commas.includes(k));
-        g.querySelector('.gch').textContent = ch;
+        g.querySelector('.entered-comma').textContent = m.commas.includes(k) ? ',' : '';
+        const brackets = g.querySelector('.gch');
+        brackets.textContent = ch;
+        brackets.classList.toggle('joint', ch === '][');
         g.classList.toggle('brk', !!ch);
         g.style.width = ch ? (0.5 * ch.length + 0.4) + 'em' : '';
         let joined = null;
-        if (k > 0 && k < n && (!this.useLinks || (m.links || []).includes(k))) {
+        if (k > 0 && k < n && !m.commas.includes(k)) {
           const a = this.lineAt(k - 1), b = this.lineAt(k);
-          if (a && b && a.k === b.k && a.t === b.t && a.b === b.b) joined = a;
+          if (a && b && a.k === b.k && a.t === b.t && a.b === b.b &&
+              (!this.useLinks || m.links.includes(k) || (this.editLinks && a.k === 'mem'))) joined = a;
         }
         g.querySelector('.lines').innerHTML = this.lineHtml(joined);
       }
@@ -273,8 +301,8 @@ const Markup = (() => {
         if (g.length < 2) continue;
         const a = this.wordEls[g[0]].querySelector('.w').getBoundingClientRect(), b = this.wordEls[g[g.length - 1]].querySelector('.w').getBoundingClientRect();
         if (Math.abs(a.top - b.top) > 10) continue;
-        const x = a.left - br.left - 2, y = a.top - br.top - 2, w = b.right - a.left + 4, hh = a.height + 4;
-        h += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}" rx="${(hh / 2).toFixed(1)}" class="ring-oval"/>`;
+        const x = a.left - br.left - .75, y = a.top - br.top - 4, w = b.right - a.left + 1.5, hh = a.height + 8;
+        h += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}" rx="6" class="ring-oval"/>`;
       }
       this.svg.innerHTML = h;
       // подпись над оборотом из нескольких слов — по центру оборота
@@ -329,7 +357,7 @@ const Markup = (() => {
         case 'erase':
           if (!this.keepBases) delete m.mem[wi];
           m.def = without(m.def, wi); m.circ = without(m.circ, wi); m.cross = without(m.cross, wi);
-          m.rings = without(m.rings, wi); m.obj = without(m.obj, wi); m.boxes = without(m.boxes, wi); delete m.labels[wi];
+          m.rings = without(m.rings, wi); m.obj = without(m.obj, wi); m.boxes = without(m.boxes, wi); delete m.labels[wi]; delete m.phraseLabels[wi];
           m.arrows = m.arrows.filter((a) => a[0] !== wi && a[1] !== wi);
           if (this.autoCross) m.cross = [...new Set(m.arrows.map(([from]) => from))];
           break;
@@ -352,7 +380,13 @@ const Markup = (() => {
           return;
         }
         if (this.tool === 'hom') {
-          if (tok) this.openMenu(+tok.dataset.w, ['o:s', 'o:p', 'o:def', 'o:obj', 'o:circ']);
+          if (!tok) return;
+          const i = +tok.dataset.w, line = this.lineAt(i);
+          if (!line) return;
+          this.snap();
+          if (this.marks.labels[i]?.startsWith('o:')) delete this.marks.labels[i];
+          else this.marks.labels[i] = 'o:' + (line.t || line.k);
+          this.changed();
           return;
         }
         if (this.tool === 'brk') {
@@ -409,6 +443,7 @@ const Markup = (() => {
         const wi = +tok.dataset.w;
         this.dragOn = this.tool === 'erase' ? true : !this.has(wi);
         this.visited = new Set([wi]);
+        this.lastDragged = wi;
         this.ringFrom = wi;
         if (this.tool === 'ring' && this.spanRings && !this.dragOn) {
           const group = this.ringGroups().find((g) => g.includes(wi));
@@ -416,6 +451,9 @@ const Markup = (() => {
           this.marks.rl = this.marks.rl.filter((w) => !group.includes(w));
         }
         this.apply(wi, this.dragOn);
+        if (this.editLinks && !this.dragOn && ['def', 'circ', 'obj'].includes(this.tool)) {
+          this.marks.links = this.marks.links.filter((k) => k !== wi && k !== wi + 1);
+        }
         this.dragging = true;
         this.render();
         this.onTap('mark');
@@ -435,7 +473,15 @@ const Markup = (() => {
             this.apply(i, true);
             if (i > first && !this.marks.rl.includes(i)) this.marks.rl.push(i);
           }
+        } else if (this.editLinks && ['def', 'circ', 'obj'].includes(this.tool)) {
+          const first = Math.min(this.lastDragged, wi), last = Math.max(this.lastDragged, wi);
+          for (let i = first; i <= last; i++) {
+            this.apply(i, this.dragOn);
+            if (i > first && this.dragOn && !this.marks.links.includes(i)) this.marks.links.push(i);
+            if (!this.dragOn) this.marks.links = this.marks.links.filter((k) => k !== i && k !== i + 1);
+          }
         } else this.apply(wi, this.dragOn);
+        this.lastDragged = wi;
         this.render();
       });
       const up = () => { if (this.dragging) { this.dragging = false; this.changed(); } };
@@ -446,6 +492,7 @@ const Markup = (() => {
     /* Меню подписей над словом */
     openMenu(wi, labels = this.labelSet) {
       this.closeMenu();
+      const markings = this.editLinks ? this.marks.phraseLabels : this.marks.labels;
       const t = this.wordEls[wi], br = this.el.getBoundingClientRect(), r = t.getBoundingClientRect();
       const menu = document.createElement('div');
       menu.className = 'lbl-menu';
@@ -457,7 +504,7 @@ const Markup = (() => {
         const b = e.target.closest('button');
         if (!b) return;
         this.snap();
-        if (b.dataset.l) this.marks.labels[wi] = b.dataset.l; else delete this.marks.labels[wi];
+        if (b.dataset.l && markings[wi] !== b.dataset.l) markings[wi] = b.dataset.l; else delete markings[wi];
         this.closeMenu();
         this.changed();
         this.onTap('mark');
