@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b5i8avmurkrrx"
+
+[deps]
+
+files=["res://locale/maps/ghent.en.translation", "res://locale/maps/ghent.ru.translation"]
+
+source_file="res://locale/maps/ghent.csv"
+dest_files=["res://locale/maps/ghent.en.translation", "res://locale/maps/ghent.ru.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

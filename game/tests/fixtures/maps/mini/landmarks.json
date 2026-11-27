@@ -1,0 +1,10 @@
+{
+  "format_version": 1,
+  "landmarks": [
+    { "id": "tower_a", "mana": { "air": 3 }, "guardian_tier": 1 },
+    { "id": "tower_b", "mana": { "light": 2 }, "guardian_tier": 1 },
+    { "id": "tower_c", "mana": { "light": 2 }, "guardian_tier": 1 },
+    { "id": "library", "mana": { "arcana": 5 }, "guardian_tier": 1 },
+    { "id": "station", "mana": { "steel": 5 }, "guardian_tier": 1 }
+  ]
+}

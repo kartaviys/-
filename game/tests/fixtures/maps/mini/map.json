@@ -1,0 +1,25 @@
+{
+  "format_version": 1,
+  "territories": [
+    { "id": "t1", "name_key": "T1", "centroid": [10, 10], "polygon": [[0, 0], [20, 0], [20, 20], [0, 20]] },
+    { "id": "t2", "name_key": "T2", "centroid": [30, 10], "polygon": [[20, 0], [40, 0], [40, 20], [20, 20]] },
+    { "id": "t3", "name_key": "T3", "centroid": [10, 30], "polygon": [[0, 20], [20, 20], [20, 40], [0, 40]] },
+    { "id": "t4", "name_key": "T4", "centroid": [30, 30], "polygon": [[20, 20], [40, 20], [40, 40], [20, 40]] },
+    { "id": "t5", "name_key": "T5", "centroid": [60, 20], "polygon": [[45, 0], [80, 0], [80, 40], [45, 40]] }
+  ],
+  "edges": [
+    { "a": "t1", "b": "t2", "type": "land" },
+    { "a": "t1", "b": "t3", "type": "land" },
+    { "a": "t2", "b": "t4", "type": "land" },
+    { "a": "t3", "b": "t4", "type": "land" },
+    { "a": "t2", "b": "t5", "type": "bridge", "name": "Test Bridge" },
+    { "a": "t4", "b": "t5", "type": "water" }
+  ],
+  "landmarks": [
+    { "id": "tower_a", "territory": "t1" },
+    { "id": "tower_b", "territory": "t2" },
+    { "id": "tower_c", "territory": "t3" },
+    { "id": "library", "territory": "t4" },
+    { "id": "station", "territory": "t5" }
+  ]
+}

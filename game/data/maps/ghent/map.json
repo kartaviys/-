@@ -1,0 +1,2861 @@
+{
+ "format_version": 1,
+ "schematic": true,
+ "size": [
+  2727,
+  3518
+ ],
+ "border": [
+  [
+   0,
+   1773
+  ],
+  [
+   1180,
+   777
+  ],
+  [
+   2384,
+   0
+  ],
+  [
+   2727,
+   297
+  ],
+  [
+   2591,
+   2590
+  ],
+  [
+   2463,
+   3073
+  ],
+  [
+   1758,
+   3518
+  ],
+  [
+   584,
+   3149
+  ],
+  [
+   266,
+   2995
+  ]
+ ],
+ "river": [
+  [
+   25,
+   1997
+  ],
+  [
+   564,
+   2069
+  ],
+  [
+   959,
+   2153
+  ],
+  [
+   1268,
+   1996
+  ],
+  [
+   1332,
+   1636
+  ],
+  [
+   1597,
+   1455
+  ],
+  [
+   1742,
+   1120
+  ],
+  [
+   1870,
+   751
+  ],
+  [
+   2016,
+   375
+  ],
+  [
+   2080,
+   -9
+  ]
+ ],
+ "territories": [
+  {
+   "id": "t_belfort",
+   "name_key": "LM_BELFORT",
+   "centroid": [
+    1564,
+    2039
+   ],
+   "polygon": [
+    [
+     1677,
+     1935
+    ],
+    [
+     1614,
+     2187
+    ],
+    [
+     1504,
+     2212
+    ],
+    [
+     1459,
+     1944
+    ],
+    [
+     1582,
+     1885
+    ],
+    [
+     1676,
+     1933
+    ]
+   ],
+   "stats": {
+    "area_m2": 194419,
+    "buildings": 402,
+    "green_share": 0.0,
+    "water_share": 0.0,
+    "road_length_m": 6122,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_sint_niklaas",
+   "name_key": "LM_SINT_NIKLAAS",
+   "centroid": [
+    1425,
+    2088
+   ],
+   "polygon": [
+    [
+     1459,
+     1944
+    ],
+    [
+     1504,
+     2212
+    ],
+    [
+     1447,
+     2254
+    ],
+    [
+     1318,
+     2026
+    ],
+    [
+     1437,
+     1940
+    ]
+   ],
+   "stats": {
+    "area_m2": 124429,
+    "buildings": 393,
+    "green_share": 0.01,
+    "water_share": 0.0,
+    "road_length_m": 5956,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_sint_baafs",
+   "name_key": "LM_SINT_BAAFS",
+   "centroid": [
+    1748,
+    2076
+   ],
+   "polygon": [
+    [
+     1614,
+     2187
+    ],
+    [
+     1677,
+     1935
+    ],
+    [
+     1889,
+     2006
+    ],
+    [
+     1913,
+     2076
+    ],
+    [
+     1687,
+     2221
+    ]
+   ],
+   "stats": {
+    "area_m2": 198971,
+    "buildings": 389,
+    "green_share": 0.02,
+    "water_share": 0.0,
+    "road_length_m": 5918,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_graslei",
+   "name_key": "LM_GRASLEI",
+   "centroid": [
+    1264,
+    1936
+   ],
+   "polygon": [
+    [
+     1302,
+     1816
+    ],
+    [
+     1339,
+     1831
+    ],
+    [
+     1437,
+     1940
+    ],
+    [
+     1318,
+     2026
+    ],
+    [
+     1100,
+     2011
+    ],
+    [
+     1102,
+     1934
+    ]
+   ],
+   "stats": {
+    "area_m2": 179823,
+    "buildings": 382,
+    "green_share": 0.03,
+    "water_share": 0.15,
+    "road_length_m": 5808,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_sint_michielsbrug",
+   "name_key": "LM_SINT_MICHIELSBRUG",
+   "centroid": [
+    1239,
+    2170
+   ],
+   "polygon": [
+    [
+     1318,
+     2026
+    ],
+    [
+     1447,
+     2254
+    ],
+    [
+     1398,
+     2319
+    ],
+    [
+     1333,
+     2351
+    ],
+    [
+     1018,
+     2187
+    ],
+    [
+     1100,
+     2011
+    ]
+   ],
+   "stats": {
+    "area_m2": 361205,
+    "buildings": 383,
+    "green_share": 0.03,
+    "water_share": 0.15,
+    "road_length_m": 5910,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_groot_vleeshuis",
+   "name_key": "LM_GROOT_VLEESHUIS",
+   "centroid": [
+    1473,
+    1841
+   ],
+   "polygon": [
+    [
+     1582,
+     1885
+    ],
+    [
+     1459,
+     1944
+    ],
+    [
+     1437,
+     1940
+    ],
+    [
+     1339,
+     1831
+    ],
+    [
+     1489,
+     1734
+    ],
+    [
+     1561,
+     1774
+    ]
+   ],
+   "stats": {
+    "area_m2": 123682,
+    "buildings": 383,
+    "green_share": 0.03,
+    "water_share": 0.0,
+    "road_length_m": 5800,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_gravensteen",
+   "name_key": "LM_GRAVENSTEEN",
+   "centroid": [
+    1367,
+    1687
+   ],
+   "polygon": [
+    [
+     1364,
+     1535
+    ],
+    [
+     1489,
+     1734
+    ],
+    [
+     1339,
+     1831
+    ],
+    [
+     1302,
+     1816
+    ],
+    [
+     1292,
+     1563
+    ],
+    [
+     1299,
+     1550
+    ]
+   ],
+   "stats": {
+    "area_m2": 145005,
+    "buildings": 370,
+    "green_share": 0.05,
+    "water_share": 0.15,
+    "road_length_m": 5616,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_patershol",
+   "name_key": "LM_PATERSHOL",
+   "centroid": [
+    1555,
+    1571
+   ],
+   "polygon": [
+    [
+     1740,
+     1548
+    ],
+    [
+     1561,
+     1774
+    ],
+    [
+     1489,
+     1734
+    ],
+    [
+     1364,
+     1535
+    ],
+    [
+     1536,
+     1408
+    ],
+    [
+     1667,
+     1432
+    ]
+   ],
+   "stats": {
+    "area_m2": 320165,
+    "buildings": 364,
+    "green_share": 0.06,
+    "water_share": 0.15,
+    "road_length_m": 5600,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_vrijdagmarkt",
+   "name_key": "LM_VRIJDAGMARKT",
+   "centroid": [
+    1702,
+    1739
+   ],
+   "polygon": [
+    [
+     1676,
+     1933
+    ],
+    [
+     1582,
+     1885
+    ],
+    [
+     1561,
+     1774
+    ],
+    [
+     1740,
+     1548
+    ],
+    [
+     1867,
+     1633
+    ]
+   ],
+   "stats": {
+    "area_m2": 236578,
+    "buildings": 377,
+    "green_share": 0.04,
+    "water_share": 0.0,
+    "road_length_m": 5754,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_dulle_griet",
+   "name_key": "LM_DULLE_GRIET",
+   "centroid": [
+    1859,
+    1827
+   ],
+   "polygon": [
+    [
+     1987,
+     1823
+    ],
+    [
+     1889,
+     2006
+    ],
+    [
+     1677,
+     1935
+    ],
+    [
+     1676,
+     1933
+    ],
+    [
+     1867,
+     1633
+    ],
+    [
+     1975,
+     1658
+    ]
+   ],
+   "stats": {
+    "area_m2": 272864,
+    "buildings": 373,
+    "green_share": 0.05,
+    "water_share": 0.0,
+    "road_length_m": 5716,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_prinsenhof",
+   "name_key": "LM_PRINSENHOF",
+   "centroid": [
+    1179,
+    1764
+   ],
+   "polygon": [
+    [
+     1292,
+     1563
+    ],
+    [
+     1302,
+     1816
+    ],
+    [
+     1102,
+     1934
+    ],
+    [
+     1013,
+     1777
+    ]
+   ],
+   "stats": {
+    "area_m2": 228913,
+    "buildings": 351,
+    "green_share": 0.08,
+    "water_share": 0.15,
+    "road_length_m": 5362,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_duivelsteen",
+   "name_key": "LM_DUIVELSTEEN",
+   "centroid": [
+    1848,
+    2219
+   ],
+   "polygon": [
+    [
+     1687,
+     2221
+    ],
+    [
+     1913,
+     2076
+    ],
+    [
+     2023,
+     2174
+    ],
+    [
+     1788,
+     2378
+    ],
+    [
+     1778,
+     2374
+    ]
+   ],
+   "stats": {
+    "area_m2": 193473,
+    "buildings": 369,
+    "green_share": 0.05,
+    "water_share": 0.0,
+    "road_length_m": 5616,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_rabot",
+   "name_key": "LM_RABOT",
+   "centroid": [
+    1044,
+    1548
+   ],
+   "polygon": [
+    [
+     954,
+     1275
+    ],
+    [
+     1299,
+     1550
+    ],
+    [
+     1292,
+     1563
+    ],
+    [
+     1013,
+     1777
+    ],
+    [
+     857,
+     1679
+    ]
+   ],
+   "stats": {
+    "area_m2": 464475,
+    "buildings": 314,
+    "green_share": 0.14,
+    "water_share": 0.0,
+    "road_length_m": 4911,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_sint_baafsabdij",
+   "name_key": "LM_SINT_BAAFSABDIJ",
+   "centroid": [
+    2099,
+    2048
+   ],
+   "polygon": [
+    [
+     2202,
+     2226
+    ],
+    [
+     2023,
+     2174
+    ],
+    [
+     1913,
+     2076
+    ],
+    [
+     1889,
+     2006
+    ],
+    [
+     1987,
+     1823
+    ],
+    [
+     2300,
+     2045
+    ],
+    [
+     2340,
+     2135
+    ]
+   ],
+   "stats": {
+    "area_m2": 403579,
+    "buildings": 341,
+    "green_share": 0.1,
+    "water_share": 0.0,
+    "road_length_m": 5297,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_gent_dampoort",
+   "name_key": "LM_GENT_DAMPOORT",
+   "centroid": [
+    2159,
+    1760
+   ],
+   "polygon": [
+    [
+     2300,
+     2045
+    ],
+    [
+     1987,
+     1823
+    ],
+    [
+     1975,
+     1658
+    ],
+    [
+     2224,
+     1519
+    ],
+    [
+     2273,
+     1551
+    ]
+   ],
+   "stats": {
+    "area_m2": 427441,
+    "buildings": 310,
+    "green_share": 0.14,
+    "water_share": 0.0,
+    "road_length_m": 4844,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_boekentoren",
+   "name_key": "LM_BOEKENTOREN",
+   "centroid": [
+    1451,
+    2496
+   ],
+   "polygon": [
+    [
+     1333,
+     2351
+    ],
+    [
+     1398,
+     2319
+    ],
+    [
+     1613,
+     2479
+    ],
+    [
+     1611,
+     2590
+    ],
+    [
+     1556,
+     2645
+    ],
+    [
+     1295,
+     2575
+    ]
+   ],
+   "stats": {
+    "area_m2": 276083,
+    "buildings": 343,
+    "green_share": 0.09,
+    "water_share": 0.0,
+    "road_length_m": 5267,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_sint_pietersabdij",
+   "name_key": "LM_SINT_PIETERSABDIJ",
+   "centroid": [
+    1750,
+    2519
+   ],
+   "polygon": [
+    [
+     1811,
+     2647
+    ],
+    [
+     1611,
+     2590
+    ],
+    [
+     1613,
+     2479
+    ],
+    [
+     1778,
+     2374
+    ],
+    [
+     1788,
+     2378
+    ],
+    [
+     1901,
+     2517
+    ]
+   ],
+   "stats": {
+    "area_m2": 200505,
+    "buildings": 335,
+    "green_share": 0.1,
+    "water_share": 0.0,
+    "road_length_m": 5113,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_citadelpark",
+   "name_key": "LM_CITADELPARK",
+   "centroid": [
+    1434,
+    2726
+   ],
+   "polygon": [
+    [
+     1295,
+     2575
+    ],
+    [
+     1556,
+     2645
+    ],
+    [
+     1575,
+     2953
+    ],
+    [
+     1574,
+     2953
+    ],
+    [
+     1228,
+     2656
+    ]
+   ],
+   "stats": {
+    "area_m2": 254694,
+    "buildings": 295,
+    "green_share": 0.66,
+    "water_share": 0.0,
+    "road_length_m": 4540,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_plantentuin",
+   "name_key": "LM_PLANTENTUIN",
+   "centroid": [
+    1693,
+    2800
+   ],
+   "polygon": [
+    [
+     1621,
+     2990
+    ],
+    [
+     1575,
+     2953
+    ],
+    [
+     1556,
+     2645
+    ],
+    [
+     1611,
+     2590
+    ],
+    [
+     1811,
+     2647
+    ],
+    [
+     1842,
+     2972
+    ]
+   ],
+   "stats": {
+    "area_m2": 375769,
+    "buildings": 299,
+    "green_share": 0.66,
+    "water_share": 0.0,
+    "road_length_m": 4656,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_gent_sint_pieters",
+   "name_key": "LM_GENT_SINT_PIETERS",
+   "centroid": [
+    1297,
+    2873
+   ],
+   "polygon": [
+    [
+     1098,
+     3017
+    ],
+    [
+     1212,
+     2665
+    ],
+    [
+     1228,
+     2656
+    ],
+    [
+     1574,
+     2953
+    ]
+   ],
+   "stats": {
+    "area_m2": 336554,
+    "buildings": 252,
+    "green_share": 0.23,
+    "water_share": 0.0,
+    "road_length_m": 3930,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_uz_gent",
+   "name_key": "LM_UZ_GENT",
+   "centroid": [
+    1001,
+    2777
+   ],
+   "polygon": [
+    [
+     1212,
+     2665
+    ],
+    [
+     1098,
+     3017
+    ],
+    [
+     1045,
+     3070
+    ],
+    [
+     748,
+     2679
+    ],
+    [
+     955,
+     2564
+    ]
+   ],
+   "stats": {
+    "area_m2": 498441,
+    "buildings": 240,
+    "green_share": 0.25,
+    "water_share": 0.0,
+    "road_length_m": 3812,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_arena",
+   "name_key": "LM_ARENA",
+   "centroid": [
+    1310,
+    3167
+   ],
+   "polygon": [
+    [
+     1446,
+     3420
+    ],
+    [
+     990,
+     3277
+    ],
+    [
+     1045,
+     3070
+    ],
+    [
+     1098,
+     3017
+    ],
+    [
+     1574,
+     2953
+    ],
+    [
+     1575,
+     2953
+    ],
+    [
+     1621,
+     2990
+    ]
+   ],
+   "stats": {
+    "area_m2": 764768,
+    "buildings": 179,
+    "green_share": 0.35,
+    "water_share": 0.0,
+    "road_length_m": 3025,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_airfield",
+   "name_key": "LM_AIRFIELD",
+   "centroid": [
+    787,
+    3010
+   ],
+   "polygon": [
+    [
+     990,
+     3277
+    ],
+    [
+     584,
+     3149
+    ],
+    [
+     519,
+     3118
+    ],
+    [
+     701,
+     2673
+    ],
+    [
+     748,
+     2679
+    ],
+    [
+     1045,
+     3070
+    ]
+   ],
+   "stats": {
+    "area_m2": 703429,
+    "buildings": 135,
+    "green_share": 0.41,
+    "water_share": 0.0,
+    "road_length_m": 2329,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_blaarmeersen",
+   "name_key": "LM_BLAARMEERSEN",
+   "centroid": [
+    389,
+    2184
+   ],
+   "polygon": [
+    [
+     582,
+     1821
+    ],
+    [
+     705,
+     2061
+    ],
+    [
+     400,
+     2482
+    ],
+    [
+     153,
+     2477
+    ],
+    [
+     87,
+     2173
+    ]
+   ],
+   "stats": {
+    "area_m2": 925053,
+    "buildings": 191,
+    "green_share": 0.8,
+    "water_share": 0.15,
+    "road_length_m": 3265,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_watersportbaan",
+   "name_key": "LM_WATERSPORTBAAN",
+   "centroid": [
+    667,
+    2301
+   ],
+   "polygon": [
+    [
+     400,
+     2482
+    ],
+    [
+     705,
+     2061
+    ],
+    [
+     952,
+     2185
+    ],
+    [
+     550,
+     2547
+    ]
+   ],
+   "stats": {
+    "area_m2": 443721,
+    "buildings": 245,
+    "green_share": 0.24,
+    "water_share": 0.15,
+    "road_length_m": 3873,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_port",
+   "name_key": "LM_PORT",
+   "centroid": [
+    1926,
+    540
+   ],
+   "polygon": [
+    [
+     1457,
+     598
+    ],
+    [
+     1996,
+     250
+    ],
+    [
+     2254,
+     570
+    ],
+    [
+     2255,
+     611
+    ],
+    [
+     2185,
+     770
+    ],
+    [
+     1462,
+     604
+    ]
+   ],
+   "stats": {
+    "area_m2": 851451,
+    "buildings": 71,
+    "green_share": 0.62,
+    "water_share": 0.15,
+    "road_length_m": 1432,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_kouter",
+   "name_key": "T_GHENT_KOUTER",
+   "centroid": [
+    1594,
+    2324
+   ],
+   "polygon": [
+    [
+     1398,
+     2319
+    ],
+    [
+     1447,
+     2254
+    ],
+    [
+     1504,
+     2212
+    ],
+    [
+     1614,
+     2187
+    ],
+    [
+     1687,
+     2221
+    ],
+    [
+     1778,
+     2374
+    ],
+    [
+     1613,
+     2479
+    ]
+   ],
+   "stats": {
+    "area_m2": 259774,
+    "buildings": 373,
+    "green_share": 0.05,
+    "water_share": 0.0,
+    "road_length_m": 5701,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_zuid",
+   "name_key": "T_GHENT_ZUID",
+   "centroid": [
+    2013,
+    2359
+   ],
+   "polygon": [
+    [
+     2128,
+     2512
+    ],
+    [
+     1901,
+     2517
+    ],
+    [
+     1788,
+     2378
+    ],
+    [
+     2023,
+     2174
+    ],
+    [
+     2202,
+     2226
+    ]
+   ],
+   "stats": {
+    "area_m2": 376523,
+    "buildings": 341,
+    "green_share": 0.1,
+    "water_share": 0.0,
+    "road_length_m": 5275,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_bijloke",
+   "name_key": "T_GHENT_BIJLOKE",
+   "centroid": [
+    1137,
+    2439
+   ],
+   "polygon": [
+    [
+     1018,
+     2187
+    ],
+    [
+     1333,
+     2351
+    ],
+    [
+     1295,
+     2575
+    ],
+    [
+     1228,
+     2656
+    ],
+    [
+     1212,
+     2665
+    ],
+    [
+     955,
+     2564
+    ],
+    [
+     1006,
+     2192
+    ]
+   ],
+   "stats": {
+    "area_m2": 483578,
+    "buildings": 321,
+    "green_share": 0.13,
+    "water_share": 0.0,
+    "road_length_m": 5029,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_brugse_poort",
+   "name_key": "T_GHENT_BRUGSE_POORT",
+   "centroid": [
+    866,
+    1931
+   ],
+   "polygon": [
+    [
+     857,
+     1679
+    ],
+    [
+     1013,
+     1777
+    ],
+    [
+     1102,
+     1934
+    ],
+    [
+     1100,
+     2011
+    ],
+    [
+     1018,
+     2187
+    ],
+    [
+     1006,
+     2192
+    ],
+    [
+     952,
+     2185
+    ],
+    [
+     705,
+     2061
+    ],
+    [
+     582,
+     1821
+    ],
+    [
+     583,
+     1812
+    ]
+   ],
+   "stats": {
+    "area_m2": 675530,
+    "buildings": 307,
+    "green_share": 0.15,
+    "water_share": 0.15,
+    "road_length_m": 4902,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_malem",
+   "name_key": "T_GHENT_MALEM",
+   "centroid": [
+    815,
+    2462
+   ],
+   "polygon": [
+    [
+     1006,
+     2192
+    ],
+    [
+     955,
+     2564
+    ],
+    [
+     748,
+     2679
+    ],
+    [
+     701,
+     2673
+    ],
+    [
+     550,
+     2547
+    ],
+    [
+     952,
+     2185
+    ]
+   ],
+   "stats": {
+    "area_m2": 458382,
+    "buildings": 263,
+    "green_share": 0.21,
+    "water_share": 0.15,
+    "road_length_m": 4139,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_tolhuis",
+   "name_key": "T_GHENT_TOLHUIS",
+   "centroid": [
+    1272,
+    1336
+   ],
+   "polygon": [
+    [
+     1415,
+     1161
+    ],
+    [
+     1536,
+     1408
+    ],
+    [
+     1364,
+     1535
+    ],
+    [
+     1299,
+     1550
+    ],
+    [
+     954,
+     1275
+    ],
+    [
+     943,
+     1231
+    ]
+   ],
+   "stats": {
+    "area_m2": 537657,
+    "buildings": 287,
+    "green_share": 0.18,
+    "water_share": 0.15,
+    "road_length_m": 4533,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_muide",
+   "name_key": "T_GHENT_MUIDE",
+   "centroid": [
+    1974,
+    1385
+   ],
+   "polygon": [
+    [
+     2224,
+     1519
+    ],
+    [
+     1975,
+     1658
+    ],
+    [
+     1867,
+     1633
+    ],
+    [
+     1740,
+     1548
+    ],
+    [
+     1667,
+     1432
+    ],
+    [
+     1892,
+     1141
+    ],
+    [
+     2170,
+     1102
+    ]
+   ],
+   "stats": {
+    "area_m2": 848121,
+    "buildings": 294,
+    "green_share": 0.17,
+    "water_share": 0.15,
+    "road_length_m": 4781,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_meulestede",
+   "name_key": "T_GHENT_MEULESTEDE",
+   "centroid": [
+    1626,
+    1171
+   ],
+   "polygon": [
+    [
+     1892,
+     1141
+    ],
+    [
+     1667,
+     1432
+    ],
+    [
+     1536,
+     1408
+    ],
+    [
+     1415,
+     1161
+    ],
+    [
+     1533,
+     878
+    ]
+   ],
+   "stats": {
+    "area_m2": 592109,
+    "buildings": 253,
+    "green_share": 0.23,
+    "water_share": 0.15,
+    "road_length_m": 4061,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_mariakerke",
+   "name_key": "T_GHENT_MARIAKERKE",
+   "centroid": [
+    686,
+    1462
+   ],
+   "polygon": [
+    [
+     345,
+     1482
+    ],
+    [
+     818,
+     1082
+    ],
+    [
+     943,
+     1231
+    ],
+    [
+     954,
+     1275
+    ],
+    [
+     857,
+     1679
+    ],
+    [
+     583,
+     1812
+    ]
+   ],
+   "stats": {
+    "area_m2": 994963,
+    "buildings": 209,
+    "green_share": 0.31,
+    "water_share": 0.0,
+    "road_length_m": 3569,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_drongen",
+   "name_key": "T_GHENT_DRONGEN",
+   "centroid": [
+    263,
+    1819
+   ],
+   "polygon": [
+    [
+     0,
+     1773
+    ],
+    [
+     345,
+     1482
+    ],
+    [
+     583,
+     1812
+    ],
+    [
+     582,
+     1821
+    ],
+    [
+     87,
+     2173
+    ]
+   ],
+   "stats": {
+    "area_m2": 834323,
+    "buildings": 99,
+    "green_share": 0.47,
+    "water_share": 0.15,
+    "road_length_m": 1852,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_wondelgem",
+   "name_key": "T_GHENT_WONDELGEM",
+   "centroid": [
+    1226,
+    968
+   ],
+   "polygon": [
+    [
+     818,
+     1082
+    ],
+    [
+     1180,
+     777
+    ],
+    [
+     1457,
+     598
+    ],
+    [
+     1462,
+     604
+    ],
+    [
+     1533,
+     878
+    ],
+    [
+     1415,
+     1161
+    ],
+    [
+     943,
+     1231
+    ]
+   ],
+   "stats": {
+    "area_m2": 986875,
+    "buildings": 197,
+    "green_share": 0.32,
+    "water_share": 0.15,
+    "road_length_m": 3389,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_langerbrugge",
+   "name_key": "T_GHENT_LANGERBRUGGE",
+   "centroid": [
+    1865,
+    878
+   ],
+   "polygon": [
+    [
+     1462,
+     604
+    ],
+    [
+     2185,
+     770
+    ],
+    [
+     2215,
+     1040
+    ],
+    [
+     2170,
+     1102
+    ],
+    [
+     1892,
+     1141
+    ],
+    [
+     1533,
+     878
+    ]
+   ],
+   "stats": {
+    "area_m2": 1004906,
+    "buildings": 144,
+    "green_share": 0.4,
+    "water_share": 0.15,
+    "road_length_m": 2602,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_sint_amandsberg",
+   "name_key": "T_GHENT_SINT_AMANDSBERG",
+   "centroid": [
+    2461,
+    1851
+   ],
+   "polygon": [
+    [
+     2649,
+     1607
+    ],
+    [
+     2617,
+     2157
+    ],
+    [
+     2340,
+     2135
+    ],
+    [
+     2300,
+     2045
+    ],
+    [
+     2273,
+     1551
+    ]
+   ],
+   "stats": {
+    "area_m2": 773108,
+    "buildings": 245,
+    "green_share": 0.25,
+    "water_share": 0.0,
+    "road_length_m": 4009,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_oostakker",
+   "name_key": "T_GHENT_OOSTAKKER",
+   "centroid": [
+    2434,
+    1310
+   ],
+   "polygon": [
+    [
+     2680,
+     1083
+    ],
+    [
+     2649,
+     1607
+    ],
+    [
+     2273,
+     1551
+    ],
+    [
+     2224,
+     1519
+    ],
+    [
+     2170,
+     1102
+    ],
+    [
+     2215,
+     1040
+    ]
+   ],
+   "stats": {
+    "area_m2": 958847,
+    "buildings": 155,
+    "green_share": 0.39,
+    "water_share": 0.0,
+    "road_length_m": 2739,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_desteldonk",
+   "name_key": "T_GHENT_DESTELDONK",
+   "centroid": [
+    2448,
+    851
+   ],
+   "polygon": [
+    [
+     2705,
+     675
+    ],
+    [
+     2680,
+     1083
+    ],
+    [
+     2215,
+     1040
+    ],
+    [
+     2185,
+     770
+    ],
+    [
+     2255,
+     611
+    ]
+   ],
+   "stats": {
+    "area_m2": 819766,
+    "buildings": 70,
+    "green_share": 0.64,
+    "water_share": 0.15,
+    "road_length_m": 1412,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_mendonk",
+   "name_key": "T_GHENT_MENDONK",
+   "centroid": [
+    2541,
+    471
+   ],
+   "polygon": [
+    [
+     2603,
+     190
+    ],
+    [
+     2727,
+     297
+    ],
+    [
+     2705,
+     675
+    ],
+    [
+     2255,
+     611
+    ],
+    [
+     2254,
+     570
+    ]
+   ],
+   "stats": {
+    "area_m2": 552657,
+    "buildings": 67,
+    "green_share": 0.8,
+    "water_share": 0.15,
+    "road_length_m": 1245,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_sint_kruis_winkel",
+   "name_key": "T_GHENT_SINT_KRUIS_WINKEL",
+   "centroid": [
+    2301,
+    264
+   ],
+   "polygon": [
+    [
+     1996,
+     250
+    ],
+    [
+     2384,
+     0
+    ],
+    [
+     2603,
+     190
+    ],
+    [
+     2254,
+     570
+    ]
+   ],
+   "stats": {
+    "area_m2": 675047,
+    "buildings": 68,
+    "green_share": 0.8,
+    "water_share": 0.15,
+    "road_length_m": 1322,
+    "coastal": true
+   }
+  },
+  {
+   "id": "t_ledeberg",
+   "name_key": "T_GHENT_LEDEBERG",
+   "centroid": [
+    1982,
+    2735
+   ],
+   "polygon": [
+    [
+     1842,
+     2972
+    ],
+    [
+     1811,
+     2647
+    ],
+    [
+     1901,
+     2517
+    ],
+    [
+     2128,
+     2512
+    ],
+    [
+     2199,
+     2645
+    ],
+    [
+     1982,
+     3027
+    ]
+   ],
+   "stats": {
+    "area_m2": 544537,
+    "buildings": 281,
+    "green_share": 0.19,
+    "water_share": 0.0,
+    "road_length_m": 4454,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_gentbrugge",
+   "name_key": "T_GHENT_GENTBRUGGE",
+   "centroid": [
+    2391,
+    2416
+   ],
+   "polygon": [
+    [
+     2617,
+     2157
+    ],
+    [
+     2591,
+     2590
+    ],
+    [
+     2560,
+     2707
+    ],
+    [
+     2199,
+     2645
+    ],
+    [
+     2128,
+     2512
+    ],
+    [
+     2202,
+     2226
+    ],
+    [
+     2340,
+     2135
+    ]
+   ],
+   "stats": {
+    "area_m2": 889371,
+    "buildings": 238,
+    "green_share": 0.26,
+    "water_share": 0.0,
+    "road_length_m": 3962,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_moscou",
+   "name_key": "T_GHENT_MOSCOU",
+   "centroid": [
+    2271,
+    2934
+   ],
+   "polygon": [
+    [
+     2560,
+     2707
+    ],
+    [
+     2463,
+     3073
+    ],
+    [
+     2148,
+     3272
+    ],
+    [
+     1982,
+     3027
+    ],
+    [
+     2199,
+     2645
+    ]
+   ],
+   "stats": {
+    "area_m2": 884522,
+    "buildings": 170,
+    "green_share": 0.36,
+    "water_share": 0.0,
+    "road_length_m": 2940,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_zwijnaarde",
+   "name_key": "T_GHENT_ZWIJNAARDE",
+   "centroid": [
+    1782,
+    3239
+   ],
+   "polygon": [
+    [
+     2148,
+     3272
+    ],
+    [
+     1758,
+     3518
+    ],
+    [
+     1446,
+     3420
+    ],
+    [
+     1621,
+     2990
+    ],
+    [
+     1842,
+     2972
+    ],
+    [
+     1982,
+     3027
+    ]
+   ],
+   "stats": {
+    "area_m2": 975754,
+    "buildings": 129,
+    "green_share": 0.42,
+    "water_share": 0.0,
+    "road_length_m": 2367,
+    "coastal": false
+   }
+  },
+  {
+   "id": "t_afsnee",
+   "name_key": "T_GHENT_AFSNEE",
+   "centroid": [
+    418,
+    2759
+   ],
+   "polygon": [
+    [
+     701,
+     2673
+    ],
+    [
+     519,
+     3118
+    ],
+    [
+     266,
+     2995
+    ],
+    [
+     153,
+     2477
+    ],
+    [
+     400,
+     2482
+    ],
+    [
+     550,
+     2547
+    ]
+   ],
+   "stats": {
+    "area_m2": 904266,
+    "buildings": 87,
+    "green_share": 0.49,
+    "water_share": 0.0,
+    "road_length_m": 1705,
+    "coastal": false
+   }
+  }
+ ],
+ "edges": [
+  {
+   "a": "t_afsnee",
+   "b": "t_airfield",
+   "type": "land"
+  },
+  {
+   "a": "t_afsnee",
+   "b": "t_blaarmeersen",
+   "type": "land"
+  },
+  {
+   "a": "t_afsnee",
+   "b": "t_malem",
+   "type": "land"
+  },
+  {
+   "a": "t_afsnee",
+   "b": "t_watersportbaan",
+   "type": "land"
+  },
+  {
+   "a": "t_airfield",
+   "b": "t_arena",
+   "type": "land"
+  },
+  {
+   "a": "t_airfield",
+   "b": "t_malem",
+   "type": "land"
+  },
+  {
+   "a": "t_airfield",
+   "b": "t_uz_gent",
+   "type": "land"
+  },
+  {
+   "a": "t_arena",
+   "b": "t_gent_sint_pieters",
+   "type": "land"
+  },
+  {
+   "a": "t_arena",
+   "b": "t_plantentuin",
+   "type": "land"
+  },
+  {
+   "a": "t_arena",
+   "b": "t_uz_gent",
+   "type": "land"
+  },
+  {
+   "a": "t_arena",
+   "b": "t_zwijnaarde",
+   "type": "land"
+  },
+  {
+   "a": "t_belfort",
+   "b": "t_groot_vleeshuis",
+   "type": "land"
+  },
+  {
+   "a": "t_belfort",
+   "b": "t_kouter",
+   "type": "land"
+  },
+  {
+   "a": "t_belfort",
+   "b": "t_sint_baafs",
+   "type": "land"
+  },
+  {
+   "a": "t_belfort",
+   "b": "t_sint_niklaas",
+   "type": "land"
+  },
+  {
+   "a": "t_belfort",
+   "b": "t_vrijdagmarkt",
+   "type": "land"
+  },
+  {
+   "a": "t_bijloke",
+   "b": "t_boekentoren",
+   "type": "land"
+  },
+  {
+   "a": "t_bijloke",
+   "b": "t_citadelpark",
+   "type": "land"
+  },
+  {
+   "a": "t_bijloke",
+   "b": "t_malem",
+   "type": "land"
+  },
+  {
+   "a": "t_bijloke",
+   "b": "t_sint_michielsbrug",
+   "type": "land"
+  },
+  {
+   "a": "t_bijloke",
+   "b": "t_uz_gent",
+   "type": "land"
+  },
+  {
+   "a": "t_blaarmeersen",
+   "b": "t_brugse_poort",
+   "type": "water"
+  },
+  {
+   "a": "t_blaarmeersen",
+   "b": "t_drongen",
+   "type": "bridge",
+   "name": "Brug Drongen"
+  },
+  {
+   "a": "t_blaarmeersen",
+   "b": "t_watersportbaan",
+   "type": "land"
+  },
+  {
+   "a": "t_boekentoren",
+   "b": "t_citadelpark",
+   "type": "land"
+  },
+  {
+   "a": "t_boekentoren",
+   "b": "t_kouter",
+   "type": "land"
+  },
+  {
+   "a": "t_boekentoren",
+   "b": "t_plantentuin",
+   "type": "land"
+  },
+  {
+   "a": "t_boekentoren",
+   "b": "t_sint_michielsbrug",
+   "type": "land"
+  },
+  {
+   "a": "t_boekentoren",
+   "b": "t_sint_pietersabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_graslei",
+   "type": "bridge",
+   "name": "Brug Brugse-Poort / Graslei"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_malem",
+   "type": "water"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_mariakerke",
+   "type": "land"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_prinsenhof",
+   "type": "land"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_rabot",
+   "type": "land"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_sint_michielsbrug",
+   "type": "bridge",
+   "name": "Sint-Michielsbrug"
+  },
+  {
+   "a": "t_brugse_poort",
+   "b": "t_watersportbaan",
+   "type": "water"
+  },
+  {
+   "a": "t_citadelpark",
+   "b": "t_gent_sint_pieters",
+   "type": "land"
+  },
+  {
+   "a": "t_citadelpark",
+   "b": "t_plantentuin",
+   "type": "land"
+  },
+  {
+   "a": "t_desteldonk",
+   "b": "t_langerbrugge",
+   "type": "land"
+  },
+  {
+   "a": "t_desteldonk",
+   "b": "t_mendonk",
+   "type": "land"
+  },
+  {
+   "a": "t_desteldonk",
+   "b": "t_oostakker",
+   "type": "land"
+  },
+  {
+   "a": "t_desteldonk",
+   "b": "t_port",
+   "type": "water"
+  },
+  {
+   "a": "t_drongen",
+   "b": "t_mariakerke",
+   "type": "land"
+  },
+  {
+   "a": "t_duivelsteen",
+   "b": "t_kouter",
+   "type": "land"
+  },
+  {
+   "a": "t_duivelsteen",
+   "b": "t_sint_baafs",
+   "type": "land"
+  },
+  {
+   "a": "t_duivelsteen",
+   "b": "t_sint_baafsabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_duivelsteen",
+   "b": "t_zuid",
+   "type": "land"
+  },
+  {
+   "a": "t_dulle_griet",
+   "b": "t_gent_dampoort",
+   "type": "land"
+  },
+  {
+   "a": "t_dulle_griet",
+   "b": "t_muide",
+   "type": "land"
+  },
+  {
+   "a": "t_dulle_griet",
+   "b": "t_sint_baafs",
+   "type": "land"
+  },
+  {
+   "a": "t_dulle_griet",
+   "b": "t_sint_baafsabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_dulle_griet",
+   "b": "t_vrijdagmarkt",
+   "type": "land"
+  },
+  {
+   "a": "t_gent_dampoort",
+   "b": "t_muide",
+   "type": "land"
+  },
+  {
+   "a": "t_gent_dampoort",
+   "b": "t_oostakker",
+   "type": "land"
+  },
+  {
+   "a": "t_gent_dampoort",
+   "b": "t_sint_amandsberg",
+   "type": "land"
+  },
+  {
+   "a": "t_gent_dampoort",
+   "b": "t_sint_baafsabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_gent_sint_pieters",
+   "b": "t_uz_gent",
+   "type": "land"
+  },
+  {
+   "a": "t_gentbrugge",
+   "b": "t_ledeberg",
+   "type": "land"
+  },
+  {
+   "a": "t_gentbrugge",
+   "b": "t_moscou",
+   "type": "land"
+  },
+  {
+   "a": "t_gentbrugge",
+   "b": "t_sint_amandsberg",
+   "type": "land"
+  },
+  {
+   "a": "t_gentbrugge",
+   "b": "t_sint_baafsabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_gentbrugge",
+   "b": "t_zuid",
+   "type": "land"
+  },
+  {
+   "a": "t_graslei",
+   "b": "t_gravensteen",
+   "type": "land"
+  },
+  {
+   "a": "t_graslei",
+   "b": "t_groot_vleeshuis",
+   "type": "land"
+  },
+  {
+   "a": "t_graslei",
+   "b": "t_prinsenhof",
+   "type": "bridge",
+   "name": "Brug Graslei / Prinsenhof"
+  },
+  {
+   "a": "t_graslei",
+   "b": "t_sint_michielsbrug",
+   "type": "land"
+  },
+  {
+   "a": "t_graslei",
+   "b": "t_sint_niklaas",
+   "type": "land"
+  },
+  {
+   "a": "t_gravensteen",
+   "b": "t_groot_vleeshuis",
+   "type": "land"
+  },
+  {
+   "a": "t_gravensteen",
+   "b": "t_patershol",
+   "type": "land"
+  },
+  {
+   "a": "t_gravensteen",
+   "b": "t_prinsenhof",
+   "type": "bridge",
+   "name": "Brug Gravensteen / Prinsenhof"
+  },
+  {
+   "a": "t_gravensteen",
+   "b": "t_tolhuis",
+   "type": "bridge",
+   "name": "Brug Gravensteen / Tolhuis"
+  },
+  {
+   "a": "t_groot_vleeshuis",
+   "b": "t_patershol",
+   "type": "land"
+  },
+  {
+   "a": "t_groot_vleeshuis",
+   "b": "t_vrijdagmarkt",
+   "type": "land"
+  },
+  {
+   "a": "t_kouter",
+   "b": "t_sint_baafs",
+   "type": "land"
+  },
+  {
+   "a": "t_kouter",
+   "b": "t_sint_michielsbrug",
+   "type": "land"
+  },
+  {
+   "a": "t_kouter",
+   "b": "t_sint_niklaas",
+   "type": "land"
+  },
+  {
+   "a": "t_kouter",
+   "b": "t_sint_pietersabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_langerbrugge",
+   "b": "t_meulestede",
+   "type": "water"
+  },
+  {
+   "a": "t_langerbrugge",
+   "b": "t_muide",
+   "type": "land"
+  },
+  {
+   "a": "t_langerbrugge",
+   "b": "t_oostakker",
+   "type": "land"
+  },
+  {
+   "a": "t_langerbrugge",
+   "b": "t_port",
+   "type": "water"
+  },
+  {
+   "a": "t_langerbrugge",
+   "b": "t_wondelgem",
+   "type": "bridge",
+   "name": "Brug Langerbrugge"
+  },
+  {
+   "a": "t_ledeberg",
+   "b": "t_moscou",
+   "type": "land"
+  },
+  {
+   "a": "t_ledeberg",
+   "b": "t_plantentuin",
+   "type": "land"
+  },
+  {
+   "a": "t_ledeberg",
+   "b": "t_sint_pietersabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_ledeberg",
+   "b": "t_zuid",
+   "type": "land"
+  },
+  {
+   "a": "t_ledeberg",
+   "b": "t_zwijnaarde",
+   "type": "land"
+  },
+  {
+   "a": "t_malem",
+   "b": "t_uz_gent",
+   "type": "land"
+  },
+  {
+   "a": "t_malem",
+   "b": "t_watersportbaan",
+   "type": "land"
+  },
+  {
+   "a": "t_mariakerke",
+   "b": "t_rabot",
+   "type": "land"
+  },
+  {
+   "a": "t_mariakerke",
+   "b": "t_tolhuis",
+   "type": "land"
+  },
+  {
+   "a": "t_mariakerke",
+   "b": "t_wondelgem",
+   "type": "land"
+  },
+  {
+   "a": "t_mendonk",
+   "b": "t_port",
+   "type": "water"
+  },
+  {
+   "a": "t_mendonk",
+   "b": "t_sint_kruis_winkel",
+   "type": "land"
+  },
+  {
+   "a": "t_meulestede",
+   "b": "t_muide",
+   "type": "water"
+  },
+  {
+   "a": "t_meulestede",
+   "b": "t_patershol",
+   "type": "bridge",
+   "name": "Brug Meulestede / Patershol"
+  },
+  {
+   "a": "t_meulestede",
+   "b": "t_tolhuis",
+   "type": "land"
+  },
+  {
+   "a": "t_meulestede",
+   "b": "t_wondelgem",
+   "type": "land"
+  },
+  {
+   "a": "t_moscou",
+   "b": "t_zwijnaarde",
+   "type": "land"
+  },
+  {
+   "a": "t_muide",
+   "b": "t_oostakker",
+   "type": "land"
+  },
+  {
+   "a": "t_muide",
+   "b": "t_patershol",
+   "type": "land"
+  },
+  {
+   "a": "t_muide",
+   "b": "t_vrijdagmarkt",
+   "type": "land"
+  },
+  {
+   "a": "t_oostakker",
+   "b": "t_sint_amandsberg",
+   "type": "land"
+  },
+  {
+   "a": "t_patershol",
+   "b": "t_tolhuis",
+   "type": "bridge",
+   "name": "Brug Patershol / Tolhuis"
+  },
+  {
+   "a": "t_patershol",
+   "b": "t_vrijdagmarkt",
+   "type": "land"
+  },
+  {
+   "a": "t_plantentuin",
+   "b": "t_sint_pietersabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_plantentuin",
+   "b": "t_zwijnaarde",
+   "type": "land"
+  },
+  {
+   "a": "t_port",
+   "b": "t_sint_kruis_winkel",
+   "type": "bridge",
+   "name": "Brug Sint-Kruis-Winkel"
+  },
+  {
+   "a": "t_prinsenhof",
+   "b": "t_rabot",
+   "type": "land"
+  },
+  {
+   "a": "t_rabot",
+   "b": "t_tolhuis",
+   "type": "land"
+  },
+  {
+   "a": "t_sint_amandsberg",
+   "b": "t_sint_baafsabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_sint_baafs",
+   "b": "t_sint_baafsabdij",
+   "type": "land"
+  },
+  {
+   "a": "t_sint_baafsabdij",
+   "b": "t_zuid",
+   "type": "land"
+  },
+  {
+   "a": "t_sint_michielsbrug",
+   "b": "t_sint_niklaas",
+   "type": "land"
+  },
+  {
+   "a": "t_sint_pietersabdij",
+   "b": "t_zuid",
+   "type": "land"
+  },
+  {
+   "a": "t_tolhuis",
+   "b": "t_wondelgem",
+   "type": "land"
+  },
+  {
+   "a": "t_gent_sint_pieters",
+   "b": "t_gent_dampoort",
+   "type": "rail"
+  }
+ ],
+ "landmarks": [
+  {
+   "id": "belfort",
+   "territory": "t_belfort",
+   "position": [
+    1549,
+    2035
+   ]
+  },
+  {
+   "id": "sint_niklaas",
+   "territory": "t_sint_niklaas",
+   "position": [
+    1404,
+    2059
+   ]
+  },
+  {
+   "id": "sint_baafs",
+   "territory": "t_sint_baafs",
+   "position": [
+    1744,
+    2084
+   ]
+  },
+  {
+   "id": "graslei",
+   "territory": "t_graslei",
+   "position": [
+    1315,
+    1934
+   ]
+  },
+  {
+   "id": "sint_michielsbrug",
+   "territory": "t_sint_michielsbrug",
+   "position": [
+    1302,
+    2117
+   ]
+  },
+  {
+   "id": "groot_vleeshuis",
+   "territory": "t_groot_vleeshuis",
+   "position": [
+    1445,
+    1818
+   ]
+  },
+  {
+   "id": "gravensteen",
+   "territory": "t_gravensteen",
+   "position": [
+    1395,
+    1740
+   ]
+  },
+  {
+   "id": "patershol",
+   "territory": "t_patershol",
+   "position": [
+    1536,
+    1652
+   ]
+  },
+  {
+   "id": "vrijdagmarkt",
+   "territory": "t_vrijdagmarkt",
+   "position": [
+    1685,
+    1770
+   ]
+  },
+  {
+   "id": "dulle_griet",
+   "territory": "t_dulle_griet",
+   "position": [
+    1820,
+    1857
+   ]
+  },
+  {
+   "id": "prinsenhof",
+   "territory": "t_prinsenhof",
+   "position": [
+    1204,
+    1748
+   ]
+  },
+  {
+   "id": "duivelsteen",
+   "territory": "t_duivelsteen",
+   "position": [
+    1836,
+    2226
+   ]
+  },
+  {
+   "id": "rabot",
+   "territory": "t_rabot",
+   "position": [
+    1092,
+    1600
+   ]
+  },
+  {
+   "id": "sint_baafsabdij",
+   "territory": "t_sint_baafsabdij",
+   "position": [
+    2052,
+    1982
+   ]
+  },
+  {
+   "id": "gent_dampoort",
+   "territory": "t_gent_dampoort",
+   "position": [
+    2158,
+    1832
+   ]
+  },
+  {
+   "id": "boekentoren",
+   "territory": "t_boekentoren",
+   "position": [
+    1495,
+    2522
+   ]
+  },
+  {
+   "id": "sint_pietersabdij",
+   "territory": "t_sint_pietersabdij",
+   "position": [
+    1730,
+    2526
+   ]
+  },
+  {
+   "id": "citadelpark",
+   "territory": "t_citadelpark",
+   "position": [
+    1442,
+    2721
+   ]
+  },
+  {
+   "id": "plantentuin",
+   "territory": "t_plantentuin",
+   "position": [
+    1679,
+    2706
+   ]
+  },
+  {
+   "id": "gent_sint_pieters",
+   "territory": "t_gent_sint_pieters",
+   "position": [
+    1324,
+    2857
+   ]
+  },
+  {
+   "id": "uz_gent",
+   "territory": "t_uz_gent",
+   "position": [
+    1008,
+    2756
+   ]
+  },
+  {
+   "id": "arena",
+   "territory": "t_arena",
+   "position": [
+    1359,
+    3112
+   ]
+  },
+  {
+   "id": "airfield",
+   "territory": "t_airfield",
+   "position": [
+    751,
+    2950
+   ]
+  },
+  {
+   "id": "blaarmeersen",
+   "territory": "t_blaarmeersen",
+   "position": [
+    486,
+    2131
+   ]
+  },
+  {
+   "id": "watersportbaan",
+   "territory": "t_watersportbaan",
+   "position": [
+    707,
+    2291
+   ]
+  },
+  {
+   "id": "port",
+   "territory": "t_port",
+   "position": [
+    1925,
+    529
+   ]
+  }
+ ]
+}

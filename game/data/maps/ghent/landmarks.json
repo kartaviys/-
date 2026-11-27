@@ -1,0 +1,241 @@
+{
+ "format_version": 1,
+ "landmarks": [
+  {
+   "id": "gravensteen",
+   "name_key": "LM_GRAVENSTEEN",
+   "mana": {
+    "stone": 4
+   },
+   "guardian_tier": 2,
+   "effects": []
+  },
+  {
+   "id": "belfort",
+   "name_key": "LM_BELFORT",
+   "mana": {
+    "air": 3
+   },
+   "guardian_tier": 3,
+   "effects": []
+  },
+  {
+   "id": "sint_baafs",
+   "name_key": "LM_SINT_BAAFS",
+   "mana": {
+    "light": 5
+   },
+   "guardian_tier": 3,
+   "effects": []
+  },
+  {
+   "id": "sint_niklaas",
+   "name_key": "LM_SINT_NIKLAAS",
+   "mana": {
+    "light": 3
+   },
+   "guardian_tier": 3,
+   "effects": []
+  },
+  {
+   "id": "sint_michielsbrug",
+   "name_key": "LM_SINT_MICHIELSBRUG",
+   "mana": {
+    "air": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "graslei",
+   "name_key": "LM_GRASLEI",
+   "mana": {
+    "water": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "vrijdagmarkt",
+   "name_key": "LM_VRIJDAGMARKT",
+   "mana": {
+    "arcana": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "dulle_griet",
+   "name_key": "LM_DULLE_GRIET",
+   "mana": {
+    "fire": 4
+   },
+   "guardian_tier": 2,
+   "effects": []
+  },
+  {
+   "id": "groot_vleeshuis",
+   "name_key": "LM_GROOT_VLEESHUIS",
+   "mana": {
+    "nature": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "patershol",
+   "name_key": "LM_PATERSHOL",
+   "mana": {
+    "shadow": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "duivelsteen",
+   "name_key": "LM_DUIVELSTEEN",
+   "mana": {
+    "shadow": 4
+   },
+   "guardian_tier": 2,
+   "effects": []
+  },
+  {
+   "id": "prinsenhof",
+   "name_key": "LM_PRINSENHOF",
+   "mana": {
+    "arcana": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "boekentoren",
+   "name_key": "LM_BOEKENTOREN",
+   "mana": {
+    "arcana": 5
+   },
+   "guardian_tier": 2,
+   "effects": []
+  },
+  {
+   "id": "citadelpark",
+   "name_key": "LM_CITADELPARK",
+   "mana": {
+    "nature": 2,
+    "arcana": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "plantentuin",
+   "name_key": "LM_PLANTENTUIN",
+   "mana": {
+    "nature": 4
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "gent_sint_pieters",
+   "name_key": "LM_GENT_SINT_PIETERS",
+   "mana": {
+    "steel": 5
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "gent_dampoort",
+   "name_key": "LM_GENT_DAMPOORT",
+   "mana": {
+    "steel": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "port",
+   "name_key": "LM_PORT",
+   "mana": {
+    "water": 5
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "airfield",
+   "name_key": "LM_AIRFIELD",
+   "mana": {
+    "air": 5
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "rabot",
+   "name_key": "LM_RABOT",
+   "mana": {
+    "water": 2,
+    "stone": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "watersportbaan",
+   "name_key": "LM_WATERSPORTBAAN",
+   "mana": {
+    "water": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "arena",
+   "name_key": "LM_ARENA",
+   "mana": {
+    "fire": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "sint_pietersabdij",
+   "name_key": "LM_SINT_PIETERSABDIJ",
+   "mana": {
+    "light": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "sint_baafsabdij",
+   "name_key": "LM_SINT_BAAFSABDIJ",
+   "mana": {
+    "shadow": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "uz_gent",
+   "name_key": "LM_UZ_GENT",
+   "mana": {
+    "light": 2
+   },
+   "guardian_tier": 1,
+   "effects": []
+  },
+  {
+   "id": "blaarmeersen",
+   "name_key": "LM_BLAARMEERSEN",
+   "mana": {
+    "nature": 3
+   },
+   "guardian_tier": 1,
+   "effects": []
+  }
+ ]
+}

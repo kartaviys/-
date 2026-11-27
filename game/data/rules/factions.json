@@ -1,0 +1,10 @@
+{
+  "format_version": 1,
+  "factions": [
+    { "id": "iron_syndicate", "name_key": "FACTION_IRON_SYNDICATE", "school": "steel", "color": "#6b7480" },
+    { "id": "sky_weavers", "name_key": "FACTION_SKY_WEAVERS", "school": "air", "color": "#5aa0d6" },
+    { "id": "harbor_brotherhood", "name_key": "FACTION_HARBOR_BROTHERHOOD", "school": "water", "color": "#2f5f9e" },
+    { "id": "shadow_coven", "name_key": "FACTION_SHADOW_COVEN", "school": "shadow", "color": "#6a3f8a" },
+    { "id": "order_of_the_lamb", "name_key": "FACTION_ORDER_OF_THE_LAMB", "school": "light", "color": "#d9b13b" }
+  ]
+}

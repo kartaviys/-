@@ -1,0 +1,39 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  godot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: .tools
+          key: godot-4.7.2
+      - name: Install Godot
+        run: echo "GODOT=$(scripts/setup_godot.sh)" >> "$GITHUB_ENV"
+      - name: Import project
+        run: $GODOT --headless --path game --import || true
+      - name: GUT
+        run: $GODOT --headless --path game -s res://addons/gut/gut_cmdln.gd
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest
+        # Config/validation tests are stdlib-only; heavy geo deps are not needed yet.
+        run: pip install "pytest>=8.0"
+      - name: tools/geo
+        working-directory: tools/geo
+        run: python -m pytest -q
+      - name: tools
+        working-directory: tools
+        run: python -m pytest -q tests

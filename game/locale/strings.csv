@@ -1,0 +1,81 @@
+keys,en,ru
+GAME_TITLE,Tower War,Война Башен
+MENU_NEW_GAME,New game,Новая игра
+MENU_CONTINUE,Continue,Продолжить
+MENU_SETTINGS,Settings,Настройки
+MENU_QUIT,Quit,Выход
+OSM_ATTRIBUTION,© OpenStreetMap contributors,© OpenStreetMap contributors
+SCHOOL_AIR,Air,Воздух
+SCHOOL_STEEL,Steel,Сталь
+SCHOOL_WATER,Water,Вода
+SCHOOL_FIRE,Fire,Огонь
+SCHOOL_STONE,Stone,Камень
+SCHOOL_LIGHT,Light,Свет
+SCHOOL_SHADOW,Shadow,Тень
+SCHOOL_NATURE,Nature,Природа
+SCHOOL_ARCANA,Arcana,Аркана
+MENU_HOTSEAT,Hotseat,Хотсит
+SETUP_FACTION,Your faction,Ваша фракция
+SETUP_OPPONENTS,AI opponents,Противники-ИИ
+SETUP_DIFFICULTY,Difficulty,Сложность
+SETUP_HOTSEAT_HINT,People take turns on this device instead of the AI,Вместо ИИ по очереди ходят люди на этом устройстве
+SETUP_START,Start,Начать
+DIFF_EASY,Easy,Лёгкий
+DIFF_NORMAL,Normal,Нормальный
+DIFF_HARD,Hard,Сложный
+FACTION_IRON_SYNDICATE,Iron Syndicate,Железный Синдикат
+FACTION_SKY_WEAVERS,Sky Weavers,Небесные Ткачи
+FACTION_HARBOR_BROTHERHOOD,Harbor Brotherhood,Портовое Братство
+FACTION_SHADOW_COVEN,Shadow Coven,Ковен Теней
+FACTION_ORDER_OF_THE_LAMB,Order of the Lamb,Орден Агнца
+UNIT_MILITIA,Militia,Ополчение
+UNIT_PIKEMAN,Pikeman,Пикинёр
+UNIT_CROSSBOWMAN,Crossbowman,Арбалетчик
+UNIT_KNIGHT,Knight,Рыцарь
+UNIT_BATTLE_MAGE,Battle mage,Боевой маг
+HUD_DAY,Day {day},День {day}
+HUD_NIGHT,night,ночь
+HUD_DAYTIME,day,день
+HUD_GOLD,Guilders: {gold} (+{income} −{upkeep}),Гульдены: {gold} (+{income} −{upkeep})
+HUD_END_TURN,End turn,Конец хода
+HUD_NEUTRAL,Neutral,Нейтральная
+HUD_HIDDEN,Hidden by fog,Скрыто туманом
+HUD_OWNER,Owner: {owner},Владелец: {owner}
+HUD_UNITS,Units: {count} (ready {ready}),Юниты: {count} (готовы {ready})
+HUD_MORALE,Morale: {morale},Боевой дух: {morale}
+HUD_LANDMARK,Landmark: {name},Достопримечательность: {name}
+HUD_LANDMARK_BOUND,bound to {owner},связана: {owner}
+HUD_LANDMARK_RITUAL,binding ritual of {owner}: {progress}/{total},ритуал связывания ({owner}): {progress}/{total}
+HUD_LANDMARK_FREE,unbound,не связана
+HUD_CROWN,Crown tower,Коронная башня
+HUD_RECRUIT,Recruit,Нанять
+HUD_SELECT_HINT,"Tap your territory, then a neighbour to move or attack.","Выберите свою территорию, затем соседнюю, чтобы идти или атаковать."
+HUD_ORDER_MOVE,Move {count} → {target},Переместить {count} → {target}
+HUD_ORDER_ATTACK,Attack {target} with {count}: win chance {chance}%,Атаковать {target} силами {count}: шанс победы {chance}%
+HUD_CONFIRM,Confirm,Подтвердить
+HUD_CANCEL,Cancel,Отмена
+HUD_HOTSEAT_PASS,Pass the device: {faction} moves,Передайте устройство: ходит {faction}
+HUD_CONTINUE,Continue,Продолжить
+HUD_AI_THINKING,{faction} is moving…,Ходит {faction}…
+HUD_MENU,Menu,Меню
+HUD_COUNT,Units to send: {count},Отправить юнитов: {count}
+HUD_CROWN_HOLD,Crown towers: {faction} {days}/{total} days,Коронные башни: {faction} {days}/{total} дн.
+LOG_CAPTURE,{faction} took {target},{faction} заняли {target}
+LOG_BATTLE_WON,{faction} won at {target} ({lost} lost),{faction} победили у {target} (потери {lost})
+LOG_BATTLE_LOST,{faction} were repelled at {target} ({lost} lost),{faction} отбиты у {target} (потери {lost})
+LOG_BOUND,{faction} bound {landmark},{faction} связали {landmark}
+LOG_ELIMINATED,{faction} is eliminated,{faction} уничтожены
+VICTORY_TITLE,{faction} wins!,Победа: {faction}!
+VICTORY_DOMINATION,Domination,Господство
+VICTORY_CROWN_TOWERS,Crown towers,Коронные башни
+VICTORY_ELIMINATION,Elimination,Уничтожение
+ERR_NOT_YOUR_TURN,Not your turn,Сейчас не ваш ход
+ERR_NOT_OWNER,Not your territory,Это не ваша территория
+ERR_NOT_ADJACENT,Not a neighbour,Не соседняя территория
+ERR_NO_UNITS,No ready units,Нет готовых юнитов
+ERR_STACK_FULL,Stack is full,Стек заполнен
+ERR_NO_GOLD,Not enough guilders,Не хватает гульденов
+ERR_NO_MANA,Not enough mana,Не хватает маны
+ERR_NO_RECRUIT_SITE,Recruit only at your bound landmarks,Нанимать можно только у своих связанных достопримечательностей
+ERR_GAME_OVER,The game is over,Партия окончена
+MAP_SCHEMATIC,Schematic map: real OSM geometry comes with the geo pipeline,Схематичная карта: реальная геометрия OSM появится с геопайплайном

@@ -1,0 +1,14 @@
+{
+  "format_version": 1,
+  "schools": [
+    { "id": "air", "name_key": "SCHOOL_AIR", "color": "#8fb8d8" },
+    { "id": "steel", "name_key": "SCHOOL_STEEL", "color": "#7d8590" },
+    { "id": "water", "name_key": "SCHOOL_WATER", "color": "#3f74a8" },
+    { "id": "fire", "name_key": "SCHOOL_FIRE", "color": "#c4532f" },
+    { "id": "stone", "name_key": "SCHOOL_STONE", "color": "#8a6f4e" },
+    { "id": "light", "name_key": "SCHOOL_LIGHT", "color": "#e3c35a" },
+    { "id": "shadow", "name_key": "SCHOOL_SHADOW", "color": "#4b3b5c" },
+    { "id": "nature", "name_key": "SCHOOL_NATURE", "color": "#5f8a45" },
+    { "id": "arcana", "name_key": "SCHOOL_ARCANA", "color": "#8e4fa0" }
+  ]
+}

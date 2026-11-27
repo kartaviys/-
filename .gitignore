@@ -1,0 +1,29 @@
+# Godot
+.godot/
+game/locale/**/*.translation
+*.tmp
+
+# Exports
+build/
+*.apk
+*.aab
+*.exe
+*.pck
+
+# Local tools (scripts/setup_godot.sh)
+.tools/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Raw OSM downloads and intermediate geo data (regenerable, large)
+tools/geo/.cache/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

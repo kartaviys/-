@@ -1,0 +1,8 @@
+[project]
+name = "towerwar-geo"
+version = "0.1.0"
+description = "Builds Tower War city map packs from OpenStreetMap data"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

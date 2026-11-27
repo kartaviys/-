@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "mini",
+  "name_key": "MAP_MINI",
+  "crown_towers": ["tower_a", "tower_b", "tower_c"],
+  "ascension_site": "library",
+  "starts": { "iron_syndicate": "station", "sky_weavers": "library" },
+  "attribution": "test fixture"
+}

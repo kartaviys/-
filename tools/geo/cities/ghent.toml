@@ -1,0 +1,201 @@
+# Ghent — the first Tower War city.
+# Geometry and OSM lookups only; balance lives in game/data/maps/ghent/.
+# Coordinates are never written here: every landmark is resolved from OSM.
+
+[city]
+id = "ghent"
+name_key = "MAP_GHENT"
+
+[area]
+# Whole municipality of Ghent (~156 km², includes the port in the north).
+name = "Gent"
+admin_level = 8
+country_code = "BE"
+
+[source]
+overpass_url = "https://overpass-api.de/api/interpreter"
+# Fallback when Overpass is unreachable: clipped with osmium to the area above.
+pbf_url = "https://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+
+[projection]
+crs = "EPSG:31370"           # Belgian Lambert 72
+pixels_per_meter = 0.5       # [tuning] base zoom: 1 px = 2 m
+
+[territories]
+min_count = 60               # [tuning]
+max_count = 80               # [tuning]
+min_shared_border_m = 40     # [tuning] shorter shared borders do not make neighbours
+center_ring_ref = "R40"      # inner ring road: territories inside are smallest
+
+[game]
+crown_towers = ["belfort", "sint_baafs", "sint_niklaas"]
+ascension_site = "boekentoren"
+
+[game.starts]
+iron_syndicate = "gent_sint_pieters"
+sky_weavers = "airfield"
+harbor_brotherhood = "port"
+shadow_coven = "sint_baafsabdij"
+order_of_the_lamb = "sint_pietersabdij"
+
+# ---------------------------------------------------------------- landmarks
+# match.names: any of these OSM name / name:nl values (exact, case-insensitive)
+# match.tags:  optional filters; a feature must carry one of the listed values
+
+[[landmarks]]
+id = "gravensteen"
+name_key = "LM_GRAVENSTEEN"
+archetype = "castle"
+match = { names = ["Gravensteen", "Het Gravensteen"], tags = { historic = ["castle"] } }
+
+[[landmarks]]
+id = "belfort"
+name_key = "LM_BELFORT"
+archetype = "tower"
+match = { names = ["Belfort van Gent", "Belfort", "Belfort en Lakenhalle"] }
+
+[[landmarks]]
+id = "sint_baafs"
+name_key = "LM_SINT_BAAFS"
+archetype = "cathedral"
+match = { names = ["Sint-Baafskathedraal"] }
+
+[[landmarks]]
+id = "sint_niklaas"
+name_key = "LM_SINT_NIKLAAS"
+archetype = "church"
+match = { names = ["Sint-Niklaaskerk"], tags = { amenity = ["place_of_worship"], building = ["church", "yes"] } }
+
+[[landmarks]]
+id = "sint_michielsbrug"
+name_key = "LM_SINT_MICHIELSBRUG"
+archetype = "bridge"
+match = { names = ["Sint-Michielsbrug"] }
+
+[[landmarks]]
+id = "graslei"
+name_key = "LM_GRASLEI"
+archetype = "quay"
+match = { names = ["Graslei", "Korenlei"] }
+
+[[landmarks]]
+id = "vrijdagmarkt"
+name_key = "LM_VRIJDAGMARKT"
+archetype = "market"
+match = { names = ["Vrijdagmarkt"] }
+
+[[landmarks]]
+id = "dulle_griet"
+name_key = "LM_DULLE_GRIET"
+archetype = "monument"
+match = { names = ["Dulle Griet"], tags = { historic = ["cannon", "monument", "memorial"] } }
+
+[[landmarks]]
+id = "groot_vleeshuis"
+name_key = "LM_GROOT_VLEESHUIS"
+archetype = "hall"
+match = { names = ["Groot Vleeshuis"] }
+
+[[landmarks]]
+id = "patershol"
+name_key = "LM_PATERSHOL"
+archetype = "neighbourhood"
+match = { names = ["Patershol"] }
+
+[[landmarks]]
+id = "duivelsteen"
+name_key = "LM_DUIVELSTEEN"
+archetype = "castle"
+match = { names = ["Geeraard de Duivelsteen", "Geraard de Duivelsteen"] }
+
+[[landmarks]]
+id = "prinsenhof"
+name_key = "LM_PRINSENHOF"
+archetype = "palace"
+match = { names = ["Prinsenhof"] }
+
+[[landmarks]]
+id = "boekentoren"
+name_key = "LM_BOEKENTOREN"
+archetype = "library"
+match = { names = ["Boekentoren"] }
+
+[[landmarks]]
+id = "citadelpark"
+name_key = "LM_CITADELPARK"
+archetype = "park"
+match = { names = ["Citadelpark"], tags = { leisure = ["park"] } }
+
+[[landmarks]]
+id = "plantentuin"
+name_key = "LM_PLANTENTUIN"
+archetype = "garden"
+match = { names = ["Plantentuin Universiteit Gent", "Plantentuin UGent", "Plantentuin"] }
+
+[[landmarks]]
+id = "gent_sint_pieters"
+name_key = "LM_GENT_SINT_PIETERS"
+archetype = "station"
+match = { names = ["Gent-Sint-Pieters"], tags = { railway = ["station"] } }
+
+[[landmarks]]
+id = "gent_dampoort"
+name_key = "LM_GENT_DAMPOORT"
+archetype = "station"
+match = { names = ["Gent-Dampoort"], tags = { railway = ["station"] } }
+
+[[landmarks]]
+id = "port"
+name_key = "LM_PORT"
+archetype = "port"
+match = { names = ["North Sea Port", "Haven van Gent", "Kanaal Gent-Terneuzen"] }
+
+[[landmarks]]
+# Historic Sint-Denijs-Westrem airfield; the site is now Flanders Expo.
+id = "airfield"
+name_key = "LM_AIRFIELD"
+archetype = "airfield"
+match = { names = ["Flanders Expo", "Vliegveld Sint-Denijs-Westrem"] }
+
+[[landmarks]]
+id = "rabot"
+name_key = "LM_RABOT"
+archetype = "lock"
+match = { names = ["Rabot"], tags = { historic = ["building", "yes", "monument", "city_gate"], lock = ["yes"] } }
+
+[[landmarks]]
+id = "watersportbaan"
+name_key = "LM_WATERSPORTBAAN"
+archetype = "waterway"
+match = { names = ["Watersportbaan", "Watersportbaan Georges Nachez"] }
+
+[[landmarks]]
+# Real stadium (renamed over the years); in game it is the unbranded "Arena of Champions".
+id = "arena"
+name_key = "LM_ARENA"
+archetype = "stadium"
+match = { names = ["Planet Group Arena", "Ghelamco Arena"], tags = { leisure = ["stadium"] } }
+
+[[landmarks]]
+id = "sint_pietersabdij"
+name_key = "LM_SINT_PIETERSABDIJ"
+archetype = "abbey"
+match = { names = ["Sint-Pietersabdij"] }
+
+[[landmarks]]
+id = "sint_baafsabdij"
+name_key = "LM_SINT_BAAFSABDIJ"
+archetype = "ruins"
+match = { names = ["Sint-Baafsabdij"] }
+
+[[landmarks]]
+id = "uz_gent"
+name_key = "LM_UZ_GENT"
+archetype = "hospital"
+match = { names = ["UZ Gent", "Universitair Ziekenhuis Gent"], tags = { amenity = ["hospital"] } }
+
+[[landmarks]]
+id = "blaarmeersen"
+name_key = "LM_BLAARMEERSEN"
+archetype = "recreation"
+match = { names = ["Blaarmeersen", "Sport- en Recreatiepark Blaarmeersen"] }
